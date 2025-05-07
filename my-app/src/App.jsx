@@ -15,7 +15,7 @@ function LoginPage() {
 
   const handleLogin = () => {
     // Check credentials and redirect accordingly
-    if (email.toLowerCase() === "user" && password === "1234") {
+    if (email.toLowerCase() === "scad" && password === "1234") {
       navigate("/SCAD")
     } else if (email.toLowerCase() === "faculty" && password === "1234") {
       navigate("/faculty")
@@ -37,7 +37,7 @@ function LoginPage() {
         <h2>Login</h2>
         <input
           type="text"
-          placeholder="Email (e.g. user or faculty)"
+          placeholder="Email (e.g. scad or faculty)"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="input-field"
