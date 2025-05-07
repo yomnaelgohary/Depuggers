@@ -4,6 +4,7 @@ import { useState } from "react"
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom"
 import "./App.css"
 import SCAD from "./SCAD" // Import the SCAD component
+import Faculty from "./Faculty" // Import the Faculty component
 
 // LoginPage component
 function LoginPage() {
@@ -13,9 +14,11 @@ function LoginPage() {
   const navigate = useNavigate()
 
   const handleLogin = () => {
-    // Only redirect to SCAD if username is "user" and password is "1234"
+    // Check credentials and redirect accordingly
     if (email.toLowerCase() === "user" && password === "1234") {
       navigate("/SCAD")
+    } else if (email.toLowerCase() === "faculty" && password === "1234") {
+      navigate("/faculty")
     } else {
       setError("Invalid credentials")
     }
@@ -34,7 +37,7 @@ function LoginPage() {
         <h2>Login</h2>
         <input
           type="text"
-          placeholder="Email (e.g. user)"
+          placeholder="Email (e.g. user or faculty)"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="input-field"
@@ -119,6 +122,7 @@ function App() {
         <Route path="/register-company" element={<CompanyRegistrationPage />} />
         <Route path="/dashboard/:role" element={<DashboardWrapper />} />
         <Route path="/SCAD" element={<SCAD />} />
+        <Route path="/faculty" element={<Faculty />} />
       </Routes>
     </Router>
   )

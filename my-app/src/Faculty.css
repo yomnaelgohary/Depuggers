@@ -1,0 +1,270 @@
+/* Base styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+      "Helvetica Neue", sans-serif;
+    background-color: #ffffff;
+    color: #333333;
+  }
+  
+  /* Faculty container - full screen */
+  .faculty-container {
+    min-height: 100vh;
+    width: 100vw;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Header styles */
+  .faculty-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 1px solid #e5e7eb;
+    background-color: #ffffff;
+    width: 100%;
+  }
+  
+  .header-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .back-icon {
+    font-size: 18px;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .faculty-header h1 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #111827;
+  }
+  
+  .profile-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  
+  .profile-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  /* Main content styles */
+  .faculty-main {
+    width: 100%;
+    padding: 0 24px;
+    flex: 1;
+  }
+  
+  .greeting {
+    font-size: 30px;
+    font-weight: 700;
+    margin: 24px 0;
+    color: #111827;
+  }
+  
+  /* Filters container */
+  .filters-container {
+    margin-bottom: 24px;
+    background-color: #f9fafb;
+    border-radius: 8px;
+    padding: 20px;
+  }
+  
+  .filter-section {
+    margin-bottom: 20px;
+  }
+  
+  .filter-section:last-child {
+    margin-bottom: 0;
+  }
+  
+  .filter-title {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 12px;
+    color: #4b5563;
+  }
+  
+  /* Filter buttons */
+  .filter-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  
+  .filter-button {
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid #e5e7eb;
+    background-color: #ffffff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #4b5563;
+  }
+  
+  .filter-button:hover {
+    background-color: #f3f4f6;
+  }
+  
+  .filter-button.active {
+    background-color: #9b2c2c; /* Darker, more muted red */
+    color: white;
+    border-color: #9b2c2c; /* Matching border color */
+  }
+  
+  /* Students count */
+  .students-count {
+    margin-bottom: 16px;
+    font-size: 14px;
+    color: #6b7280;
+    text-align: right;
+  }
+  
+  /* Table styles */
+  .students-table-container {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #ffffff;
+    width: 100%;
+  }
+  
+  .students-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .students-table th {
+    text-align: left;
+    padding: 16px 24px;
+    font-weight: 500;
+    border-bottom: 1px solid #e5e7eb;
+    background-color: #f9fafb;
+    color: #4b5563;
+    font-size: 14px;
+  }
+  
+  .students-table td {
+    padding: 16px 24px;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 14px;
+  }
+  
+  .students-table tr:last-child td {
+    border-bottom: none;
+  }
+  
+  /* Table cell styles */
+  .major {
+    color: #9b2c2c; /* Darker, more muted red */
+    font-weight: 500;
+  }
+  
+  .comment {
+    color: #6b7280;
+    font-style: italic;
+  }
+  
+  .actions {
+    text-align: center;
+  }
+  
+  .view-button {
+    background-color: #9b2c2c; /* Darker, more muted red */
+    color: white;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+  }
+  
+  .view-button:hover {
+    background-color: #7f1d1d; /* Even darker red for hover state */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Status pills */
+  .status-pill {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+  }
+  
+  .accepted {
+    background-color: #d1fae5;
+    color: #065f46;
+  }
+  
+  .rejected {
+    background-color: #fee2e2;
+    color: #9b2c2c; /* Updated to match the new red */
+  }
+  
+  .pending {
+    background-color: #fef3c7;
+    color: #92400e;
+  }
+  
+  .flagged {
+    background-color: #dbeafe;
+    color: #1e40af;
+  }
+  
+  /* No results message */
+  .no-results {
+    text-align: center;
+    padding: 32px;
+    color: #6b7280;
+    font-style: italic;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .faculty-main {
+      padding: 0 16px;
+    }
+  
+    .students-table th,
+    .students-table td {
+      padding: 12px 16px;
+    }
+  
+    .filter-buttons {
+      gap: 6px;
+    }
+  
+    .filter-button {
+      padding: 6px 12px;
+      font-size: 13px;
+    }
+  }
+  
