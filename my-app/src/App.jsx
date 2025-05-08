@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-route
 import "./App.css"
 import SCAD from "./SCAD" // Import the SCAD component
 import Faculty from "./Faculty" // Import the Faculty component
+import ReportView from "./report-view" // Import the ReportView component
 
 // LoginPage component
 function LoginPage() {
@@ -123,6 +124,7 @@ function App() {
         <Route path="/dashboard/:role" element={<DashboardWrapper />} />
         <Route path="/SCAD" element={<SCAD />} />
         <Route path="/faculty" element={<Faculty />} />
+        <Route path="/report-view/:studentId" element={<ReportView />} />
       </Routes>
     </Router>
   )

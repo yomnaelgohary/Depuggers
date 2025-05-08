@@ -1,9 +1,12 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 import "./Faculty.css"
 
 function Faculty() {
+  const navigate = useNavigate()
+
   const students = [
     {
       id: 1,
@@ -65,11 +68,18 @@ function Faculty() {
     setFilteredStudents(result)
   }, [selectedMajor, selectedStatus])
 
+  // Handle view button click
+  const handleViewReport = (studentId) => {
+    navigate(`/report-view/${studentId}`)
+  }
+
   return (
     <div className="faculty-container">
       <header className="faculty-header">
         <div className="header-title">
-          <span className="back-icon">←</span>
+          <span className="back-icon" onClick={() => navigate("/")}>
+            ←
+          </span>
           <h1>Internship Management</h1>
         </div>
         <div className="profile-image">
@@ -138,7 +148,9 @@ function Faculty() {
                     </td>
                     <td className="comment">{student.comment}</td>
                     <td className="actions">
-                      <button className="view-button">View</button>
+                      <button className="view-button" onClick={() => handleViewReport(student.id)}>
+                        View
+                      </button>
                     </td>
                   </tr>
                 ))
