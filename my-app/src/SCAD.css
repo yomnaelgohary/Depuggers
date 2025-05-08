@@ -42,6 +42,23 @@ body {
   gap: 10px;
 }
 
+/* SCAD Logo styles */
+.scad-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #c31432;
+  color: white;
+  border-radius: 8px;
+  padding: 8px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.scad-logo svg {
+  margin-right: 2px;
+}
+
 .logo h1 {
   font-size: 18px;
   font-weight: 600;
@@ -314,10 +331,31 @@ body {
   flex-shrink: 0;
 }
 
+/* Add styles for the character logo in the activity section */
+.activity-character-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #c31432;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* Add style for the person name */
+.activity-person {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Remove the img styling from activity-avatar since we're not using images anymore */
 .activity-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  display: none;
 }
 
 .activity-content {
@@ -342,7 +380,8 @@ body {
 .students-section-overlay,
 .internships-section-overlay,
 .internship-details-overlay,
-.pdf-viewer-overlay {
+.pdf-viewer-overlay,
+.statistics-section-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -1077,7 +1116,7 @@ body {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background-color: #007bff; /* Example background color */
+  background-color: #c31432; /* Changed to red as requested */
   color: white;
   display: flex;
   align-items: center;
@@ -1090,7 +1129,7 @@ body {
 }
 
 .profile-circle:hover {
-  background-color: #0056b3;
+  background-color: #a01129;
   transform: scale(1.05);
 }
 
@@ -1102,14 +1141,6 @@ body {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-  z-index: 1002; /* Higher than other overlays */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Styles for the Student Profile Content */
-.student-profile {
   z-index: 1002; /* Higher than other overlays */
   display: flex;
   justify-content: center;
@@ -1558,4 +1589,1573 @@ body {
   .stats-section {
     grid-template-columns: 1fr;
   }
+}
+
+/* Evaluations & Reports Styles */
+.evaluations-section-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.evaluations-section {
+  background-color: #fff;
+  border-radius: 8px;
+  max-width: 800px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  z-index: 1000;
+  width: 90%;
+}
+
+.evaluations-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.evaluations-header h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.evaluations-search {
+  margin-bottom: 15px;
+}
+
+.evaluations-search .search-input {
+  position: relative;
+  width: 100%;
+}
+
+.evaluations-search .search-input svg {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #777;
+}
+
+.evaluations-search .search-input input {
+  width: 100%;
+  padding: 10px 10px 10px 35px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.evaluations-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.reports-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 15px;
+}
+
+.report-card {
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.report-card:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px);
+  border-color: #c31432;
+}
+
+.report-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.report-card-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  flex: 1;
+}
+
+.status-badge {
+  font-size: 12px;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-weight: 500;
+  text-align: center;
+  min-width: 70px;
+}
+
+.status-badge.pending {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.status-badge.flagged {
+  background-color: #fff8e1;
+  color: #f57f17;
+}
+
+.status-badge.rejected {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.status-badge.accepted {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.report-card-content {
+  font-size: 14px;
+  color: #666;
+}
+
+.report-card-content p {
+  margin: 5px 0;
+}
+
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 30px;
+  color: #777;
+  font-size: 16px;
+}
+
+/* Report Details Styles */
+.report-details {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  width: 90%;
+  max-width: 800px;
+  max-height: 85vh;
+  overflow-y: auto;
+  z-index: 1001;
+}
+
+.report-details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #e0e0e0;
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  z-index: 2;
+}
+
+.report-details-header h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  flex: 1;
+}
+
+.report-status-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  margin-right: 15px;
+}
+
+.status-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.status-button {
+  padding: 5px 10px;
+  border-radius: 4px;
+  border: none;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.status-button.flagged {
+  background-color: #fff8e1;
+  color: #f57f17;
+}
+
+.status-button.rejected {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.status-button.accepted {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status-button:hover {
+  opacity: 0.9;
+}
+
+.status-button.active {
+  box-shadow: 0 0 0 2px currentColor;
+}
+
+.report-details-content {
+  padding: 20px;
+}
+
+.report-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.meta-item h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #555;
+  margin: 0 0 5px 0;
+}
+
+.meta-item p {
+  font-size: 14px;
+  color: #333;
+  margin: 0;
+}
+
+.internship-period {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.period-item h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #555;
+  margin: 0 0 5px 0;
+}
+
+.period-item p {
+  font-size: 14px;
+  color: #333;
+  margin: 0;
+}
+
+.report-section {
+  margin-bottom: 25px;
+}
+
+.report-section h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #eee;
+}
+
+.report-section p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #555;
+}
+
+.tasks-list {
+  padding-left: 20px;
+}
+
+.tasks-list li {
+  margin-bottom: 8px;
+  font-size: 15px;
+  color: #555;
+}
+
+.performance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.performance-item {
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+}
+
+.performance-item h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #555;
+  margin: 0 0 8px 0;
+}
+
+.performance-item.overall {
+  grid-column: 1 / -1;
+  background-color: #f0f2f5;
+}
+
+.rating-stars {
+  display: flex;
+  align-items: center;
+}
+
+.star {
+  color: #ffca28;
+  font-size: 18px;
+  margin-right: 2px;
+}
+
+.star.empty {
+  color: #e0e0e0;
+}
+
+.star.half {
+  position: relative;
+  color: #e0e0e0;
+}
+
+.star.half::before {
+  content: "★";
+  position: absolute;
+  color: #ffca28;
+  width: 50%;
+  overflow: hidden;
+}
+
+.rating-value {
+  margin-left: 5px;
+  font-size: 14px;
+  color: #666;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .reports-list {
+    grid-template-columns: 1fr;
+  }
+
+  .report-meta,
+  .internship-period,
+  .performance-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .report-status-controls {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .status-actions {
+    margin-top: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .evaluations-filters {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .report-details-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .report-status-controls {
+    align-items: flex-start;
+    width: 100%;
+  }
+}
+
+/* Add styles for the download PDF button and report actions */
+.report-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.download-pdf-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.download-pdf-button:hover {
+  background-color: #0b7dda;
+}
+
+.download-pdf-button:active {
+  background-color: #0a6bc8;
+}
+
+/* Update the report-details-header to accommodate the new layout */
+.report-details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px;
+  border-bottom: 1px solid #e0e0e0;
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  z-index: 2;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .report-details-header {
+    flex-direction: column;
+  }
+
+  .report-actions {
+    margin-top: 10px;
+    align-self: flex-end;
+  }
+}
+
+/* Clarification section styles */
+.clarification-section {
+  background-color: #fff8e1;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-left: 4px solid #f57f17;
+}
+
+.clarification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.clarification-header h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.clarification-icon {
+  color: #f57f17;
+}
+
+.edit-clarification-button,
+.save-clarification-button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: none;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.edit-clarification-button {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.edit-clarification-button:hover {
+  background-color: #d0d0d0;
+}
+
+.save-clarification-button {
+  background-color: #4caf50;
+  color: white;
+}
+
+.save-clarification-button:hover {
+  background-color: #3d9140;
+}
+
+.clarification-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #555;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 4px;
+}
+
+.clarification-textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.report-clarification-preview {
+  margin-top: 8px;
+  font-style: italic;
+  color: #f57f17;
+}
+
+/* Statistics Section Styles */
+.statistics-section-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.statistics-section {
+  background-color: #fff;
+  border-radius: 8px;
+  max-width: 900px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  z-index: 1000;
+  width: 90%;
+}
+
+.statistics-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.statistics-header h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.statistics-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 20px;
+}
+
+.statistics-card {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.statistics-card-header {
+  background-color: #f0f2f5;
+  padding: 15px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.statistics-card-header h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.statistics-card-content {
+  padding: 15px;
+}
+
+/* Bar Chart Styles */
+.bar-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bar-chart-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bar-chart-label {
+  width: 150px;
+  font-size: 14px;
+  color: #555;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bar-chart-bar-container {
+  flex: 1;
+  height: 20px;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.bar-chart-bar {
+  height: 100%;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 10px;
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.bar-chart-bar.course-bar {
+  background-color: #2196f3;
+}
+
+.bar-chart-bar.company-bar {
+  background-color: #c31432;
+}
+
+.bar-chart-value {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Pie Chart Styles */
+.pie-chart-container {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.pie-chart {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.pie-chart-visualization {
+  width: 120px;
+  height: 120px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pie-chart-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #c31432;
+}
+
+.pie-chart-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pie-chart-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pie-chart-legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+.pie-chart-legend-label {
+  font-size: 14px;
+  color: #555;
+}
+
+/* Statistics Summary Styles */
+.statistics-summary {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.summary-item {
+  text-align: center;
+}
+
+.summary-label {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.summary-value {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Review Time Stats Styles */
+.review-time-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 15px;
+}
+
+.review-time-item {
+  text-align: center;
+}
+
+.review-time-value {
+  font-size: 24px;
+  font-weight: 600;
+  color: #c31432;
+}
+
+.review-time-label {
+  font-size: 14px;
+  color: #666;
+}
+
+.review-time-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #777;
+  padding: 10px;
+  background-color: #f0f2f5;
+  border-radius: 4px;
+}
+
+/* Top Rated Companies Styles */
+.top-rated-companies {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.top-rated-company {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px;
+  background-color: #f0f2f5;
+  border-radius: 6px;
+}
+
+.company-rank {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #c31432;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.company-info {
+  flex: 1;
+}
+
+.company-name {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+/* Star Rating Styles */
+.star-rating {
+  display: flex;
+  align-items: center;
+}
+
+.star-filled {
+  color: #ffca28;
+}
+
+.star-half {
+  color: #ffca28;
+  opacity: 0.5;
+}
+
+.star-empty {
+  color: #e0e0e0;
+}
+
+.rating-value {
+  margin-left: 5px;
+  font-size: 12px;
+  color: #666;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .statistics-content {
+    grid-template-columns: 1fr;
+  }
+
+  .pie-chart {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .statistics-summary {
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+  }
+
+  .review-time-stats {
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+  }
+  /* SCAD.css */
+
+/* ... (all your existing styles) ... */
+
+/* Statistics Section Styles */
+.statistics-section-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px; /* Add padding for smaller screens */
+}
+
+.statistics-section {
+  background-color: #fff;
+  border-radius: 8px;
+  max-width: 900px; /* Can be wider for stats */
+  width: 100%; /* Responsive width */
+  max-height: 90vh; /* Increased max-height */
+  overflow-y: auto;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  padding: 25px; /* Increased padding */
+  z-index: 1000;
+}
+
+.statistics-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px; /* Increased margin */
+  padding-bottom: 15px; /* Increased padding */
+  border-bottom: 1px solid #e0e0e0;
+  flex-wrap: wrap; /* Allow wrapping for smaller screens */
+  gap: 10px; /* Gap between items if they wrap */
+}
+
+.statistics-header h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  flex-grow: 1; /* Allow title to take space */
+}
+
+/* New button for downloading statistics PDF */
+.download-stats-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 15px;
+  background-color: #007bff; /* Primary blue, or choose your theme color */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  white-space: nowrap; /* Prevent button text from wrapping */
+}
+
+.download-stats-button:hover {
+  background-color: #0056b3;
+}
+.download-stats-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+
+.statistics-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); /* Adjust min-width for cards */
+  gap: 25px; /* Increased gap */
+}
+
+.statistics-card {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  display: flex; /* Added for better internal layout */
+  flex-direction: column; /* Added */
+}
+
+.statistics-card-header {
+  background-color: #f0f2f5;
+  padding: 15px 20px; /* Adjusted padding */
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.statistics-card-header h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Increased gap */
+  font-size: 17px; /* Slightly larger */
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.statistics-card-content {
+  padding: 20px; /* Adjusted padding */
+  flex-grow: 1; /* Allow content to fill card */
+}
+
+/* Bar Chart Styles - ensure it handles no data */
+.bar-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Adjusted gap */
+}
+
+.bar-chart-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bar-chart-label {
+  width: 150px; /* Or adjust as needed */
+  font-size: 14px;
+  color: #555;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+.bar-chart-bar-container {
+  flex-grow: 1; /* Allow bar to take remaining space */
+  height: 22px; /* Slightly taller */
+  background-color: #e9ecef; /* Lighter background */
+  border-radius: 4px; /* Consistent radius */
+  overflow: hidden;
+}
+
+.bar-chart-bar {
+  height: 100%;
+  border-radius: 4px; /* Consistent radius */
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 10px;
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+  transition: width 0.3s ease-in-out; /* Smooth transition */
+}
+
+.bar-chart-bar.course-bar {
+  background-color: #17a2b8; /* Teal color for courses */
+}
+
+.bar-chart-bar.company-bar {
+  background-color: #fd7e14; /* Orange color for companies */
+}
+
+.bar-chart-value {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Pie Chart Styles - ensure it handles no data */
+.pie-chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Vertically align items if they wrap */
+  flex-wrap: wrap; /* Allow wrapping */
+  gap: 20px; /* Gap between chart and legend */
+  padding: 10px 0;
+}
+
+.pie-chart {
+  display: flex;
+  align-items: center;
+  gap: 25px; /* Increased gap */
+  flex-wrap: wrap; /* Allow internal wrapping */
+  justify-content: center; /* Center if wraps */
+}
+
+.pie-chart-visualization {
+  width: 130px; /* Slightly larger */
+  height: 130px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.pie-chart-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #c31432; /* Theme color */
+}
+
+.pie-chart-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Adjusted gap */
+}
+
+.pie-chart-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Adjusted gap */
+}
+
+.pie-chart-legend-color {
+  width: 18px; /* Slightly larger */
+  height: 18px;
+  border-radius: 4px; /* Consistent radius */
+  flex-shrink: 0;
+}
+
+.pie-chart-legend-label {
+  font-size: 14px;
+  color: #495057; /* Darker gray */
+}
+
+/* Statistics Summary Styles */
+.statistics-summary {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start; /* Align items to top */
+  flex-wrap: wrap; /* Allow wrapping */
+  gap: 15px; /* Gap for wrapped items */
+  margin-top: 20px; /* Increased margin */
+  padding-top: 20px;
+  border-top: 1px solid #dee2e6; /* Lighter border */
+}
+
+.summary-item {
+  text-align: center;
+  flex-basis: 120px; /* Minimum base width for each item */
+  flex-grow: 1; /* Allow items to grow */
+}
+
+.summary-label {
+  font-size: 13px; /* Slightly smaller */
+  color: #6c757d; /* Standard muted color */
+  margin-bottom: 8px; /* Increased margin */
+}
+
+.summary-value {
+  font-size: 22px; /* Slightly larger */
+  font-weight: 700; /* Bolder */
+  color: #343a40; /* Darker color */
+}
+
+/* Review Time Stats Styles */
+.review-time-stats {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.review-time-item {
+  text-align: center;
+  flex-basis: 100px;
+  flex-grow: 1;
+}
+
+.review-time-value {
+  font-size: 26px; /* Larger */
+  font-weight: 700;
+  color: #c31432; /* Theme color */
+}
+
+.review-time-label {
+  font-size: 13px;
+  color: #6c757d;
+}
+
+.review-time-note {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px; /* Slightly larger */
+  color: #6c757d;
+  padding: 12px 15px; /* Adjusted padding */
+  background-color: #e9ecef; /* Lighter background */
+  border-radius: 6px; /* Softer radius */
+  margin-top: 10px; /* Added margin */
+}
+.review-time-note svg {
+  flex-shrink: 0;
+}
+
+/* Top Rated Companies Styles */
+.top-rated-companies {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Adjusted gap */
+}
+
+.top-rated-company {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 15px; /* Adjusted padding */
+  background-color: #f8f9fa; /* Lighter background */
+  border: 1px solid #dee2e6; /* Added border */
+  border-radius: 6px;
+}
+
+.company-rank {
+  width: 32px; /* Slightly larger */
+  height: 32px;
+  border-radius: 50%;
+  background-color: #6c757d; /* Muted color for rank */
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.company-info {
+  flex: 1;
+}
+
+.company-name {
+  font-size: 15px; /* Slightly larger */
+  font-weight: 600; /* Bolder */
+  margin-bottom: 5px;
+  color: #343a40;
+}
+
+/* Star Rating Styles */
+.star-rating {
+  display: flex;
+  align-items: center;
+}
+.star-rating svg { /* Direct styling for Lucide icons */
+    margin-right: 2px;
+}
+
+.star-filled {
+  color: #ffc107; /* Standard yellow for stars */
+}
+
+.star-half { /* Simplified half star, rely on Lucide's rendering or use two overlapping */
+  color: #ffc107; 
+  /* For true half star, you might need more complex CSS or a specific half-star icon */
+}
+
+.star-empty {
+  color: #e0e0e0; /* Lighter gray for empty */
+}
+
+.rating-value {
+  margin-left: 8px; /* Increased margin */
+  font-size: 13px; /* Slightly larger */
+  color: #495057;
+}
+
+/* Responsive adjustments for Statistics */
+@media (max-width: 768px) {
+  .statistics-header {
+    flex-direction: column;
+    align-items: stretch; /* Stretch items like button */
+  }
+  .statistics-header h2 {
+    text-align: center; /* Center title on small screens */
+    margin-bottom: 10px;
+  }
+  .download-stats-button {
+    width: 100%; /* Full width button on small screens */
+    justify-content: center; /* Center icon and text */
+  }
+  .statistics-content {
+    grid-template-columns: 1fr; /* Single column layout for cards */
+  }
+  .pie-chart {
+    flex-direction: column; /* Stack pie and legend */
+    align-items: center;
+  }
+  .statistics-summary, .review-time-stats {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+}
+/* SCAD.css */
+
+/* ... (all your existing styles) ... */
+
+
+/* Appointment Modal Styles */
+/* SCAD.css */
+
+/* ... (all your existing styles for other modals like .companies-section-overlay etc.) ... */
+
+/* Appointment Modal Styles */
+/* ============================================= */
+/* == START: CSS for Centering the Modal Box  == */
+/* ============================================= */
+
+/* This creates the full-screen background and uses Flexbox to center its child */
+/* ================================================== */
+/* == START: FOCUSED Appointment Modal CSS Override == */
+/* ================================================== */
+
+/* --- Overlay --- */
+/* Attempting highly specific selector and !important */
+html body .appointment-modal-overlay {
+  box-sizing: border-box !important;
+  position: fixed !important; /* FORCE fixed positioning */
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important; /* Use 100% instead of vw/vh sometimes helps */
+  height: 100% !important;
+  padding: 20px !important;
+  margin: 0 !important;
+  background-color: rgba(30, 30, 30, 0.75) !important; /* Darker overlay */
+  display: flex !important; /* FORCE flex */
+  justify-content: center !important; /* FORCE centering */
+  align-items: center !important; /* FORCE centering */
+  z-index: 2000 !important; /* Extremely high z-index */
+  overflow: auto !important; /* Ensure overlay itself can scroll if needed */
+  border: 4px dashed #ff00ff !important; /* BRIGHT MAGENTA DEBUG BORDER */
+}
+
+/* --- Modal Box --- */
+/* Also increasing specificity */
+html body .appointment-modal-overlay > .appointment-modal {
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  position: relative !important; /* Relative to overlay flow */
+  width: auto !important; /* Let content dictate width up to max */
+  min-width: 300px !important; /* Ensure it's not collapsed */
+  max-width: 600px !important; /* Control max size */
+  max-height: 90vh !important; /* Limit height */
+  margin: auto !important; /* Another centering attempt along with flex */
+  padding: 0 !important; /* Control padding internally */
+  background-color: #ffffff !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+  z-index: 2001 !important; /* Above overlay background */
+  overflow: hidden !important; /* Container shouldn't scroll, content will */
+  border: 4px dashed #00ffff !important; /* BRIGHT CYAN DEBUG BORDER */
+}
+
+/* --- Modal Header --- */
+.appointment-modal-header {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #f9f9f9;
+  border-top-left-radius: 8px; /* Match parent */
+  border-top-right-radius: 8px;
+  flex-shrink: 0;
+}
+.appointment-modal-header h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+/* --- Modal Content (Form Area) --- */
+.appointment-modal > form.appointment-form { /* Target form directly if possible */
+  box-sizing: border-box;
+  padding: 20px 25px 25px 25px;
+  overflow-y: auto; /* Make this scrollable */
+  flex-grow: 1; /* Take remaining space */
+}
+.appointment-modal-subtitle {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+.appointment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Slightly reduced gap */
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.form-group label {
+  font-size: 13px; /* Slightly smaller label */
+  font-weight: 500;
+  color: #444;
+}
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #333;
+  background-color: #fff;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  box-sizing: border-box;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #c31432;
+  box-shadow: 0 0 0 3px rgba(195, 20, 50, 0.15);
+  outline: 0;
+}
+.form-group select { /* Basic appearance reset */
+  appearance: none;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23888%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 0.6em;
+  padding-right: 2.2rem;
+}
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* --- Submit Button --- */
+.submit-appointment-button {
+  background-color: #c31432;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 5px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 15px;
+  width: 100%;
+}
+.submit-appointment-button:hover:not(:disabled) { background-color: #a01129; }
+.submit-appointment-button:active:not(:disabled) { transform: translateY(1px); }
+.submit-appointment-button:disabled { background-color: #e0e0e0; color: #999; cursor: not-allowed; }
+.submit-appointment-button svg { width: 16px; height: 16px; }
+
+/* --- Confirmation Dialog --- */
+/* Also uses .appointment-modal-overlay */
+html body .appointment-modal-overlay > .appointment-confirmation-dialog {
+  box-sizing: border-box !important;
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 15px !important;
+  width: auto !important;
+  min-width: 300px !important;
+  max-width: 500px !important;
+  margin: auto !important;
+  padding: 30px 35px !important;
+  background-color: #ffffff !important;
+  border-radius: 8px !important;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2) !important;
+  text-align: center !important;
+  z-index: 2001 !important;
+  overflow: visible !important;
+  border: 4px dashed #ffff00 !important; /* BRIGHT YELLOW DEBUG BORDER */
+}
+.confirmation-icon-success { color: #28a745; margin-bottom: 5px; }
+.confirmation-icon-success svg { width: 48px; height: 48px; }
+.appointment-confirmation-dialog h3 { font-size: 20px; font-weight: 600; color: #333; margin: 0; }
+.appointment-confirmation-dialog p { font-size: 15px; color: #555; line-height: 1.6; margin-bottom: 10px; }
+.appointment-confirmation-dialog .submit-appointment-button { margin-top: 10px; width: auto; padding: 10px 30px; }
+
+/* ============================================= */
+/* == END: FOCUSED Appointment Modal CSS Override == */
+/* ============================================= */
+.confirmation-icon-success {
+  color: #28a745; /* Green for success */
+  margin-bottom: 10px;
+}
+
+.appointment-confirmation-dialog h3 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #343a40;
+  margin: 0;
+}
+
+.appointment-confirmation-dialog p {
+  font-size: 15px;
+  color: #495057;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+/* Optional: If you still want the prominent CTA box in the main content area */
+/* This section is now commented out in the JSX, but styles are here if you re-enable it */
+.request-appointment-cta-section {
+  padding: 30px 0;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.request-appointment-cta-box {
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 30px 40px;
+  text-align: center;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.request-appointment-cta-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+  border-color: #c31432;
+}
+
+.request-appointment-cta-box .cta-icon {
+  color: #c31432;
+  margin-bottom: 15px;
+}
+
+.request-appointment-cta-box h3 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.request-appointment-cta-box p {
+  font-size: 16px;
+  color: #6c757d;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.request-appointment-cta-box .cta-button {
+  background-color: #c31432;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.request-appointment-cta-box .cta-button:hover {
+  background-color: #a01129;
+}
 }
