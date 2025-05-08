@@ -6,6 +6,7 @@ import "./App.css"
 import SCAD from "./SCAD" // Import the SCAD component
 import Faculty from "./Faculty" // Import the Faculty component
 import ReportView from "./report-view" // Import the ReportView component
+import Company from "./Company"
 
 // LoginPage component
 function LoginPage() {
@@ -20,6 +21,9 @@ function LoginPage() {
       navigate("/SCAD")
     } else if (email.toLowerCase() === "faculty" && password === "1234") {
       navigate("/faculty")
+    }
+      else if (email.toLowerCase() === "company" && password === "1234") {
+        navigate("/company")
     } else {
       setError("Invalid credentials")
     }
@@ -125,6 +129,7 @@ function App() {
         <Route path="/SCAD" element={<SCAD />} />
         <Route path="/faculty" element={<Faculty />} />
         <Route path="/report-view/:studentId" element={<ReportView />} />
+        <Route path="/company" element={<Company />} />
       </Routes>
     </Router>
   )
