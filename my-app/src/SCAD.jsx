@@ -21,465 +21,27 @@ import {
   DollarSign,
   CalendarIcon,
   Tag,
+  ChevronLeft,
 } from "lucide-react"
 
-function Calendar({ highlightedDays, onClose }) {
-  const [currentDate, setCurrentDate] = useState(new Date())
-
-  const goToPreviousMonth = () => {
-    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1))
-  }
-
-  const goToNextMonth = () => {
-    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1))
-  }
-
-  const year = currentDate.getFullYear()
-  const month = currentDate.getMonth()
-  const firstDayOfMonth = new Date(year, month, 1).getDay()
-  const daysInMonth = new Date(year, month + 1, 0).getDate()
-  const days = []
-
-  for (let i = 0; i < firstDayOfMonth; i++) {
-    days.push(<td key={`empty-${i}`}></td>)
-  }
-
-  for (let day = 1; day <= daysInMonth; day++) {
-    const date = new Date(year, month, day)
-    const isHighlighted = highlightedDays.some(
-      (highlightedDay) => highlightedDay.toDateString() === date.toDateString(),
-    )
-    days.push(
-      <td key={day} className={isHighlighted ? "highlighted" : ""}>
-        {day}
-      </td>,
-    )
-  }
-
-  const weeks = []
-  for (let i = 0; i < days.length; i += 7) {
-    weeks.push(<tr key={`week-${i / 7}`}>{days.slice(i, i + 7)}</tr>)
-  }
-
-  const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ]
-  const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-
-  return (
-    <div className="calendar-container">
-      <div className="calendar-header">
-        <button onClick={goToPreviousMonth}>&lt;</button>
-        <h2>
-          {monthNames[month]} {year}
-        </h2>
-        <button onClick={goToNextMonth}>&gt;</button>
-      </div>
-      <table>
-        <thead>
-          <tr>
-            {dayNames.map((day) => (
-              <th key={day}>{day}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>{weeks}</tbody>
-      </table>
-      <button onClick={onClose} className="close-calendar-button">
-        Close Calendar
-      </button>
-    </div>
-  )
-}
-
-function StudentsView({ students, onBack, onGoToProfile }) {
-  const [filterStatus, setFilterStatus] = useState("All")
-  const [filteredStudents, setFilteredStudents] = useState(students)
+// Add jsPDF library
+function SCAD() {
+  const [jspdfLoaded, setJspdfLoaded] = useState(false)
 
   useEffect(() => {
-    if (filterStatus === "All") {
-      setFilteredStudents(students)
-    } else {
-      setFilteredStudents(students.filter((student) => student.internshipStatus === filterStatus))
+    const script = document.createElement("script")
+    script.src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
+    script.async = true
+    script.onload = () => {
+      setJspdfLoaded(true)
     }
-  }, [students, filterStatus])
+    document.body.appendChild(script)
 
-  const handleFilterChange = (event) => {
-    setFilterStatus(event.target.value)
-  }
-
-  const handleProfileClick = (studentId) => {
-    if (onGoToProfile) {
-      onGoToProfile(studentId)
-    } else {
-      console.log(`Go to profile for student ID: ${studentId}`)
+    return () => {
+      document.body.removeChild(script)
     }
-  }
+  }, [])
 
-  return (
-    <div className="students-section-overlay">
-      <div className="students-view">
-        <div className="students-header">
-          <h2>Students List</h2>
-          <button className="modal-close-button" onClick={onBack}>
-            <X size={20} />
-          </button>
-        </div>
-        <div className="students-filter">
-          <label htmlFor="internshipStatus">Filter by Internship Status:</label>
-          <select id="internshipStatus" value={filterStatus} onChange={handleFilterChange}>
-            <option value="All">All</option>
-            <option value="Not Started">Not Started</option>
-            <option value="Ongoing">Ongoing</option>
-            <option value="Completed">Completed</option>
-          </select>
-        </div>
-        <ul className="students-list">
-          {filteredStudents.map((student) => (
-            <li key={student.id} className="student-card">
-              <div className="profile-circle" onClick={() => handleProfileClick(student.id)}>
-                {student.name.charAt(0).toUpperCase()}
-              </div>
-              <div className="student-info">
-                <h3>{student.name}</h3>
-                <p>ID: {student.id}</p>
-                <p>Internship Status: {student.internshipStatus}</p>
-                {student.company && <p>Company: {student.company}</p>}
-              </div>
-            </li>
-          ))}
-          {filteredStudents.length === 0 && <p>No students found with the selected filter.</p>}
-        </ul>
-      </div>
-    </div>
-  )
-}
-
-function CompanyPdfViewer({ companyId, companyName, companyIndustry, companyDetails, onAccept, onReject, onClose }) {
-  return (
-    <div className="pdf-viewer-overlay">
-      <div className="pdf-viewer">
-        <div className="pdf-header">
-          <h2>{companyName} - Details</h2>
-          <button className="modal-close-button" onClick={onClose}>
-            <X size={20} />
-          </button>
-        </div>
-        <div className="pdf-content">
-          <p>Industry: {companyIndustry}</p>
-          <p>Legitimacy Proof: {companyDetails.legitimacyProof}</p>
-          <p>Description: {companyDetails.description}</p>
-        </div>
-        <div className="pdf-actions">
-          <button className="accept-button" onClick={() => onAccept(companyId)}>
-            <CheckCircle size={16} /> Accept
-          </button>
-          <button className="reject-button" onClick={() => onReject(companyId)}>
-            <XCircle size={16} /> Reject
-          </button>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function InternshipCard({ internship, company, onClick }) {
-  return (
-    <div className="internship-card" onClick={onClick}>
-      <div className="internship-header">
-        <h3>{internship.jobTitle}</h3>
-        <span className={`payment-badge ${internship.isPaid ? "paid" : "unpaid"}`}>
-          {internship.isPaid ? "Paid" : "Unpaid"}
-        </span>
-      </div>
-      <div className="internship-company">
-        <Building size={16} />
-        <span>{company.name}</span>
-      </div>
-      <div className="internship-duration">
-        <Clock size={16} />
-        <span>{internship.duration}</span>
-      </div>
-    </div>
-  )
-}
-
-function InternshipsView({ onBack }) {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [selectedIndustry, setSelectedIndustry] = useState("All")
-  const [selectedDuration, setSelectedDuration] = useState("All")
-  const [selectedPayStatus, setSelectedPayStatus] = useState("All")
-  const [selectedInternship, setSelectedInternship] = useState(null)
-
-  // Sample internship data
-  const companies = [
-    { id: 1, name: "Dell Technologies", industry: "Technology" },
-    { id: 2, name: "IBM", industry: "Technology" },
-    { id: 3, name: "PwC", industry: "Consulting" },
-    { id: 4, name: "Microsoft", industry: "Technology" },
-    { id: 5, name: "Amazon", industry: "E-commerce" },
-  ]
-
-  const internships = [
-    {
-      id: 1,
-      companyId: 1,
-      jobTitle: "Software Engineering Intern",
-      duration: "3 months",
-      isPaid: true,
-      salary: 1500,
-      startDate: "June 1, 2024",
-      description: "Join Dell Technologies as a Software Engineering Intern to work on cutting-edge projects.",
-      skills: ["Java", "Python", "Git", "Agile"],
-    },
-    {
-      id: 2,
-      companyId: 2,
-      jobTitle: "Data Science Intern",
-      duration: "6 months",
-      isPaid: true,
-      salary: 2000,
-      startDate: "July 15, 2024",
-      description: "IBM is looking for a Data Science Intern to join our AI research team.",
-      skills: ["Python", "Machine Learning", "Statistics", "SQL"],
-    },
-    {
-      id: 3,
-      companyId: 3,
-      jobTitle: "Business Analyst Intern",
-      duration: "3 months",
-      isPaid: true,
-      salary: 1200,
-      startDate: "June 15, 2024",
-      description: "PwC is seeking a Business Analyst Intern to support our consulting team.",
-      skills: ["Excel", "Data Analysis", "Business Process Modeling", "Communication"],
-    },
-    {
-      id: 4,
-      companyId: 4,
-      jobTitle: "UX Design Intern",
-      duration: "4 months",
-      isPaid: true,
-      salary: 1800,
-      startDate: "August 1, 2024",
-      description: "Microsoft is looking for a UX Design Intern to join our product team.",
-      skills: ["Figma", "UI/UX", "Prototyping", "User Research"],
-    },
-    {
-      id: 5,
-      companyId: 5,
-      jobTitle: "Operations Intern",
-      duration: "3 months",
-      isPaid: false,
-      startDate: "July 1, 2024",
-      description: "Amazon is seeking an Operations Intern to support our logistics team.",
-      skills: ["Supply Chain", "Logistics", "Process Improvement", "Analytics"],
-    },
-  ]
-
-  // Filter internships based on search and filter criteria
-  const filteredInternships = internships.filter((internship) => {
-    const company = companies.find((c) => c.id === internship.companyId)
-
-    // Search filter
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase()
-      const matchesTitle = internship.jobTitle.toLowerCase().includes(query)
-      const matchesCompany = company.name.toLowerCase().includes(query)
-      if (!matchesTitle && !matchesCompany) return false
-    }
-
-    // Industry filter
-    if (selectedIndustry !== "All" && company.industry !== selectedIndustry) {
-      return false
-    }
-
-    // Duration filter
-    if (selectedDuration !== "All" && internship.duration !== selectedDuration) {
-      return false
-    }
-
-    // Payment filter
-    if (selectedPayStatus !== "All") {
-      const isPaid = selectedPayStatus === "Paid"
-      if (internship.isPaid !== isPaid) return false
-    }
-
-    return true
-  })
-
-  // Get unique industries and durations for filters
-  const uniqueIndustries = ["All", ...new Set(companies.map((company) => company.industry))].sort()
-  const uniqueDurations = ["All", ...new Set(internships.map((internship) => internship.duration))].sort()
-
-  const handleInternshipClick = (internship) => {
-    setSelectedInternship(internship)
-  }
-
-  const closeInternshipDetails = () => {
-    setSelectedInternship(null)
-  }
-
-  return (
-    <div className="internships-section-overlay">
-      {!selectedInternship ? (
-        <div className="internships-section">
-          <div className="internships-header">
-            <h2>Available Internships</h2>
-            <button className="modal-close-button" onClick={onBack}>
-              <X size={20} />
-            </button>
-          </div>
-
-          <div className="internships-search">
-            <div className="search-input">
-              <Search size={16} />
-              <input
-                type="text"
-                placeholder="Search by job title or company name..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-          </div>
-
-          <div className="internships-filters">
-            <div className="filter-group">
-              <label htmlFor="industry">Industry:</label>
-              <select id="industry" value={selectedIndustry} onChange={(e) => setSelectedIndustry(e.target.value)}>
-                {uniqueIndustries.map((industry) => (
-                  <option key={industry} value={industry}>
-                    {industry}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="filter-group">
-              <label htmlFor="duration">Duration:</label>
-              <select id="duration" value={selectedDuration} onChange={(e) => setSelectedDuration(e.target.value)}>
-                {uniqueDurations.map((duration) => (
-                  <option key={duration} value={duration}>
-                    {duration}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="filter-group">
-              <label htmlFor="payStatus">Payment:</label>
-              <select id="payStatus" value={selectedPayStatus} onChange={(e) => setSelectedPayStatus(e.target.value)}>
-                <option value="All">All</option>
-                <option value="Paid">Paid</option>
-                <option value="Unpaid">Unpaid</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="internships-list">
-            {filteredInternships.length > 0 ? (
-              filteredInternships.map((internship) => {
-                const company = companies.find((c) => c.id === internship.companyId)
-                return (
-                  <InternshipCard
-                    key={internship.id}
-                    internship={internship}
-                    company={company}
-                    onClick={() => handleInternshipClick(internship)}
-                  />
-                )
-              })
-            ) : (
-              <div className="no-results">No internships found matching your criteria.</div>
-            )}
-          </div>
-        </div>
-      ) : (
-        <div className="internship-details">
-          <div className="internship-details-header">
-            <h2>{selectedInternship.jobTitle}</h2>
-            <button className="modal-close-button" onClick={closeInternshipDetails}>
-              <X size={20} />
-            </button>
-          </div>
-
-          <div className="internship-details-content">
-            <div className="internship-company-info">
-              <h3>
-                <Building size={18} />
-                {companies.find((c) => c.id === selectedInternship.companyId).name}
-              </h3>
-              <p className="industry-tag">
-                <Tag size={14} />
-                {companies.find((c) => c.id === selectedInternship.companyId).industry}
-              </p>
-            </div>
-
-            <div className="internship-info-grid">
-              <div className="info-item">
-                <Clock size={18} />
-                <div>
-                  <h4>Duration</h4>
-                  <p>{selectedInternship.duration}</p>
-                </div>
-              </div>
-
-              <div className="info-item">
-                <DollarSign size={18} />
-                <div>
-                  <h4>Payment</h4>
-                  <p>{selectedInternship.isPaid ? "Paid" : "Unpaid"}</p>
-                  {selectedInternship.isPaid && selectedInternship.salary && (
-                    <p className="salary">${selectedInternship.salary}/month</p>
-                  )}
-                </div>
-              </div>
-
-              <div className="info-item">
-                <CalendarIcon size={18} />
-                <div>
-                  <h4>Start Date</h4>
-                  <p>{selectedInternship.startDate || "Flexible"}</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="internship-description">
-              <h3>Job Description</h3>
-              <p>{selectedInternship.description}</p>
-            </div>
-
-            <div className="internship-skills">
-              <h3>Required Skills</h3>
-              <div className="skills-list">
-                {selectedInternship.skills.map((skill, index) => (
-                  <span key={index} className="skill-tag">
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* The Apply for Internship button has been completely removed */}
-          </div>
-        </div>
-      )}
-    </div>
-  )
-}
-
-function SCAD() {
   const [stats, setStats] = useState({
     totalStudents: "8,432",
     totalProStudents: "2,345",
@@ -561,9 +123,75 @@ function SCAD() {
     const companyDetails = companyApplications[companyId]
 
     if (company && companyDetails) {
-      console.log(`Downloading PDF for company ID: ${companyId}`)
-      alert(`Downloading PDF for ${company.name}`)
+      // Generate PDF content
+      generateCompanyPDF(company, companyDetails)
     }
+  }
+
+  // Function to generate and download the PDF
+  const generateCompanyPDF = (company, companyDetails) => {
+    // Create a new jsPDF instance
+    if (!jspdfLoaded || !window.jspdf) {
+      console.error("jsPDF library is not loaded.")
+      return
+    }
+
+    const { jsPDF } = window.jspdf
+    const doc = new jsPDF()
+
+    // Set font styles
+    doc.setFont("helvetica", "bold")
+    doc.setFontSize(20)
+
+    // Add company name as title
+    doc.text(`${company.name}`, 105, 20, { align: "center" })
+
+    // Add company logo/letter
+    doc.setFillColor(195, 20, 50) // #c31432 color
+    doc.rect(20, 30, 15, 15, "F")
+    doc.setTextColor(255, 255, 255)
+    doc.setFontSize(12)
+    doc.text(company.name.charAt(0), 27.5, 39, { align: "center" })
+
+    // Reset text color
+    doc.setTextColor(0, 0, 0)
+
+    // Add company details
+    doc.setFont("helvetica", "bold")
+    doc.setFontSize(14)
+    doc.text("Company Information", 20, 60)
+
+    doc.setFont("helvetica", "normal")
+    doc.setFontSize(12)
+    doc.text(`Industry: ${company.industry}`, 20, 70)
+
+    doc.setFont("helvetica", "bold")
+    doc.setFontSize(14)
+    doc.text("Legitimacy Proof", 20, 85)
+
+    doc.setFont("helvetica", "normal")
+    doc.setFontSize(12)
+    doc.text(companyDetails.legitimacyProof, 20, 95)
+
+    doc.setFont("helvetica", "bold")
+    doc.setFontSize(14)
+    doc.text("Company Description", 20, 110)
+
+    doc.setFont("helvetica", "normal")
+    doc.setFontSize(12)
+
+    // Handle long descriptions with text wrapping
+    const splitDescription = doc.splitTextToSize(companyDetails.description, 170)
+    doc.text(splitDescription, 20, 120)
+
+    // Add SCAD Office footer
+    doc.setFontSize(10)
+    doc.setTextColor(100, 100, 100)
+    doc.text("Generated by SCAD Office", 105, 280, { align: "center" })
+    doc.text(new Date().toLocaleDateString(), 105, 285, { align: "center" })
+
+    // Save the PDF
+    doc.save(`${company.name.replace(/\s+/g, "_")}_Details.pdf`)
   }
 
   const handleActionClick = (actionName) => {
@@ -689,15 +317,10 @@ function SCAD() {
 
   const uniqueIndustries = ["All", ...new Set(initialCompanies.map((company) => company.industry))].sort()
 
+  // Generate highlighted days for the internship cycle (July 1st to October 1st)
   const currentYear = new Date().getFullYear()
-  const startDate = new Date(currentYear, 6, 1)
-  const endDate = new Date(currentYear, 9, 1)
-  const highlightedDays = []
-  const currentDateIterator = new Date(startDate)
-  while (currentDateIterator < endDate) {
-    highlightedDays.push(new Date(currentDateIterator))
-    currentDateIterator.setDate(currentDateIterator.getDate() + 1)
-  }
+  const startDate = new Date(currentYear, 6, 1) // July 1st
+  const endDate = new Date(currentYear, 9, 1) // October 1st (exclusive)
 
   const goToStudentProfile = (studentId) => {
     const student = initialStudents.find((s) => s.id === studentId)
@@ -723,6 +346,569 @@ function SCAD() {
     return []
   }
 
+  // Generate highlighted days for the internship cycle (July 1st to September 30th)
+  const cycleHighlightedDays = []
+  const startMonth = 6 // July (0-indexed)
+  const endMonth = 8 // September
+  const year = new Date().getFullYear()
+
+  for (let month = startMonth; month <= endMonth; month++) {
+    const lastDay = new Date(year, month + 1, 0).getDate() // Get last day of the month
+    for (let day = 1; day <= lastDay; day++) {
+      cycleHighlightedDays.push(new Date(year, month, day))
+    }
+  }
+
+  // Update the Calendar component to show all months but only highlight July-September
+  function Calendar({ highlightedDays, onClose }) {
+    const [currentView, setCurrentView] = useState("overview") // "overview" or "month"
+    const [selectedMonth, setSelectedMonth] = useState(null)
+
+    // Get current year
+    const currentYear = new Date().getFullYear()
+
+    // Generate months data for the overview - now showing all months
+    const months = []
+    for (let i = 0; i < 12; i++) {
+      const monthDate = new Date(currentYear, i, 1)
+      const monthName = monthDate.toLocaleString("default", { month: "long" })
+
+      // Count highlighted days in this month
+      const highlightedInMonth = highlightedDays.filter(
+        (day) => day.getMonth() === i && day.getFullYear() === currentYear,
+      ).length
+
+      // Only July (6), August (7), and September (8) should have active days
+      const isActiveMonth = i >= 6 && i <= 8
+
+      months.push({
+        index: i,
+        name: monthName,
+        highlightedDays: isActiveMonth ? highlightedInMonth : 0,
+        daysInMonth: new Date(currentYear, i + 1, 0).getDate(),
+        isActive: isActiveMonth,
+      })
+    }
+
+    const handleMonthClick = (monthIndex) => {
+      setSelectedMonth(monthIndex)
+      setCurrentView("month")
+    }
+
+    const goBackToOverview = () => {
+      setCurrentView("overview")
+    }
+
+    const renderMonthView = () => {
+      const month = selectedMonth
+      const year = currentYear
+      const firstDayOfMonth = new Date(year, month, 1).getDay()
+      const daysInMonth = new Date(year, month + 1, 0).getDate()
+      const monthName = new Date(year, month, 1).toLocaleString("default", { month: "long" })
+
+      const days = []
+
+      // Empty cells for days before the 1st of the month
+      for (let i = 0; i < firstDayOfMonth; i++) {
+        days.push(<td key={`empty-${i}`} className="empty-day"></td>)
+      }
+
+      // Days of the month
+      for (let day = 1; day <= daysInMonth; day++) {
+        const date = new Date(year, month, day)
+        const isHighlighted = highlightedDays.some(
+          (highlightedDay) => highlightedDay.toDateString() === date.toDateString(),
+        )
+        const isToday = new Date().toDateString() === date.toDateString()
+
+        days.push(
+          <td key={day} className={`calendar-day ${isHighlighted ? "highlighted" : ""} ${isToday ? "today" : ""}`}>
+            <div className="day-content">
+              <span className="day-number">{day}</span>
+              {isHighlighted && <div className="day-indicator"></div>}
+            </div>
+          </td>,
+        )
+      }
+
+      // Group days into weeks
+      const weeks = []
+      for (let i = 0; i < days.length; i += 7) {
+        weeks.push(<tr key={`week-${i / 7}`}>{days.slice(i, i + 7)}</tr>)
+      }
+
+      const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+
+      return (
+        <div className="month-view">
+          <div className="month-header">
+            <button className="back-button" onClick={goBackToOverview}>
+              <ChevronLeft size={20} />
+              <span>Back</span>
+            </button>
+            <h2>
+              {monthName} {year}
+            </h2>
+          </div>
+
+          <table className="month-calendar">
+            <thead>
+              <tr>
+                {dayNames.map((day) => (
+                  <th key={day}>{day}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>{weeks}</tbody>
+          </table>
+
+          <div className="calendar-legend">
+            <div className="legend-item">
+              <div className="legend-indicator highlighted"></div>
+              <span>Internship Cycle Day</span>
+            </div>
+            <div className="legend-item">
+              <div className="legend-indicator today"></div>
+              <span>Today</span>
+            </div>
+          </div>
+        </div>
+      )
+    }
+
+    const renderOverview = () => {
+      return (
+        <div className="calendar-overview">
+          <h2>Internship Cycle Calendar</h2>
+          <p className="cycle-dates">July 1st - October 1st, {currentYear}</p>
+
+          <div className="months-grid">
+            {months.map((month) => (
+              <div
+                key={month.index}
+                className={`month-card ${month.isActive ? "active-month" : "inactive-month"}`}
+                onClick={() => handleMonthClick(month.index)}
+              >
+                <h3>{month.name}</h3>
+                <div className="month-stats">
+                  <div className="month-progress">
+                    {month.isActive && (
+                      <div
+                        className="progress-bar"
+                        style={{ width: `${(month.highlightedDays / month.daysInMonth) * 100}%` }}
+                      ></div>
+                    )}
+                  </div>
+                  <p>{month.highlightedDays} active days</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="calendar-summary">
+            <div className="summary-item">
+              <CalendarIcon size={20} />
+              <div>
+                <h4>Total Duration</h4>
+                <p>3 months</p>
+              </div>
+            </div>
+            <div className="summary-item">
+              <Clock size={20} />
+              <div>
+                <h4>Active Days</h4>
+                <p>{highlightedDays.length} days</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    }
+
+    return (
+      <div className="calendar-container">
+        <button className="modal-close-button calendar-close" onClick={onClose}>
+          <X size={20} />
+        </button>
+
+        {currentView === "overview" ? renderOverview() : renderMonthView()}
+      </div>
+    )
+  }
+
+  function StudentsView({ students, onBack, onGoToProfile }) {
+    const [filterStatus, setFilterStatus] = useState("All")
+    const [filteredStudents, setFilteredStudents] = useState(students)
+
+    useEffect(() => {
+      if (filterStatus === "All") {
+        setFilteredStudents(students)
+      } else {
+        setFilteredStudents(students.filter((student) => student.internshipStatus === filterStatus))
+      }
+    }, [students, filterStatus])
+
+    const handleFilterChange = (event) => {
+      setFilterStatus(event.target.value)
+    }
+
+    const handleProfileClick = (studentId) => {
+      if (onGoToProfile) {
+        onGoToProfile(studentId)
+      } else {
+        console.log(`Go to profile for student ID: ${studentId}`)
+      }
+    }
+
+    return (
+      <div className="students-section-overlay">
+        <div className="students-view">
+          <div className="students-header">
+            <h2>Students List</h2>
+            <button className="modal-close-button" onClick={onBack}>
+              <X size={20} />
+            </button>
+          </div>
+          <div className="students-filter">
+            <label htmlFor="internshipStatus">Filter by Internship Status:</label>
+            <select id="internshipStatus" value={filterStatus} onChange={handleFilterChange}>
+              <option value="All">All</option>
+              <option value="Not Started">Not Started</option>
+              <option value="Ongoing">Ongoing</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </div>
+          <ul className="students-list">
+            {filteredStudents.map((student) => (
+              <li key={student.id} className="student-card">
+                <div className="profile-circle" onClick={() => handleProfileClick(student.id)}>
+                  {student.name.charAt(0).toUpperCase()}
+                </div>
+                <div className="student-info">
+                  <h3>{student.name}</h3>
+                  <p>ID: {student.id}</p>
+                  <p>Internship Status: {student.internshipStatus}</p>
+                  {student.company && <p>Company: {student.company}</p>}
+                </div>
+              </li>
+            ))}
+            {filteredStudents.length === 0 && <p>No students found with the selected filter.</p>}
+          </ul>
+        </div>
+      </div>
+    )
+  }
+
+  function CompanyPdfViewer({ companyId, companyName, companyIndustry, companyDetails, onAccept, onReject, onClose }) {
+    return (
+      <div className="pdf-viewer-overlay">
+        <div className="pdf-viewer">
+          <div className="pdf-header">
+            <h2>{companyName} - Details</h2>
+            <button className="modal-close-button" onClick={onClose}>
+              <X size={20} />
+            </button>
+          </div>
+          <div className="pdf-content">
+            <p>Industry: {companyIndustry}</p>
+            <p>Legitimacy Proof: {companyDetails.legitimacyProof}</p>
+            <p>Description: {companyDetails.description}</p>
+          </div>
+          <div className="pdf-actions">
+            <button className="accept-button" onClick={() => onAccept(companyId)}>
+              <CheckCircle size={16} /> Accept
+            </button>
+            <button className="reject-button" onClick={() => onReject(companyId)}>
+              <XCircle size={16} /> Reject
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  function InternshipCard({ internship, company, onClick }) {
+    return (
+      <div className="internship-card" onClick={onClick}>
+        <div className="internship-header">
+          <h3>{internship.jobTitle}</h3>
+          <span className={`payment-badge ${internship.isPaid ? "paid" : "unpaid"}`}>
+            {internship.isPaid ? "Paid" : "Unpaid"}
+          </span>
+        </div>
+        <div className="internship-company">
+          <Building size={16} />
+          <span>{company.name}</span>
+        </div>
+        <div className="internship-duration">
+          <Clock size={16} />
+          <span>{internship.duration}</span>
+        </div>
+      </div>
+    )
+  }
+
+  function InternshipsView({ onBack }) {
+    const [searchQuery, setSearchQuery] = useState("")
+    const [selectedIndustry, setSelectedIndustry] = useState("All")
+    const [selectedDuration, setSelectedDuration] = useState("All")
+    const [selectedPayStatus, setSelectedPayStatus] = useState("All")
+    const [selectedInternship, setSelectedInternship] = useState(null)
+
+    // Sample internship data
+    const companies = [
+      { id: 1, name: "Dell Technologies", industry: "Technology" },
+      { id: 2, name: "IBM", industry: "Technology" },
+      { id: 3, name: "PwC", industry: "Consulting" },
+      { id: 4, name: "Microsoft", industry: "Technology" },
+      { id: 5, name: "Amazon", industry: "E-commerce" },
+    ]
+
+    const internships = [
+      {
+        id: 1,
+        companyId: 1,
+        jobTitle: "Software Engineering Intern",
+        duration: "3 months",
+        isPaid: true,
+        salary: 1500,
+        startDate: "June 1, 2024",
+        description: "Join Dell Technologies as a Software Engineering Intern to work on cutting-edge projects.",
+        skills: ["Java", "Python", "Git", "Agile"],
+      },
+      {
+        id: 2,
+        companyId: 2,
+        jobTitle: "Data Science Intern",
+        duration: "6 months",
+        isPaid: true,
+        salary: 2000,
+        startDate: "July 15, 2024",
+        description: "IBM is looking for a Data Science Intern to join our AI research team.",
+        skills: ["Python", "Machine Learning", "Statistics", "SQL"],
+      },
+      {
+        id: 3,
+        companyId: 3,
+        jobTitle: "Business Analyst Intern",
+        duration: "3 months",
+        isPaid: true,
+        salary: 1200,
+        startDate: "June 15, 2024",
+        description: "PwC is seeking a Business Analyst Intern to support our consulting team.",
+        skills: ["Excel", "Data Analysis", "Business Process Modeling", "Communication"],
+      },
+      {
+        id: 4,
+        companyId: 4,
+        jobTitle: "UX Design Intern",
+        duration: "4 months",
+        isPaid: true,
+        salary: 1800,
+        startDate: "August 1, 2024",
+        description: "Microsoft is looking for a UX Design Intern to join our product team.",
+        skills: ["Figma", "UI/UX", "Prototyping", "User Research"],
+      },
+      {
+        id: 5,
+        companyId: 5,
+        jobTitle: "Operations Intern",
+        duration: "3 months",
+        isPaid: false,
+        startDate: "July 1, 2024",
+        description: "Amazon is seeking an Operations Intern to support our logistics team.",
+        skills: ["Supply Chain", "Logistics", "Process Improvement", "Analytics"],
+      },
+    ]
+
+    // Filter internships based on search and filter criteria
+    const filteredInternships = internships.filter((internship) => {
+      const company = companies.find((c) => c.id === internship.companyId)
+
+      // Search filter
+      if (searchQuery) {
+        const query = searchQuery.toLowerCase()
+        const matchesTitle = internship.jobTitle.toLowerCase().includes(query)
+        const matchesCompany = company.name.toLowerCase().includes(query)
+        if (!matchesTitle && !matchesCompany) return false
+      }
+
+      // Industry filter
+      if (selectedIndustry !== "All" && company.industry !== selectedIndustry) {
+        return false
+      }
+
+      // Duration filter
+      if (selectedDuration !== "All" && internship.duration !== selectedDuration) {
+        return false
+      }
+
+      // Payment filter
+      if (selectedPayStatus !== "All") {
+        const isPaid = selectedPayStatus === "Paid"
+        if (internship.isPaid !== isPaid) return false
+      }
+
+      return true
+    })
+
+    // Get unique industries and durations for filters
+    const uniqueIndustries = ["All", ...new Set(companies.map((company) => company.industry))].sort()
+    const uniqueDurations = ["All", ...new Set(internships.map((internship) => internship.duration))].sort()
+
+    const handleInternshipClick = (internship) => {
+      setSelectedInternship(internship)
+    }
+
+    const closeInternshipDetails = () => {
+      setSelectedInternship(null)
+    }
+
+    return (
+      <div className="internships-section-overlay">
+        {!selectedInternship ? (
+          <div className="internships-section">
+            <div className="internships-header">
+              <h2>Available Internships</h2>
+              <button className="modal-close-button" onClick={onBack}>
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="internships-search">
+              <div className="search-input">
+                <Search size={16} />
+                <input
+                  type="text"
+                  placeholder="Search by job title or company name..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div className="internships-filters">
+              <div className="filter-group">
+                <label htmlFor="industry">Industry:</label>
+                <select id="industry" value={selectedIndustry} onChange={(e) => setSelectedIndustry(e.target.value)}>
+                  {uniqueIndustries.map((industry) => (
+                    <option key={industry} value={industry}>
+                      {industry}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="filter-group">
+                <label htmlFor="duration">Duration:</label>
+                <select id="duration" value={selectedDuration} onChange={(e) => setSelectedDuration(e.target.value)}>
+                  {uniqueDurations.map((duration) => (
+                    <option key={duration} value={duration}>
+                      {duration}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="filter-group">
+                <label htmlFor="payStatus">Payment:</label>
+                <select id="payStatus" value={selectedPayStatus} onChange={(e) => setSelectedPayStatus(e.target.value)}>
+                  <option value="All">All</option>
+                  <option value="Paid">Paid</option>
+                  <option value="Unpaid">Unpaid</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="internships-list">
+              {filteredInternships.length > 0 ? (
+                filteredInternships.map((internship) => {
+                  const company = companies.find((c) => c.id === internship.companyId)
+                  return (
+                    <InternshipCard
+                      key={internship.id}
+                      internship={internship}
+                      company={company}
+                      onClick={() => handleInternshipClick(internship)}
+                    />
+                  )
+                })
+              ) : (
+                <div className="no-results">No internships found matching your criteria.</div>
+              )}
+            </div>
+          </div>
+        ) : (
+          <div className="internship-details">
+            <div className="internship-details-header">
+              <h2>{selectedInternship.jobTitle}</h2>
+              <button className="modal-close-button" onClick={closeInternshipDetails}>
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="internship-details-content">
+              <div className="internship-company-info">
+                <h3>
+                  <Building size={18} />
+                  {companies.find((c) => c.id === selectedInternship.companyId).name}
+                </h3>
+                <p className="industry-tag">
+                  <Tag size={14} />
+                  {companies.find((c) => c.id === selectedInternship.companyId).industry}
+                </p>
+              </div>
+
+              <div className="internship-info-grid">
+                <div className="info-item">
+                  <Clock size={18} />
+                  <div>
+                    <h4>Duration</h4>
+                    <p>{selectedInternship.duration}</p>
+                  </div>
+                </div>
+
+                <div className="info-item">
+                  <DollarSign size={18} />
+                  <div>
+                    <h4>Payment</h4>
+                    <p>{selectedInternship.isPaid ? "Paid" : "Unpaid"}</p>
+                    {selectedInternship.isPaid && selectedInternship.salary && (
+                      <p className="salary">${selectedInternship.salary}/month</p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="info-item">
+                  <CalendarIcon size={18} />
+                  <div>
+                    <h4>Start Date</h4>
+                    <p>{selectedInternship.startDate || "Flexible"}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="internship-description">
+                <h3>Job Description</h3>
+                <p>{selectedInternship.description}</p>
+              </div>
+
+              <div className="internship-skills">
+                <h3>Required Skills</h3>
+                <div className="skills-list">
+                  {selectedInternship.skills.map((skill, index) => (
+                    <span key={index} className="skill-tag">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    )
+  }
   return (
     <div className="scad-container">
       <header className="scad-header">
@@ -842,7 +1028,7 @@ function SCAD() {
 
         {showCalendar && (
           <div className="calendar-overlay">
-            <Calendar highlightedDays={highlightedDays} onClose={() => setShowCalendar(false)} />
+            <Calendar highlightedDays={cycleHighlightedDays} onClose={() => setShowCalendar(false)} />
           </div>
         )}
 
