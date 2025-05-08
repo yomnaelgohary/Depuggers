@@ -7,6 +7,7 @@ import "./Faculty.css"
 function Faculty() {
   const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState("students") // 'students' or 'statistics'
+  const [showReportPreview, setShowReportPreview] = useState(false)
 
   const students = [
     {
@@ -85,8 +86,9 @@ function Faculty() {
   const [selectedMajor, setSelectedMajor] = useState("All Majors")
   const [selectedStatus, setSelectedStatus] = useState("All Statuses")
   const [filteredStudents, setFilteredStudents] = useState(students)
-  const [reportType, setReportType] = useState("status")
+  const reportType = "comprehensive" // Always generate comprehensive reports
   const [isGeneratingReport, setIsGeneratingReport] = useState(false)
+  const [generatedReport, setGeneratedReport] = useState(null)
 
   // Apply filters when selections change
   useEffect(() => {
@@ -114,9 +116,107 @@ function Faculty() {
 
     // Simulate report generation
     setTimeout(() => {
+      const currentDate = new Date().toLocaleDateString()
+
+      // Create report data based on selected type
+      const reportData = {
+        title: "",
+        date: currentDate,
+        sections: [],
+      }
+
+      if (reportType === "status" || reportType === "comprehensive") {
+        reportData.sections.push({
+          title: "Status Distribution",
+          data: [
+            { label: "Accepted", value: statistics.statusCounts.accepted },
+            { label: "Rejected", value: statistics.statusCounts.rejected },
+            { label: "Flagged", value: statistics.statusCounts.flagged },
+            { label: "Pending", value: statistics.statusCounts.pending },
+          ],
+        })
+      }
+
+      if (reportType === "courses" || reportType === "comprehensive") {
+        reportData.sections.push({
+          title: "Most Frequently Used Courses",
+          data: statistics.topCourses.map((course) => ({
+            label: course.name,
+            value: `${course.count} internships`,
+          })),
+        })
+      }
+
+      if (reportType === "companies" || reportType === "comprehensive") {
+        reportData.sections.push({
+          title: "Top Rated Companies",
+          data: statistics.topRatedCompanies.map((company) => ({
+            label: company.name,
+            value: `${company.rating}/5`,
+          })),
+        })
+      }
+
+      if (reportType === "internships" || reportType === "comprehensive") {
+        reportData.sections.push({
+          title: "Top Companies by Internship Count",
+          data: statistics.topCompaniesByCount.map((company) => ({
+            label: company.name,
+            value: `${company.count} internships`,
+          })),
+        })
+      }
+
+      // Add average review time to all reports
+      reportData.sections.push({
+        title: "Average Review Time",
+        data: [{ label: "Average Time", value: statistics.averageReviewTime }],
+      })
+
+      // Set report title based on type
+      switch (reportType) {
+        case "status":
+          reportData.title = "Status Distribution Report"
+          break
+        case "courses":
+          reportData.title = "Course Frequency Report"
+          break
+        case "companies":
+          reportData.title = "Company Ratings Report"
+          break
+        case "internships":
+          reportData.title = "Internship Counts Report"
+          break
+        case "comprehensive":
+        default:
+          reportData.title = "Comprehensive Internship Statistics Report"
+          break
+      }
+
+      setGeneratedReport(reportData)
       setIsGeneratingReport(false)
-      alert(`Report on ${reportType} statistics has been generated and is ready for download.`)
+      setShowReportPreview(true)
     }, 1500)
+  }
+
+  // Handle download PDF
+  const handleDownloadPDF = () => {
+    // In a real application, you would use a library like jsPDF or html2pdf
+    // to generate a PDF from the report data
+    // For this example, we'll simulate the download
+
+    alert("PDF download started. The file will be saved to your downloads folder.")
+
+    // Simulate download delay
+    setTimeout(() => {
+      console.log("PDF downloaded")
+    }, 1000)
+  }
+
+  // Close report preview
+  const handleClosePreview = () => {
+    setShowReportPreview(false)
+    setGeneratedReport(null)
   }
 
   return (
@@ -303,25 +403,52 @@ function Faculty() {
             </div>
 
             <div className="report-generation">
-              <h3>Generate Reports</h3>
               <div className="report-form">
-                <div className="report-type-selector">
-                  <label htmlFor="report-type">Report Type:</label>
-                  <select
-                    id="report-type"
-                    value={reportType}
-                    onChange={(e) => setReportType(e.target.value)}
-                    className="report-select"
-                  >
-                    <option value="status">Status Distribution</option>
-                    <option value="courses">Course Frequency</option>
-                    <option value="companies">Company Ratings</option>
-                    <option value="internships">Internship Counts</option>
-                    <option value="comprehensive">Comprehensive Report</option>
-                  </select>
-                </div>
                 <button className="generate-button" onClick={handleGenerateReport} disabled={isGeneratingReport}>
                   {isGeneratingReport ? "Generating..." : "Generate Report"}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Report Preview Modal */}
+        {showReportPreview && generatedReport && (
+          <div className="report-preview-overlay">
+            <div className="report-preview-container">
+              <div className="report-preview-header">
+                <h2>{generatedReport.title}</h2>
+                <button className="close-preview-button" onClick={handleClosePreview}>
+                  ×
+                </button>
+              </div>
+
+              <div className="report-preview-content">
+                <div className="report-meta">
+                  <p>Generated on: {generatedReport.date}</p>
+                  <p>Generated by: Dr. Yasmine</p>
+                </div>
+
+                {generatedReport.sections.map((section, index) => (
+                  <div key={index} className="report-section">
+                    <h3>{section.title}</h3>
+                    <table className="report-table">
+                      <tbody>
+                        {section.data.map((item, i) => (
+                          <tr key={i}>
+                            <td className="report-item-label">{item.label}</td>
+                            <td className="report-item-value">{item.value}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ))}
+              </div>
+
+              <div className="report-preview-footer">
+                <button className="download-pdf-button" onClick={handleDownloadPDF}>
+                  <span className="download-icon">⬇️</span> Download as PDF
                 </button>
               </div>
             </div>
