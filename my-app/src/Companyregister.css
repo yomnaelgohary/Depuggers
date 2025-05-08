@@ -1,0 +1,147 @@
+/* Ensure the app takes full height of the viewport */
+html, body, #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Full-screen background gradient */
+  .get-started-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background: linear-gradient(135deg, #c31432, #240b36);
+  }
+  
+  /* Centered white box for Company Registration */
+  .company-register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background: linear-gradient(135deg, #c31432, #240b36);
+  }
+  
+  /* Company Registration form box */
+  .registration-box {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+    overflow: hidden;
+  }
+  
+  /* Headline styling */
+  .registration-box h2 {
+    color: #c31432;
+    margin-bottom: 25px;
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  
+  /* Input field styling */
+  .input-field {
+    width: 100%;
+    padding: 14px 16px;
+    margin: 12px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
+  
+  .input-field:focus {
+    outline: none;
+    border: 1px solid #c31432;
+    box-shadow: 0 0 5px rgba(195, 20, 50, 0.5);
+  }
+  
+  /* Select field styling */
+  .select-field {
+    width: 100%;
+    padding: 14px 16px;
+    margin: 12px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
+  
+  /* File input styling */
+  .input-field[type="file"] {
+    padding: 10px;
+    font-size: 1rem;
+    color: #555;
+    background-color: #f9f9f9;
+  }
+  
+  /* Error message */
+  .error-text {
+    color: red;
+    font-size: 0.85rem;
+    margin-top: -8px;
+    margin-bottom: 10px;
+  }
+  
+  /* Back button styling */
+  .back-button {
+    background-color: transparent;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+    padding: 10px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .back-button:hover {
+    color: #c31432;
+  }
+  
+  .arrow {
+    font-size: 30px;
+  }
+  
+  /* Submit button styling */
+  .cta-button {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 1.1rem;
+    background-color: #c31432;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 20px; /* Add space above the button */
+  }
+  
+  .cta-button:hover {
+    background-color: #a2122b;
+  }
+  
+  /* File input labels */
+  .input-label {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 20px;
+    display: block;
+    color: #555;
+  }
+  
+  /* Button container for registration */
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+ 
+  

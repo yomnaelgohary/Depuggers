@@ -7,7 +7,7 @@ import SCAD from "./SCAD" // Import the SCAD component
 import Faculty from "./Faculty" // Import the Faculty component
 import ReportView from "./report-view" // Import the ReportView component
 import Company from "./Company"
-
+import CompanyRegister from "./Companyregister"
 // LoginPage component
 function LoginPage() {
   const [email, setEmail] = useState("")
@@ -99,7 +99,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/register-company" element={<CompanyRegistrationPage />} />
+        <Route path="/register-company" element={<CompanyRegister />} />
         <Route path="/dashboard/:role" element={<DashboardWrapper />} />
         <Route path="/SCAD" element={<SCAD />} />
         <Route path="/faculty" element={<Faculty />} />
