@@ -236,19 +236,21 @@ function Faculty() {
       <main className="faculty-main">
         <h2 className="greeting">Hello Dr. Yasmine</h2>
 
-        <div className="tab-navigation">
-          <button
-            className={`tab-button ${activeTab === "students" ? "active" : ""}`}
-            onClick={() => setActiveTab("students")}
-          >
-            Students
-          </button>
-          <button
-            className={`tab-button ${activeTab === "statistics" ? "active" : ""}`}
-            onClick={() => setActiveTab("statistics")}
-          >
-            Statistics
-          </button>
+        <div className="tab-navigation-container">
+          <div className="tab-navigation">
+            <button
+              className={`tab-button ${activeTab === "students" ? "active" : ""}`}
+              onClick={() => setActiveTab("students")}
+            >
+              Students
+            </button>
+            <button
+              className={`tab-button ${activeTab === "statistics" ? "active" : ""}`}
+              onClick={() => setActiveTab("statistics")}
+            >
+              Statistics
+            </button>
+          </div>
         </div>
 
         {activeTab === "students" ? (
@@ -311,9 +313,15 @@ function Faculty() {
                         </td>
                         <td className="comment">{student.comment}</td>
                         <td className="actions">
-                          <button className="view-button" onClick={() => handleViewReport(student.id)}>
-                            View
-                          </button>
+                          {student.status === "Pending" ? (
+                            <button className="view-button" onClick={() => handleViewReport(student.id)}>
+                              View
+                            </button>
+                          ) : (
+                            <button className="details-button" onClick={() => handleViewReport(student.id)}>
+                              Details
+                            </button>
+                          )}
                         </td>
                       </tr>
                     ))
@@ -448,7 +456,23 @@ function Faculty() {
 
               <div className="report-preview-footer">
                 <button className="download-pdf-button" onClick={handleDownloadPDF}>
-                  <span className="download-icon">⬇️</span> Download as PDF
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="download-icon"
+                  >
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                  </svg>
+                  Download as PDF
                 </button>
               </div>
             </div>

@@ -87,11 +87,17 @@ body {
   color: #111827;
 }
 
+/* Tab Navigation Container for centering */
+.tab-navigation-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
 /* Tab Navigation */
 .tab-navigation {
   display: flex;
   gap: 12px;
-  margin-bottom: 24px;
 }
 
 .tab-button {
@@ -232,10 +238,27 @@ body {
   cursor: pointer;
   font-size: 14px;
   transition: background-color 0.2s;
+  font-weight: 500;
 }
 
 .view-button:hover {
   background-color: #7f1d1d; /* Even darker red for hover state */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.details-button {
+  background-color: #4b5563; /* Gray color for details button */
+  color: white;
+  border: none;
+  padding: 6px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.details-button:hover {
+  background-color: #374151; /* Darker gray for hover state */
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
@@ -572,33 +595,49 @@ body {
   text-align: right;
 }
 
-.report-preview-footer {
-  padding: 16px 24px;
-  border-top: 1px solid #e5e7eb;
-  display: flex;
-  justify-content: flex-end;
-}
-
+/* Update the download-pdf-button styles to make it bigger and more proportional */
 .download-pdf-button {
   display: flex;
   align-items: center;
-  gap: 8px;
-  background-color: #9b2c2c;
-  color: white;
-  border: none;
-  padding: 10px 20px;
+  justify-content: center;
+  gap: 10px;
+  background-color: #ffffff;
+  color: #111827;
+  border: 1px solid #e5e7eb;
+  padding: 12px 24px;
   border-radius: 6px;
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  min-width: 220px;
+  height: 50px;
 }
 
 .download-pdf-button:hover {
-  background-color: #7f1d1d;
+  background-color: #f9fafb;
+  border-color: #d1d5db;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.download-pdf-button:active {
+  background-color: #f3f4f6;
+  transform: translateY(1px);
 }
 
 .download-icon {
-  font-size: 16px;
+  font-size: 20px;
+  color: #9b2c2c;
+}
+
+/* Add a new class for the report preview footer to improve spacing */
+.report-preview-footer {
+  padding: 24px;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: center; /* Change from flex-end to center */
+  background-color: #f9fafb;
 }
 
 /* Responsive styles */

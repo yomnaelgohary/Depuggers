@@ -21,9 +21,8 @@ function LoginPage() {
       navigate("/SCAD")
     } else if (email.toLowerCase() === "faculty" && password === "1234") {
       navigate("/faculty")
-    }
-      else if (email.toLowerCase() === "company" && password === "1234") {
-        navigate("/company")
+    } else if (email.toLowerCase() === "company" && password === "1234") {
+      navigate("/company")
     } else {
       setError("Invalid credentials")
     }
@@ -66,30 +65,6 @@ function LoginPage() {
   )
 }
 
-// GetStartedPage component
-function GetStartedPage() {
-  const navigate = useNavigate()
-
-  const handleGetStarted = () => {
-    navigate("/login")
-  }
-
-  return (
-    <div className="get-started-container">
-      <div className="content-box">
-        <h1>Welcome to the GUC Internship System</h1>
-        <p>
-          Manage your internships with ease. Students, faculty, and companies can access everything from applications to
-          progress tracking—all in one place.
-        </p>
-        <button className="get-started-button" onClick={handleGetStarted}>
-          Get Started
-        </button>
-      </div>
-    </div>
-  )
-}
-
 // Placeholder for a company registration page
 function CompanyRegistrationPage() {
   return (
@@ -122,7 +97,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<GetStartedPage />} />
+        <Route path="/" element={<LoginPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register-company" element={<CompanyRegistrationPage />} />
         <Route path="/dashboard/:role" element={<DashboardWrapper />} />

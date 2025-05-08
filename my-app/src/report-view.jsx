@@ -83,153 +83,172 @@ function ReportView() {
   }
 
   return (
-    <div className="report-container">
-      <div className="back-link">
-        <button className="back-button" onClick={handleBackClick}>
-          ← Back
-        </button>
-      </div>
-      
-      <h1 className="report-title">View Report</h1>
-
-      {/* Report Information Card */}
-      <div className="report-card">
-        <h2 className="card-title">Report Information</h2>
-
-        <div className="info-grid">
-          <div className="info-column">
-            <div className="info-item">
-              <div className="info-label">Student</div>
-              <div className="info-value">{studentData.name}</div>
-            </div>
-
-            <div className="info-item">
-              <div className="info-label">Major</div>
-              <div className="info-value">{studentData.major}</div>
-            </div>
-
-            <div className="info-item">
-              <div className="info-label">Company</div>
-              <div className="info-value">{studentData.company}</div>
-            </div>
-          </div>
-
-          <div className="info-column">
-            <div className="info-item">
-              <div className="info-label">Main Supervisor</div>
-              <div className="info-value">{studentData.supervisor}</div>
-            </div>
-
-            <div className="info-item">
-              <div className="info-label">Internship Dates</div>
-              <div className="info-value">{studentData.dates}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Set Status Card */}
-      <div className="report-card">
-        <h2 className="card-title">Set Status</h2>
-
-        <div className="status-options">
-          <label className="status-option">
-            <input
-              type="radio"
-              name="status"
-              checked={status === "Accepted"}
-              onChange={() => handleStatusChange("Accepted")}
-            />
-            <span className="status-text">Accepted</span>
-          </label>
-
-          <label className="status-option">
-            <input
-              type="radio"
-              name="status"
-              checked={status === "Rejected"}
-              onChange={() => handleStatusChange("Rejected")}
-            />
-            <span className="status-text">Rejected</span>
-          </label>
-
-          <label className="status-option">
-            <input
-              type="radio"
-              name="status"
-              checked={status === "Flagged"}
-              onChange={() => handleStatusChange("Flagged")}
-            />
-            <span className="status-text">Flagged</span>
-          </label>
-        </div>
-
-        {/* Display comment if one exists and status is Rejected or Flagged */}
-        {comment && (status === "Rejected" || status === "Flagged") && (
-          <div className="comment-display">
-            <h3>Comment:</h3>
-            <p>{comment}</p>
-            <button className="edit-comment-button" onClick={() => setShowCommentPopup(true)}>
-              Edit Comment
-            </button>
-          </div>
-        )}
-
-        <button className="save-status-button" onClick={handleSaveStatus}>
-          Save Status
-        </button>
-      </div>
-
-      {/* Related Evaluations Card */}
-      <div className="report-card">
-        <h2 className="card-title">Related Student Company Evaluations</h2>
-
-        <div className="evaluation-item">
-          <div className="evaluation-info">
-            <div className="evaluation-icon">
-              <span className="document-icon"></span>
-            </div>
-            <div className="evaluation-details">
-              <div className="evaluation-title">Evaluation #1</div>
-              <div className="evaluation-date">July 1, 2023</div>
-            </div>
-          </div>
-
-          <button className="view-button" onClick={handleViewEvaluation}>
-            View
+    <div className="page-container">
+      <div className="report-container">
+        <div className="back-link">
+          <button className="back-button" onClick={handleBackClick}>
+            ← Back
           </button>
         </div>
 
-        <button className="download-button" onClick={handleDownloadPDF}>
-          <span className="download-icon"></span>
-          Download PDF
-        </button>
-      </div>
+        <h1 className="report-title">View Report</h1>
 
-      {/* Comment Popup */}
-      {showCommentPopup && (
-        <div className="popup-overlay">
-          <div className="comment-popup">
-            <h2>Comment Required</h2>
-            <p>Please provide a reason for {status.toLowerCase()} this report:</p>
-            <textarea
-              className="comment-textarea"
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              placeholder="Enter your comment here..."
-              rows={4}
-            ></textarea>
-            <div className="popup-buttons">
-              <button className="cancel-button" onClick={handleCommentCancel}>
-                Cancel
-              </button>
-              <button className="submit-button" onClick={handleCommentSubmit}>
-                Submit
-              </button>
+        {/* Report Information Card */}
+        <div className="report-card">
+          <h2 className="card-title">Report Information</h2>
+
+          <div className="info-grid">
+            <div className="info-column">
+              <div className="info-item">
+                <div className="info-label">Student</div>
+                <div className="info-value">{studentData.name}</div>
+              </div>
+
+              <div className="info-item">
+                <div className="info-label">Major</div>
+                <div className="info-value">{studentData.major}</div>
+              </div>
+
+              <div className="info-item">
+                <div className="info-label">Company</div>
+                <div className="info-value">{studentData.company}</div>
+              </div>
+            </div>
+
+            <div className="info-column">
+              <div className="info-item">
+                <div className="info-label">Main Supervisor</div>
+                <div className="info-value">{studentData.supervisor}</div>
+              </div>
+
+              <div className="info-item">
+                <div className="info-label">Internship Dates</div>
+                <div className="info-value">{studentData.dates}</div>
+              </div>
             </div>
           </div>
         </div>
-      )}
+
+        {/* Set Status Card */}
+        <div className="report-card">
+          <h2 className="card-title">Set Status</h2>
+
+          <div className="status-options">
+            <label className="status-option">
+              <input
+                type="radio"
+                name="status"
+                checked={status === "Accepted"}
+                onChange={() => handleStatusChange("Accepted")}
+              />
+              <span className="status-text">Accepted</span>
+            </label>
+
+            <label className="status-option">
+              <input
+                type="radio"
+                name="status"
+                checked={status === "Rejected"}
+                onChange={() => handleStatusChange("Rejected")}
+              />
+              <span className="status-text">Rejected</span>
+            </label>
+
+            <label className="status-option">
+              <input
+                type="radio"
+                name="status"
+                checked={status === "Flagged"}
+                onChange={() => handleStatusChange("Flagged")}
+              />
+              <span className="status-text">Flagged</span>
+            </label>
+          </div>
+
+          {/* Display comment if one exists and status is Rejected or Flagged */}
+          {comment && (status === "Rejected" || status === "Flagged") && (
+            <div className="comment-display">
+              <h3>Comment:</h3>
+              <p>{comment}</p>
+              <button className="edit-comment-button" onClick={() => setShowCommentPopup(true)}>
+                Edit Comment
+              </button>
+            </div>
+          )}
+
+          <button className="save-status-button" onClick={handleSaveStatus}>
+            Save Status
+          </button>
+        </div>
+
+        {/* Related Evaluations Card */}
+        <div className="report-card">
+          <h2 className="card-title">Related Student Company Evaluations</h2>
+
+          <div className="evaluation-item">
+            <div className="evaluation-info">
+              <div className="evaluation-icon">
+                <span className="document-icon"></span>
+              </div>
+              <div className="evaluation-details">
+                <div className="evaluation-title">Evaluation #1</div>
+                <div className="evaluation-date">July 1, 2023</div>
+              </div>
+            </div>
+
+            <button className="view-button" onClick={handleViewEvaluation}>
+              View
+            </button>
+          </div>
+
+          <div className="download-button-container">
+            <button className="download-button" onClick={handleDownloadPDF}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="download-icon"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              Download PDF
+            </button>
+          </div>
+        </div>
+
+        {/* Comment Popup */}
+        {showCommentPopup && (
+          <div className="popup-overlay">
+            <div className="comment-popup">
+              <h2>Comment Required</h2>
+              <p>Please provide a reason for {status.toLowerCase()} this report:</p>
+              <textarea
+                className="comment-textarea"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                placeholder="Enter your comment here..."
+                rows={4}
+              ></textarea>
+              <div className="popup-buttons">
+                <button className="cancel-button" onClick={handleCommentCancel}>
+                  Cancel
+                </button>
+                <button className="submit-button" onClick={handleCommentSubmit}>
+                  Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   )
 }
