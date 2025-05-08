@@ -2162,339 +2162,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.statistics-section {
-  background-color: #fff;
-  border-radius: 8px;
-  max-width: 900px;
-  max-height: 85vh;
-  overflow-y: auto;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  padding: 20px;
-  z-index: 1000;
-  width: 90%;
-}
-
-.statistics-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.statistics-header h2 {
-  font-size: 22px;
-  font-weight: 600;
-  color: #333;
-  margin: 0;
-}
-
-.statistics-content {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 20px;
-}
-
-.statistics-card {
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.statistics-card-header {
-  background-color: #f0f2f5;
-  padding: 15px;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.statistics-card-header h3 {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 16px;
-  font-weight: 600;
-  color: #333;
-  margin: 0;
-}
-
-.statistics-card-content {
-  padding: 15px;
-}
-
-/* Bar Chart Styles */
-.bar-chart {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.bar-chart-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.bar-chart-label {
-  width: 150px;
-  font-size: 14px;
-  color: #555;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.bar-chart-bar-container {
-  flex: 1;
-  height: 20px;
-  background-color: #e0e0e0;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.bar-chart-bar {
-  height: 100%;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding-right: 10px;
-  color: white;
-  font-size: 12px;
-  font-weight: 500;
-}
-
-.bar-chart-bar.course-bar {
-  background-color: #2196f3;
-}
-
-.bar-chart-bar.company-bar {
-  background-color: #c31432;
-}
-
-.bar-chart-value {
-  font-size: 12px;
-  font-weight: 500;
-}
-
-/* Pie Chart Styles */
-.pie-chart-container {
-  display: flex;
-  justify-content: center;
-  padding: 10px 0;
-}
-
-.pie-chart {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.pie-chart-visualization {
-  width: 120px;
-  height: 120px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.pie-chart-placeholder {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #c31432;
-}
-
-.pie-chart-legend {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.pie-chart-legend-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.pie-chart-legend-color {
-  width: 16px;
-  height: 16px;
-  border-radius: 4px;
-}
-
-.pie-chart-legend-label {
-  font-size: 14px;
-  color: #555;
-}
-
-/* Statistics Summary Styles */
-.statistics-summary {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 15px;
-  padding-top: 15px;
-  border-top: 1px solid #e0e0e0;
-}
-
-.summary-item {
-  text-align: center;
-}
-
-.summary-label {
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 5px;
-}
-
-.summary-value {
-  font-size: 20px;
-  font-weight: 600;
-  color: #333;
-}
-
-/* Review Time Stats Styles */
-.review-time-stats {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 15px;
-}
-
-.review-time-item {
-  text-align: center;
-}
-
-.review-time-value {
-  font-size: 24px;
-  font-weight: 600;
-  color: #c31432;
-}
-
-.review-time-label {
-  font-size: 14px;
-  color: #666;
-}
-
-.review-time-note {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
-  color: #777;
-  padding: 10px;
-  background-color: #f0f2f5;
-  border-radius: 4px;
-}
-
-/* Top Rated Companies Styles */
-.top-rated-companies {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.top-rated-company {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 10px;
-  background-color: #f0f2f5;
-  border-radius: 6px;
-}
-
-.company-rank {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: #c31432;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  font-size: 14px;
-}
-
-.company-info {
-  flex: 1;
-}
-
-.company-name {
-  font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 5px;
-  color: #333;
-}
-
-/* Star Rating Styles */
-.star-rating {
-  display: flex;
-  align-items: center;
-}
-
-.star-filled {
-  color: #ffca28;
-}
-
-.star-half {
-  color: #ffca28;
-  opacity: 0.5;
-}
-
-.star-empty {
-  color: #e0e0e0;
-}
-
-.rating-value {
-  margin-left: 5px;
-  font-size: 12px;
-  color: #666;
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-  .statistics-content {
-    grid-template-columns: 1fr;
-  }
-
-  .pie-chart {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .statistics-summary {
-    flex-direction: column;
-    gap: 15px;
-    align-items: center;
-  }
-
-  .review-time-stats {
-    flex-direction: column;
-    gap: 15px;
-    align-items: center;
-  }
-  /* SCAD.css */
-
-/* ... (all your existing styles) ... */
-
-/* Statistics Section Styles */
-.statistics-section-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
-  z-index: 999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   padding: 20px; /* Add padding for smaller screens */
 }
 
@@ -2553,7 +2220,6 @@ body {
   background-color: #cccccc;
   cursor: not-allowed;
 }
-
 
 .statistics-content {
   display: grid;
@@ -2828,16 +2494,18 @@ body {
   display: flex;
   align-items: center;
 }
-.star-rating svg { /* Direct styling for Lucide icons */
-    margin-right: 2px;
+.star-rating svg {
+  /* Direct styling for Lucide icons */
+  margin-right: 2px;
 }
 
 .star-filled {
   color: #ffc107; /* Standard yellow for stars */
 }
 
-.star-half { /* Simplified half star, rely on Lucide's rendering or use two overlapping */
-  color: #ffc107; 
+.star-half {
+  /* Simplified half star, rely on Lucide's rendering or use two overlapping */
+  color: #ffc107;
   /* For true half star, you might need more complex CSS or a specific half-star icon */
 }
 
@@ -2872,7 +2540,8 @@ body {
     flex-direction: column; /* Stack pie and legend */
     align-items: center;
   }
-  .statistics-summary, .review-time-stats {
+  .statistics-summary,
+  .review-time-stats {
     flex-direction: column;
     align-items: center;
     gap: 20px;
@@ -2881,7 +2550,6 @@ body {
 /* SCAD.css */
 
 /* ... (all your existing styles) ... */
-
 
 /* Appointment Modal Styles */
 /* SCAD.css */
@@ -2962,7 +2630,8 @@ html body .appointment-modal-overlay > .appointment-modal {
 }
 
 /* --- Modal Content (Form Area) --- */
-.appointment-modal > form.appointment-form { /* Target form directly if possible */
+.appointment-modal > form.appointment-form {
+  /* Target form directly if possible */
   box-sizing: border-box;
   padding: 20px 25px 25px 25px;
   overflow-y: auto; /* Make this scrollable */
@@ -3010,9 +2679,10 @@ html body .appointment-modal-overlay > .appointment-modal {
   box-shadow: 0 0 0 3px rgba(195, 20, 50, 0.15);
   outline: 0;
 }
-.form-group select { /* Basic appearance reset */
+.form-group select {
+  /* Basic appearance reset */
   appearance: none;
-  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23888%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23888%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
   background-repeat: no-repeat;
   background-position: right 0.75rem center;
   background-size: 0.6em;
@@ -3041,10 +2711,21 @@ html body .appointment-modal-overlay > .appointment-modal {
   margin-top: 15px;
   width: 100%;
 }
-.submit-appointment-button:hover:not(:disabled) { background-color: #a01129; }
-.submit-appointment-button:active:not(:disabled) { transform: translateY(1px); }
-.submit-appointment-button:disabled { background-color: #e0e0e0; color: #999; cursor: not-allowed; }
-.submit-appointment-button svg { width: 16px; height: 16px; }
+.submit-appointment-button:hover:not(:disabled) {
+  background-color: #a01129;
+}
+.submit-appointment-button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+.submit-appointment-button:disabled {
+  background-color: #e0e0e0;
+  color: #999;
+  cursor: not-allowed;
+}
+.submit-appointment-button svg {
+  width: 16px;
+  height: 16px;
+}
 
 /* --- Confirmation Dialog --- */
 /* Also uses .appointment-modal-overlay */
@@ -3068,11 +2749,31 @@ html body .appointment-modal-overlay > .appointment-confirmation-dialog {
   overflow: visible !important;
   border: 4px dashed #ffff00 !important; /* BRIGHT YELLOW DEBUG BORDER */
 }
-.confirmation-icon-success { color: #28a745; margin-bottom: 5px; }
-.confirmation-icon-success svg { width: 48px; height: 48px; }
-.appointment-confirmation-dialog h3 { font-size: 20px; font-weight: 600; color: #333; margin: 0; }
-.appointment-confirmation-dialog p { font-size: 15px; color: #555; line-height: 1.6; margin-bottom: 10px; }
-.appointment-confirmation-dialog .submit-appointment-button { margin-top: 10px; width: auto; padding: 10px 30px; }
+.confirmation-icon-success {
+  color: #28a745;
+  margin-bottom: 5px;
+}
+.confirmation-icon-success svg {
+  width: 48px;
+  height: 48px;
+}
+.appointment-confirmation-dialog h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+.appointment-confirmation-dialog p {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+.appointment-confirmation-dialog .submit-appointment-button {
+  margin-top: 10px;
+  width: auto;
+  padding: 10px 30px;
+}
 
 /* ============================================= */
 /* == END: FOCUSED Appointment Modal CSS Override == */
@@ -3113,14 +2814,14 @@ html body .appointment-modal-overlay > .appointment-confirmation-dialog {
   text-align: center;
   max-width: 600px;
   width: 100%;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .request-appointment-cta-box:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
   border-color: #c31432;
 }
 
@@ -3158,4 +2859,1394 @@ html body .appointment-modal-overlay > .appointment-confirmation-dialog {
 .request-appointment-cta-box .cta-button:hover {
   background-color: #a01129;
 }
+
+/* Remove the debug borders that were added for testing */
+html body .appointment-modal-overlay {
+  border: none !important;
+}
+
+html body .appointment-modal-overlay > .appointment-modal {
+  border: none !important;
+}
+
+html body .appointment-modal-overlay > .appointment-confirmation-dialog {
+  border: none !important;
+}
+
+/* Add smooth transitions for better UX */
+.appointment-modal {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Animation for modal entry */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.appointment-modal {
+  animation: modalFadeIn 0.3s ease forwards;
+}
+
+/* Improve form field focus states */
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #c31432;
+  box-shadow: 0 0 0 3px rgba(195, 20, 50, 0.15);
+  outline: none;
+}
+
+/* Add hover effects to form fields */
+.form-group input[type="text"]:hover,
+.form-group input[type="email"]:hover,
+.form-group select:hover,
+.form-group textarea:hover {
+  border-color: #aaa;
+}
+
+/* Improve select dropdown styling */
+.form-group select {
+  cursor: pointer;
+  background-color: #fff;
+}
+
+/* Style placeholder text */
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+/* Add responsive styles for smaller screens */
+@media (max-width: 768px) {
+  .appointment-modal {
+    width: 95%;
+    max-width: none;
+  }
+
+  .appointment-form {
+    padding: 15px;
+  }
+
+  .form-group label {
+    font-size: 12px;
+  }
+
+  .form-group input[type="text"],
+  .form-group input[type="email"],
+  .form-group select,
+  .form-group textarea {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .submit-appointment-button {
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .appointment-modal-header {
+    padding: 12px 15px;
+  }
+
+  .appointment-modal-header h2 {
+    font-size: 16px;
+  }
+
+  .appointment-modal-subtitle {
+    font-size: 13px;
+    margin-bottom: 15px;
+  }
+
+  .form-group {
+    gap: 4px;
+  }
+
+  .appointment-confirmation-dialog {
+    padding: 20px;
+  }
+
+  .confirmation-icon-success svg {
+    width: 40px;
+    height: 40px;
+  }
+
+  .appointment-confirmation-dialog h3 {
+    font-size: 18px;
+  }
+
+  .appointment-confirmation-dialog p {
+    font-size: 14px;
+  }
+}
+
+/* Improve the close button styling */
+.modal-close-button {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.modal-close-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.modal-close-button:active {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Add a subtle hover effect to the submit button */
+.submit-appointment-button:hover:not(:disabled) {
+  background-color: #a01129;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.submit-appointment-button:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+/* Style the optional fields differently */
+.form-group label[for="studentId"]:after,
+.form-group label[for="message"]:after {
+  content: " (Optional)";
+  font-size: 11px;
+  color: #888;
+  font-weight: normal;
+}
+
+/* Add a subtle background pattern to the modal header */
+.appointment-modal-header {
+  background-color: #f9f9f9;
+  background-image: linear-gradient(
+    45deg,
+    #f5f5f5 25%,
+    transparent 25%,
+    transparent 50%,
+    #f5f5f5 50%,
+    #f5f5f5 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 20px 20px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Add a subtle shadow to the form fields */
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group select,
+.form-group textarea {
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Add a subtle transition to form fields */
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group select,
+.form-group textarea {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Style the confirmation dialog button */
+.appointment-confirmation-dialog .submit-appointment-button {
+  margin-top: 15px;
+  width: auto;
+  min-width: 120px;
+}
+
+/* Add a subtle animation to the success icon */
+@keyframes successPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.confirmation-icon-success {
+  animation: successPulse 1s ease-in-out;
+}
+
+/* Add focus styles for accessibility */
+.modal-close-button:focus,
+.submit-appointment-button:focus,
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(195, 20, 50, 0.25);
+}
+
+/* Add styles for form validation */
+.form-group input:invalid,
+.form-group select:invalid,
+.form-group textarea:invalid {
+  border-color: #dc3545;
+}
+
+.form-group input:invalid:focus,
+.form-group select:invalid:focus,
+.form-group textarea:invalid:focus {
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.25);
+}
+
+/* Add styles for the appointments section to appear as a box in the middle of the page */
+.appointments-section-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  width: 100%;
+}
+
+.appointments-section {
+  background-color: #ffffff;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 850px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  animation: fadeIn 0.3s ease forwards;
+  border: 1px solid #e0e0e0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.appointments-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+  border-bottom: 1px solid #dee2e6;
+  background-color: #f8f9fa;
+}
+
+.appointments-header h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #212529;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.appointments-list {
+  padding: 20px 30px;
+  background-color: #f8f9fa;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.appointment-entry {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px 25px;
+  margin-bottom: 25px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.appointment-entry:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.appointment-info h4 {
+  font-size: 19px;
+  font-weight: 600;
+  color: #c31432;
+  margin-bottom: 10px;
+}
+
+.appointment-info p {
+  font-size: 15px;
+  color: #495057;
+  margin-bottom: 6px;
+  line-height: 1.6;
+}
+
+.appointment-info p .online-indicator,
+.appointment-info p .offline-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 8px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.85em;
+}
+
+.online-indicator {
+  color: #1d9245;
+  background-color: #e8f5e9;
+  font-weight: 500;
+}
+
+.offline-indicator {
+  color: #545b62;
+  background-color: #e9ecef;
+  font-style: normal;
+}
+
+.pending-info {
+  font-size: 14px;
+  color: #6c757d;
+  font-style: italic;
+  margin-top: 10px;
+  padding: 8px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  border-left: 3px solid #ffc107;
+}
+
+.appointment-actions {
+  margin-top: 18px;
+  padding-top: 15px;
+  border-top: 1px dashed #ced4da;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.appointment-actions .action-btn,
+.appointment-actions .call-action-btn {
+  padding: 10px 18px;
+  border-radius: 6px;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.appointment-actions .action-btn:hover,
+.appointment-actions .call-action-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.appointment-actions .action-btn.accept {
+  background-color: #28a745;
+  color: white;
+}
+
+.appointment-actions .action-btn.accept:hover {
+  background-color: #218838;
+}
+
+.appointment-actions .action-btn.reject {
+  background-color: #dc3545;
+  color: white;
+}
+
+.appointment-actions .action-btn.reject:hover {
+  background-color: #c82333;
+}
+
+.appointment-actions .action-btn.primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.appointment-actions .action-btn.primary:hover {
+  background-color: #0056b3;
+}
+
+.appointment-actions .action-btn.secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.appointment-actions .action-btn.secondary:hover {
+  background-color: #5a6268;
+}
+
+.incoming-call-info {
+  margin-top: 15px;
+  padding: 15px;
+  background-color: #e6f7ff;
+  border-left: 4px solid #007bff;
+  border-radius: 6px;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(0, 123, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
+  }
+}
+
+.incoming-call-info p {
+  font-size: 16px;
+  font-weight: 500;
+  color: #0056b3;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.call-action-btn.accept-call {
+  background-color: #28a745;
+  color: white;
+}
+
+.call-action-btn.accept-call:hover {
+  background-color: #218838;
+}
+
+.call-action-btn.reject-call {
+  background-color: #dc3545;
+  color: white;
+}
+
+.call-action-btn.reject-call:hover {
+  background-color: #c82333;
+}
+
+.call-controls-container {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.in-call-status strong {
+  font-size: 17px;
+  color: #007bff;
+  margin-bottom: 15px;
+  display: block;
+}
+
+.call-controls {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+  justify-content: center;
+}
+
+.call-controls .control-btn {
+  padding: 10px 15px;
+  border-radius: 6px;
+  border: 1px solid #adb5bd;
+  background-color: #ffffff;
+  color: #495057;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  min-width: 120px;
+  justify-content: center;
+}
+
+.call-controls .control-btn:hover {
+  background-color: #e9ecef;
+  border-color: #6c757d;
+  transform: translateY(-1px);
+}
+
+.call-controls .control-btn.disabled {
+  background-color: #ffe0e0;
+  color: #c82333;
+  border-color: #f5c6cb;
+}
+
+.call-controls .control-btn.active {
+  background-color: #d4edda;
+  color: #155724;
+  border-color: #c3e6cb;
+}
+
+.call-actions-footer {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed #ced4da;
+}
+
+.call-actions-footer .control-btn.leave {
+  background-color: #dc3545;
+  color: white;
+  border-color: #dc3545;
+  flex-grow: 1;
+}
+
+.call-actions-footer .control-btn.leave:hover {
+  background-color: #c82333;
+}
+
+.call-actions-footer .control-btn.secondary {
+  background-color: #6c757d;
+  color: white;
+  border-color: #6c757d;
+}
+
+.call-actions-footer .control-btn.secondary:hover {
+  background-color: #5a6268;
+}
+
+.call-notification {
+  font-size: 13px;
+  color: #6c757d;
+  font-style: italic;
+  margin-top: 15px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .appointments-section {
+    width: 95%;
+  }
+
+  .call-controls {
+    flex-direction: column;
+  }
+
+  .call-controls .control-btn {
+    width: 100%;
+  }
+
+  .call-actions-footer {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .appointments-header {
+    padding: 15px;
+  }
+
+  .appointments-list {
+    padding: 15px;
+  }
+
+  .appointment-entry {
+    padding: 15px;
+  }
+}
+/* SCAD.css */
+
+/* ... (all your existing styles) ... */
+
+/* My Appointments Modal Styles */
+/* SCAD.css */
+
+/* ... (all your existing styles) ... */
+
+/* My Appointments Modal Styles */
+.my-appointments-overlay {
+  position: fixed;
+  inset: 0; /* top, right, bottom, left = 0 */
+  background-color: rgba(0, 0, 0, 0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.my-appointments-modal {
+  background-color: #ffffff;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 850px;
+  max-height: 90vh;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+  z-index: 2001;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.my-appointments-list {
+  overflow-y: auto; /* Ensures only the list scrolls */
+  flex-grow: 1;
+  padding: 20px 30px;
+  background-color: #f8f9fa;
+}
+
+.my-appointments-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px; /* Increased padding */
+  border-bottom: 1px solid #dee2e6; /* Lighter border */
+  background-color: #f8f9fa;
+}
+
+.my-appointments-header h2 {
+  font-size: 22px; /* Larger title */
+  font-weight: 600;
+  color: #212529; /* Darker text */
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.appointment-entry {
+  background-color: #ffffff; /* White cards */
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px 25px; /* Good padding inside cards */
+  margin-bottom: 25px; /* More spacing between cards */
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.2s ease-in-out;
+}
+.appointment-entry:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+}
+
+.appointment-info h4 {
+  font-size: 19px; /* Larger appointment title */
+  font-weight: 600; /* Bolder */
+  color: #c31432;
+  margin-bottom: 10px;
+}
+
+.appointment-info p {
+  font-size: 15px; /* Slightly larger text */
+  color: #495057; /* Darker gray for better readability */
+  margin-bottom: 6px;
+  line-height: 1.6;
+}
+.appointment-info p .online-indicator,
+.appointment-info p .offline-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 8px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.85em;
+}
+.online-indicator {
+  color: #1d9245;
+  background-color: #e8f5e9;
+  font-weight: 500;
+}
+.offline-indicator {
+  color: #545b62;
+  background-color: #e9ecef;
+  font-style: normal;
+}
+
+.pending-info {
+  font-size: 14px;
+  color: #6c757d;
+  font-style: italic;
+  margin-top: 10px;
+  padding: 8px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  border-left: 3px solid #ffc107; /* Pending yellow */
+}
+
+.appointment-actions {
+  margin-top: 18px;
+  padding-top: 15px;
+  border-top: 1px dashed #ced4da; /* Dashed separator */
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.appointment-actions .action-btn,
+.appointment-actions .call-action-btn {
+  padding: 10px 18px; /* Larger buttons */
+  border-radius: 6px;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  display: inline-flex; /* For icon and text alignment */
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* Space between icon and text */
+}
+.appointment-actions .action-btn:hover,
+.appointment-actions .call-action-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.appointment-actions .action-btn.accept {
+  background-color: #28a745;
+  color: white;
+}
+.appointment-actions .action-btn.accept:hover {
+  background-color: #218838;
+}
+
+.appointment-actions .action-btn.reject {
+  background-color: #dc3545;
+  color: white;
+}
+.appointment-actions .action-btn.reject:hover {
+  background-color: #c82333;
+}
+
+.appointment-actions .action-btn.primary {
+  background-color: #007bff;
+  color: white;
+}
+.appointment-actions .action-btn.primary:hover {
+  background-color: #0056b3;
+}
+.appointment-actions .action-btn.secondary {
+  background-color: #6c757d;
+  color: white;
+  border-color: #6c757d;
+}
+.appointment-actions .action-btn.secondary:hover {
+  background-color: #5a6268;
+}
+
+.incoming-call-info {
+  margin-top: 15px;
+  padding: 15px;
+  background-color: #e6f7ff; /* Light blue for incoming call */
+  border-left: 4px solid #007bff;
+  border-radius: 6px;
+}
+.incoming-call-info p {
+  font-size: 16px;
+  font-weight: 500;
+  color: #0056b3;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+}
+.call-action-btn.accept-call {
+  background-color: #28a745;
+  color: white;
+}
+.call-action-btn.accept-call:hover {
+  background-color: #218838;
+}
+.call-action-btn.reject-call {
+  background-color: #dc3545;
+  color: white;
+}
+.call-action-btn.reject-call:hover {
+  background-color: #c82333;
+}
+
+.call-controls-container {
+  margin-top: 20px;
+  padding: 20px; /* More padding */
+  border-top: 1px solid #e0e0e0; /* Solid separator */
+  background-color: #f8f9fa; /* Light bg for call controls section */
+  border-radius: 6px;
+}
+.in-call-status strong {
+  font-size: 17px; /* Larger status text */
+  color: #007bff; /* Blue for active call */
+  margin-bottom: 15px; /* More space */
+  display: block;
+}
+
+.call-controls {
+  display: flex;
+  gap: 12px; /* More gap */
+  flex-wrap: wrap;
+  margin-bottom: 15px; /* Space before footer actions */
+}
+
+.call-controls .control-btn {
+  padding: 10px 15px;
+  border-radius: 6px;
+  border: 1px solid #adb5bd; /* Standard border */
+  background-color: #ffffff; /* White buttons */
+  color: #495057; /* Darker text */
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+.call-controls .control-btn:hover {
+  background-color: #e9ecef;
+  border-color: #6c757d;
+  transform: translateY(-1px);
+}
+.call-controls .control-btn.disabled {
+  background-color: #ffe0e0;
+  color: #c82333;
+  border-color: #f5c6cb;
+}
+.call-controls .control-btn.active {
+  background-color: #d4edda;
+  color: #155724;
+  border-color: #c3e6cb;
+}
+
+.call-actions-footer {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed #ced4da;
+}
+
+.call-actions-footer .control-btn.leave {
+  background-color: #dc3545;
+  color: white;
+  border-color: #dc3545;
+  flex-grow: 1; /* Make leave button more prominent if needed */
+}
+.call-actions-footer .control-btn.leave:hover {
+  background-color: #c82333;
+}
+.call-actions-footer .control-btn.secondary {
+  background-color: #6c757d;
+  color: white;
+  border-color: #6c757d;
+}
+.call-actions-footer .control-btn.secondary:hover {
+  background-color: #5a6268;
+}
+
+.call-notification {
+  font-size: 13px;
+  color: #6c757d;
+  font-style: italic;
+  margin-top: 15px;
+}
+
+/* Removed .appointment-feature-list as features are now interactive */
+
+.appointment-feature-list {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f0f2f5;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+}
+.appointment-feature-list h5 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+}
+.appointment-feature-list ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin: 0;
+}
+.appointment-feature-list li {
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+/* Remove debug borders */
+html body .appointment-modal-overlay {
+  border: none !important;
+}
+
+html body .appointment-modal-overlay > .appointment-modal {
+  border: none !important;
+}
+
+html body .appointment-modal-overlay > .appointment-confirmation-dialog {
+  border: none !important;
+}
+
+/* Update the My Appointments Modal Styles for better centering and appearance */
+
+/* Ensure the modal overlay covers the entire screen and centers the modal */
+.my-appointments-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Enhance the modal appearance */
+.my-appointments-modal {
+  background-color: #ffffff;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 850px;
+  max-height: 90vh;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+  z-index: 2001;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: modalFadeIn 0.3s ease forwards;
+}
+
+/* Add animation for modal entry */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.my-appointments-list {
+  overflow-y: auto;
+  flex-grow: 1;
+  padding: 20px 30px;
+  background-color: #f8f9fa;
+}
+
+/* Improve the appointment entries */
+.appointment-entry {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px 25px;
+  margin-bottom: 25px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.appointment-entry:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+/* Enhance the call controls */
+.call-controls-container {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.call-controls {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+  justify-content: center;
+}
+
+.call-controls .control-btn {
+  padding: 10px 15px;
+  border-radius: 6px;
+  border: 1px solid #adb5bd;
+  background-color: #ffffff;
+  color: #495057;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  min-width: 120px;
+  justify-content: center;
+}
+
+/* Improve the incoming call notification with animation */
+.incoming-call-info {
+  margin-top: 15px;
+  padding: 15px;
+  background-color: #e6f7ff;
+  border-left: 4px solid #007bff;
+  border-radius: 6px;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(0, 123, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
+  }
+}
+
+/* Enhance the online/offline indicators */
+.online-indicator {
+  color: #1d9245;
+  background-color: #e8f5e9;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.offline-indicator {
+  color: #545b62;
+  background-color: #e9ecef;
+  font-style: normal;
+  padding: 3px 8px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Improve button styling */
+.appointment-actions .action-btn,
+.appointment-actions .call-action-btn {
+  padding: 10px 18px;
+  border-radius: 6px;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.appointment-actions .action-btn:hover,
+.appointment-actions .call-action-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .my-appointments-modal {
+    width: 95%;
+  }
+
+  .call-controls {
+    flex-direction: column;
+  }
+
+  .call-controls .control-btn {
+    width: 100%;
+  }
+
+  .call-actions-footer {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .my-appointments-header {
+    padding: 15px;
+  }
+
+  .my-appointments-list {
+    padding: 15px;
+  }
+
+  .appointment-entry {
+    padding: 15px;
+  }
+}
+
+/* Add styles for the notification system */
+.notification-bell-container {
+  position: relative;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #c31432;
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  animation: pulse-badge 1.5s infinite;
+}
+
+@keyframes pulse-badge {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.notifications-panel {
+  position: absolute;
+  top: 45px;
+  right: -10px;
+  width: 320px;
+  max-height: 400px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  overflow: hidden;
+  animation: slideDown 0.3s ease forwards;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.notifications-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #f8f9fa;
+}
+
+.notifications-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.clear-notifications {
+  background: none;
+  border: none;
+  color: #6c757d;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.clear-notifications:hover {
+  background-color: #e9ecef;
+  color: #495057;
+}
+
+.notifications-list {
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.notification-item {
+  display: flex;
+  padding: 12px 15px;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.notification-item:hover {
+  background-color: #f8f9fa;
+}
+
+.notification-item.unread {
+  background-color: #f0f7ff;
+}
+
+.notification-item.unread:hover {
+  background-color: #e6f2ff;
+}
+
+.notification-icon {
+  margin-right: 12px;
+  display: flex;
+  align-items: flex-start;
+  padding-top: 2px;
+}
+
+.notification-item.success .notification-icon {
+  color: #28a745;
+}
+
+.notification-item.error .notification-icon {
+  color: #dc3545;
+}
+
+.notification-item.info .notification-icon {
+  color: #17a2b8;
+}
+
+.notification-item.call .notification-icon {
+  color: #007bff;
+}
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-content p {
+  margin: 0 0 5px 0;
+  font-size: 14px;
+  color: #212529;
+  line-height: 1.4;
+}
+
+.notification-time {
+  font-size: 12px;
+  color: #6c757d;
+}
+
+.no-notifications {
+  padding: 20px;
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+}
+
+/* Enhance the incoming call animation */
+.incoming-call-info {
+  animation: pulse-call 1.5s infinite, shake 0.5s infinite;
+}
+
+@keyframes pulse-call {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(0, 123, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-2px);
+  }
+  75% {
+    transform: translateX(2px);
+  }
+}
+
+/* Enhance online/offline indicators */
+.online-indicator {
+  position: relative;
+  padding-left: 20px;
+}
+
+.online-indicator::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  background-color: #28a745;
+  border-radius: 50%;
+  animation: pulse-online 2s infinite;
+}
+
+@keyframes pulse-online {
+  0% {
+    box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(40, 167, 69, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+  }
+}
+
+.offline-indicator {
+  position: relative;
+  padding-left: 20px;
+}
+
+.offline-indicator::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  background-color: #6c757d;
+  border-radius: 50%;
 }

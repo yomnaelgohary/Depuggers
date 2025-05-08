@@ -11,9 +11,8 @@ import {
   PenToolIcon as Tool,
   Bell,
   Phone,
-  MessageCircle,
   X,
-  CheckCircle, // Keep this
+  CheckCircle,
   XCircle,
   Download,
   Search,
@@ -33,8 +32,57 @@ import {
   Star,
   BookOpen,
   PieChart,
-  Send, // Added for submit button
+  Send,
+  Video,
+  VideoOff,
+  Mic,
+  MicOff,
+  ScreenShare,
+  ScreenShareOff,
+  PhoneOff,
+  ListChecks,
+  PhoneIncoming,
+  UserCheck,
+  UserX,
 } from "lucide-react"
+
+// Add these styles after the imports
+const bellStyles = `
+  .notification-bell {
+    position: relative;
+    background-color: #f0f0f0;
+    border-radius: 50%;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .notification-bell:hover {
+    background-color: #e0e0e0;
+    transform: scale(1.05);
+  }
+  
+  .notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #ff4757;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+  }
+`
 
 // New Modal Component for Appointment Request
 function AppointmentRequestModal({ onClose, onSubmit }) {
@@ -46,26 +94,26 @@ function AppointmentRequestModal({ onClose, onSubmit }) {
     reportDetails: "", // For report clarification
     preferredTime: "",
     message: "",
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
-    }));
-  };
+    }))
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+    e.preventDefault()
+    setIsSubmitting(true)
     // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000)); 
-    onSubmit(formData); // Pass data to parent
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    onSubmit(formData) // Pass data to parent
     // Parent will handle closing and confirmation
-    setIsSubmitting(false); 
-  };
+    setIsSubmitting(false)
+  }
 
   return (
     <div className="appointment-modal-overlay">
@@ -82,45 +130,19 @@ function AppointmentRequestModal({ onClose, onSubmit }) {
           </p>
           <div className="form-group">
             <label htmlFor="name">Full Name</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
+            <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required />
           </div>
           <div className="form-group">
             <label htmlFor="email">Email Address</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
+            <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required />
           </div>
-           <div className="form-group">
+          <div className="form-group">
             <label htmlFor="studentId">Student ID (Optional)</label>
-            <input
-              type="text"
-              id="studentId"
-              name="studentId"
-              value={formData.studentId}
-              onChange={handleChange}
-            />
+            <input type="text" id="studentId" name="studentId" value={formData.studentId} onChange={handleChange} />
           </div>
           <div className="form-group">
             <label htmlFor="reason">Reason for Appointment</label>
-            <select
-              id="reason"
-              name="reason"
-              value={formData.reason}
-              onChange={handleChange}
-              required
-            >
+            <select id="reason" name="reason" value={formData.reason} onChange={handleChange} required>
               <option value="Career Guidance">Career Guidance</option>
               <option value="Report Clarification">Report Clarification</option>
               <option value="Internship Search Support">Internship Search Support</option>
@@ -158,13 +180,7 @@ function AppointmentRequestModal({ onClose, onSubmit }) {
           </div>
           <div className="form-group">
             <label htmlFor="message">Brief Message (Optional)</label>
-            <textarea
-              id="message"
-              name="message"
-              value={formData.message}
-              onChange={handleChange}
-              rows="3"
-            ></textarea>
+            <textarea id="message" name="message" value={formData.message} onChange={handleChange} rows="3"></textarea>
           </div>
           <button type="submit" className="submit-appointment-button" disabled={isSubmitting}>
             {isSubmitting ? (
@@ -178,9 +194,291 @@ function AppointmentRequestModal({ onClose, onSubmit }) {
         </form>
       </div>
     </div>
-  );
+  )
 }
 
+// Find the MyAppointmentsView component and modify it to display appointments directly in the component
+// rather than using a modal overlay. Replace the existing MyAppointmentsView function with this:
+
+function MyAppointmentsView({ onClose, appointments, setAppointments, addNotification }) {
+  const [callControls, setCallControls] = useState({
+    videoEnabled: true,
+    micMuted: false,
+    screenShared: false,
+  })
+
+  // Add this at the beginning of the MyAppointmentsView component
+  const timerRefsRef = useRef({})
+
+  const handleAcceptAppointment = (id) => {
+    const appointment = appointments.find((app) => app.id === id)
+    setAppointments((prev) =>
+      prev.map((app) => (app.id === id ? { ...app, status: "Confirmed", callState: null } : app)),
+    )
+
+    // Add notification
+    addNotification(`You accepted appointment with ${appointment.with}`, "success")
+
+    // Simulate SCAD Officer accepting your appointment
+    setTimeout(() => {
+      addNotification(`${appointment.with} was notified of your acceptance`, "info")
+    }, 1000)
+  }
+
+  const handleRejectAppointment = (id) => {
+    const appointment = appointments.find((app) => app.id === id)
+    setAppointments((prev) =>
+      prev.map((app) => (app.id === id ? { ...app, status: "Rejected by You", callState: null } : app)),
+    )
+
+    // Add notification
+    addNotification(`You rejected appointment with ${appointment.with}`, "error")
+
+    // Simulate notification to the other party
+    setTimeout(() => {
+      addNotification(`${appointment.with} was notified of your rejection`, "info")
+    }, 1000)
+  }
+
+  const handleSimulateIncomingCall = (id) => {
+    alert(
+      `(Simulated) Incoming call for appointment ${id} - You would receive a system notification and this UI would appear.`,
+    )
+    setAppointments((prev) =>
+      prev.map((app) => (app.id === id ? { ...app, callState: "incoming" } : { ...app, callState: null })),
+    ) // Only one incoming at a time
+  }
+
+  const handleAcceptCall = (id) => {
+    const appointment = appointments.find((app) => app.id === id)
+    setAppointments((prev) =>
+      prev.map((app) =>
+        app.id === id
+          ? { ...app, callState: "active" }
+          : { ...app, callState: app.callState === "active" ? null : app.callState },
+      ),
+    )
+    setCallControls({ videoEnabled: true, micMuted: false, screenShared: false })
+
+    // Add notification
+    addNotification(`Call started with ${appointment.with}`, "call")
+  }
+
+  const handleRejectCall = (id) => {
+    const appointment = appointments.find((app) => app.id === id)
+    setAppointments((prev) => prev.map((app) => (app.id === id ? { ...app, callState: null } : app)))
+
+    // Add notification
+    addNotification(`You rejected call from ${appointment.with}`, "call")
+  }
+
+  const handleStartCall = (id) => {
+    alert(`Call started for appointment ${id}.`)
+    setAppointments((prev) =>
+      prev.map((app) =>
+        app.id === id
+          ? { ...app, callState: "active" }
+          : { ...app, callState: app.callState === "active" ? null : app.callState },
+      ),
+    )
+    setCallControls({ videoEnabled: true, micMuted: false, screenShared: false })
+  }
+
+  const handleLeaveCall = (id) => {
+    const appointment = appointments.find((app) => app.id === id)
+    setAppointments((prev) => prev.map((app) => (app.id === id ? { ...app, callState: null } : app)))
+
+    // Add notification
+    addNotification(`You left the call with ${appointment.with}`, "call")
+
+    // Clear any existing timer for this appointment
+    if (timerRefsRef.current[`leave_${id}`]) {
+      clearTimeout(timerRefsRef.current[`leave_${id}`])
+    }
+
+    // Add delayed notification after 10 seconds
+    timerRefsRef.current[`leave_${id}`] = setTimeout(() => {
+      addNotification(`Call with ${appointment.with} ended 10 seconds ago`, "info")
+      delete timerRefsRef.current[`leave_${id}`]
+    }, 10000)
+  }
+
+  const handleSimulateOtherUserLeft = (id) => {
+    const appointment = appointments.find((app) => app.id === id)
+    setAppointments((prev) => prev.map((app) => (app.id === id ? { ...app, callState: null } : app)))
+
+    // Add notification
+    addNotification(`${appointment.with} has left the call`, "call")
+
+    // Clear any existing timer for this appointment
+    if (timerRefsRef.current[`leave_${id}`]) {
+      clearTimeout(timerRefsRef.current[`leave_${id}`])
+    }
+
+    // Add delayed notification after 10 seconds
+    timerRefsRef.current[`leave_${id}`] = setTimeout(() => {
+      addNotification(`Call with ${appointment.with} ended 10 seconds ago`, "info")
+      delete timerRefsRef.current[`leave_${id}`]
+    }, 10000)
+  }
+
+  const toggleVideo = () => setCallControls((prev) => ({ ...prev, videoEnabled: !prev.videoEnabled }))
+  const toggleMic = () => setCallControls((prev) => ({ ...prev, micMuted: !prev.micMuted }))
+  const toggleScreenShare = () => setCallControls((prev) => ({ ...prev, screenShared: !prev.screenShared }))
+
+  useEffect(() => {
+    return () => {
+      // Clean up any active timers when component unmounts
+      Object.values(timerRefsRef.current).forEach((timerId) => {
+        clearTimeout(timerId)
+      })
+    }
+  }, [])
+
+  return (
+    <div className="appointments-section">
+      <div className="appointments-header">
+        <h2>
+          <ListChecks size={22} style={{ marginRight: "10px" }} />
+          My Appointments
+        </h2>
+      </div>
+      <div className="appointments-list">
+        {appointments.map((app) => (
+          <div key={app.id} className="appointment-entry">
+            <div className="appointment-info">
+              <h4>{app.with}</h4>
+              <p>Date: {app.dateTime}</p>
+              <p>
+                Status: {app.status}
+                {app.isUserOnline ? (
+                  <span className="online-indicator">
+                    {" "}
+                    <UserCheck size={14} /> (Online)
+                  </span>
+                ) : (
+                  <span className="offline-indicator">
+                    {" "}
+                    <UserX size={14} /> (Offline)
+                  </span>
+                )}
+              </p>
+            </div>
+
+            {/* Appointment Acceptance/Rejection Controls */}
+            {app.status === "Awaiting Your Response" && app.callState !== "active" && app.callState !== "incoming" && (
+              <div className="appointment-actions">
+                <button onClick={() => handleAcceptAppointment(app.id)} className="action-btn accept">
+                  <CheckCircle size={14} /> Accept Appointment
+                </button>
+                <button onClick={() => handleRejectAppointment(app.id)} className="action-btn reject">
+                  <XCircle size={14} /> Reject Appointment
+                </button>
+              </div>
+            )}
+
+            {/* Call Initiation / Incoming Call Simulation */}
+            {app.status === "Confirmed" && app.callState === null && (
+              <div className="appointment-actions">
+                <button onClick={() => handleStartCall(app.id)} className="action-btn primary">
+                  <Phone size={14} /> Start Call
+                </button>
+                <button onClick={() => handleSimulateIncomingCall(app.id)} className="action-btn secondary">
+                  <PhoneIncoming size={14} /> Simulate Incoming Call
+                </button>
+              </div>
+            )}
+            {app.status === "Pending SCAD Officer Acceptance" && app.callState === null && (
+              <p className="pending-info">
+                <em>Waiting for SCAD Officer to confirm. You'll be notified.</em>
+              </p>
+            )}
+
+            {/* Incoming Call UI */}
+            {app.callState === "incoming" && (
+              <div className="incoming-call-info">
+                <p>
+                  <PhoneIncoming size={18} style={{ color: "#28a745", marginRight: "8px" }} /> Incoming call from{" "}
+                  {app.with}...
+                </p>
+                <div className="appointment-actions">
+                  <button onClick={() => handleAcceptCall(app.id)} className="call-action-btn accept-call">
+                    <Phone size={14} /> Accept Call
+                  </button>
+                  <button onClick={() => handleRejectCall(app.id)} className="call-action-btn reject-call">
+                    <PhoneOff size={14} /> Reject Call
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Active Call Controls UI */}
+            {app.callState === "active" && (
+              <div className="call-controls-container">
+                <p className="in-call-status">
+                  <strong>In Call with {app.with}</strong>
+                </p>
+                <div className="call-controls">
+                  <button
+                    onClick={toggleVideo}
+                    className={`control-btn ${callControls.videoEnabled ? "" : "disabled"}`}
+                  >
+                    {callControls.videoEnabled ? (
+                      <>
+                        <Video size={16} /> Video ON
+                      </>
+                    ) : (
+                      <>
+                        <VideoOff size={16} /> Video OFF
+                      </>
+                    )}
+                  </button>
+                  <button onClick={toggleMic} className={`control-btn ${callControls.micMuted ? "disabled" : ""}`}>
+                    {callControls.micMuted ? (
+                      <>
+                        <Mic size={16} /> Unmute
+                      </>
+                    ) : (
+                      <>
+                        <MicOff size={16} /> Mute
+                      </>
+                    )}
+                  </button>
+                  <button
+                    onClick={toggleScreenShare}
+                    className={`control-btn ${callControls.screenShared ? "active" : ""}`}
+                  >
+                    {callControls.screenShared ? (
+                      <>
+                        <ScreenShareOff size={16} /> Stop Share
+                      </>
+                    ) : (
+                      <>
+                        <ScreenShare size={16} /> Share Screen
+                      </>
+                    )}
+                  </button>
+                </div>
+                <div className="call-actions-footer">
+                  <button onClick={() => handleLeaveCall(app.id)} className="control-btn leave">
+                    <PhoneOff size={16} /> Leave Call
+                  </button>
+                  <button onClick={() => handleSimulateOtherUserLeft(app.id)} className="control-btn secondary">
+                    Simulate Other Left
+                  </button>
+                </div>
+                <p className="call-notification">
+                  <em>You will be notified (in the bell icon) when the other caller leaves the call.</em>
+                </p>
+              </div>
+            )}
+          </div>
+        ))}
+        {appointments.length === 0 && <p>You have no upcoming appointments.</p>}
+      </div>
+    </div>
+  )
+}
 
 function SCAD() {
   const [jspdfLoaded, setJspdfLoaded] = useState(false)
@@ -246,7 +544,13 @@ function SCAD() {
   }
 
   const [initialStudents, setInitialStudents] = useState([
-    { id: 101, name: "Alice Smith", internshipStatus: "Ongoing", company: "Dell Technologies", major: "Computer Science" },
+    {
+      id: 101,
+      name: "Alice Smith",
+      internshipStatus: "Ongoing",
+      company: "Dell Technologies",
+      major: "Computer Science",
+    },
     { id: 102, name: "Bob Johnson", internshipStatus: "Not Started", major: "Data Science" },
     { id: 103, name: "Charlie Brown", internshipStatus: "Completed", company: "IBM", major: "Business Administration" },
     { id: 104, name: "Diana Lee", internshipStatus: "Ongoing", company: "Microsoft", major: "Design" },
@@ -281,8 +585,7 @@ function SCAD() {
         "Participated in code reviews and team meetings",
       ],
       skills: ["Java", "Spring Boot", "Git", "Agile"],
-      challenges:
-        "The biggest challenge was understanding the large codebase and the company's development workflow.",
+      challenges: "The biggest challenge was understanding the large codebase and the company's development workflow.",
       learnings: "I learned how to work in a large team, how to communicate effectively, and how to manage my time.",
       feedback: "The internship was a great learning experience. I would recommend it to other students.",
     },
@@ -363,8 +666,7 @@ function SCAD() {
       },
       strengths: "Good analytical thinking",
       areasForImprovement: "Needs to improve communication skills and meeting deadlines",
-      comments:
-        "George showed potential but needs more professional development before taking on client-facing roles.",
+      comments: "George showed potential but needs more professional development before taking on client-facing roles.",
     },
     {
       id: 5,
@@ -387,19 +689,39 @@ function SCAD() {
       learnings: "I learned how data-driven marketing decisions are made in a large corporation.",
       feedback: "The internship was challenging but rewarding. I gained valuable skills and insights.",
     },
-     { 
-      id: 6, type: "internship", title: "Backend Development Report", studentName: "Kevin Martin", studentId: 111,
-      major: "Computer Science", company: "Oracle", submissionDate: "2023-10-01", status: "accepted",
-      content: "Report on backend tasks at Oracle.", tasks: [], skills: [], challenges: "", learnings: "", feedback: ""
+    {
+      id: 6,
+      type: "internship",
+      title: "Backend Development Report",
+      studentName: "Kevin Martin",
+      studentId: 111,
+      major: "Computer Science",
+      company: "Oracle",
+      submissionDate: "2023-10-01",
+      status: "accepted",
+      content: "Report on backend tasks at Oracle.",
+      tasks: [],
+      skills: [],
+      challenges: "",
+      learnings: "",
+      feedback: "",
     },
     {
-      id: 7, type: "evaluation", title: "Consulting Internship Evaulation", studentName: "Laura White", studentId: 112,
-      major: "Business Administration", company: "Deloitte", submissionDate: "2023-09-20", status: "accepted",
+      id: 7,
+      type: "evaluation",
+      title: "Consulting Internship Evaulation",
+      studentName: "Laura White",
+      studentId: 112,
+      major: "Business Administration",
+      company: "Deloitte",
+      submissionDate: "2023-09-20",
+      status: "accepted",
       performance: { technical: 4.0, communication: 4.5, teamwork: 4.0, problemSolving: 4.2, overall: 4.2 },
-      strengths: "", areasForImprovement: "", comments: ""
-    }
-  ]);
-
+      strengths: "",
+      areasForImprovement: "",
+      comments: "",
+    },
+  ])
 
   const [activeAction, setActiveAction] = useState(null)
   const [showCompanies, setShowCompanies] = useState(false)
@@ -416,17 +738,67 @@ function SCAD() {
   const [showStatistics, setShowStatistics] = useState(false)
 
   // New state for appointment modal
-  const [showAppointmentModal, setShowAppointmentModal] = useState(false);
-  const [appointmentConfirmation, setAppointmentConfirmation] = useState("");
+  const [showAppointmentModal, setShowAppointmentModal] = useState(false)
+  const [appointmentConfirmation, setAppointmentConfirmation] = useState("")
+  // New state for My Appointments modal
+  const [showMyAppointments, setShowMyAppointments] = useState(false)
 
+  // Add this after the other state declarations (around line 1000)
+  const [notifications, setNotifications] = useState([])
+  const [notificationCount, setNotificationCount] = useState(0)
+  const [showNotifications, setShowNotifications] = useState(false)
 
   const getInitials = (name) => {
     // ... (keep existing implementation)
-    if (!name) return "";
+    if (!name) return ""
     return name
       .split(" ")
       .map((part) => part[0])
       .join("")
+  }
+
+  // Add a function to add notifications
+  const addNotification = (message, type = "info") => {
+    const newNotification = {
+      id: Date.now(),
+      message,
+      type,
+      timestamp: new Date().toLocaleTimeString(),
+      read: false,
+    }
+    setNotifications((prev) => [newNotification, ...prev])
+    setNotificationCount((prev) => prev + 1)
+
+    // Optional: Play a sound for notifications
+    const audio = new Audio("/notification-sound.mp3")
+    audio.volume = 0.5
+    try {
+      audio.play().catch((e) => console.log("Audio play failed:", e))
+    } catch (error) {
+      console.log("Audio play error:", error)
+    }
+  }
+
+  // Add a function to toggle notifications panel
+  const toggleNotifications = () => {
+    setShowNotifications(!showNotifications)
+    if (showNotifications) {
+      // Mark all as read when closing
+      setNotifications((prev) => prev.map((n) => ({ ...n, read: true })))
+      setNotificationCount(0)
+    }
+  }
+
+  // Add a function to mark a notification as read
+  const markNotificationAsRead = (id) => {
+    setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, read: true } : n)))
+    setNotificationCount((prev) => Math.max(0, prev - 1))
+  }
+
+  // Add a function to clear all notifications
+  const clearAllNotifications = () => {
+    setNotifications([])
+    setNotificationCount(0)
   }
 
   const handleCompanyClick = (companyId) => {
@@ -489,6 +861,61 @@ function SCAD() {
     doc.save(`${company.name.replace(/\s+/g, "_")}_Details.pdf`)
   }
 
+  // Create a state for appointments in the main SCAD component
+  const [appointments, setAppointments] = useState([
+    {
+      id: 1,
+      with: "Dr. Emily Carter (Career Advisor)",
+      dateTime: "2024-09-10 at 10:00 AM",
+      status: "Confirmed",
+      isUserOnline: true,
+      callState: null, // null, 'incoming', 'active'
+    },
+    {
+      id: 2,
+      with: "John Doe (Student Advisor)",
+      dateTime: "2024-09-12 at 02:30 PM",
+      status: "Pending SCAD Officer Acceptance",
+      isUserOnline: false,
+      callState: null,
+    },
+    {
+      id: 3,
+      with: "SCAD Officer Jane Smith",
+      dateTime: "2024-09-15 at 11:00 AM",
+      status: "Awaiting Your Response",
+      isUserOnline: true,
+      callState: null,
+    },
+  ])
+
+  // Add a timer for simulating incoming calls every 20 seconds
+  useEffect(() => {
+    if (showMyAppointments) {
+      const callTimer = setInterval(() => {
+        // Randomly select an appointment to receive a call from
+        const onlineAppointments = appointments.filter(
+          (app) => app.isUserOnline && app.status === "Confirmed" && app.callState === null,
+        )
+
+        if (onlineAppointments.length > 0) {
+          const randomIndex = Math.floor(Math.random() * onlineAppointments.length)
+          const randomAppointment = onlineAppointments[randomIndex]
+
+          // Simulate incoming call
+          setAppointments((prev) =>
+            prev.map((app) => (app.id === randomAppointment.id ? { ...app, callState: "incoming" } : app)),
+          )
+
+          // Add notification
+          addNotification(`Incoming call from ${randomAppointment.with}`, "call")
+        }
+      }, 20000) // 20 seconds
+
+      return () => clearInterval(callTimer)
+    }
+  }, [showMyAppointments, appointments])
+
   function EvaluationsView({ onBack, reportsData, setReportsData, jspdfLoadedProp }) {
     // ... (keep existing implementation)
     const [searchQuery, setSearchQuery] = useState("")
@@ -530,7 +957,7 @@ function SCAD() {
 
     const updateReportStatus = (reportId, newStatus) => {
       const updatedReports = reportsData.map((report) =>
-        report.id === reportId ? { ...report, status: newStatus } : report
+        report.id === reportId ? { ...report, status: newStatus } : report,
       )
       setReportsData(updatedReports)
       if (selectedReport && selectedReport.id === reportId) {
@@ -547,7 +974,7 @@ function SCAD() {
 
     const handleSaveClarification = (reportId) => {
       const updatedReports = reportsData.map((report) =>
-        report.id === reportId ? { ...report, clarification: clarificationText } : report
+        report.id === reportId ? { ...report, clarification: clarificationText } : report,
       )
       setReportsData(updatedReports)
       if (selectedReport && selectedReport.id === reportId) {
@@ -558,24 +985,48 @@ function SCAD() {
 
     const getStatusBadgeClass = (status) => {
       switch (status) {
-        case "pending": return "status-badge pending";
-        case "flagged": return "status-badge flagged";
-        case "rejected": return "status-badge rejected";
-        case "accepted": return "status-badge accepted";
-        default: return "status-badge";
+        case "pending":
+          return "status-badge pending"
+        case "flagged":
+          return "status-badge flagged"
+        case "rejected":
+          return "status-badge rejected"
+        case "accepted":
+          return "status-badge accepted"
+        default:
+          return "status-badge"
       }
     }
 
     const renderRatingStars = (rating) => {
-       const fullStars = Math.floor(rating);
-       const hasHalfStar = rating % 1 >= 0.5;
-       const stars = [];
-       for (let i = 0; i < 5; i++) {
-         if (i < fullStars) stars.push(<span key={i} className="star full">★</span>);
-         else if (i === fullStars && hasHalfStar) stars.push(<span key={i} className="star half">★</span>);
-         else stars.push(<span key={i} className="star empty">☆</span>);
-       }
-       return <div className="rating-stars">{stars} <span className="rating-value">({rating.toFixed(1)})</span></div>;
+      const fullStars = Math.floor(rating)
+      const hasHalfStar = rating % 1 >= 0.5
+      const stars = []
+      for (let i = 0; i < 5; i++) {
+        if (i < fullStars)
+          stars.push(
+            <span key={i} className="star full">
+              ★
+            </span>,
+          )
+        else if (i === fullStars && hasHalfStar)
+          stars.push(
+            <span key={i} className="star half">
+              ★
+            </span>,
+          )
+        else
+          stars.push(
+            <span key={i} className="star empty">
+              ☆
+            </span>,
+          )
+      }
+      return (
+        <div className="rating-stars">
+          {stars} <span className="rating-value">({rating.toFixed(1)})</span>
+        </div>
+      )
     }
 
     const generateReportPDF = (report) => {
@@ -585,52 +1036,52 @@ function SCAD() {
       }
       const { jsPDF } = window.jspdf
       const doc = new jsPDF()
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(20);
-        doc.text(`${report.title}`, 105, 20, { align: "center" });
-        doc.setFillColor(195, 20, 50);
-        doc.rect(20, 30, 15, 15, "F");
-        doc.setTextColor(255, 255, 255);
-        doc.setFontSize(12);
-        doc.text("SC", 27.5, 39, { align: "center" });
-        doc.setTextColor(0, 0, 0);
+      doc.setFont("helvetica", "bold")
+      doc.setFontSize(20)
+      doc.text(`${report.title}`, 105, 20, { align: "center" })
+      doc.setFillColor(195, 20, 50)
+      doc.rect(20, 30, 15, 15, "F")
+      doc.setTextColor(255, 255, 255)
+      doc.setFontSize(12)
+      doc.text("SC", 27.5, 39, { align: "center" })
+      doc.setTextColor(0, 0, 0)
 
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(14);
-        doc.text("Report Information", 20, 60);
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(12);
-        doc.text(`Student: ${report.studentName} (ID: ${report.studentId})`, 20, 70);
-        doc.text(`Major: ${report.major}`, 20, 80);
-        doc.text(`Company: ${report.company}`, 20, 90);
-        doc.text(`Status: ${report.status.charAt(0).toUpperCase() + report.status.slice(1)}`, 20, 100);
-        doc.text(`Submission Date: ${report.submissionDate}`, 20, 110);
+      doc.setFont("helvetica", "bold")
+      doc.setFontSize(14)
+      doc.text("Report Information", 20, 60)
+      doc.setFont("helvetica", "normal")
+      doc.setFontSize(12)
+      doc.text(`Student: ${report.studentName} (ID: ${report.studentId})`, 20, 70)
+      doc.text(`Major: ${report.major}`, 20, 80)
+      doc.text(`Company: ${report.company}`, 20, 90)
+      doc.text(`Status: ${report.status.charAt(0).toUpperCase() + report.status.slice(1)}`, 20, 100)
+      doc.text(`Submission Date: ${report.submissionDate}`, 20, 110)
 
-        let yPosition = 120;
-        if (report.supervisor) {
-            doc.text(`Supervisor: ${report.supervisor} (${report.supervisorPosition})`, 20, yPosition);
-            yPosition += 10;
-        }
+      let yPosition = 120
+      if (report.supervisor) {
+        doc.text(`Supervisor: ${report.supervisor} (${report.supervisorPosition})`, 20, yPosition)
+        yPosition += 10
+      }
 
-        if ((report.status === "flagged" || report.status === "rejected") && report.clarification) {
-            doc.setFont("helvetica", "bold");
-            doc.setFontSize(14);
-            doc.text("Clarification", 20, yPosition);
-            yPosition += 10;
-            doc.setFont("helvetica", "normal");
-            doc.setFontSize(12);
-            const clarificationLines = doc.splitTextToSize(report.clarification, 170);
-            doc.text(clarificationLines, 20, yPosition);
-            yPosition += clarificationLines.length * 7 + 10;
-        }
-        doc.setFontSize(10);
-        doc.setTextColor(100, 100, 100);
-        doc.text("Generated by SCAD Office", 105, 280, { align: "center" });
-        doc.text(new Date().toLocaleDateString(), 105, 285, { align: "center" });
-        const reportTypeString = report.type === "internship" ? "Internship_Report" : "Evaluation_Report";
-        doc.save(`${reportTypeString}_${report.studentName.replace(/\s+/g, "_")}.pdf`);
+      if ((report.status === "flagged" || report.status === "rejected") && report.clarification) {
+        doc.setFont("helvetica", "bold")
+        doc.setFontSize(14)
+        doc.text("Clarification", 20, yPosition)
+        yPosition += 10
+        doc.setFont("helvetica", "normal")
+        doc.setFontSize(12)
+        const clarificationLines = doc.splitTextToSize(report.clarification, 170)
+        doc.text(clarificationLines, 20, yPosition)
+        yPosition += clarificationLines.length * 7 + 10
+      }
+      doc.setFontSize(10)
+      doc.setTextColor(100, 100, 100)
+      doc.text("Generated by SCAD Office", 105, 280, { align: "center" })
+      doc.text(new Date().toLocaleDateString(), 105, 285, { align: "center" })
+      const reportTypeString = report.type === "internship" ? "Internship_Report" : "Evaluation_Report"
+      doc.save(`${reportTypeString}_${report.studentName.replace(/\s+/g, "_")}.pdf`)
     }
-    
+
     const renderInternshipReport = (report) => {
       return (
         <div className="report-details">
@@ -641,46 +1092,120 @@ function SCAD() {
                 {report.status.charAt(0).toUpperCase() + report.status.slice(1)}
               </span>
               <div className="status-actions">
-                <button className={`status-button flagged ${report.status === "flagged" ? "active" : ""}`} onClick={() => updateReportStatus(report.id, "flagged")}>Flag</button>
-                <button className={`status-button rejected ${report.status === "rejected" ? "active" : ""}`} onClick={() => updateReportStatus(report.id, "rejected")}>Reject</button>
-                <button className={`status-button accepted ${report.status === "accepted" ? "active" : ""}`} onClick={() => updateReportStatus(report.id, "accepted")}>Accept</button>
+                <button
+                  className={`status-button flagged ${report.status === "flagged" ? "active" : ""}`}
+                  onClick={() => updateReportStatus(report.id, "flagged")}
+                >
+                  Flag
+                </button>
+                <button
+                  className={`status-button rejected ${report.status === "rejected" ? "active" : ""}`}
+                  onClick={() => updateReportStatus(report.id, "rejected")}
+                >
+                  Reject
+                </button>
+                <button
+                  className={`status-button accepted ${report.status === "accepted" ? "active" : ""}`}
+                  onClick={() => updateReportStatus(report.id, "accepted")}
+                >
+                  Accept
+                </button>
               </div>
             </div>
             <div className="report-actions">
-              <button className="download-pdf-button" onClick={() => generateReportPDF(report)}><Download size={16} /> Download PDF</button>
-              <button className="modal-close-button" onClick={closeReportDetails}><X size={20} /></button>
+              <button className="download-pdf-button" onClick={() => generateReportPDF(report)}>
+                <Download size={16} /> Download PDF
+              </button>
+              <button className="modal-close-button" onClick={closeReportDetails}>
+                <X size={20} />
+              </button>
             </div>
           </div>
           <div className="report-details-content">
             {(report.status === "flagged" || report.status === "rejected") && (
               <div className="clarification-section">
                 <div className="clarification-header">
-                  <h3><AlertTriangle size={18} className="clarification-icon" /> Clarification for {report.status === "flagged" ? "Flag" : "Rejection"}</h3>
+                  <h3>
+                    <AlertTriangle size={18} className="clarification-icon" /> Clarification for{" "}
+                    {report.status === "flagged" ? "Flag" : "Rejection"}
+                  </h3>
                   {!editingClarification ? (
-                    <button className="edit-clarification-button" onClick={handleEditClarification}><Edit size={16} /> Edit</button>
+                    <button className="edit-clarification-button" onClick={handleEditClarification}>
+                      <Edit size={16} /> Edit
+                    </button>
                   ) : (
-                    <button className="save-clarification-button" onClick={() => handleSaveClarification(report.id)}><Save size={16} /> Save Clarification</button>
+                    <button className="save-clarification-button" onClick={() => handleSaveClarification(report.id)}>
+                      <Save size={16} /> Save Clarification
+                    </button>
                   )}
                 </div>
                 {!editingClarification ? (
                   <div className="clarification-text">{report.clarification || "No clarification provided."}</div>
                 ) : (
-                  <textarea ref={clarificationTextareaRef} className="clarification-textarea" value={clarificationText} onChange={(e) => setClarificationText(e.target.value)} placeholder="Enter clarification reason here..." />
+                  <textarea
+                    ref={clarificationTextareaRef}
+                    className="clarification-textarea"
+                    value={clarificationText}
+                    onChange={(e) => setClarificationText(e.target.value)}
+                    placeholder="Enter clarification reason here..."
+                  />
                 )}
               </div>
             )}
-             <div className="report-meta">
-              <div className="meta-item"><h4>Student</h4><p>{report.studentName} (ID: {report.studentId})</p></div>
-              <div className="meta-item"><h4>Major</h4><p>{report.major}</p></div>
-              <div className="meta-item"><h4>Company</h4><p>{report.company}</p></div>
-              <div className="meta-item"><h4>Submission Date</h4><p>{report.submissionDate}</p></div>
+            <div className="report-meta">
+              <div className="meta-item">
+                <h4>Student</h4>
+                <p>
+                  {report.studentName} (ID: {report.studentId})
+                </p>
+              </div>
+              <div className="meta-item">
+                <h4>Major</h4>
+                <p>{report.major}</p>
+              </div>
+              <div className="meta-item">
+                <h4>Company</h4>
+                <p>{report.company}</p>
+              </div>
+              <div className="meta-item">
+                <h4>Submission Date</h4>
+                <p>{report.submissionDate}</p>
+              </div>
             </div>
-            <div className="report-section"><h3>Report Content</h3><p>{report.content}</p></div>
-            <div className="report-section"><h3>Tasks Performed</h3><ul className="tasks-list">{report.tasks.map((task, index) => (<li key={index}>{task}</li>))}</ul></div>
-            <div className="report-section"><h3>Skills Developed</h3><div className="skills-list">{report.skills.map((skill, index) => (<span key={index} className="skill-tag">{skill}</span>))}</div></div>
-            <div className="report-section"><h3>Challenges</h3><p>{report.challenges}</p></div>
-            <div className="report-section"><h3>Learnings</h3><p>{report.learnings}</p></div>
-            <div className="report-section"><h3>Feedback</h3><p>{report.feedback}</p></div>
+            <div className="report-section">
+              <h3>Report Content</h3>
+              <p>{report.content}</p>
+            </div>
+            <div className="report-section">
+              <h3>Tasks Performed</h3>
+              <ul className="tasks-list">
+                {report.tasks.map((task, index) => (
+                  <li key={index}>{task}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="report-section">
+              <h3>Skills Developed</h3>
+              <div className="skills-list">
+                {report.skills.map((skill, index) => (
+                  <span key={index} className="skill-tag">
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="report-section">
+              <h3>Challenges</h3>
+              <p>{report.challenges}</p>
+            </div>
+            <div className="report-section">
+              <h3>Learnings</h3>
+              <p>{report.learnings}</p>
+            </div>
+            <div className="report-section">
+              <h3>Feedback</h3>
+              <p>{report.feedback}</p>
+            </div>
           </div>
         </div>
       )
@@ -692,59 +1217,143 @@ function SCAD() {
           <div className="report-details-header">
             <h2>{report.title}</h2>
             <div className="report-status-controls">
-              <span className={getStatusBadgeClass(report.status)}>{report.status.charAt(0).toUpperCase() + report.status.slice(1)}</span>
+              <span className={getStatusBadgeClass(report.status)}>
+                {report.status.charAt(0).toUpperCase() + report.status.slice(1)}
+              </span>
               <div className="status-actions">
-                <button className={`status-button flagged ${report.status === "flagged" ? "active" : ""}`} onClick={() => updateReportStatus(report.id, "flagged")}>Flag</button>
-                <button className={`status-button rejected ${report.status === "rejected" ? "active" : ""}`} onClick={() => updateReportStatus(report.id, "rejected")}>Reject</button>
-                <button className={`status-button accepted ${report.status === "accepted" ? "active" : ""}`} onClick={() => updateReportStatus(report.id, "accepted")}>Accept</button>
+                <button
+                  className={`status-button flagged ${report.status === "flagged" ? "active" : ""}`}
+                  onClick={() => updateReportStatus(report.id, "flagged")}
+                >
+                  Flag
+                </button>
+                <button
+                  className={`status-button rejected ${report.status === "rejected" ? "active" : ""}`}
+                  onClick={() => updateReportStatus(report.id, "rejected")}
+                >
+                  Reject
+                </button>
+                <button
+                  className={`status-button accepted ${report.status === "accepted" ? "active" : ""}`}
+                  onClick={() => updateReportStatus(report.id, "accepted")}
+                >
+                  Accept
+                </button>
               </div>
             </div>
             <div className="report-actions">
-              <button className="download-pdf-button" onClick={() => generateReportPDF(report)}><Download size={16} /> Download PDF</button>
-              <button className="modal-close-button" onClick={closeReportDetails}><X size={20} /></button>
+              <button className="download-pdf-button" onClick={() => generateReportPDF(report)}>
+                <Download size={16} /> Download PDF
+              </button>
+              <button className="modal-close-button" onClick={closeReportDetails}>
+                <X size={20} />
+              </button>
             </div>
           </div>
           <div className="report-details-content">
-             {(report.status === "flagged" || report.status === "rejected") && (
+            {(report.status === "flagged" || report.status === "rejected") && (
               <div className="clarification-section">
                 <div className="clarification-header">
-                  <h3><AlertTriangle size={18} className="clarification-icon" /> Clarification for {report.status === "flagged" ? "Flag" : "Rejection"}</h3>
+                  <h3>
+                    <AlertTriangle size={18} className="clarification-icon" /> Clarification for{" "}
+                    {report.status === "flagged" ? "Flag" : "Rejection"}
+                  </h3>
                   {!editingClarification ? (
-                    <button className="edit-clarification-button" onClick={handleEditClarification}><Edit size={16} /> Edit</button>
+                    <button className="edit-clarification-button" onClick={handleEditClarification}>
+                      <Edit size={16} /> Edit
+                    </button>
                   ) : (
-                    <button className="save-clarification-button" onClick={() => handleSaveClarification(report.id)}><Save size={16} /> Save Clarification</button>
+                    <button className="save-clarification-button" onClick={() => handleSaveClarification(report.id)}>
+                      <Save size={16} /> Save Clarification
+                    </button>
                   )}
                 </div>
                 {!editingClarification ? (
                   <div className="clarification-text">{report.clarification || "No clarification provided."}</div>
                 ) : (
-                  <textarea ref={clarificationTextareaRef} className="clarification-textarea" value={clarificationText} onChange={(e) => setClarificationText(e.target.value)} placeholder="Enter clarification reason here..." />
+                  <textarea
+                    ref={clarificationTextareaRef}
+                    className="clarification-textarea"
+                    value={clarificationText}
+                    onChange={(e) => setClarificationText(e.target.value)}
+                    placeholder="Enter clarification reason here..."
+                  />
                 )}
               </div>
             )}
             <div className="report-meta">
-              <div className="meta-item"><h4>Student</h4><p>{report.studentName} (ID: {report.studentId})</p></div>
-              <div className="meta-item"><h4>Major</h4><p>{report.major}</p></div>
-              <div className="meta-item"><h4>Company</h4><p>{report.company}</p></div>
-              <div className="meta-item"><h4>Supervisor</h4><p>{report.supervisor} ({report.supervisorPosition})</p></div>
-            </div>
-            <div className="internship-period">
-              <div className="period-item"><h4>Start Date</h4><p>{report.startDate}</p></div>
-              <div className="period-item"><h4>End Date</h4><p>{report.endDate}</p></div>
-              <div className="period-item"><h4>Submission Date</h4><p>{report.submissionDate}</p></div>
-            </div>
-            <div className="report-section"><h3>Performance Evaluation</h3>
-              <div className="performance-grid">
-                <div className="performance-item"><h4>Technical Skills</h4>{renderRatingStars(report.performance.technical)}</div>
-                <div className="performance-item"><h4>Communication</h4>{renderRatingStars(report.performance.communication)}</div>
-                <div className="performance-item"><h4>Teamwork</h4>{renderRatingStars(report.performance.teamwork)}</div>
-                <div className="performance-item"><h4>Problem Solving</h4>{renderRatingStars(report.performance.problemSolving)}</div>
-                <div className="performance-item overall"><h4>Overall Performance</h4>{renderRatingStars(report.performance.overall)}</div>
+              <div className="meta-item">
+                <h4>Student</h4>
+                <p>
+                  {report.studentName} (ID: {report.studentId})
+                </p>
+              </div>
+              <div className="meta-item">
+                <h4>Major</h4>
+                <p>{report.major}</p>
+              </div>
+              <div className="meta-item">
+                <h4>Company</h4>
+                <p>{report.company}</p>
+              </div>
+              <div className="meta-item">
+                <h4>Supervisor</h4>
+                <p>
+                  {report.supervisor} ({report.supervisorPosition})
+                </p>
               </div>
             </div>
-            <div className="report-section"><h3>Strengths</h3><p>{report.strengths}</p></div>
-            <div className="report-section"><h3>Areas for Improvement</h3><p>{report.areasForImprovement}</p></div>
-            <div className="report-section"><h3>Supervisor Comments</h3><p>{report.comments}</p></div>
+            <div className="internship-period">
+              <div className="period-item">
+                <h4>Start Date</h4>
+                <p>{report.startDate}</p>
+              </div>
+              <div className="period-item">
+                <h4>End Date</h4>
+                <p>{report.endDate}</p>
+              </div>
+              <div className="period-item">
+                <h4>Submission Date</h4>
+                <p>{report.submissionDate}</p>
+              </div>
+            </div>
+            <div className="report-section">
+              <h3>Performance Evaluation</h3>
+              <div className="performance-grid">
+                <div className="performance-item">
+                  <h4>Technical Skills</h4>
+                  {renderRatingStars(report.performance.technical)}
+                </div>
+                <div className="performance-item">
+                  <h4>Communication</h4>
+                  {renderRatingStars(report.performance.communication)}
+                </div>
+                <div className="performance-item">
+                  <h4>Teamwork</h4>
+                  {renderRatingStars(report.performance.teamwork)}
+                </div>
+                <div className="performance-item">
+                  <h4>Problem Solving</h4>
+                  {renderRatingStars(report.performance.problemSolving)}
+                </div>
+                <div className="performance-item overall">
+                  <h4>Overall Performance</h4>
+                  {renderRatingStars(report.performance.overall)}
+                </div>
+              </div>
+            </div>
+            <div className="report-section">
+              <h3>Strengths</h3>
+              <p>{report.strengths}</p>
+            </div>
+            <div className="report-section">
+              <h3>Areas for Improvement</h3>
+              <p>{report.areasForImprovement}</p>
+            </div>
+            <div className="report-section">
+              <h3>Supervisor Comments</h3>
+              <p>{report.comments}</p>
+            </div>
           </div>
         </div>
       )
@@ -756,19 +1365,30 @@ function SCAD() {
           <div className="evaluations-section">
             <div className="evaluations-header">
               <h2>Evaluations & Reports</h2>
-              <button className="modal-close-button" onClick={onBack}><X size={20} /></button>
+              <button className="modal-close-button" onClick={onBack}>
+                <X size={20} />
+              </button>
             </div>
             <div className="evaluations-search">
               <div className="search-input">
                 <Search size={16} />
-                <input type="text" placeholder="Search by title, student name, or company..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+                <input
+                  type="text"
+                  placeholder="Search by title, student name, or company..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
               </div>
             </div>
             <div className="evaluations-filters">
               <div className="filter-group">
                 <label htmlFor="major">Major:</label>
                 <select id="major" value={selectedMajor} onChange={(e) => setSelectedMajor(e.target.value)}>
-                  {uniqueMajors.map((major) => (<option key={major} value={major}>{major}</option>))}
+                  {uniqueMajors.map((major) => (
+                    <option key={major} value={major}>
+                      {major}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="filter-group">
@@ -788,20 +1408,36 @@ function SCAD() {
                   <div key={report.id} className="report-card" onClick={() => handleReportClick(report)}>
                     <div className="report-card-header">
                       <h3>{report.title}</h3>
-                      <span className={getStatusBadgeClass(report.status)}>{report.status.charAt(0).toUpperCase() + report.status.slice(1)}</span>
+                      <span className={getStatusBadgeClass(report.status)}>
+                        {report.status.charAt(0).toUpperCase() + report.status.slice(1)}
+                      </span>
                     </div>
                     <div className="report-card-content">
-                      <p><strong>Type:</strong> {report.type === "internship" ? "Internship Report" : "Evaluation Report"}</p>
-                      <p><strong>Student:</strong> {report.studentName}</p>
-                      <p><strong>Company:</strong> {report.company}</p>
-                      <p><strong>Submitted:</strong> {report.submissionDate}</p>
+                      <p>
+                        <strong>Type:</strong>{" "}
+                        {report.type === "internship" ? "Internship Report" : "Evaluation Report"}
+                      </p>
+                      <p>
+                        <strong>Student:</strong> {report.studentName}
+                      </p>
+                      <p>
+                        <strong>Company:</strong> {report.company}
+                      </p>
+                      <p>
+                        <strong>Submitted:</strong> {report.submissionDate}
+                      </p>
                       {(report.status === "flagged" || report.status === "rejected") && report.clarification && (
-                        <p className="report-clarification-preview"><strong>Clarification:</strong> {report.clarification.substring(0, 60)}{report.clarification.length > 60 ? "..." : ""}</p>
+                        <p className="report-clarification-preview">
+                          <strong>Clarification:</strong> {report.clarification.substring(0, 60)}
+                          {report.clarification.length > 60 ? "..." : ""}
+                        </p>
                       )}
                     </div>
                   </div>
                 ))
-              ) : (<div className="no-results">No reports found matching your criteria.</div>)}
+              ) : (
+                <div className="no-results">No reports found matching your criteria.</div>
+              )}
             </div>
           </div>
         ) : reportType === "internship" ? (
@@ -816,50 +1452,50 @@ function SCAD() {
   function StatisticsView({ onBack, reportsData, allStudents, allCompanies, jspdfLoadedProp }) {
     // ... (keep existing implementation)
     const reportStats = useMemo(() => {
-      const currentCycle = { accepted: 0, rejected: 0, flagged: 0, pending: 0, total: 0 };
+      const currentCycle = { accepted: 0, rejected: 0, flagged: 0, pending: 0, total: 0 }
       if (reportsData && reportsData.length > 0) {
-        reportsData.forEach(report => {
-          currentCycle.total++;
-          if (report.status === 'accepted') currentCycle.accepted++;
-          else if (report.status === 'rejected') currentCycle.rejected++;
-          else if (report.status === 'flagged') currentCycle.flagged++;
-          else if (report.status === 'pending') currentCycle.pending++;
-        });
+        reportsData.forEach((report) => {
+          currentCycle.total++
+          if (report.status === "accepted") currentCycle.accepted++
+          else if (report.status === "rejected") currentCycle.rejected++
+          else if (report.status === "flagged") currentCycle.flagged++
+          else if (report.status === "pending") currentCycle.pending++
+        })
       }
       return {
         currentCycle,
-        previousCycle: { accepted: 38, rejected: 10, flagged: 9, pending: 0, total: 57 }, 
-        reviewTime: { average: 3.2, min: 1, max: 7 }, 
-      };
-    }, [reportsData]);
+        previousCycle: { accepted: 38, rejected: 10, flagged: 9, pending: 0, total: 57 },
+        reviewTime: { average: 3.2, min: 1, max: 7 },
+      }
+    }, [reportsData])
 
     const topCourses = useMemo(() => {
-      if (!reportsData || reportsData.length === 0) return [];
-      const courseCounts = {};
-      reportsData.forEach(report => {
+      if (!reportsData || reportsData.length === 0) return []
+      const courseCounts = {}
+      reportsData.forEach((report) => {
         if (report.major) {
-          courseCounts[report.major] = (courseCounts[report.major] || 0) + 1;
+          courseCounts[report.major] = (courseCounts[report.major] || 0) + 1
         }
-      });
+      })
       return Object.entries(courseCounts)
         .map(([name, count]) => ({ name, count }))
         .sort((a, b) => b.count - a.count)
-        .slice(0, 5);
-    }, [reportsData]);
-    
+        .slice(0, 5)
+    }, [reportsData])
+
     const topCompaniesByInternships = useMemo(() => {
-        if (!reportsData || reportsData.length === 0) return [];
-        const companyCounts = {};
-        reportsData.forEach(report => {
-            if (report.company) {
-                companyCounts[report.company] = (companyCounts[report.company] || 0) +1;
-            }
-        });
-        return Object.entries(companyCounts)
-        .map(([name, count]) => ({name, count}))
-        .sort((a,b) => b.count - a.count)
-        .slice(0,5);
-    }, [reportsData]);
+      if (!reportsData || reportsData.length === 0) return []
+      const companyCounts = {}
+      reportsData.forEach((report) => {
+        if (report.company) {
+          companyCounts[report.company] = (companyCounts[report.company] || 0) + 1
+        }
+      })
+      return Object.entries(companyCounts)
+        .map(([name, count]) => ({ name, count }))
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 5)
+    }, [reportsData])
 
     const topRatedCompanies = [
       { name: "Microsoft", rating: 4.8 },
@@ -867,118 +1503,144 @@ function SCAD() {
       { name: "Dell Technologies", rating: 4.5 },
       { name: "Amazon", rating: 4.3 },
       { name: "Oracle", rating: 4.2 },
-    ];
+    ]
 
     const generateStatisticsPDF = () => {
-        if (!jspdfLoadedProp || !window.jspdf) {
-          console.error("jsPDF library is not loaded for Statistics PDF.");
-          alert("PDF library not loaded. Please try again later.");
-          return;
-        }
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
-        let yPos = 20;
-  
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(20);
-        doc.text("Internship Statistics Report", 105, yPos, { align: "center" });
-        yPos += 15;
-  
-        doc.setFontSize(10);
-        doc.setTextColor(150);
-        doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 105, yPos, { align: "center" });
-        yPos += 15;
-        doc.setTextColor(0);
-  
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(16);
-        doc.text("Report Status (Current Cycle)", 20, yPos);
-        yPos += 10;
-  
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(12);
-        doc.text(`Total Reports Submitted: ${reportStats.currentCycle.total}`, 25, yPos); yPos += 7;
-        doc.text(`Accepted: ${reportStats.currentCycle.accepted}`, 25, yPos); yPos += 7;
-        doc.text(`Rejected: ${reportStats.currentCycle.rejected}`, 25, yPos); yPos += 7;
-        doc.text(`Flagged: ${reportStats.currentCycle.flagged}`, 25, yPos); yPos += 7;
-        doc.text(`Pending: ${reportStats.currentCycle.pending}`, 25, yPos); yPos += 10;
-  
-        const completed = reportStats.currentCycle.accepted + reportStats.currentCycle.rejected + reportStats.currentCycle.flagged;
-        const completionRate = reportStats.currentCycle.total > 0 ? Math.round((completed / reportStats.currentCycle.total) * 100) : 0;
-        const acceptanceRate = completed > 0 ? Math.round((reportStats.currentCycle.accepted / completed) * 100) : 0;
-        doc.text(`Completion Rate (Accepted/Rejected/Flagged of Total): ${completionRate}%`, 25, yPos); yPos += 7;
-        doc.text(`Acceptance Rate (Accepted of Completed): ${acceptanceRate}%`, 25, yPos); yPos += 15;
-  
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(16);
-        doc.text("Average Review Time (Sample Data)", 20, yPos);
-        yPos += 10;
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(12);
-        doc.text(`Average: ${reportStats.reviewTime.average} days`, 25, yPos); yPos += 7;
-        doc.text(`Minimum: ${reportStats.reviewTime.min} days`, 25, yPos); yPos += 7;
-        doc.text(`Maximum: ${reportStats.reviewTime.max} days`, 25, yPos); yPos += 15;
-  
-        if (yPos > 250) { doc.addPage(); yPos = 20; } 
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(16);
-        doc.text("Most Popular Courses in Internships", 20, yPos);
-        yPos += 10;
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(12);
-        if (topCourses.length > 0) {
-          topCourses.forEach(course => {
-            doc.text(`- ${course.name}: ${course.count} reports`, 25, yPos); yPos += 7;
-          });
-        } else {
-          doc.text("No course data available.", 25, yPos); yPos += 7;
-        }
-        yPos += 10;
+      if (!jspdfLoadedProp || !window.jspdf) {
+        console.error("jsPDF library is not loaded for Statistics PDF.")
+        alert("PDF library not loaded. Please try again later.")
+        return
+      }
+      const { jsPDF } = window.jspdf
+      const doc = new jsPDF()
+      let yPos = 20
 
-        if (yPos > 250) { doc.addPage(); yPos = 20; }
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(16);
-        doc.text("Top Companies by Internship Report Count", 20, yPos);
-        yPos += 10;
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(12);
-        if (topCompaniesByInternships.length > 0) {
-            topCompaniesByInternships.forEach(company => {
-                doc.text(`- ${company.name}: ${company.count} reports`, 25, yPos); yPos +=7;
-            });
-        } else {
-            doc.text("No company internship data available from reports.", 25, yPos); yPos +=7;
-        }
-        yPos += 10;
+      doc.setFont("helvetica", "bold")
+      doc.setFontSize(20)
+      doc.text("Internship Statistics Report", 105, yPos, { align: "center" })
+      yPos += 15
 
-        if (yPos > 250) { doc.addPage(); yPos = 20; }
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(16);
-        doc.text("Top Rated Companies (Sample Data)", 20, yPos);
-        yPos += 10;
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(12);
-        topRatedCompanies.forEach(company => {
-          doc.text(`- ${company.name}: Rating ${company.rating.toFixed(1)}/5.0`, 25, yPos); yPos += 7;
-        });
-        yPos += 10;
-  
-        const pageCount = doc.internal.getNumberOfPages();
-        for (let i = 1; i <= pageCount; i++) {
-            doc.setPage(i);
-            doc.setFontSize(10);
-            doc.setTextColor(100, 100, 100);
-            doc.text("Generated by SCAD Office", 105, 280, { align: "center" });
-            doc.text(`Page ${i} of ${pageCount}`, 105, 285, { align: "center" });
-        }
-  
-        doc.save("Internship_Statistics_Report.pdf");
-      };
+      doc.setFontSize(10)
+      doc.setTextColor(150)
+      doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 105, yPos, { align: "center" })
+      yPos += 15
+      doc.setTextColor(0)
+
+      doc.setFont("helvetica", "bold")
+      doc.setFontSize(16)
+      doc.text("Report Status (Current Cycle)", 20, yPos)
+      yPos += 10
+
+      doc.setFont("helvetica", "normal")
+      doc.setFontSize(12)
+      doc.text(`Total Reports Submitted: ${reportStats.currentCycle.total}`, 25, yPos)
+      yPos += 7
+      doc.text(`Accepted: ${reportStats.currentCycle.accepted}`, 25, yPos)
+      yPos += 7
+      doc.text(`Rejected: ${reportStats.currentCycle.rejected}`, 25, yPos)
+      yPos += 7
+      doc.text(`Flagged: ${reportStats.currentCycle.flagged}`, 25, yPos)
+      yPos += 7
+      doc.text(`Pending: ${reportStats.currentCycle.pending}`, 25, yPos)
+      yPos += 10
+
+      const completed =
+        reportStats.currentCycle.accepted + reportStats.currentCycle.rejected + reportStats.currentCycle.flagged
+      const completionRate =
+        reportStats.currentCycle.total > 0 ? Math.round((completed / reportStats.currentCycle.total) * 100) : 0
+      const acceptanceRate = completed > 0 ? Math.round((reportStats.currentCycle.accepted / completed) * 100) : 0
+      doc.text(`Completion Rate (Accepted/Rejected/Flagged of Total): ${completionRate}%`, 25, yPos)
+      yPos += 7
+      doc.text(`Acceptance Rate (Accepted of Completed): ${acceptanceRate}%`, 25, yPos)
+      yPos += 15
+
+      doc.setFont("helvetica", "bold")
+      doc.setFontSize(16)
+      doc.text("Average Review Time (Sample Data)", 20, yPos)
+      yPos += 10
+      doc.setFont("helvetica", "normal")
+      doc.setFontSize(12)
+      doc.text(`Average: ${reportStats.reviewTime.average} days`, 25, yPos)
+      yPos += 7
+      doc.text(`Minimum: ${reportStats.reviewTime.min} days`, 25, yPos)
+      yPos += 7
+      doc.text(`Maximum: ${reportStats.reviewTime.max} days`, 25, yPos)
+      yPos += 15
+
+      if (yPos > 250) {
+        doc.addPage()
+        yPos = 20
+      }
+      doc.setFont("helvetica", "bold")
+      doc.setFontSize(16)
+      doc.text("Most Popular Courses in Internships", 20, yPos)
+      yPos += 10
+      doc.setFont("helvetica", "normal")
+      doc.setFontSize(12)
+      if (topCourses.length > 0) {
+        topCourses.forEach((course) => {
+          doc.text(`- ${course.name}: ${course.count} reports`, 25, yPos)
+          yPos += 7
+        })
+      } else {
+        doc.text("No course data available.", 25, yPos)
+        yPos += 7
+      }
+      yPos += 10
+
+      if (yPos > 250) {
+        doc.addPage()
+        yPos = 20
+      }
+      doc.setFont("helvetica", "bold")
+      doc.setFontSize(16)
+      doc.text("Top Companies by Internship Report Count", 20, yPos)
+      yPos += 10
+      doc.setFont("helvetica", "normal")
+      doc.setFontSize(12)
+      if (topCompaniesByInternships.length > 0) {
+        topCompaniesByInternships.forEach((company) => {
+          doc.text(`- ${company.name}: ${company.count} reports`, 25, yPos)
+          yPos += 7
+        })
+      } else {
+        doc.text("No company internship data available from reports.", 25, yPos)
+        yPos += 7
+      }
+      yPos += 10
+
+      if (yPos > 250) {
+        doc.addPage()
+        yPos = 20
+      }
+      doc.setFont("helvetica", "bold")
+      doc.setFontSize(16)
+      doc.text("Top Rated Companies (Sample Data)", 20, yPos)
+      yPos += 10
+      doc.setFont("helvetica", "normal")
+      doc.setFontSize(12)
+      topRatedCompanies.forEach((company) => {
+        doc.text(`- ${company.name}: Rating ${company.rating.toFixed(1)}/5.0`, 25, yPos)
+        yPos += 7
+      })
+      yPos += 10
+
+      const pageCount = doc.internal.getNumberOfPages()
+      for (let i = 1; i <= pageCount; i++) {
+        doc.setPage(i)
+        doc.setFontSize(10)
+        doc.setTextColor(100, 100, 100)
+        doc.text("Generated by SCAD Office", 105, 280, { align: "center" })
+        doc.text(`Page ${i} of ${pageCount}`, 105, 285, { align: "center" })
+      }
+
+      doc.save("Internship_Statistics_Report.pdf")
+    }
 
     const renderBarChart = (data, valueKey, labelKey, maxValue, colorClass) => {
-      if (!data || data.length === 0) return <p>No data available for this chart.</p>;
-      const maxVal = maxValue || Math.max(...data.map(item => item[valueKey]), 0);
-      if (maxVal === 0) return <p>No data to display in chart.</p>;
+      if (!data || data.length === 0) return <p>No data available for this chart.</p>
+      const maxVal = maxValue || Math.max(...data.map((item) => item[valueKey]), 0)
+      if (maxVal === 0) return <p>No data to display in chart.</p>
 
       return (
         <div className="bar-chart">
@@ -986,73 +1648,114 @@ function SCAD() {
             <div key={index} className="bar-chart-item">
               <div className="bar-chart-label">{item[labelKey]}</div>
               <div className="bar-chart-bar-container">
-                <div
-                  className={`bar-chart-bar ${colorClass}`}
-                  style={{ width: `${(item[valueKey] / maxVal) * 100}%` }}
-                >
+                <div className={`bar-chart-bar ${colorClass}`} style={{ width: `${(item[valueKey] / maxVal) * 100}%` }}>
                   <span className="bar-chart-value">{item[valueKey]}</span>
                 </div>
               </div>
             </div>
           ))}
         </div>
-      );
+      )
     }
 
     const renderPieChart = (data) => {
       if (!data || !data.currentCycle || data.currentCycle.total === 0) {
         return (
-            <div className="pie-chart-container">
-                <div className="pie-chart-placeholder"><PieChart size={80} /></div>
-                <p>No report data for pie chart.</p>
+          <div className="pie-chart-container">
+            <div className="pie-chart-placeholder">
+              <PieChart size={80} />
             </div>
-        );
+            <p>No report data for pie chart.</p>
+          </div>
+        )
       }
-      const total = data.currentCycle.total;
+      const total = data.currentCycle.total
       const segments = [
-        { label: "Accepted", value: data.currentCycle.accepted, color: "#4caf50", percentage: total > 0 ? Math.round((data.currentCycle.accepted / total) * 100) : 0 },
-        { label: "Rejected", value: data.currentCycle.rejected, color: "#f44336", percentage: total > 0 ? Math.round((data.currentCycle.rejected / total) * 100) : 0 },
-        { label: "Flagged", value: data.currentCycle.flagged, color: "#ff9800", percentage: total > 0 ? Math.round((data.currentCycle.flagged / total) * 100) : 0 },
-        { label: "Pending", value: data.currentCycle.pending, color: "#2196f3", percentage: total > 0 ? Math.round((data.currentCycle.pending / total) * 100) : 0 },
-      ];
+        {
+          label: "Accepted",
+          value: data.currentCycle.accepted,
+          color: "#4caf50",
+          percentage: total > 0 ? Math.round((data.currentCycle.accepted / total) * 100) : 0,
+        },
+        {
+          label: "Rejected",
+          value: data.currentCycle.rejected,
+          color: "#f44336",
+          percentage: total > 0 ? Math.round((data.currentCycle.rejected / total) * 100) : 0,
+        },
+        {
+          label: "Flagged",
+          value: data.currentCycle.flagged,
+          color: "#ff9800",
+          percentage: total > 0 ? Math.round((data.currentCycle.flagged / total) * 100) : 0,
+        },
+        {
+          label: "Pending",
+          value: data.currentCycle.pending,
+          color: "#2196f3",
+          percentage: total > 0 ? Math.round((data.currentCycle.pending / total) * 100) : 0,
+        },
+      ]
       return (
         <div className="pie-chart-container">
           <div className="pie-chart">
-            <div className="pie-chart-visualization"><div className="pie-chart-placeholder"><PieChart size={80} /></div></div>
+            <div className="pie-chart-visualization">
+              <div className="pie-chart-placeholder">
+                <PieChart size={80} />
+              </div>
+            </div>
             <div className="pie-chart-legend">
               {segments.map((segment, index) => (
                 <div key={index} className="pie-chart-legend-item">
                   <div className="pie-chart-legend-color" style={{ backgroundColor: segment.color }}></div>
-                  <div className="pie-chart-legend-label">{segment.label}: {segment.value} ({segment.percentage}%)</div>
+                  <div className="pie-chart-legend-label">
+                    {segment.label}: {segment.value} ({segment.percentage}%)
+                  </div>
                 </div>
               ))}
             </div>
           </div>
         </div>
-      );
+      )
     }
 
     const renderStarRating = (rating) => {
-      const stars = []; const fullStars = Math.floor(rating); const hasHalfStar = rating % 1 >= 0.5;
+      const stars = []
+      const fullStars = Math.floor(rating)
+      const hasHalfStar = rating % 1 >= 0.5
       for (let i = 0; i < 5; i++) {
-        if (i < fullStars) stars.push(<Star key={i} size={16} className="star-filled" />);
-        else if (i === fullStars && hasHalfStar) stars.push(<Star key={i} size={16} className="star-half" />);
-        else stars.push(<Star key={i} size={16} className="star-empty" />);
+        if (i < fullStars) stars.push(<Star key={i} size={16} className="star-filled" />)
+        else if (i === fullStars && hasHalfStar) stars.push(<Star key={i} size={16} className="star-half" />)
+        else stars.push(<Star key={i} size={16} className="star-empty" />)
       }
-      return <div className="star-rating">{stars} <span className="rating-value">({rating.toFixed(1)})</span></div>;
+      return (
+        <div className="star-rating">
+          {stars} <span className="rating-value">({rating.toFixed(1)})</span>
+        </div>
+      )
     }
 
-    const currentCycleCompletionRate = reportStats.currentCycle.total > 0 ?
-        Math.round(
-            ((reportStats.currentCycle.accepted + reportStats.currentCycle.rejected + reportStats.currentCycle.flagged) /
-            reportStats.currentCycle.total) * 100
-        ) : 0;
+    const currentCycleCompletionRate =
+      reportStats.currentCycle.total > 0
+        ? Math.round(
+            ((reportStats.currentCycle.accepted +
+              reportStats.currentCycle.rejected +
+              reportStats.currentCycle.flagged) /
+              reportStats.currentCycle.total) *
+              100,
+          )
+        : 0
 
-    const currentCycleAcceptanceRate = (reportStats.currentCycle.accepted + reportStats.currentCycle.rejected + reportStats.currentCycle.flagged) > 0 ?
-        Math.round(
+    const currentCycleAcceptanceRate =
+      reportStats.currentCycle.accepted + reportStats.currentCycle.rejected + reportStats.currentCycle.flagged > 0
+        ? Math.round(
             (reportStats.currentCycle.accepted /
-            (reportStats.currentCycle.accepted + reportStats.currentCycle.rejected + reportStats.currentCycle.flagged)) * 100
-        ) : 0;
+              (reportStats.currentCycle.accepted +
+                reportStats.currentCycle.rejected +
+                reportStats.currentCycle.flagged)) *
+              100,
+          )
+        : 0
 
     return (
       <div className="statistics-section-overlay">
@@ -1060,53 +1763,99 @@ function SCAD() {
           <div className="statistics-header">
             <h2>Internship Statistics</h2>
             <button className="download-stats-button" onClick={generateStatisticsPDF} disabled={!jspdfLoadedProp}>
-                <Download size={16} /> Download Statistics Report
+              <Download size={16} /> Download Statistics Report
             </button>
-            <button className="modal-close-button" onClick={onBack}><X size={20} /></button>
+            <button className="modal-close-button" onClick={onBack}>
+              <X size={20} />
+            </button>
           </div>
           <div className="statistics-content">
             <div className="statistics-card">
-              <div className="statistics-card-header"><h3><BarChart2 size={18} /> Reports Status (Current Cycle)</h3></div>
+              <div className="statistics-card-header">
+                <h3>
+                  <BarChart2 size={18} /> Reports Status (Current Cycle)
+                </h3>
+              </div>
               <div className="statistics-card-content">
                 {renderPieChart(reportStats)}
                 <div className="statistics-summary">
-                  <div className="summary-item"><div className="summary-label">Total Reports</div><div className="summary-value">{reportStats.currentCycle.total}</div></div>
-                  <div className="summary-item"><div className="summary-label">Completion Rate</div><div className="summary-value">{currentCycleCompletionRate}%</div></div>
-                  <div className="summary-item"><div className="summary-label">Acceptance Rate</div><div className="summary-value">{currentCycleAcceptanceRate}%</div></div>
+                  <div className="summary-item">
+                    <div className="summary-label">Total Reports</div>
+                    <div className="summary-value">{reportStats.currentCycle.total}</div>
+                  </div>
+                  <div className="summary-item">
+                    <div className="summary-label">Completion Rate</div>
+                    <div className="summary-value">{currentCycleCompletionRate}%</div>
+                  </div>
+                  <div className="summary-item">
+                    <div className="summary-label">Acceptance Rate</div>
+                    <div className="summary-value">{currentCycleAcceptanceRate}%</div>
+                  </div>
                 </div>
               </div>
             </div>
             <div className="statistics-card">
-              <div className="statistics-card-header"><h3><Clock size={18} /> Average Review Time (Sample)</h3></div>
+              <div className="statistics-card-header">
+                <h3>
+                  <Clock size={18} /> Average Review Time (Sample)
+                </h3>
+              </div>
               <div className="statistics-card-content">
                 <div className="review-time-stats">
-                  <div className="review-time-item"><div className="review-time-value">{reportStats.reviewTime.average}</div><div className="review-time-label">Average Days</div></div>
-                  <div className="review-time-item"><div className="review-time-value">{reportStats.reviewTime.min}</div><div className="review-time-label">Minimum Days</div></div>
-                  <div className="review-time-item"><div className="review-time-value">{reportStats.reviewTime.max}</div><div className="review-time-label">Maximum Days</div></div>
+                  <div className="review-time-item">
+                    <div className="review-time-value">{reportStats.reviewTime.average}</div>
+                    <div className="review-time-label">Average Days</div>
+                  </div>
+                  <div className="review-time-item">
+                    <div className="review-time-value">{reportStats.reviewTime.min}</div>
+                    <div className="review-time-label">Minimum Days</div>
+                  </div>
+                  <div className="review-time-item">
+                    <div className="review-time-value">{reportStats.reviewTime.max}</div>
+                    <div className="review-time-label">Maximum Days</div>
+                  </div>
                 </div>
-                <div className="review-time-note"><Info size={16} /><span>Review time is calculated from submission date to final decision (sample data shown).</span></div>
+                <div className="review-time-note">
+                  <Info size={16} />
+                  <span>Review time is calculated from submission date to final decision (sample data shown).</span>
+                </div>
               </div>
             </div>
             <div className="statistics-card">
-              <div className="statistics-card-header"><h3><BookOpen size={18} /> Most Popular Courses in Internships</h3></div>
+              <div className="statistics-card-header">
+                <h3>
+                  <BookOpen size={18} /> Most Popular Courses in Internships
+                </h3>
+              </div>
               <div className="statistics-card-content">
                 {renderBarChart(topCourses, "count", "name", undefined, "course-bar")}
               </div>
             </div>
             <div className="statistics-card">
-              <div className="statistics-card-header"><h3><TrendingUp size={18} /> Top Companies by Internship Report Count</h3></div>
+              <div className="statistics-card-header">
+                <h3>
+                  <TrendingUp size={18} /> Top Companies by Internship Report Count
+                </h3>
+              </div>
               <div className="statistics-card-content">
                 {renderBarChart(topCompaniesByInternships, "count", "name", undefined, "company-bar")}
               </div>
             </div>
             <div className="statistics-card">
-              <div className="statistics-card-header"><h3><Award size={18} /> Top Rated Companies (Sample)</h3></div>
+              <div className="statistics-card-header">
+                <h3>
+                  <Award size={18} /> Top Rated Companies (Sample)
+                </h3>
+              </div>
               <div className="statistics-card-content">
                 <div className="top-rated-companies">
                   {topRatedCompanies.map((company, index) => (
                     <div key={index} className="top-rated-company">
                       <div className="company-rank">{index + 1}</div>
-                      <div className="company-info"><div className="company-name">{company.name}</div>{renderStarRating(company.rating)}</div>
+                      <div className="company-info">
+                        <div className="company-name">{company.name}</div>
+                        {renderStarRating(company.rating)}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -1119,273 +1868,669 @@ function SCAD() {
   }
 
   const handleActionClick = (actionName) => {
-    // ... (keep existing implementation)
-    setActiveAction(actionName);
-    setShowCompanies(false);
-    setShowStudents(false);
-    setShowInternships(false);
-    setSelectedStudentProfile(null);
-    setShowCalendar(false);
-    setShowPdfViewer(false);
-    setShowEvaluations(false);
-    setShowStatistics(false);
-    // Do not reset appointment modal here, it's handled separately
-
-    if (actionName === "Companies") setShowCompanies(true);
-    else if (actionName === "Students") setShowStudents(true);
-    else if (actionName === "Internships") setShowInternships(true);
-    else if (actionName === "Internship Cycle") setShowCalendar(true);
-    else if (actionName === "Evaluation") setShowEvaluations(true);
-    else if (actionName === "Statistics") setShowStatistics(true); 
-    else {
-        console.log(`${actionName} action clicked`);
-    }
-
-    setTimeout(() => {
-        setActiveAction(null);
-    }, 300);
-  }
-
-  const handleStatisticsClick = () => {
-    // ... (keep existing implementation)
-    setShowStatistics(true)
-    setShowEvaluations(false)
-    setShowCalendar(false)
+    setActiveAction(actionName)
+    // Close all modals first
     setShowCompanies(false)
     setShowStudents(false)
     setShowInternships(false)
     setSelectedStudentProfile(null)
+    setShowCalendar(false)
     setShowPdfViewer(false)
+    setShowEvaluations(false)
+    setShowStatistics(false)
+    setShowAppointmentModal(false)
+    setAppointmentConfirmation("")
+    setShowMyAppointments(false)
+
+    // Then open the selected one
+    if (actionName === "Companies") setShowCompanies(true)
+    else if (actionName === "Students") setShowStudents(true)
+    else if (actionName === "Internships") setShowInternships(true)
+    else if (actionName === "Internship Cycle") setShowCalendar(true)
+    else if (actionName === "Evaluation") setShowEvaluations(true)
+    else if (actionName === "Statistics") setShowStatistics(true)
+    else {
+      console.log(`${actionName} action clicked`)
+    }
+
+    setTimeout(() => {
+      setActiveAction(null)
+    }, 300)
+  }
+
+  const handleStatisticsClick = () => {
+    // Close all other modals first
+    setShowCompanies(false)
+    setShowStudents(false)
+    setShowInternships(false)
+    setSelectedStudentProfile(null)
+    setShowCalendar(false)
+    setShowPdfViewer(false)
+    setShowEvaluations(false)
+    setShowAppointmentModal(false)
+    setAppointmentConfirmation("")
+    setShowMyAppointments(false)
+
+    // Then open Statistics
+    setShowStatistics(true)
   }
 
   // New handler for appointment submission
   const handleAppointmentSubmit = (formData) => {
-    console.log("Appointment Request Submitted:", formData);
-    // Here you would typically send the formData to a backend API
-    // e.g., fetch('/api/appointments', { method: 'POST', body: JSON.stringify(formData) ... })
-
+    console.log("Appointment Request Submitted:", formData)
     setAppointmentConfirmation(
-        `Thank you, ${formData.name}! Your request for "${formData.reason}" has been received. We will contact you at ${formData.email} regarding your preferred time: ${formData.preferredTime}.`
-    );
-    // The modal will be closed by the confirmation dialog's close button
-  };
+      `Thank you, ${formData.name}! Your request for "${formData.reason}" has been received. We will contact you at ${formData.email} regarding your preferred time: ${formData.preferredTime}.`,
+    )
+  }
 
+  // Handler for "My Appointments" button
+  const handleShowMyAppointments = () => {
+    // Close all other modals first
+    setShowCompanies(false)
+    setShowStudents(false)
+    setShowInternships(false)
+    setSelectedStudentProfile(null)
+    setShowCalendar(false)
+    setShowPdfViewer(false)
+    setShowEvaluations(false)
+    setShowStatistics(false)
+    setShowAppointmentModal(false)
+    setAppointmentConfirmation("")
 
-  const isActionActive = (actionName) => activeAction === actionName ? "action-card active" : "action-card";
-  const closeCompaniesSection = () => { setShowCompanies(false); setSearchQuery(""); setSelectedIndustry("All"); setSelectedCompanyId(null); setShowPdfViewer(false); };
-  const closeInternshipsSection = () => setShowInternships(false);
-  const closePdfViewer = () => { setShowPdfViewer(false); setSelectedCompanyId(null); };
-  const closeStudentsSection = () => { setShowStudents(false); setSelectedStudentProfile(null); };
-  const closeEvaluationsSection = () => setShowEvaluations(false);
-  const closeStatisticsSection = () => setShowStatistics(false);
-  const getFirstLetter = (name) => name ? name.charAt(0) : "";
-  const handleSearchChange = (event) => setSearchQuery(event.target.value);
-  const handleIndustryChange = (event) => setSelectedIndustry(event.target.value);
+    // Then open My Appointments
+    setShowMyAppointments(true)
+  }
+
+  const isActionActive = (actionName) => (activeAction === actionName ? "action-card active" : "action-card")
+  const closeCompaniesSection = () => {
+    setShowCompanies(false)
+    setSearchQuery("")
+    setSelectedIndustry("All")
+    setSelectedCompanyId(null)
+    setShowPdfViewer(false)
+  }
+  const closeInternshipsSection = () => setShowInternships(false)
+  const closePdfViewer = () => {
+    setShowPdfViewer(false)
+    setSelectedCompanyId(null)
+  }
+  const closeStudentsSection = () => {
+    setShowStudents(false)
+    setSelectedStudentProfile(null)
+  }
+  const closeEvaluationsSection = () => setShowEvaluations(false)
+  const closeStatisticsSection = () => setShowStatistics(false)
+  const getFirstLetter = (name) => (name ? name.charAt(0) : "")
+  const handleSearchChange = (event) => setSearchQuery(event.target.value)
+  const handleIndustryChange = (event) => setSelectedIndustry(event.target.value)
 
   const handleRejectCompany = (companyId) => {
-    // ... (keep existing implementation)
-    setStats((prevStats) => ({ ...prevStats, totalCompanies: (Number.parseInt(prevStats.totalCompanies) - 1).toString() }));
-    setInitialCompanies((prevCompanies) => prevCompanies.filter((company) => company.id !== companyId));
-    setSelectedCompanyId(null);
-    setShowPdfViewer(false);
-    console.log(`Company ${companyId} rejected and removed`);
+    setStats((prevStats) => ({
+      ...prevStats,
+      totalCompanies: (Number.parseInt(prevStats.totalCompanies) - 1).toString(),
+    }))
+    setInitialCompanies((prevCompanies) => prevCompanies.filter((company) => company.id !== companyId))
+    setSelectedCompanyId(null)
+    setShowPdfViewer(false)
+    console.log(`Company ${companyId} rejected and removed`)
   }
 
   const handleAcceptCompany = (companyId) => {
-    // ... (keep existing implementation)
-    setShowPdfViewer(false);
-    setSelectedCompanyId(null);
-    console.log(`Company ${companyId} accepted`);
+    setShowPdfViewer(false)
+    setSelectedCompanyId(null)
+    console.log(`Company ${companyId} accepted`)
   }
 
-  const selectedCompanyDetails = selectedCompanyId ? companyApplications[selectedCompanyId] : null;
-  const selectedCompany = selectedCompanyId ? initialCompanies.find((company) => company.id === selectedCompanyId) : null;
+  const selectedCompanyDetails = selectedCompanyId ? companyApplications[selectedCompanyId] : null
+  const selectedCompany = selectedCompanyId
+    ? initialCompanies.find((company) => company.id === selectedCompanyId)
+    : null
 
   useEffect(() => {
-    // ... (keep existing implementation)
-    let results = initialCompanies;
-    if (searchQuery) results = results.filter((company) => company.name.toLowerCase().includes(searchQuery.toLowerCase()));
-    if (selectedIndustry !== "All") results = results.filter((company) => company.industry === selectedIndustry);
-    setFilteredCompanies(results);
-  }, [searchQuery, selectedIndustry, initialCompanies]);
+    let results = initialCompanies
+    if (searchQuery)
+      results = results.filter((company) => company.name.toLowerCase().includes(searchQuery.toLowerCase()))
+    if (selectedIndustry !== "All") results = results.filter((company) => company.industry === selectedIndustry)
+    setFilteredCompanies(results)
+  }, [searchQuery, selectedIndustry, initialCompanies])
 
-  const uniqueIndustries = ["All", ...new Set(initialCompanies.map((company) => company.industry))].sort();
-  const currentYear = new Date().getFullYear();
+  const uniqueIndustries = ["All", ...new Set(initialCompanies.map((company) => company.industry))].sort()
+  const currentYear = new Date().getFullYear()
   const cycleHighlightedDays = useMemo(() => {
-    // ... (keep existing implementation)
-    const days = []; const startMonth = 6; const endMonth = 8; const year = new Date().getFullYear();
+    const days = []
+    const startMonth = 6
+    const endMonth = 8
+    const year = new Date().getFullYear()
     for (let month = startMonth; month <= endMonth; month++) {
-      const lastDay = new Date(year, month + 1, 0).getDate();
-      for (let day = 1; day <= lastDay; day++) days.push(new Date(year, month, day));
+      const lastDay = new Date(year, month + 1, 0).getDate()
+      for (let day = 1; day <= lastDay; day++) days.push(new Date(year, month, day))
     }
-    return days;
-  }, []);
+    return days
+  }, [])
 
   const goToStudentProfile = (studentId) => {
-    // ... (keep existing implementation)
-    const student = initialStudents.find((s) => s.id === studentId);
-    setSelectedStudentProfile(student);
-    setShowStudents(false);
+    const student = initialStudents.find((s) => s.id === studentId)
+    setSelectedStudentProfile(student)
+    setShowStudents(false)
   }
-  const closeStudentProfile = () => { setSelectedStudentProfile(null); setShowStudents(true); }
+  const closeStudentProfile = () => {
+    setSelectedStudentProfile(null)
+    setShowStudents(true)
+  }
 
   const getStudentInternshipSubmissions = (studentId) => {
-    // ... (keep existing implementation)
-    if (studentId === 101) return [{ id: 1, company: "Google", status: "Applied", submissionDate: "2024-08-15" }, { id: 2, company: "Meta", status: "Interviewed", submissionDate: "2024-09-01" }];
-    if (studentId === 103) return [{ id: 3, company: "Amazon", status: "Accepted", submissionDate: "2024-10-20" }];
-    return [];
+    if (studentId === 101)
+      return [
+        { id: 1, company: "Google", status: "Applied", submissionDate: "2024-08-15" },
+        { id: 2, company: "Meta", status: "Interviewed", submissionDate: "2024-09-01" },
+      ]
+    if (studentId === 103) return [{ id: 3, company: "Amazon", status: "Accepted", submissionDate: "2024-10-20" }]
+    return []
   }
-  
+
   function Calendar({ highlightedDays, onClose }) {
-    // ... (keep existing implementation)
-    const [currentView, setCurrentView] = useState("overview") 
+    const [currentView, setCurrentView] = useState("overview")
     const [selectedMonth, setSelectedMonth] = useState(null)
     const currentYear = new Date().getFullYear()
     const months = useMemo(() => {
-        const m = [];
-        for (let i = 0; i < 12; i++) {
-          const monthDate = new Date(currentYear, i, 1);
-          const monthName = monthDate.toLocaleString("default", { month: "long" });
-          const highlightedInMonth = highlightedDays.filter(day => day.getMonth() === i && day.getFullYear() === currentYear).length;
-          const isActiveMonth = i >= 6 && i <= 8;
-          m.push({ index: i, name: monthName, highlightedDays: isActiveMonth ? highlightedInMonth : 0, daysInMonth: new Date(currentYear, i + 1, 0).getDate(), isActive: isActiveMonth });
-        }
-        return m;
-    }, [currentYear, highlightedDays]);
+      const m = []
+      for (let i = 0; i < 12; i++) {
+        const monthDate = new Date(currentYear, i, 1)
+        const monthName = monthDate.toLocaleString("default", { month: "long" })
+        const highlightedInMonth = highlightedDays.filter(
+          (day) => day.getMonth() === i && day.getFullYear() === currentYear,
+        ).length
+        const isActiveMonth = i >= 6 && i <= 8
+        m.push({
+          index: i,
+          name: monthName,
+          highlightedDays: isActiveMonth ? highlightedInMonth : 0,
+          daysInMonth: new Date(currentYear, i + 1, 0).getDate(),
+          isActive: isActiveMonth,
+        })
+      }
+      return m
+    }, [currentYear, highlightedDays])
 
-    const handleMonthClick = (monthIndex) => { setSelectedMonth(monthIndex); setCurrentView("month"); };
-    const goBackToOverview = () => setCurrentView("overview");
+    const handleMonthClick = (monthIndex) => {
+      setSelectedMonth(monthIndex)
+      setCurrentView("month")
+    }
+    const goBackToOverview = () => setCurrentView("overview")
 
     const renderMonthView = () => {
-      const month = selectedMonth; const year = currentYear;
-      const firstDayOfMonth = new Date(year, month, 1).getDay();
-      const daysInMonth = new Date(year, month + 1, 0).getDate();
-      const monthName = new Date(year, month, 1).toLocaleString("default", { month: "long" });
-      const days = [];
-      for (let i = 0; i < firstDayOfMonth; i++) days.push(<td key={`empty-${i}`} className="empty-day"></td>);
+      const month = selectedMonth
+      const year = currentYear
+      const firstDayOfMonth = new Date(year, month, 1).getDay()
+      const daysInMonth = new Date(year, month + 1, 0).getDate()
+      const monthName = new Date(year, month, 1).toLocaleString("default", { month: "long" })
+      const days = []
+      for (let i = 0; i < firstDayOfMonth; i++) days.push(<td key={`empty-${i}`} className="empty-day"></td>)
       for (let day = 1; day <= daysInMonth; day++) {
-        const date = new Date(year, month, day);
-        const isHighlighted = highlightedDays.some(highlightedDay => highlightedDay.toDateString() === date.toDateString());
-        const isToday = new Date().toDateString() === date.toDateString();
+        const date = new Date(year, month, day)
+        const isHighlighted = highlightedDays.some(
+          (highlightedDay) => highlightedDay.toDateString() === date.toDateString(),
+        )
+        const isToday = new Date().toDateString() === date.toDateString()
         days.push(
           <td key={day} className={`calendar-day ${isHighlighted ? "highlighted" : ""} ${isToday ? "today" : ""}`}>
-            <div className="day-content"><span className="day-number">{day}</span>{isHighlighted && <div className="day-indicator"></div>}</div>
-          </td>
-        );
+            <div className="day-content">
+              <span className="day-number">{day}</span>
+              {isHighlighted && <div className="day-indicator"></div>}
+            </div>
+          </td>,
+        )
       }
-      const weeks = []; for (let i = 0; i < days.length; i += 7) weeks.push(<tr key={`week-${i / 7}`}>{days.slice(i, i + 7)}</tr>);
-      const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      const weeks = []
+      for (let i = 0; i < days.length; i += 7) weeks.push(<tr key={`week-${i / 7}`}>{days.slice(i, i + 7)}</tr>)
+      const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
       return (
         <div className="month-view">
           <div className="month-header">
-            <button className="back-button" onClick={goBackToOverview}><ChevronLeft size={20} /><span>Back</span></button>
-            <h2>{monthName} {year}</h2>
+            <button className="back-button" onClick={goBackToOverview}>
+              <ChevronLeft size={20} />
+              <span>Back</span>
+            </button>
+            <h2>
+              {monthName} {year}
+            </h2>
           </div>
-          <table className="month-calendar"><thead><tr>{dayNames.map((day) => <th key={day}>{day}</th>)}</tr></thead><tbody>{weeks}</tbody></table>
+          <table className="month-calendar">
+            <thead>
+              <tr>
+                {dayNames.map((day) => (
+                  <th key={day}>{day}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>{weeks}</tbody>
+          </table>
           <div className="calendar-legend">
-            <div className="legend-item"><div className="legend-indicator highlighted"></div><span>Internship Cycle Day</span></div>
-            <div className="legend-item"><div className="legend-indicator today"></div><span>Today</span></div>
+            <div className="legend-item">
+              <div className="legend-indicator highlighted"></div>
+              <span>Internship Cycle Day</span>
+            </div>
+            <div className="legend-item">
+              <div className="legend-indicator today"></div>
+              <span>Today</span>
+            </div>
           </div>
         </div>
-      );
-    };
+      )
+    }
     const renderOverview = () => (
       <div className="calendar-overview">
-        <h2>Internship Cycle Calendar</h2><p className="cycle-dates">July 1st - October 1st, {currentYear}</p>
-        <div className="months-grid">{months.map((month) => (<div key={month.index} className={`month-card ${month.isActive ? "active-month" : "inactive-month"}`} onClick={() => handleMonthClick(month.index)}><h3>{month.name}</h3><div className="month-stats"><div className="month-progress">{month.isActive && (<div className="progress-bar" style={{ width: `${(month.highlightedDays / month.daysInMonth) * 100}%` }}></div>)}</div><p>{month.highlightedDays} active days</p></div></div>))}</div>
+        <h2>Internship Cycle Calendar</h2>
+        <p className="cycle-dates">July 1st - October 1st, {currentYear}</p>
+        <div className="months-grid">
+          {months.map((month) => (
+            <div
+              key={month.index}
+              className={`month-card ${month.isActive ? "active-month" : "inactive-month"}`}
+              onClick={() => handleMonthClick(month.index)}
+            >
+              <h3>{month.name}</h3>
+              <div className="month-stats">
+                <div className="month-progress">
+                  {month.isActive && (
+                    <div
+                      className="progress-bar"
+                      style={{ width: `${(month.highlightedDays / month.daysInMonth) * 100}%` }}
+                    ></div>
+                  )}
+                </div>
+                <p>{month.highlightedDays} active days</p>
+              </div>
+            </div>
+          ))}
+        </div>
         <div className="calendar-summary">
-          <div className="summary-item"><CalendarIcon size={20} /><div><h4>Total Duration</h4><p>3 months</p></div></div>
-          <div className="summary-item"><Clock size={20} /><div><h4>Active Days</h4><p>{highlightedDays.length} days</p></div></div>
+          <div className="summary-item">
+            <CalendarIcon size={20} />
+            <div>
+              <h4>Total Duration</h4>
+              <p>3 months</p>
+            </div>
+          </div>
+          <div className="summary-item">
+            <Clock size={20} />
+            <div>
+              <h4>Active Days</h4>
+              <p>{highlightedDays.length} days</p>
+            </div>
+          </div>
         </div>
       </div>
-    );
-    return <div className="calendar-container"><button className="modal-close-button calendar-close" onClick={onClose}><X size={20} /></button>{currentView === "overview" ? renderOverview() : renderMonthView()}</div>;
+    )
+    return (
+      <div className="calendar-container">
+        <button className="modal-close-button calendar-close" onClick={onClose}>
+          <X size={20} />
+        </button>
+        {currentView === "overview" ? renderOverview() : renderMonthView()}
+      </div>
+    )
   }
 
   function StudentsView({ students, onBack, onGoToProfile }) {
-    // ... (keep existing implementation)
-    const [filterStatus, setFilterStatus] = useState("All");
-    const [filteredStudents, setFilteredStudents] = useState(students);
+    const [filterStatus, setFilterStatus] = useState("All")
+    const [filteredStudents, setFilteredStudents] = useState(students)
     useEffect(() => {
-      if (filterStatus === "All") setFilteredStudents(students);
-      else setFilteredStudents(students.filter((student) => student.internshipStatus === filterStatus));
-    }, [students, filterStatus]);
-    const handleFilterChange = (event) => setFilterStatus(event.target.value);
-    const handleProfileClick = (studentId) => { if (onGoToProfile) onGoToProfile(studentId); else console.log(`Go to profile for student ID: ${studentId}`); };
+      if (filterStatus === "All") setFilteredStudents(students)
+      else setFilteredStudents(students.filter((student) => student.internshipStatus === filterStatus))
+    }, [students, filterStatus])
+    const handleFilterChange = (event) => setFilterStatus(event.target.value)
+    const handleProfileClick = (studentId) => {
+      if (onGoToProfile) onGoToProfile(studentId)
+      else console.log(`Go to profile for student ID: ${studentId}`)
+    }
     return (
       <div className="students-section-overlay">
         <div className="students-view">
-          <div className="students-header"><h2>Students List</h2><button className="modal-close-button" onClick={onBack}><X size={20} /></button></div>
-          <div className="students-filter"><label htmlFor="internshipStatus">Filter by Internship Status:</label><select id="internshipStatus" value={filterStatus} onChange={handleFilterChange}><option value="All">All</option><option value="Not Started">Not Started</option><option value="Ongoing">Ongoing</option><option value="Completed">Completed</option></select></div>
+          <div className="students-header">
+            <h2>Students List</h2>
+            <button className="modal-close-button" onClick={onBack}>
+              <X size={20} />
+            </button>
+          </div>
+          <div className="students-filter">
+            <label htmlFor="internshipStatus">Filter by Internship Status:</label>
+            <select id="internshipStatus" value={filterStatus} onChange={handleFilterChange}>
+              <option value="All">All</option>
+              <option value="Not Started">Not Started</option>
+              <option value="Ongoing">Ongoing</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </div>
           <ul className="students-list">
-            {filteredStudents.map((student) => (<li key={student.id} className="student-card"><div className="profile-circle" onClick={() => handleProfileClick(student.id)}>{getInitials(student.name)}</div><div className="student-info"><h3>{student.name}</h3><p>ID: {student.id}</p><p>Internship Status: {student.internshipStatus}</p>{student.company && <p>Company: {student.company}</p>}</div></li>))}
+            {filteredStudents.map((student) => (
+              <li key={student.id} className="student-card">
+                <div className="profile-circle" onClick={() => handleProfileClick(student.id)}>
+                  {getInitials(student.name)}
+                </div>
+                <div className="student-info">
+                  <h3>{student.name}</h3>
+                  <p>ID: {student.id}</p>
+                  <p>Internship Status: {student.internshipStatus}</p>
+                  {student.company && <p>Company: {student.company}</p>}
+                </div>
+              </li>
+            ))}
             {filteredStudents.length === 0 && <p>No students found with the selected filter.</p>}
           </ul>
         </div>
       </div>
-    );
+    )
   }
-  function CompanyPdfViewer({ companyId, companyName, companyIndustry, companyDetails, onAccept, onReject, onClose }) { 
-    // ... (keep existing implementation)
+  function CompanyPdfViewer({ companyId, companyName, companyIndustry, companyDetails, onAccept, onReject, onClose }) {
     return (
       <div className="pdf-viewer-overlay">
         <div className="pdf-viewer">
-          <div className="pdf-header"><h2>{companyName} - Details</h2><button className="modal-close-button" onClick={onClose}><X size={20} /></button></div>
-          <div className="pdf-content"><p>Industry: {companyIndustry}</p><p>Legitimacy Proof: {companyDetails.legitimacyProof}</p><p>Description: {companyDetails.description}</p></div>
+          <div className="pdf-header">
+            <h2>{companyName} - Details</h2>
+            <button className="modal-close-button" onClick={onClose}>
+              <X size={20} />
+            </button>
+          </div>
+          <div className="pdf-content">
+            <p>Industry: {companyIndustry}</p>
+            <p>Legitimacy Proof: {companyDetails.legitimacyProof}</p>
+            <p>Description: {companyDetails.description}</p>
+          </div>
           <div className="pdf-actions">
-            <button className="accept-button" onClick={() => onAccept(companyId)}><CheckCircle size={16} /> Accept</button>
-            <button className="reject-button" onClick={() => onReject(companyId)}><XCircle size={16} /> Reject</button>
+            <button className="accept-button" onClick={() => onAccept(companyId)}>
+              <CheckCircle size={16} /> Accept
+            </button>
+            <button className="reject-button" onClick={() => onReject(companyId)}>
+              <XCircle size={16} /> Reject
+            </button>
           </div>
         </div>
       </div>
-    );
+    )
   }
-  function InternshipCard({ internship, company, onClick }) { 
-    // ... (keep existing implementation)
+  function InternshipCard({ internship, company, onClick }) {
     return (
       <div className="internship-card" onClick={onClick}>
-        <div className="internship-header"><h3>{internship.jobTitle}</h3><span className={`payment-badge ${internship.isPaid ? "paid" : "unpaid"}`}>{internship.isPaid ? "Paid" : "Unpaid"}</span></div>
-        <div className="internship-company"><Building size={16} /><span>{company.name}</span></div>
-        <div className="internship-duration"><Clock size={16} /><span>{internship.duration}</span></div>
+        <div className="internship-header">
+          <h3>{internship.jobTitle}</h3>
+          <span className={`payment-badge ${internship.isPaid ? "paid" : "unpaid"}`}>
+            {internship.isPaid ? "Paid" : "Unpaid"}
+          </span>
+        </div>
+        <div className="internship-company">
+          <Building size={16} />
+          <span>{company.name}</span>
+        </div>
+        <div className="internship-duration">
+          <Clock size={16} />
+          <span>{internship.duration}</span>
+        </div>
       </div>
-    );
+    )
   }
-  function InternshipsView({ onBack }) { 
-    // ... (keep existing implementation)
-    const [searchQuery, setSearchQuery] = useState(""); const [selectedIndustry, setSelectedIndustry] = useState("All"); const [selectedDuration, setSelectedDuration] = useState("All"); const [selectedPayStatus, setSelectedPayStatus] = useState("All"); const [selectedInternship, setSelectedInternship] = useState(null);
-    const companies = [ { id: 1, name: "Dell Technologies", industry: "Technology" }, { id: 2, name: "IBM", industry: "Technology" }, { id: 3, name: "PwC", industry: "Consulting" }, { id: 4, name: "Microsoft", industry: "Technology" }, { id: 5, name: "Amazon", industry: "E-commerce" }, ];
-    const internships = [ { id: 1, companyId: 1, jobTitle: "Software Engineering Intern", duration: "3 months", isPaid: true, salary: 1500, startDate: "June 1, 2024", description: "Join Dell Technologies as a Software Engineering Intern to work on cutting-edge projects.", skills: ["Java", "Python", "Git", "Agile"], }, { id: 2, companyId: 2, jobTitle: "Data Science Intern", duration: "6 months", isPaid: true, salary: 2000, startDate: "July 15, 2024", description: "IBM is looking for a Data Science Intern to join our AI research team.", skills: ["Python", "Machine Learning", "Statistics", "SQL"], }, { id: 3, companyId: 3, jobTitle: "Business Analyst Intern", duration: "3 months", isPaid: true, salary: 1200, startDate: "June 15, 2024", description: "PwC is seeking a Business Analyst Intern to support our consulting team.", skills: ["Excel", "Data Analysis", "Business Process Modeling", "Communication"], }, { id: 4, companyId: 4, jobTitle: "UX Design Intern", duration: "4 months", isPaid: true, salary: 1800, startDate: "August 1, 2024", description: "Microsoft is looking for a UX Design Intern to join our product team.", skills: ["Figma", "UI/UX", "Prototyping", "User Research"], }, { id: 5, companyId: 5, jobTitle: "Operations Intern", duration: "3 months", isPaid: false, startDate: "July 1, 2024", description: "Amazon is seeking an Operations Intern to support our logistics team.", skills: ["Supply Chain", "Logistics", "Process Improvement", "Analytics"], }, ];
-    const filteredInternships = internships.filter((internship) => { const company = companies.find((c) => c.id === internship.companyId); if (searchQuery) { const query = searchQuery.toLowerCase(); const matchesTitle = internship.jobTitle.toLowerCase().includes(query); const matchesCompany = company.name.toLowerCase().includes(query); if (!matchesTitle && !matchesCompany) return false; } if (selectedIndustry !== "All" && company.industry !== selectedIndustry) return false; if (selectedDuration !== "All" && internship.duration !== selectedDuration) return false; if (selectedPayStatus !== "All") { const isPaid = selectedPayStatus === "Paid"; if (internship.isPaid !== isPaid) return false; } return true; });
-    const uniqueIndustries = ["All", ...new Set(companies.map((company) => company.industry))].sort(); const uniqueDurations = ["All", ...new Set(internships.map((internship) => internship.duration))].sort();
-    const handleInternshipClick = (internship) => setSelectedInternship(internship); const closeInternshipDetails = () => setSelectedInternship(null);
+  function InternshipsView({ onBack }) {
+    const [searchQuery, setSearchQuery] = useState("")
+    const [selectedIndustry, setSelectedIndustry] = useState("All")
+    const [selectedDuration, setSelectedDuration] = useState("All")
+    const [selectedPayStatus, setSelectedPayStatus] = useState("All")
+    const [selectedInternship, setSelectedInternship] = useState(null)
+    const companies = [
+      { id: 1, name: "Dell Technologies", industry: "Technology" },
+      { id: 2, name: "IBM", industry: "Technology" },
+      { id: 3, name: "PwC", industry: "Consulting" },
+      { id: 4, name: "Microsoft", industry: "Technology" },
+      { id: 5, name: "Amazon", industry: "E-commerce" },
+    ]
+    const internships = [
+      {
+        id: 1,
+        companyId: 1,
+        jobTitle: "Software Engineering Intern",
+        duration: "3 months",
+        isPaid: true,
+        salary: 1500,
+        startDate: "June 1, 2024",
+        description: "Join Dell Technologies as a Software Engineering Intern to work on cutting-edge projects.",
+        skills: ["Java", "Python", "Git", "Agile"],
+      },
+      {
+        id: 2,
+        companyId: 2,
+        jobTitle: "Data Science Intern",
+        duration: "6 months",
+        isPaid: true,
+        salary: 2000,
+        startDate: "July 15, 2024",
+        description: "IBM is looking for a Data Science Intern to join our AI research team.",
+        skills: ["Python", "Machine Learning", "Statistics", "SQL"],
+      },
+      {
+        id: 3,
+        companyId: 3,
+        jobTitle: "Business Analyst Intern",
+        duration: "3 months",
+        isPaid: true,
+        salary: 1200,
+        startDate: "June 15, 2024",
+        description: "PwC is seeking a Business Analyst Intern to support our consulting team.",
+        skills: ["Excel", "Data Analysis", "Business Process Modeling", "Communication"],
+      },
+      {
+        id: 4,
+        companyId: 4,
+        jobTitle: "UX Design Intern",
+        duration: "4 months",
+        isPaid: true,
+        salary: 1800,
+        startDate: "August 1, 2024",
+        description: "Microsoft is looking for a UX Design Intern to join our product team.",
+        skills: ["Figma", "UI/UX", "Prototyping", "User Research"],
+      },
+      {
+        id: 5,
+        companyId: 5,
+        jobTitle: "Operations Intern",
+        duration: "3 months",
+        isPaid: false,
+        startDate: "July 1, 2024",
+        description: "Amazon is seeking an Operations Intern to support our logistics team.",
+        skills: ["Supply Chain", "Logistics", "Process Improvement", "Analytics"],
+      },
+    ]
+    const filteredInternships = internships.filter((internship) => {
+      const company = companies.find((c) => c.id === internship.companyId)
+      if (searchQuery) {
+        const query = searchQuery.toLowerCase()
+        const matchesTitle = internship.jobTitle.toLowerCase().includes(query)
+        const matchesCompany = company.name.toLowerCase().includes(query)
+        if (!matchesTitle && !matchesCompany) return false
+      }
+      if (selectedIndustry !== "All" && company.industry !== selectedIndustry) return false
+      if (selectedDuration !== "All" && internship.duration !== selectedDuration) return false
+      if (selectedPayStatus !== "All") {
+        const isPaid = selectedPayStatus === "Paid"
+        if (internship.isPaid !== isPaid) return false
+      }
+      return true
+    })
+    const uniqueIndustries = ["All", ...new Set(companies.map((company) => company.industry))].sort()
+    const uniqueDurations = ["All", ...new Set(internships.map((internship) => internship.duration))].sort()
+    const handleInternshipClick = (internship) => setSelectedInternship(internship)
+    const closeInternshipDetails = () => setSelectedInternship(null)
     return (
       <div className="internships-section-overlay">
-        {!selectedInternship ? ( <div className="internships-section"> <div className="internships-header"><h2>Available Internships</h2><button className="modal-close-button" onClick={onBack}><X size={20} /></button></div> <div className="internships-search"><div className="search-input"><Search size={16} /><input type="text" placeholder="Search by job title or company name..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}/></div></div> <div className="internships-filters"><div className="filter-group"><label htmlFor="industry">Industry:</label><select id="industry" value={selectedIndustry} onChange={(e) => setSelectedIndustry(e.target.value)}>{uniqueIndustries.map((industry) => (<option key={industry} value={industry}>{industry}</option>))}</select></div><div className="filter-group"><label htmlFor="duration">Duration:</label><select id="duration" value={selectedDuration} onChange={(e) => setSelectedDuration(e.target.value)}>{uniqueDurations.map((duration) => (<option key={duration} value={duration}>{duration}</option>))}</select></div><div className="filter-group"><label htmlFor="payStatus">Payment:</label><select id="payStatus" value={selectedPayStatus} onChange={(e) => setSelectedPayStatus(e.target.value)}><option value="All">All</option><option value="Paid">Paid</option><option value="Unpaid">Unpaid</option></select></div></div> <div className="internships-list">{filteredInternships.length > 0 ? ( filteredInternships.map((internship) => { const company = companies.find((c) => c.id === internship.companyId); return (<InternshipCard key={internship.id} internship={internship} company={company} onClick={() => handleInternshipClick(internship)}/> ); }) ) : ( <div className="no-results">No internships found matching your criteria.</div> )}</div></div> ) : ( <div className="internship-details"><div className="internship-details-header"><h2>{selectedInternship.jobTitle}</h2><button className="modal-close-button" onClick={closeInternshipDetails}><X size={20} /></button></div><div className="internship-details-content"><div className="internship-company-info"><h3><Building size={18} />{companies.find((c) => c.id === selectedInternship.companyId).name}</h3><p className="industry-tag"><Tag size={14} />{companies.find((c) => c.id === selectedInternship.companyId).industry}</p></div><div className="internship-info-grid"><div className="info-item"><Clock size={18} /><div><h4>Duration</h4><p>{selectedInternship.duration}</p></div></div><div className="info-item"><DollarSign size={18} /><div><h4>Payment</h4><p>{selectedInternship.isPaid ? "Paid" : "Unpaid"}</p>{selectedInternship.isPaid && selectedInternship.salary && (<p className="salary">${selectedInternship.salary}/month</p>)}</div></div><div className="info-item"><CalendarIcon size={18} /><div><h4>Start Date</h4><p>{selectedInternship.startDate || "Flexible"}</p></div></div></div><div className="internship-description"><h3>Job Description</h3><p>{selectedInternship.description}</p></div><div className="internship-skills"><h3>Required Skills</h3><div className="skills-list">{selectedInternship.skills.map((skill, index) => (<span key={index} className="skill-tag">{skill}</span>))}</div></div></div></div>)}
+        {!selectedInternship ? (
+          <div className="internships-section">
+            {" "}
+            <div className="internships-header">
+              <h2>Available Internships</h2>
+              <button className="modal-close-button" onClick={onBack}>
+                <X size={20} />
+              </button>
+            </div>{" "}
+            <div className="internships-search">
+              <div className="search-input">
+                <Search size={16} />
+                <input
+                  type="text"
+                  placeholder="Search by job title or company name..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+            </div>{" "}
+            <div className="internships-filters">
+              <div className="filter-group">
+                <label htmlFor="industry">Industry:</label>
+                <select id="industry" value={selectedIndustry} onChange={(e) => setSelectedIndustry(e.target.value)}>
+                  {uniqueIndustries.map((industry) => (
+                    <option key={industry} value={industry}>
+                      {industry}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="filter-group">
+                <label htmlFor="duration">Duration:</label>
+                <select id="duration" value={selectedDuration} onChange={(e) => setSelectedDuration(e.target.value)}>
+                  {uniqueDurations.map((duration) => (
+                    <option key={duration} value={duration}>
+                      {duration}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="filter-group">
+                <label htmlFor="payStatus">Payment:</label>
+                <select id="payStatus" value={selectedPayStatus} onChange={(e) => setSelectedPayStatus(e.target.value)}>
+                  <option value="All">All</option>
+                  <option value="Paid">Paid</option>
+                  <option value="Unpaid">Unpaid</option>
+                </select>
+              </div>
+            </div>{" "}
+            <div className="internships-list">
+              {filteredInternships.length > 0 ? (
+                filteredInternships.map((internship) => {
+                  const company = companies.find((c) => c.id === internship.companyId)
+                  return (
+                    <InternshipCard
+                      key={internship.id}
+                      internship={internship}
+                      company={company}
+                      onClick={() => handleInternshipClick(internship)}
+                    />
+                  )
+                })
+              ) : (
+                <div className="no-results">No internships found matching your criteria.</div>
+              )}
+            </div>
+          </div>
+        ) : (
+          <div className="internship-details">
+            <div className="internship-details-header">
+              <h2>{selectedInternship.jobTitle}</h2>
+              <button className="modal-close-button" onClick={closeInternshipDetails}>
+                <X size={20} />
+              </button>
+            </div>
+            <div className="internship-details-content">
+              <div className="internship-company-info">
+                <h3>
+                  <Building size={18} />
+                  {companies.find((c) => c.id === selectedInternship.companyId).name}
+                </h3>
+                <p className="industry-tag">
+                  <Tag size={14} />
+                  {companies.find((c) => c.id === selectedInternship.companyId).industry}
+                </p>
+              </div>
+              <div className="internship-info-grid">
+                <div className="info-item">
+                  <Clock size={18} />
+                  <div>
+                    <h4>Duration</h4>
+                    <p>{selectedInternship.duration}</p>
+                  </div>
+                </div>
+                <div className="info-item">
+                  <DollarSign size={18} />
+                  <div>
+                    <h4>Payment</h4>
+                    <p>{selectedInternship.isPaid ? "Paid" : "Unpaid"}</p>
+                    {selectedInternship.isPaid && selectedInternship.salary && (
+                      <p className="salary">${selectedInternship.salary}/month</p>
+                    )}
+                  </div>
+                </div>
+                <div className="info-item">
+                  <CalendarIcon size={18} />
+                  <div>
+                    <h4>Start Date</h4>
+                    <p>{selectedInternship.startDate || "Flexible"}</p>
+                  </div>
+                </div>
+              </div>
+              <div className="internship-description">
+                <h3>Job Description</h3>
+                <p>{selectedInternship.description}</p>
+              </div>
+              <div className="internship-skills">
+                <h3>Required Skills</h3>
+                <div className="skills-list">
+                  {selectedInternship.skills.map((skill, index) => (
+                    <span key={index} className="skill-tag">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-    );
+    )
   }
 
   return (
     <div className="scad-container">
+      <style>{bellStyles}</style>
       <header className="scad-header">
         <div className="header-left">
           <div className="logo">
-            <div className="scad-logo"><GraduationCap size={24} /><span>SC</span></div>
+            <div className="scad-logo">
+              <GraduationCap size={24} />
+              <span>SC</span>
+            </div>
             <h1>SCAD Office</h1>
           </div>
         </div>
         <div className="header-center">
           <nav className="main-nav">
             <ul>
-              <li><button onClick={() => handleActionClick("Internship Cycle")} className="nav-link">Internship Cycle</button></li>
-              <li><button onClick={handleStatisticsClick} className="nav-link">Statistics</button></li>
               <li>
-                {/* Modified Request Appointment link */}
-                <button 
+                <button onClick={() => handleActionClick("Internship Cycle")} className="nav-link">
+                  Internship Cycle
+                </button>
+              </li>
+              <li>
+                <button onClick={handleStatisticsClick} className="nav-link">
+                  Statistics
+                </button>
+              </li>
+              <li>
+                <button onClick={handleShowMyAppointments} className="nav-link">
+                  My Appointments
+                </button>
+              </li>
+              <li>
+                <button
                   onClick={() => {
-                    setShowAppointmentModal(true);
-                    setAppointmentConfirmation(""); // Clear previous confirmation
-                  }} 
+                    setShowAppointmentModal(true)
+                    setAppointmentConfirmation("")
+                  }}
                   className="nav-link"
                 >
                   Request Appointment
@@ -1396,29 +2541,98 @@ function SCAD() {
         </div>
         <div className="header-right">
           <div className="header-icons">
-            <button className="icon-button" onClick={() => alert("Notifications")}><Bell size={20} /></button>
-            <button className="icon-button" onClick={() => alert("Incoming Calls")}><Phone size={20} /></button>
-            <button className="icon-button" onClick={() => alert("Outcoming Calls")}><MessageCircle size={20} /></button>
+            <div className="notification-bell-container">
+              <button className="icon-button notification-bell" onClick={toggleNotifications}>
+                <Bell size={24} />
+                {notificationCount > 0 && <span className="notification-badge">{notificationCount}</span>}
+              </button>
+
+              {showNotifications && (
+                <div className="notifications-panel">
+                  <div className="notifications-header">
+                    <h3>Notifications</h3>
+                    <button className="clear-notifications" onClick={clearAllNotifications}>
+                      Clear All
+                    </button>
+                  </div>
+                  <div className="notifications-list">
+                    {notifications.length === 0 ? (
+                      <div className="no-notifications">No notifications</div>
+                    ) : (
+                      notifications.map((notification) => (
+                        <div
+                          key={notification.id}
+                          className={`notification-item ${notification.read ? "read" : "unread"} ${notification.type}`}
+                          onClick={() => markNotificationAsRead(notification.id)}
+                        >
+                          <div className="notification-icon">
+                            {notification.type === "success" && <CheckCircle size={16} />}
+                            {notification.type === "error" && <XCircle size={16} />}
+                            {notification.type === "info" && <Info size={16} />}
+                            {notification.type === "call" && <Phone size={16} />}
+                          </div>
+                          <div className="notification-content">
+                            <p>{notification.message}</p>
+                            <span className="notification-time">{notification.timestamp}</span>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
-          <div className="profile-avatar"><img src="/placeholder.svg?height=40&width=40" alt="Profile" /></div>
         </div>
       </header>
 
       <main className="scad-main">
-        <section className="welcome-section"><h1>Welcome back</h1><p>Here's a quick overview of your day</p></section>
+        <section className="welcome-section">
+          <h1>Welcome back</h1>
+          <p>Here's a quick overview of your day</p>
+        </section>
         <section className="stats-section">
-          <div className="stat-card"><h3>Total students</h3><p className="stat-number">{stats.totalStudents}</p></div>
-          <div className="stat-card"><h3>Total Pro Students</h3><p className="stat-number">{stats.totalProStudents}</p></div>
-          <div className="stat-card"><h3>Total Companies</h3><p className="stat-number">{stats.totalCompanies}</p></div>
+          <div className="stat-card">
+            <h3>Total students</h3>
+            <p className="stat-number">{stats.totalStudents}</p>
+          </div>
+          <div className="stat-card">
+            <h3>Total Pro Students</h3>
+            <p className="stat-number">{stats.totalProStudents}</p>
+          </div>
+          <div className="stat-card">
+            <h3>Total Companies</h3>
+            <p className="stat-number">{stats.totalCompanies}</p>
+          </div>
         </section>
         <section className="quick-actions-section">
           <h2>Quick Actions</h2>
           <div className="actions-grid">
-            <div className={isActionActive("Companies")} onClick={() => handleActionClick("Companies")}><Building size={24} /><h3>Companies</h3><p>View all companies</p></div>
-            <div className={isActionActive("Internships")} onClick={() => handleActionClick("Internships")}><Briefcase size={24} /><h3>Internships</h3><p>View all internships</p></div>
-            <div className={isActionActive("Students")} onClick={() => handleActionClick("Students")}><Users size={24} /><h3>Students</h3><p>View all students</p></div>
-            <div className={isActionActive("Evaluation")} onClick={() => handleActionClick("Evaluation")}><FileText size={24} /><h3>Evaluation & Reports</h3><p>View all evaluations and reports</p></div>
-            <div className={isActionActive("Workshop")} onClick={() => handleActionClick("Workshop")}><Tool size={24} /><h3>Workshop</h3><p>View all workshops</p></div>
+            <div className={isActionActive("Companies")} onClick={() => handleActionClick("Companies")}>
+              <Building size={24} />
+              <h3>Companies</h3>
+              <p>View all companies</p>
+            </div>
+            <div className={isActionActive("Internships")} onClick={() => handleActionClick("Internships")}>
+              <Briefcase size={24} />
+              <h3>Internships</h3>
+              <p>View all internships</p>
+            </div>
+            <div className={isActionActive("Students")} onClick={() => handleActionClick("Students")}>
+              <Users size={24} />
+              <h3>Students</h3>
+              <p>View all students</p>
+            </div>
+            <div className={isActionActive("Evaluation")} onClick={() => handleActionClick("Evaluation")}>
+              <FileText size={24} />
+              <h3>Evaluation & Reports</h3>
+              <p>View all evaluations and reports</p>
+            </div>
+            <div className={isActionActive("Workshop")} onClick={() => handleActionClick("Workshop")}>
+              <Tool size={24} />
+              <h3>Workshop</h3>
+              <p>View all workshops</p>
+            </div>
           </div>
         </section>
         <section className="recent-activity-section">
@@ -1426,70 +2640,181 @@ function SCAD() {
           <div className="activity-timeline">
             {recentActivities.map((activity) => (
               <div className="activity-item" key={activity.id}>
-                <div className="activity-avatar"><div className="activity-character-logo">{getInitials(activity.person)}</div></div>
-                <div className="activity-content"><p className="activity-person">{activity.person}</p><p className="activity-type">{activity.type}</p><p className="activity-time">{activity.time}</p></div>
+                <div className="activity-avatar">
+                  <div className="activity-character-logo">{getInitials(activity.person)}</div>
+                </div>
+                <div className="activity-content">
+                  <p className="activity-person">{activity.person}</p>
+                  <p className="activity-type">{activity.type}</p>
+                  <p className="activity-time">{activity.time}</p>
+                </div>
               </div>
             ))}
           </div>
         </section>
-
-        {showCalendar && <div className="calendar-overlay"><Calendar highlightedDays={cycleHighlightedDays} onClose={() => setShowCalendar(false)} /></div>}
+        {showCalendar && (
+          <div className="calendar-overlay">
+            <Calendar highlightedDays={cycleHighlightedDays} onClose={() => setShowCalendar(false)} />
+          </div>
+        )}
         {showCompanies && (
           <div className="companies-section-overlay">
             <div className="companies-section">
-              <div className="companies-header"><h2>Available Companies</h2><button className="modal-close-button" onClick={closeCompaniesSection}><X size={20} /></button></div>
-              <div className="companies-filter-controls"><div className="search-input"><input type="text" placeholder="Search by company name..." value={searchQuery} onChange={handleSearchChange}/></div><div className="industry-filter"><label htmlFor="industry">Filter by Industry:</label><select id="industry" value={selectedIndustry} onChange={handleIndustryChange}>{uniqueIndustries.map((industry) => (<option key={industry} value={industry}>{industry}</option>))}</select></div></div>
-              <div className="companies-list">
-                {filteredCompanies.map((company) => (<div className={`company-card ${selectedCompanyId === company.id ? "selected" : ""}`} key={company.id} onClick={() => handleCompanyClick(company.id)}><div className="company-letter">{getFirstLetter(company.name)}</div><div className="company-info"><h3 className="company-name">{company.name}</h3><p>{company.industry}</p></div></div>))}
+              <div className="companies-header">
+                <h2>Available Companies</h2>
+                <button className="modal-close-button" onClick={closeCompaniesSection}>
+                  <X size={20} />
+                </button>
               </div>
-              {selectedCompanyId && (<div className="company-details"><h3>{initialCompanies.find((c) => c.id === selectedCompanyId)?.name} - Company Details</h3><div className="action-buttons"><button className="download-button" onClick={() => handleDownloadPDF(selectedCompanyId)}><Download size={16} /> Download PDF</button><button className="accept-button" onClick={() => handleAcceptCompany(selectedCompanyId)}><CheckCircle size={16} /> Accept</button><button className="reject-button" onClick={() => handleRejectCompany(selectedCompanyId)}><XCircle size={16} /> Reject</button></div></div>)}
+              <div className="companies-filter-controls">
+                <div className="search-input">
+                  <input
+                    type="text"
+                    placeholder="Search by company name..."
+                    value={searchQuery}
+                    onChange={handleSearchChange}
+                  />
+                </div>
+                <div className="industry-filter">
+                  <label htmlFor="industry">Filter by Industry:</label>
+                  <select id="industry" value={selectedIndustry} onChange={handleIndustryChange}>
+                    {uniqueIndustries.map((industry) => (
+                      <option key={industry} value={industry}>
+                        {industry}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              <div className="companies-list">
+                {filteredCompanies.map((company) => (
+                  <div
+                    className={`company-card ${selectedCompanyId === company.id ? "selected" : ""}`}
+                    key={company.id}
+                    onClick={() => handleCompanyClick(company.id)}
+                  >
+                    <div className="company-letter">{getFirstLetter(company.name)}</div>
+                    <div className="company-info">
+                      <h3 className="company-name">{company.name}</h3>
+                      <p>{company.industry}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {selectedCompanyId && (
+                <div className="company-details">
+                  <h3>{initialCompanies.find((c) => c.id === selectedCompanyId)?.name} - Company Details</h3>
+                  <div className="action-buttons">
+                    <button className="download-button" onClick={() => handleDownloadPDF(selectedCompanyId)}>
+                      <Download size={16} />
+                    </button>
+                    <button className="accept-button" onClick={() => handleAcceptCompany(selectedCompanyId)}>
+                      <CheckCircle size={16} />
+                    </button>
+                    <button className="reject-button" onClick={() => handleRejectCompany(selectedCompanyId)}>
+                      <XCircle size={16} />
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         )}
         {showInternships && <InternshipsView onBack={closeInternshipsSection} />}
-        {showPdfViewer && selectedCompany && selectedCompanyDetails && <CompanyPdfViewer companyId={selectedCompanyId} companyName={selectedCompany.name} companyIndustry={selectedCompany.industry} companyDetails={selectedCompanyDetails} onAccept={handleAcceptCompany} onReject={handleRejectCompany} onClose={closePdfViewer}/>}
-        {showStudents && <StudentsView students={initialStudents} onBack={closeStudentsSection} onGoToProfile={goToStudentProfile} />}
+        {showPdfViewer && selectedCompany && selectedCompanyDetails && (
+          <CompanyPdfViewer
+            companyId={selectedCompanyId}
+            companyName={selectedCompany.name}
+            companyIndustry={selectedCompany.industry}
+            companyDetails={selectedCompanyDetails}
+            onAccept={handleAcceptCompany}
+            onReject={handleRejectCompany}
+            onClose={closePdfViewer}
+          />
+        )}
+        {showStudents && (
+          <StudentsView students={initialStudents} onBack={closeStudentsSection} onGoToProfile={goToStudentProfile} />
+        )}
         {selectedStudentProfile && (
           <div className="student-profile-overlay">
             <div className="student-profile">
-              <div className="profile-header"><h2>{selectedStudentProfile.name}'s Profile</h2><button className="modal-close-button" onClick={closeStudentProfile}><X size={20} /></button></div>
+              <div className="profile-header">
+                <h2>{selectedStudentProfile.name}'s Profile</h2>
+                <button className="modal-close-button" onClick={closeStudentProfile}>
+                  <X size={20} />
+                </button>
+              </div>
               <div className="profile-details">
-                <p>ID: {selectedStudentProfile.id}</p><p>Internship Status: {selectedStudentProfile.internshipStatus}</p>{selectedStudentProfile.company && <p>Current Company: {selectedStudentProfile.company}</p>}
+                <p>ID: {selectedStudentProfile.id}</p>
+                <p>Internship Status: {selectedStudentProfile.internshipStatus}</p>
+                {selectedStudentProfile.company && <p>Current Company: {selectedStudentProfile.company}</p>}
                 <h3>Previous Internship Submissions</h3>
-                {getStudentInternshipSubmissions(selectedStudentProfile.id).length > 0 ? (<ul>{getStudentInternshipSubmissions(selectedStudentProfile.id).map((submission) => (<li key={submission.id}>Company: {submission.company}, Status: {submission.status}, Submitted: {submission.submissionDate}</li>))}</ul>) : (<p>No previous internship submissions found.</p>)}
+                {getStudentInternshipSubmissions(selectedStudentProfile.id).length > 0 ? (
+                  <ul>
+                    {getStudentInternshipSubmissions(selectedStudentProfile.id).map((submission) => (
+                      <li key={submission.id}>
+                        Company: {submission.company}, Status: {submission.status}, Submitted:{" "}
+                        {submission.submissionDate}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>No previous internship submissions found.</p>
+                )}
               </div>
             </div>
           </div>
         )}
-        {showEvaluations && <EvaluationsView onBack={closeEvaluationsSection} reportsData={reports} setReportsData={setReports} jspdfLoadedProp={jspdfLoaded} />}
-        {showStatistics && <StatisticsView onBack={closeStatisticsSection} reportsData={reports} allStudents={initialStudents} allCompanies={initialCompanies} jspdfLoadedProp={jspdfLoaded} />}
-
-        {/* Appointment Modal and Confirmation Dialog */}
-        {showAppointmentModal && !appointmentConfirmation && (
-          <AppointmentRequestModal
-            onClose={() => setShowAppointmentModal(false)}
-            onSubmit={handleAppointmentSubmit}
+        {showEvaluations && (
+          <EvaluationsView
+            onBack={closeEvaluationsSection}
+            reportsData={reports}
+            setReportsData={setReports}
+            jspdfLoadedProp={jspdfLoaded}
           />
         )}
+        {showStatistics && (
+          <StatisticsView
+            onBack={closeStatisticsSection}
+            reportsData={reports}
+            allStudents={initialStudents}
+            allCompanies={initialCompanies}
+            jspdfLoadedProp={jspdfLoaded}
+          />
+        )}
+        {/* Appointment Modals */}
+        {showAppointmentModal && !appointmentConfirmation && (
+          <AppointmentRequestModal onClose={() => setShowAppointmentModal(false)} onSubmit={handleAppointmentSubmit} />
+        )}
         {appointmentConfirmation && (
-          <div className="appointment-modal-overlay"> {/* Re-use overlay style */}
+          <div className="appointment-modal-overlay">
             <div className="appointment-confirmation-dialog">
               <CheckCircle size={48} className="confirmation-icon-success" />
               <h3>Appointment Request Sent!</h3>
               <p>{appointmentConfirmation}</p>
-              <button 
+              <button
                 onClick={() => {
-                  setAppointmentConfirmation(""); // Clear confirmation
-                  setShowAppointmentModal(false); // Ensure modal is also marked as closed
-                }} 
-                className="submit-appointment-button" // Re-use button style
+                  setAppointmentConfirmation("")
+                  setShowAppointmentModal(false)
+                }}
+                className="submit-appointment-button"
               >
                 Close
               </button>
             </div>
           </div>
         )}
-
+        {/* My Appointments Modal */}
+        {showMyAppointments && (
+          <section className="appointments-section-container">
+            <MyAppointmentsView
+              onClose={() => setShowMyAppointments(false)}
+              appointments={appointments}
+              setAppointments={setAppointments}
+              addNotification={addNotification}
+            />
+          </section>
+        )}
       </main>
     </div>
   )
