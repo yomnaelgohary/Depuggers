@@ -1,0 +1,514 @@
+/* Dashboard Container */
+.dashboard-container {
+  padding: 24px;
+  background-color: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* Dashboard Header */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0px; /* Reduced from 10px */
+}
+
+.dashboard-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #212529;
+  margin: 0 0 8px 0;
+}
+
+.dashboard-subtitle {
+  font-size: 14px;
+  color: #6c757d;
+  margin: 0;
+}
+
+.date-display {
+  font-size: 14px;
+  color: #6c757d;
+  background-color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Actions Card - Fixed layout */
+.actions-card {
+  margin-bottom: 5px; /* Reduced from 10px */
+}
+
+.actions-container {
+  display: flex;
+  padding: 16px;
+  gap: 16px;
+  overflow-x: auto;
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
+  -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.actions-container::-webkit-scrollbar {
+  display: none;
+}
+
+.action-card {
+  background-color: white;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  position: relative;
+  min-width: 200px;
+  flex: 1;
+}
+
+.action-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  outline: 2px solid #5f2878; /* Purple outline on hover */
+  outline-offset: 2px;
+}
+
+/* Active state for action cards */
+.action-card.active {
+  background-color: rgba(10, 36, 99, 0.05);
+  border-color: #5f2878;
+}
+
+/* Active indicator similar to sidebar */
+.action-indicator {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #5f2878;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+/* Remove any inherited red hover lines */
+.action-card::after,
+.action-card:hover::after {
+  display: none !important;
+}
+
+.action-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: #5f2878; /* Dark purple */
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.action-content {
+  flex: 1;
+  overflow: hidden;
+}
+
+.action-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #212529;
+  margin: 0 0 4px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.action-description {
+  font-size: 12px;
+  color: #6c757d;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Stats Overview - Redesigned to match the image */
+.stats-overview {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.stat-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Force stat-icon to be purple with !important */
+.stat-icon {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 50% !important;
+  background-color: #f5f3ff !important; /* Light purple background */
+  color: #5f2878 !important; /* Dark purple icon */
+}
+
+.stat-content {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stat-title {
+  font-size: 16px;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #5f2878;
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+/* Dashboard Cards */
+.dashboard-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e9ecef;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  color: #212529;
+}
+
+.card-action {
+  background: none;
+  border: none;
+  color: #5f2878; /* Dark purple */
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+  font-weight: 500;
+  outline: none !important; /* Remove outline on click */
+}
+
+.card-action:focus {
+  outline: none !important;
+}
+
+/* Activity Card - Fixed height and scrollable */
+.activity-card,
+.stats-card {
+  display: flex;
+  flex-direction: column;
+  height: 400px; /* Fixed height */
+}
+
+.activity-list {
+  flex: 1;
+  overflow-y: auto;
+  position: relative;
+  scrollbar-width: thin;
+  scrollbar-color: #5f2878 #f1f3f5;
+}
+
+.activity-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.activity-list::-webkit-scrollbar-track {
+  background: #f1f3f5;
+  border-radius: 3px;
+}
+
+.activity-list::-webkit-scrollbar-thumb {
+  background-color: #5f2878;
+  border-radius: 3px;
+}
+
+/* New box-style avatar for initials */
+.avatar-initials-box {
+  width: 68px;
+  height: 68px;
+  border-radius: 12px; /* Rounded edges but not circular */
+  background-color: #f5f3ff; /* Light purple background */
+  color: #5f2878; /* Dark purple text */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  font-weight: 600;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+/* Update the activity-item::after to match new avatar style */
+.activity-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 36px; /* Adjusted to center with smaller avatar */
+  top: 56px; /* Adjusted to start below the smaller avatar */
+  bottom: 0;
+  width: 1px;
+  background-color: #e9ecef;
+}
+
+/* Enhanced animation for activity items */
+.activity-item {
+  display: flex;
+  padding: 16px 20px;
+  gap: 16px;
+  position: relative;
+  opacity: 1;
+  transform: translateY(0);
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.activity-avatar {
+  flex-shrink: 0;
+  z-index: 1; /* Ensure avatar is above the line */
+}
+
+.avatar-initials {
+  width: 48px; /* Increased from 40px */
+  height: 48px; /* Increased from 40px */
+  border-radius: 50%;
+  background-color: #5f2878; /* Dark purple */
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px; /* Increased from 14px */
+  font-weight: 600;
+  /* Fix vertical alignment */
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  line-height: 48px; /* Match the height for perfect centering */
+}
+
+.activity-content {
+  flex: 1;
+}
+
+.activity-person {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+  color: #212529;
+}
+
+.activity-type {
+  font-size: 14px;
+  margin: 0 0 4px 0;
+  color: #495057;
+}
+
+.activity-time {
+  font-size: 12px;
+  color: #6c757d;
+  margin: 0;
+}
+
+/* Stats Card - Fixed height to match activity card */
+.stats-card {
+  height: 400px; /* Match activity card height */
+}
+
+/* Chart styles for the Platform Overview */
+.stats-chart {
+  padding: 16px;
+  height: calc(100% - 53px); /* Full height minus header */
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-legend {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #6c757d;
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+.chart-bars {
+  display: flex;
+  height: 100%;
+  align-items: flex-end;
+  gap: 16px;
+  padding-bottom: 24px;
+}
+
+.chart-bar-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+.chart-bar-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  align-items: flex-end;
+}
+
+/* Chart value display */
+.chart-bar-with-value {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.chart-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: #5f2878;
+  margin-bottom: 4px;
+}
+
+/* Adjust chart bar styles */
+.chart-bar {
+  width: 16px;
+  border-radius: 4px 4px 0 0;
+  transition: height 0.8s ease;
+}
+
+.chart-bar.primary {
+  background-color: #5f2878; /* Dark purple */
+}
+
+.chart-bar.secondary {
+  background-color: #9d4edd; /* Light purple */
+}
+
+.chart-label {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #6c757d;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .stats-overview {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 992px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .date-display {
+    align-self: flex-start;
+  }
+}
+
+@media (max-width: 576px) {
+  .stats-overview {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Create square avatar style with reduced padding */
+.avatar-initials-square {
+  width: 33px;
+  height: 33px;
+  border-radius: 4px; /* Very slight rounding */
+  background-color: #f5f3ff; /* Light purple background */
+  color: #5f2878; /* Dark purple text */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}

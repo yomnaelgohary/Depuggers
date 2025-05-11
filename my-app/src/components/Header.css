@@ -1,0 +1,477 @@
+/* Header Container */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+  height: 70px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e9ecef;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Header Left Section */
+.header-left {
+  display: flex;
+  align-items: center;
+  width: 200px; /* Reserve space for balance */
+}
+
+/* Header Center Section */
+.header-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+}
+
+.nav-list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 24px;
+}
+
+.nav-item {
+  position: relative;
+}
+
+.nav-button {
+  background: none;
+  border: none;
+  color: #4b5563;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 0;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  position: relative;
+}
+
+.nav-button:hover {
+  color: #5f2878; /* Dark purple on hover */
+}
+
+.nav-button::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #5f2878; /* Dark purple underline */
+  transition: width 0.3s ease;
+}
+
+.nav-button:hover::after {
+  width: 100%;
+}
+
+/* Header Right Section */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Add these styles to match the bell icon with the user icon */
+.notification-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #f5f3ff; /* Light purple background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #5f2878; /* Dark purple icon */
+  transition: background-color 0.2s ease, color 0.2s ease;
+  padding: 6px;
+}
+
+.notification-icon:hover {
+  background-color: #e9e9fe;
+  color: #5f2878; /* Dark purple */
+}
+
+.notification-button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Fix for notification button focus outline */
+.notification-button:focus {
+  outline: none;
+}
+
+.notification-button:focus .notification-icon {
+  outline: 2px solid #5f2878; /* Dark purple outline */
+  outline-offset: 2px;
+  border-radius: 50%;
+}
+
+/* Remove the old notification button styles that conflict */
+.notification-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  color: inherit;
+  transition: none;
+}
+
+.notification-button:hover {
+  background-color: transparent;
+}
+
+.notification-container {
+  position: relative;
+}
+
+/* Update notification count position for the new structure */
+.notification-count {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #5f2878; /* Dark purple background */
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Fix for bell icon color - not needed anymore since we're using the same structure */
+.notification-button svg {
+  color: inherit;
+}
+
+/* Avatar */
+.avatar-container {
+  position: relative;
+}
+
+.avatar-button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* Fix for avatar button outline */
+.avatar-button:focus {
+  outline: none;
+}
+
+.avatar-button:focus .avatar {
+  outline: 2px solid #5f2878; /* Dark purple outline */
+  outline-offset: 2px;
+  border-radius: 50%;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #f5f3ff; /* Light purple background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #5f2878; /* Dark purple text */
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.avatar:hover {
+  background-color: #e9e9fe;
+  color: #5f2878; /* Dark purple on hover */
+}
+
+/* User dropdown styles */
+.user-dropdown {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  width: 220px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 12px;
+  z-index: 200;
+}
+
+.user-info {
+  padding: 8px 0;
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+  margin: 0 0 4px 0;
+}
+
+.user-email {
+  font-size: 12px;
+  color: #666;
+  margin: 0;
+  word-break: break-all;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background-color: #e9ecef;
+  margin: 8px 0;
+}
+
+.logout-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px;
+  border: none;
+  background: none;
+  color: #dc3545;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  text-align: left;
+}
+
+.logout-button:hover {
+  background-color: #f8f9fa;
+}
+
+/* Notifications Panel Styles */
+.notifications-panel {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  width: 320px;
+  max-height: 400px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  z-index: 200;
+  overflow: hidden;
+}
+
+.notifications-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.notifications-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6c757d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.close-button:hover {
+  background-color: #f5f3ff; /* Light purple background */
+  color: #5f2878; /* Dark purple */
+}
+
+.notifications-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 0;
+  max-height: 300px;
+}
+
+.no-notifications {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  color: #6c757d;
+  text-align: center;
+}
+
+.no-notifications p {
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.notification-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 12px 16px;
+  border-bottom: 1px solid #f1f3f5;
+  position: relative;
+  transition: background-color 0.2s ease;
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+.notification-item:hover {
+  background-color: #f5f3ff; /* Light purple background */
+}
+
+.notification-icon.success {
+  color: #28a745;
+}
+
+.notification-icon.warning {
+  color: #ffc107;
+}
+
+.notification-icon.error {
+  color: #dc3545;
+}
+
+.notification-icon.info {
+  color: #5f2878; /* Dark purple */
+}
+
+.notification-content {
+  flex: 1;
+  margin-left: 12px;
+}
+
+.notification-message {
+  margin: 0 0 4px 0;
+  font-size: 14px;
+  color: #212529;
+  line-height: 1.4;
+}
+
+.notification-time {
+  font-size: 12px;
+  color: #6c757d;
+}
+
+.notification-dismiss {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #adb5bd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+  margin-left: 8px;
+}
+
+.notification-dismiss:hover {
+  background-color: #f5f3ff; /* Light purple background */
+  color: #5f2878; /* Dark purple */
+}
+
+.notifications-footer {
+  padding: 12px 16px;
+  border-top: 1px solid #e9ecef;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.clear-all-button {
+  background: none;
+  border: none;
+  color: #5f2878; /* Dark purple */
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 4px;
+}
+
+.clear-all-button:hover {
+  background-color: #f5f3ff; /* Light purple background */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .app-header {
+    padding: 0 16px;
+  }
+
+  .header-center {
+    display: none; /* Hide center nav on mobile */
+  }
+}
+
+/* Add these styles to your existing Header.css file */
+
+.navigation-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.nav-control-btn {
+  stroke: currentColor; /* Explicitly use the parent button's 'color' property for the stroke */
+  stroke-width: 2px;    /* Set a visible stroke width (Lucide icons usually default to 2 or 1.5) */
+  fill: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #f5f3ff; /* Light purple background */
+  color: #5f2878; /* Dark purple icon */
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nav-control-btn:hover:not(.disabled) {
+  background-color: #e9e9fe;
+  transform: translateY(-1px);
+}
+
+.nav-control-btn:active:not(.disabled) {
+  transform: translateY(0);
+}
+
+.nav-control-btn.disabled {
+  opacity: 0.4;
+  background-color: #f5f3ff; /* Keep the same background */
+  color: #5f2878; /* Keep the same color but it will appear faded due to opacity */
+  cursor: default; /* Regular cursor instead of not-allowed */
+}
+
+.nav-control-btn:focus:not(.disabled) {
+  outline: 2px solid #5f2878;
+  outline-offset: 2px;
+}
+

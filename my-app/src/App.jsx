@@ -70,6 +70,8 @@ function LoginPage() {
   )
 }
 
+export {LoginPage};
+
 // Placeholder for a company registration page
 function CompanyRegistrationPage() {
   return (
