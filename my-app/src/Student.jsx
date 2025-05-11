@@ -23,7 +23,10 @@ import {
   Typography,
   Steps,
   List,
-  Alert
+  Alert,
+  Descriptions,
+  Badge,
+  Popconfirm
 } from 'antd';
 import {
   DollarOutlined,
@@ -39,7 +42,14 @@ import {
   FilterOutlined,
   UploadOutlined,
   InboxOutlined,
-  FileDoneOutlined
+  FileDoneOutlined,
+  EyeOutlined,
+  CloseCircleOutlined,
+  FilePdfOutlined,    // For PDF download
+  EditOutlined,       // For edit actions
+  DeleteOutlined,     // For delete actions
+  PlusOutlined,       // For create actions
+  DownloadOutlined  
 } from '@ant-design/icons';
 import "./Student.css";
 
@@ -1372,9 +1382,711 @@ const InternshipContent = () => {
 };
 
 
+const Applications = () => {
+  // Sample data - replace with your actual API data
+  const [applications, setApplications] = useState([
+    {
+      id: 1,
+      internshipTitle: 'Frontend Developer Intern',
+      company: 'Tech Solutions Inc.',
+      appliedDate: '2023-10-15',
+      status: 'pending',
+      decisionDate: null,
+      notes: 'Application under review'
+    },
+    {
+      id: 2,
+      internshipTitle: 'Data Science Intern',
+      company: 'Data Analytics Co.',
+      appliedDate: '2023-10-10',
+      status: 'accepted',
+      decisionDate: '2023-10-25',
+      notes: 'Congratulations! Start date: Nov 15'
+    },
+    {
+      id: 3,
+      internshipTitle: 'UI/UX Design Intern',
+      company: 'Creative Designs',
+      appliedDate: '2023-10-05',
+      status: 'rejected',
+      decisionDate: '2023-10-20',
+      notes: 'Position filled'
+    },
+    {
+      id: 4,
+      internshipTitle: 'Financial Analyst Intern',
+      company: 'Global Finance',
+      appliedDate: '2023-09-20',
+      status: 'finalized',
+      decisionDate: '2023-10-01',
+      notes: 'Application processed'
+    },
+  ]);
 
+  const [selectedApplication, setSelectedApplication] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
+  const statusColors = {
+    pending: 'processing',
+    accepted: 'success',
+    rejected: 'error',
+    finalized: 'default'
+  };
 
+  const statusIcons = {
+    pending: <ClockCircleOutlined />,
+    accepted: <CheckCircleOutlined />,
+    rejected: <CloseCircleOutlined />,
+    finalized: <FileTextOutlined />
+  };
+
+  const columns = [
+    {
+      title: 'Internship',
+      dataIndex: 'internshipTitle',
+      key: 'internshipTitle',
+      render: (text, record) => (
+        <div>
+          <div style={{ fontWeight: 500 }}>{text}</div>
+          <div style={{ color: '#666', fontSize: 12 }}>{record.company}</div>
+        </div>
+      ),
+    },
+    {
+      title: 'Applied Date',
+      dataIndex: 'appliedDate',
+      key: 'appliedDate',
+      responsive: ['md'],
+    },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
+      render: (status) => (
+        <Tag icon={statusIcons[status]} color={statusColors[status]}>
+          {status.charAt(0).toUpperCase() + status.slice(1)}
+        </Tag>
+      ),
+      filters: [
+        { text: 'Pending', value: 'pending' },
+        { text: 'Accepted', value: 'accepted' },
+        { text: 'Rejected', value: 'rejected' },
+        { text: 'Finalized', value: 'finalized' },
+      ],
+      onFilter: (value, record) => record.status === value,
+    },
+    {
+      title: 'Decision Date',
+      dataIndex: 'decisionDate',
+      key: 'decisionDate',
+      render: (date) => date || 'N/A',
+      responsive: ['lg'],
+    },
+    {
+      title: 'Actions',
+      key: 'actions',
+      render: (_, record) => (
+        <Button
+          type="link"
+          icon={<EyeOutlined />}
+          onClick={() => {
+            setSelectedApplication(record);
+            setIsModalVisible(true);
+          }}
+        >
+          Details
+        </Button>
+      ),
+    },
+  ];
+
+  return (
+    <Card
+      title="My Applications"
+      bordered={false}
+      style={{ marginBottom: 24 }}
+      headStyle={{ borderBottom: 0 }}
+    >
+      <Table
+        columns={columns}
+        dataSource={applications}
+        rowKey="id"
+        pagination={{ pageSize: 10 }}
+        scroll={{ x: true }}
+      />
+
+      <Modal
+        title="Application Details"
+        visible={isModalVisible}
+        onCancel={() => setIsModalVisible(false)}
+        footer={
+          <Button type="primary" onClick={() => setIsModalVisible(false)}>
+            Close
+          </Button>
+        }
+        width={700}
+      >
+        {selectedApplication && (
+          <Descriptions bordered column={1}>
+            <Descriptions.Item label="Internship">
+              {selectedApplication.internshipTitle}
+            </Descriptions.Item>
+            <Descriptions.Item label="Company">
+              {selectedApplication.company}
+            </Descriptions.Item>
+            <Descriptions.Item label="Applied Date">
+              {selectedApplication.appliedDate}
+            </Descriptions.Item>
+            <Descriptions.Item label="Status">
+              <Badge
+                status={statusColors[selectedApplication.status]}
+                text={
+                  <span style={{ textTransform: 'capitalize' }}>
+                    {selectedApplication.status}
+                  </span>
+                }
+              />
+            </Descriptions.Item>
+            {selectedApplication.decisionDate && (
+              <Descriptions.Item label="Decision Date">
+                {selectedApplication.decisionDate}
+              </Descriptions.Item>
+            )}
+            <Descriptions.Item label="Notes">
+              {selectedApplication.notes}
+            </Descriptions.Item>
+          </Descriptions>
+        )}
+      </Modal>
+    </Card>
+  );
+};
+
+const Reports = () => {
+  // State for completed internships
+  const [internships, setInternships] = useState([
+    {
+      id: 1,
+      company: 'Tech Solutions Inc.',
+      title: 'Frontend Developer Intern',
+      completedDate: '2023-08-15',
+      status: 'completed',
+      hasEvaluation: false,
+      hasReport: false
+    },
+    // Add more completed internships as needed
+  ]);
+
+  // State for reports and evaluations
+  const [reports, setReports] = useState([]);
+  const [evaluations, setEvaluations] = useState([]);
+  const [courses, setCourses] = useState([]);
+
+  // Modal states
+  const [reportModalVisible, setReportModalVisible] = useState(false);
+  const [evaluationModalVisible, setEvaluationModalVisible] = useState(false);
+  const [coursesModalVisible, setCoursesModalVisible] = useState(false);
+  const [currentReport, setCurrentReport] = useState(null);
+  const [currentEvaluation, setCurrentEvaluation] = useState(null);
+  const [selectedInternship, setSelectedInternship] = useState(null);
+
+  // Form instances
+  const [reportForm] = Form.useForm();
+  const [evaluationForm] = Form.useForm();
+
+  // Fetch data on component mount
+  useEffect(() => {
+    // Simulate API calls
+    const fetchData = async () => {
+      try {
+        // Replace with actual API calls
+        const reportsResponse = await axios.get('/api/reports');
+        const evaluationsResponse = await axios.get('/api/evaluations');
+        const coursesResponse = await axios.get('/api/courses');
+        
+        setReports(reportsResponse.data);
+        setEvaluations(evaluationsResponse.data);
+        setCourses(coursesResponse.data);
+      } catch (error) {
+        message.error('Error fetching data');
+      }
+    };
+    
+    fetchData();
+  }, []);
+
+  // Report CRUD operations
+  const handleCreateReport = () => {
+    reportForm.resetFields();
+    setCurrentReport(null);
+    setReportModalVisible(true);
+  };
+
+  const handleEditReport = (report) => {
+    setCurrentReport(report);
+    reportForm.setFieldsValue(report);
+    setReportModalVisible(true);
+  };
+
+  const handleDeleteReport = async (id) => {
+    try {
+      await axios.delete(`/api/reports/${id}`);
+      setReports(reports.filter(report => report.id !== id));
+      message.success('Report deleted successfully');
+    } catch (error) {
+      message.error('Error deleting report');
+    }
+  };
+
+  const handleSubmitReport = async () => {
+    try {
+      const values = await reportForm.validateFields();
+      
+      if (currentReport) {
+        // Update existing report
+        await axios.put(`/api/reports/${currentReport.id}`, values);
+        setReports(reports.map(r => r.id === currentReport.id ? {...r, ...values} : r));
+        message.success('Report updated successfully');
+      } else {
+        // Create new report
+        const response = await axios.post('/api/reports', {
+          ...values,
+          internshipId: selectedInternship.id
+        });
+        setReports([...reports, response.data]);
+        message.success('Report created successfully');
+      }
+      
+      setReportModalVisible(false);
+    } catch (error) {
+      message.error('Error submitting report');
+    }
+  };
+
+  // Evaluation CRUD operations
+  const handleCreateEvaluation = () => {
+    evaluationForm.resetFields();
+    setCurrentEvaluation(null);
+    setEvaluationModalVisible(true);
+  };
+
+  const handleEditEvaluation = (evaluation) => {
+    setCurrentEvaluation(evaluation);
+    evaluationForm.setFieldsValue(evaluation);
+    setEvaluationModalVisible(true);
+  };
+
+  const handleDeleteEvaluation = async (id) => {
+    try {
+      await axios.delete(`/api/evaluations/${id}`);
+      setEvaluations(evaluations.filter(evaluation => evaluation.id !== id));      message.success('Evaluation deleted successfully');
+    } catch (error) {
+      message.error('Error deleting evaluation');
+    }
+  };
+
+  const handleSubmitEvaluation = async () => {
+    try {
+      const values = await evaluationForm.validateFields();
+      
+      if (currentEvaluation) {
+        // Update existing evaluation
+        await axios.put(`/api/evaluations/${currentEvaluation.id}`, values);
+        setEvaluations(evaluations.map(e => e.id === currentEvaluation.id ? {...e, ...values} : e));
+        message.success('Evaluation updated successfully');
+      } else {
+        // Create new evaluation
+        const response = await axios.post('/api/evaluations', {
+          ...values,
+          internshipId: selectedInternship.id
+        });
+        setEvaluations([...evaluations, response.data]);
+        message.success('Evaluation created successfully');
+      }
+      
+      setEvaluationModalVisible(false);
+    } catch (error) {
+      message.error('Error submitting evaluation');
+    }
+  };
+
+  // Download report as PDF
+  const handleDownloadReport = (id) => {
+    // Implement PDF download logic
+    message.success('Downloading report as PDF...');
+  };
+
+  // Submit finalized report
+  const handleFinalizeReport = async (id) => {
+    try {
+      await axios.put(`/api/reports/${id}/finalize`);
+      setReports(reports.map(r => r.id === id ? {...r, isFinalized: true} : r));
+      message.success('Report finalized successfully');
+    } catch (error) {
+      message.error('Error finalizing report');
+    }
+  };
+
+  // Table columns
+  const internshipColumns = [
+    {
+      title: 'Company',
+      dataIndex: 'company',
+      key: 'company',
+    },
+    {
+      title: 'Position',
+      dataIndex: 'title',
+      key: 'title',
+    },
+    {
+      title: 'Completed Date',
+      dataIndex: 'completedDate',
+      key: 'completedDate',
+    },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
+      render: (status) => (
+        <Tag color={status === 'completed' ? 'green' : 'orange'}>
+          {status.toUpperCase()}
+        </Tag>
+      ),
+    },
+    {
+      title: 'Actions',
+      key: 'actions',
+      render: (_, record) => (
+        <Space size="middle">
+          <Button 
+            type="link" 
+            icon={<FileTextOutlined />}
+            onClick={() => {
+              setSelectedInternship(record);
+              handleCreateReport();
+            }}
+            disabled={record.hasReport}
+          >
+            {record.hasReport ? 'Report Exists' : 'Create Report'}
+          </Button>
+          <Button 
+            type="link" 
+            icon={<EditOutlined />}
+            onClick={() => {
+              setSelectedInternship(record);
+              handleCreateEvaluation();
+            }}
+            disabled={record.hasEvaluation}
+          >
+            {record.hasEvaluation ? 'Evaluated' : 'Evaluate'}
+          </Button>
+        </Space>
+      ),
+    },
+  ];
+
+  const reportsColumns = [
+    {
+      title: 'Title',
+      dataIndex: 'title',
+      key: 'title',
+    },
+    {
+      title: 'Internship',
+      dataIndex: 'internshipTitle',
+      key: 'internshipTitle',
+    },
+    {
+      title: 'Status',
+      dataIndex: 'isFinalized',
+      key: 'status',
+      render: (isFinalized) => (
+        <Badge 
+          status={isFinalized ? 'success' : 'processing'}
+          text={isFinalized ? 'Finalized' : 'Draft'}
+        />
+      ),
+    },
+    {
+      title: 'Actions',
+      key: 'actions',
+      render: (_, record) => (
+        <Space size="middle">
+          <Button 
+            type="link" 
+            icon={<EyeOutlined />} 
+            onClick={() => handleEditReport(record)}
+          >
+            View
+          </Button>
+          {!record.isFinalized && (
+            <>
+              <Button 
+                type="link" 
+                icon={<EditOutlined />} 
+                onClick={() => handleEditReport(record)}
+              >
+                Edit
+              </Button>
+              <Popconfirm
+                title="Are you sure to delete this report?"
+                onConfirm={() => handleDeleteReport(record.id)}
+                okText="Yes"
+                cancelText="No"
+              >
+                <Button type="link" danger icon={<DeleteOutlined />}>Delete</Button>
+              </Popconfirm>
+            </>
+          )}
+          <Button 
+            type="link" 
+            icon={<DownloadOutlined />} 
+            onClick={() => handleDownloadReport(record.id)}
+          >
+            PDF
+          </Button>
+          {!record.isFinalized && (
+            <Button 
+              type="link" 
+              icon={<CheckCircleOutlined />} 
+              onClick={() => handleFinalizeReport(record.id)}
+            >
+              Finalize
+            </Button>
+          )}
+        </Space>
+      ),
+    },
+  ];
+
+  const evaluationsColumns = [
+    {
+      title: 'Company',
+      dataIndex: 'company',
+      key: 'company',
+    },
+    {
+      title: 'Recommend',
+      dataIndex: 'wouldRecommend',
+      key: 'wouldRecommend',
+      render: (recommend) => (
+        <Tag color={recommend ? 'green' : 'red'}>
+          {recommend ? 'Recommended' : 'Not Recommended'}
+        </Tag>
+      ),
+    },
+    {
+      title: 'Rating',
+      dataIndex: 'rating',
+      key: 'rating',
+      render: (rating) => `${rating}/5`,
+    },
+    {
+      title: 'Actions',
+      key: 'actions',
+      render: (_, record) => (
+        <Space size="middle">
+          <Button 
+            type="link" 
+            icon={<EyeOutlined />} 
+            onClick={() => handleEditEvaluation(record)}
+          >
+            View
+          </Button>
+          <Button 
+            type="link" 
+            icon={<EditOutlined />} 
+            onClick={() => handleEditEvaluation(record)}
+          >
+            Edit
+          </Button>
+          <Popconfirm
+            title="Are you sure to delete this evaluation?"
+            onConfirm={() => handleDeleteEvaluation(record.id)}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button type="link" danger icon={<DeleteOutlined />}>Delete</Button>
+          </Popconfirm>
+        </Space>
+      ),
+    },
+  ];
+
+  const coursesColumns = [
+    {
+      title: 'Course Code',
+      dataIndex: 'code',
+      key: 'code',
+    },
+    {
+      title: 'Course Name',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: 'Credits',
+      dataIndex: 'credits',
+      key: 'credits',
+    },
+    {
+      title: 'Prerequisites',
+      dataIndex: 'prerequisites',
+      key: 'prerequisites',
+      render: (prereqs) => prereqs.join(', ') || 'None',
+    },
+  ];
+
+  return (
+    <div className="reports-container">
+      <Card title="My Completed Internships" style={{ marginBottom: 24 }}>
+        <Table 
+          columns={internshipColumns}
+          dataSource={internships}
+          rowKey="id"
+          pagination={false}
+        />
+      </Card>
+
+      <Card title="My Reports" style={{ marginBottom: 24 }}>
+        <Button 
+          type="primary" 
+          icon={<PlusOutlined />} 
+          onClick={handleCreateReport}
+          disabled={!selectedInternship}
+          style={{ marginBottom: 16 }}
+        >
+          New Report
+        </Button>
+        <Table 
+          columns={reportsColumns}
+          dataSource={reports}
+          rowKey="id"
+        />
+      </Card>
+
+      <Card title="My Evaluations" style={{ marginBottom: 24 }}>
+        <Button 
+          type="primary" 
+          icon={<PlusOutlined />} 
+          onClick={handleCreateEvaluation}
+          disabled={!selectedInternship}
+          style={{ marginBottom: 16 }}
+        >
+          New Evaluation
+        </Button>
+        <Table 
+          columns={evaluationsColumns}
+          dataSource={evaluations}
+          rowKey="id"
+        />
+      </Card>
+
+      <Card title="Courses in My Major">
+        <Button 
+          type="primary" 
+          icon={<FileTextOutlined />} 
+          onClick={() => setCoursesModalVisible(true)}
+          style={{ marginBottom: 16 }}
+        >
+          View All Courses
+        </Button>
+      </Card>
+
+      {/* Report Modal */}
+      <Modal
+        title={currentReport ? 'Edit Report' : 'Create Report'}
+        visible={reportModalVisible}
+        onCancel={() => setReportModalVisible(false)}
+        onOk={handleSubmitReport}
+        width={800}
+      >
+        <Form form={reportForm} layout="vertical">
+          <Form.Item
+            name="title"
+            label="Report Title"
+            rules={[{ required: true, message: 'Please enter a title' }]}
+          >
+            <Input placeholder="Enter report title" />
+          </Form.Item>
+          <Form.Item
+            name="introduction"
+            label="Introduction"
+            rules={[{ required: true, message: 'Please write an introduction' }]}
+          >
+            <TextArea rows={4} placeholder="Write your introduction here..." />
+          </Form.Item>
+          <Form.Item
+            name="body"
+            label="Report Body"
+            rules={[{ required: true, message: 'Please write the report body' }]}
+          >
+            <TextArea rows={8} placeholder="Write your report here..." />
+          </Form.Item>
+        </Form>
+      </Modal>
+
+      {/* Evaluation Modal */}
+      <Modal
+        title={currentEvaluation ? 'Edit Evaluation' : 'Create Evaluation'}
+        visible={evaluationModalVisible}
+        onCancel={() => setEvaluationModalVisible(false)}
+        onOk={handleSubmitEvaluation}
+        width={600}
+      >
+        <Form form={evaluationForm} layout="vertical">
+          <Form.Item
+            name="wouldRecommend"
+            label="Would you recommend this company to other students?"
+            rules={[{ required: true, message: 'This field is required' }]}
+          >
+            <Select placeholder="Select recommendation">
+              <Option value={true}>Yes, I recommend</Option>
+              <Option value={false}>No, I don't recommend</Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="rating"
+            label="Rating (1-5)"
+            rules={[{ required: true, message: 'Please provide a rating' }]}
+          >
+            <Select placeholder="Select rating">
+              <Option value={1}>1 - Poor</Option>
+              <Option value={2}>2 - Fair</Option>
+              <Option value={3}>3 - Good</Option>
+              <Option value={4}>4 - Very Good</Option>
+              <Option value={5}>5 - Excellent</Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="comments"
+            label="Comments"
+            rules={[{ required: true, message: 'Please provide comments' }]}
+          >
+            <TextArea rows={4} placeholder="Share your experience..." />
+          </Form.Item>
+        </Form>
+      </Modal>
+
+      {/* Courses Modal */}
+      <Modal
+        title="Courses in My Major"
+        visible={coursesModalVisible}
+        onCancel={() => setCoursesModalVisible(false)}
+        footer={null}
+        width={1000}
+      >
+        <Table 
+          columns={coursesColumns}
+          dataSource={courses}
+          rowKey="code"
+          scroll={{ x: true }}
+        />
+      </Modal>
+    </div>
+  );
+};
 
 
 
@@ -1392,9 +2104,9 @@ const Student = () => {
       case "internships":
         return <InternshipContent />;
       case "applications":
-        return <div className="tab-content">Applications Content Will Appear Here</div>;
+        return <Applications/>;
       case "reports":
-        return <div className="tab-content">Reports Content Will Appear Here</div>;
+        return <Reports/>
       default:
         return <DashboardContent />;
     }
