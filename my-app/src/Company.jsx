@@ -16,6 +16,22 @@ export default function Company() {
     skills: [],
   })
 
+  // Update the interns section to implement search, filtering, and evaluation functionality
+  // Add these state variables at the top of the component:
+
+  const [internSearch, setInternSearch] = useState("")
+  const [internFilter, setInternFilter] = useState("")
+  const [selectedIntern, setSelectedIntern] = useState(null)
+  const [showEvaluationModal, setShowEvaluationModal] = useState(false)
+  const [currentEvaluation, setCurrentEvaluation] = useState(null)
+  const [evaluationData, setEvaluationData] = useState({
+    overallRating: 3,
+    technicalSkills: 3,
+    communicationSkills: 3,
+    recommendForHire: true,
+    comments: "",
+  })
+
   // Available locations
   const locations = ["N Teseen, New Cairo", "Maadi, Cairo", "Smart Village, Giza", "Dokki, Giza", "Heliopolis, Cairo"]
 
@@ -667,9 +683,59 @@ export default function Company() {
     { value: 12, label: "12 Months" },
   ]
 
+  // Add these functions for intern functionality:
+
+  const handleInternSearchChange = (e) => {
+    setInternSearch(e.target.value)
+  }
+
+  const handleInternFilterChange = (e) => {
+    setInternFilter(e.target.value)
+  }
+
+  const filteredInterns = applications
+    .filter((app) => app.internshipStatus === "current" || app.internshipStatus === "completed")
+    .filter((intern) => {
+      // Filter by status if selected
+      if (internFilter && intern.internshipStatus !== internFilter) {
+        return false
+      }
+
+      // Filter by search term
+      if (internSearch) {
+        const searchTerm = internSearch.toLowerCase()
+        return (
+          intern.applicantName.toLowerCase().includes(searchTerm) || intern.postTitle.toLowerCase().includes(searchTerm)
+        )
+      }
+
+      return true
+    })
+
+  const saveEvaluation = (evaluation) => {
+    // In a real app, you would update the state or make an API call here
+    console.log("Saving evaluation:", evaluation)
+    setShowEvaluationModal(false)
+    // Show success notification
+    alert("Evaluation saved successfully")
+  }
+
+  const deleteEvaluation = (internId) => {
+    if (confirm("Are you sure you want to delete this evaluation? This action cannot be undone.")) {
+      // In a real app, you would update the state or make an API call here
+      console.log("Deleting evaluation for intern:", internId)
+      // Show success notification
+      alert("Evaluation deleted successfully")
+    }
+  }
+
   // Handle search input change
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value)
+  }
+
+  const clearSearch = () => {
+    setSearchQuery("")
   }
 
   const toggleFilters = () => {
@@ -770,32 +836,97 @@ export default function Company() {
     console.log(`Updated application ${applicationId} internship status to ${internshipStatus}`)
   }
 
+  const handleAddEvaluation = (intern) => {
+    setSelectedIntern(intern)
+    setEvaluationData({
+      overallRating: 3,
+      technicalSkills: 3,
+      communicationSkills: 3,
+      recommendForHire: true,
+      comments: "",
+    })
+    setCurrentEvaluation(null)
+    setShowEvaluationModal(true)
+  }
+
+  const handleEditEvaluation = (intern) => {
+    setSelectedIntern(intern)
+    setEvaluationData(intern.evaluation)
+    setCurrentEvaluation(intern.evaluation)
+    setShowEvaluationModal(true)
+  }
+
+  const handleDeleteEvaluation = (internId) => {
+    if (confirm("Are you sure you want to delete this evaluation? This action cannot be undone.")) {
+      // In a real app, you would update the state or make an API call here
+      console.log("Deleting evaluation for intern:", internId)
+      // Show success notification
+      alert("Evaluation deleted successfully")
+    }
+  }
+
+  const handleSaveEvaluation = () => {
+    // Simulate saving the evaluation data
+    const evaluationToSave = {
+      ...evaluationData,
+    }
+
+    // In a real application, you would make an API call to save the evaluation
+    console.log("Saving evaluation:", evaluationToSave)
+
+    // Update the selected intern's evaluation (in the real app, this would be done on the server)
+    const updatedApplications = applications.map((app) => {
+      if (app.id === selectedIntern.id) {
+        return { ...app, evaluation: evaluationToSave }
+      }
+      return app
+    })
+
+    // Update the applications state with the new evaluation
+    // setApplications(updatedApplications);
+
+    // Close the modal
+    setShowEvaluationModal(false)
+    setSelectedIntern({ ...selectedIntern, evaluation: evaluationToSave })
+
+    // Show success notification
+    alert("Evaluation saved successfully")
+  }
+
   return (
     <div className="company-container">
       <header className="company-header">
         <div className="logo">Dell technologies</div>
-        <div></div>
-      </header>
-
-      <div className="content-container">
-        <div className="tabs">
-          <button className={`tab ${activeTab === "posts" ? "active" : ""}`} onClick={() => setActiveTab("posts")}>
+        <div className="main-nav">
+          <button className={`nav-tab ${activeTab === "posts" ? "active" : ""}`} onClick={() => setActiveTab("posts")}>
             Posts
           </button>
-          <button className={`tab ${activeTab === "create" ? "active" : ""}`} onClick={() => setActiveTab("create")}>
+          <button
+            className={`nav-tab ${activeTab === "create" ? "active" : ""}`}
+            onClick={() => setActiveTab("create")}
+          >
             Create post
           </button>
           <button
-            className={`tab ${activeTab === "applications" ? "active" : ""}`}
+            className={`nav-tab ${activeTab === "applications" ? "active" : ""}`}
             onClick={() => setActiveTab("applications")}
           >
             Applications
           </button>
-          <button className={`tab ${activeTab === "interns" ? "active" : ""}`} onClick={() => setActiveTab("interns")}>
+          <button
+            className={`nav-tab ${activeTab === "interns" ? "active" : ""}`}
+            onClick={() => setActiveTab("interns")}
+          >
             Interns
           </button>
         </div>
+        <div className="notification-bell">
+          <span className="bell-icon">🔔</span>
+          <span className="notification-count">3</span>
+        </div>
+      </header>
 
+      <div className="content-container">
         {activeTab === "posts" && (
           <div className="post-section">
             <div className="filters">
@@ -812,7 +943,7 @@ export default function Company() {
                 />
                 <span className="search-icon">🔍</span>
                 {searchQuery && (
-                  <button className="clear-search" onClick={() => setSearchQuery("")}>
+                  <button className="clear-search" onClick={() => clearSearch()}>
                     ×
                   </button>
                 )}
@@ -983,7 +1114,7 @@ export default function Company() {
               ) : (
                 <div className="no-results">
                   <p>No jobs found matching "{searchQuery}"</p>
-                  <button className="reset-search" onClick={() => setSearchQuery("")}>
+                  <button className="reset-search" onClick={() => clearSearch()}>
                     Clear search
                   </button>
                 </div>
@@ -991,11 +1122,9 @@ export default function Company() {
             </div>
           </div>
         )}
-
         {activeTab === "create" && (
           <div className="create-post-section">
             <h2>Create Post</h2>
-            <div className="create-post-breadcrumb">Posts / Create Post</div>
 
             <form className="create-post-form">
               <div className="form-row">
@@ -1122,21 +1251,6 @@ export default function Company() {
                 </div>
               </div>
 
-              <div className="form-row">
-                <div className="form-column full-width">
-                  <div className="form-group">
-                    <label>Internship Pictures</label>
-                    <div className="file-upload">
-                      <button type="button" className="file-upload-button">
-                        Choose Files
-                      </button>
-                      <span className="file-upload-text">No file chosen</span>
-                    </div>
-                    <div className="form-help-text">Upload pictures related to the internship.</div>
-                  </div>
-                </div>
-              </div>
-
               <div className="form-actions">
                 <button type="submit" className="create-post-button">
                   <span className="plus-icon">+</span> Create Post
@@ -1145,7 +1259,6 @@ export default function Company() {
             </form>
           </div>
         )}
-
         {activeTab === "applications" && (
           <div className="applications-section">
             <h2>Applications</h2>
@@ -1153,21 +1266,19 @@ export default function Company() {
             {!selectedApplication ? (
               <>
                 <div className="applications-filters">
-                  <div className="form-group">
-                    <label>Filter by Post</label>
-                    <select
-                      className="form-select filter-styled"
-                      value={selectedPost || ""}
-                      onChange={(e) => setSelectedPost(e.target.value ? Number(e.target.value) : null)}
-                    >
-                      <option value="">All Posts</option>
-                      {jobListings.map((job) => (
-                        <option key={job.id} value={job.id}>
-                          {job.title} ({job.applications} applications)
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                  <div className="filter-label">Filter by Post</div>
+                  <select
+                    className="form-select filter-styled"
+                    value={selectedPost || ""}
+                    onChange={(e) => setSelectedPost(e.target.value ? Number(e.target.value) : null)}
+                  >
+                    <option value="">All Posts</option>
+                    {jobListings.map((job) => (
+                      <option key={job.id} value={job.id}>
+                        {job.title} ({job.applications} applications)
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 <div className="applications-list">
@@ -1175,27 +1286,18 @@ export default function Company() {
                     <div className="application-header-item">Applicant</div>
                     <div className="application-header-item">Post</div>
                     <div className="application-header-item">Date</div>
-                    <div className="application-header-item">Status</div>
                     <div className="application-header-item">Actions</div>
                   </div>
 
                   {filteredApplications.length > 0 ? (
                     filteredApplications.map((application) => (
                       <div className="application-item" key={application.id}>
-                        <div className="application-detail">
+                        <div className="application-detail applicant-column">
                           <div className="applicant-name">{application.applicantName}</div>
                           <div className="applicant-university">{application.university}</div>
                         </div>
                         <div className="application-detail">{application.postTitle}</div>
                         <div className="application-detail">{application.applicationDate}</div>
-                        <div className="application-detail">
-                          <span className={`status-badge status-${application.status}`}>{application.status}</span>
-                          {application.internshipStatus && (
-                            <span className={`status-badge internship-${application.internshipStatus}`}>
-                              {application.internshipStatus}
-                            </span>
-                          )}
-                        </div>
                         <div className="application-actions">
                           <button
                             className="view-application-button"
@@ -1284,26 +1386,6 @@ export default function Company() {
                         <span className="details-label">Available Start Date</span>
                         <span className="details-value">{selectedApplication.availableStartDate}</span>
                       </div>
-                      <div className="details-item">
-                        <span className="details-label">Status</span>
-                        <span className="details-value">
-                          <span className={`status-badge status-${selectedApplication.status}`}>
-                            {selectedApplication.status}
-                          </span>
-                        </span>
-                      </div>
-                      <div className="details-item">
-                        <span className="details-label">Internship Status</span>
-                        <span className="details-value">
-                          {selectedApplication.internshipStatus ? (
-                            <span className={`status-badge internship-${selectedApplication.internshipStatus}`}>
-                              {selectedApplication.internshipStatus}
-                            </span>
-                          ) : (
-                            "Not started"
-                          )}
-                        </span>
-                      </div>
                     </div>
                   </div>
 
@@ -1326,53 +1408,28 @@ export default function Company() {
                   </div>
 
                   <div className="application-details-section">
-                    <h4>Update Status</h4>
+                    <h4>Application Status</h4>
                     <div className="status-actions">
-                      <div className="status-action-group">
-                        <h5>Application Status</h5>
-                        <div className="status-buttons">
-                          <button
-                            className={`status-button ${selectedApplication.status === "pending" ? "active" : ""}`}
-                            onClick={() => updateApplicationStatus(selectedApplication.id, "pending")}
-                          >
-                            Pending
-                          </button>
-                          <button
-                            className={`status-button ${selectedApplication.status === "accepted" ? "active" : ""}`}
-                            onClick={() => updateApplicationStatus(selectedApplication.id, "accepted")}
-                          >
-                            Accepted
-                          </button>
-                          <button
-                            className={`status-button ${selectedApplication.status === "rejected" ? "active" : ""}`}
-                            onClick={() => updateApplicationStatus(selectedApplication.id, "rejected")}
-                          >
-                            Rejected
-                          </button>
-                        </div>
+                      <div className="status-buttons">
+                        <button
+                          className={`status-button ${selectedApplication.status === "pending" ? "active" : ""}`}
+                          onClick={() => updateApplicationStatus(selectedApplication.id, "pending")}
+                        >
+                          Pending
+                        </button>
+                        <button
+                          className={`status-button ${selectedApplication.status === "accepted" ? "active" : ""}`}
+                          onClick={() => updateApplicationStatus(selectedApplication.id, "accepted")}
+                        >
+                          Accept
+                        </button>
+                        <button
+                          className={`status-button ${selectedApplication.status === "rejected" ? "active" : ""}`}
+                          onClick={() => updateApplicationStatus(selectedApplication.id, "rejected")}
+                        >
+                          Reject
+                        </button>
                       </div>
-
-                      {selectedApplication.status === "accepted" && (
-                        <div className="status-action-group">
-                          <h5>Internship Status</h5>
-                          <div className="status-buttons">
-                            <button
-                              className={`status-button ${
-                                selectedApplication.internshipStatus === null ? "active" : ""
-                              }`}
-                              onClick={() => updateInternshipStatus(selectedApplication.id, null)}
-                            >
-                              Not Started
-                            </button>
-                            <button
-                              className={`status-button ${selectedApplication.internshipStatus === "current" ? "active" : ""}`}
-                              onClick={() => updateInternshipStatus(selectedApplication.id, "current")}
-                            >
-                              Current Intern
-                            </button>
-                          </div>
-                        </div>
-                      )}
                     </div>
                   </div>
                 </div>
@@ -1380,63 +1437,281 @@ export default function Company() {
             )}
           </div>
         )}
-
         {activeTab === "interns" && (
           <div className="interns-section">
             <h2>Interns</h2>
 
-            <div className="interns-filters">
-              <div className="interns-search">
-                <input type="text" placeholder="Search by name or job title" className="search-input" />
-                <span className="search-icon">🔍</span>
-              </div>
+            {!selectedIntern ? (
+              <>
+                <div className="interns-filters">
+                  <div className="search-box">
+                    <input
+                      type="text"
+                      placeholder="Search by name or job title"
+                      value={internSearch}
+                      onChange={handleInternSearchChange}
+                      className="search-input"
+                    />
+                    <span className="search-icon">🔍</span>
+                  </div>
+                  <div className="filter-container">
+                    <span className="filter-label">Filter by Status:</span>
+                    <select className="filter-select" value={internFilter} onChange={handleInternFilterChange}>
+                      <option value="">All Interns</option>
+                      <option value="current">Current Interns</option>
+                      <option value="completed">Completed Internships</option>
+                    </select>
+                  </div>
+                </div>
 
-              <div className="interns-filter-options">
-                <label>Filter by Status:</label>
-                <select className="form-select filter-styled">
-                  <option value="">All Interns</option>
-                  <option value="current">Current Interns</option>
-                  <option value="completed">Completed Internships</option>
-                </select>
-              </div>
-            </div>
+                <div className="interns-list">
+                  <div className="interns-header">
+                    <div className="intern-header-item">Intern</div>
+                    <div className="intern-header-item">Position</div>
+                    <div className="intern-header-item">Start Date</div>
+                    <div className="intern-header-item">Status</div>
+                    <div className="intern-header-item">Actions</div>
+                  </div>
 
-            <div className="interns-list">
-              <div className="interns-header">
-                <div className="intern-header-item">Intern</div>
-                <div className="intern-header-item">Position</div>
-                <div className="intern-header-item">Start Date</div>
-                <div className="intern-header-item">Status</div>
-                <div className="intern-header-item">Actions</div>
-              </div>
-
-              {applications
-                .filter((app) => app.internshipStatus === "current" || app.internshipStatus === "completed")
-                .map((intern) => (
-                  <div className="intern-item" key={intern.id}>
-                    <div className="intern-detail">
-                      <div className="intern-name">{intern.applicantName}</div>
-                      <div className="intern-university">{intern.university}</div>
+                  {filteredInterns.map((intern) => (
+                    <div className="intern-item" key={intern.id}>
+                      <div className="intern-detail">
+                        <div className="intern-name">{intern.applicantName}</div>
+                        <div className="intern-university">{intern.university}</div>
+                      </div>
+                      <div className="intern-detail">{intern.postTitle}</div>
+                      <div className="intern-detail">{intern.availableStartDate}</div>
+                      <div className="intern-detail">
+                        <span
+                          className={`status-badge ${intern.internshipStatus === "current" ? "status-current" : "status-completed"}`}
+                        >
+                          {intern.internshipStatus === "current" ? "Current" : "Completed"}
+                        </span>
+                      </div>
+                      <div className="intern-actions">
+                        <button className="view-details-button" onClick={() => setSelectedIntern(intern)}>
+                          View Details
+                        </button>
+                        <button className="add-evaluation-button" onClick={() => handleAddEvaluation(intern)}>
+                          {intern.evaluation ? "View Evaluation" : "Add Evaluation"}
+                        </button>
+                      </div>
                     </div>
-                    <div className="intern-detail">{intern.postTitle}</div>
-                    <div className="intern-detail">{intern.availableStartDate}</div>
-                    <div className="intern-detail">
-                      <span className={`status-badge internship-${intern.internshipStatus}`}>
-                        {intern.internshipStatus}
-                      </span>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <div className="intern-details">
+                <div className="intern-details-header">
+                  <h3>Intern Details</h3>
+                  <button className="back-button" onClick={() => setSelectedIntern(null)}>
+                    Back to Interns
+                  </button>
+                </div>
+
+                <div className="intern-info-section">
+                  <h4>Intern Information</h4>
+                  <div className="info-grid">
+                    <div className="info-row">
+                      <div className="info-label">First Name</div>
+                      <div className="info-value">{selectedIntern.firstName}</div>
+                      <div className="info-label">Last Name</div>
+                      <div className="info-value">{selectedIntern.lastName}</div>
                     </div>
-                    <div className="intern-actions">
-                      <button className="view-intern-button">View Details</button>
-                      {intern.internshipStatus === "completed" && !intern.evaluation && (
-                        <button className="add-evaluation-button">Add Evaluation</button>
-                      )}
-                      {intern.internshipStatus === "completed" && intern.evaluation && (
-                        <button className="view-evaluation-button">View Evaluation</button>
-                      )}
+                    <div className="info-row">
+                      <div className="info-label">Email</div>
+                      <div className="info-value">{selectedIntern.applicantEmail}</div>
+                      <div className="info-label">Phone</div>
+                      <div className="info-value">{selectedIntern.applicantPhone}</div>
+                    </div>
+                    <div className="info-row">
+                      <div className="info-label">University</div>
+                      <div className="info-value">{selectedIntern.university}</div>
+                      <div className="info-label">Major</div>
+                      <div className="info-value">{selectedIntern.major}</div>
+                    </div>
+                    <div className="info-row">
+                      <div className="info-label">Current Education</div>
+                      <div className="info-value">{selectedIntern.currentEducation}</div>
+                      <div className="info-label">GPA</div>
+                      <div className="info-value">{selectedIntern.gpa}</div>
+                    </div>
+                    <div className="info-row">
+                      <div className="info-label">Graduation Year</div>
+                      <div className="info-value">{selectedIntern.graduationYear}</div>
                     </div>
                   </div>
-                ))}
-            </div>
+                </div>
+
+                <div className="internship-info-section">
+                  <h4>Internship Information</h4>
+                  <div className="info-grid">
+                    <div className="info-row">
+                      <div className="info-label">Position</div>
+                      <div className="info-value">{selectedIntern.postTitle}</div>
+                      <div className="info-label">Start Date</div>
+                      <div className="info-value">{selectedIntern.availableStartDate}</div>
+                    </div>
+                    <div className="info-row">
+                      <div className="info-label">Status</div>
+                      <div className="info-value">
+                        <span
+                          className={`status-badge ${selectedIntern.internshipStatus === "current" ? "status-current" : "status-completed"}`}
+                        >
+                          {selectedIntern.internshipStatus === "current" ? "Current" : "Completed"}
+                        </span>
+                      </div>
+                      <div className="info-label">Availability</div>
+                      <div className="info-value">{selectedIntern.availabilityHours}</div>
+                    </div>
+                  </div>
+                </div>
+
+                {selectedIntern.internshipStatus === "completed" && (
+                  <div className="evaluation-section">
+                    <div className="evaluation-header">
+                      <h4>Evaluation</h4>
+                      {selectedIntern.evaluation ? (
+                        <div className="evaluation-actions">
+                          <button className="edit-button" onClick={() => handleEditEvaluation(selectedIntern)}>
+                            Edit
+                          </button>
+                          <button className="delete-button" onClick={() => handleDeleteEvaluation(selectedIntern.id)}>
+                            Delete
+                          </button>
+                        </div>
+                      ) : (
+                        <button className="add-button" onClick={() => handleAddEvaluation(selectedIntern)}>
+                          Add Evaluation
+                        </button>
+                      )}
+                    </div>
+
+                    {selectedIntern.evaluation ? (
+                      <div className="evaluation-content">
+                        <div className="rating-grid">
+                          <div className="rating-item">
+                            <span className="rating-label">Overall Performance:</span>
+                            <span className="rating-value">{selectedIntern.evaluation.overallRating}/5</span>
+                          </div>
+                          <div className="rating-item">
+                            <span className="rating-label">Technical Skills:</span>
+                            <span className="rating-value">{selectedIntern.evaluation.technicalSkills}/5</span>
+                          </div>
+                          <div className="rating-item">
+                            <span className="rating-label">Communication:</span>
+                            <span className="rating-value">{selectedIntern.evaluation.communicationSkills}/5</span>
+                          </div>
+                          <div className="rating-item">
+                            <span className="rating-label">Recommend for Hire:</span>
+                            <span className="rating-value">
+                              {selectedIntern.evaluation.recommendForHire ? "Yes" : "No"}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="evaluation-comments">
+                          <h5>Comments</h5>
+                          <p>{selectedIntern.evaluation.comments}</p>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="no-evaluation">
+                        <p>No evaluation has been submitted for this intern yet.</p>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {showEvaluationModal && (
+              <div className="evaluation-modal-overlay">
+                <div className="evaluation-modal">
+                  <div className="evaluation-modal-header">
+                    <h3>{currentEvaluation ? "Edit Evaluation" : "New Evaluation"}</h3>
+                    <button className="close-button" onClick={() => setShowEvaluationModal(false)}>
+                      ×
+                    </button>
+                  </div>
+                  <div className="evaluation-form">
+                    <div className="rating-section">
+                      <h4>Performance Ratings</h4>
+                      <div className="rating-grid">
+                        <div className="rating-item">
+                          <label>Overall Performance:</label>
+                          <div className="rating-stars">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                              <button
+                                key={star}
+                                className={`star-button ${evaluationData.overallRating >= star ? "active" : ""}`}
+                                onClick={() => setEvaluationData({ ...evaluationData, overallRating: star })}
+                              >
+                                ★
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="rating-item">
+                          <label>Technical Skills:</label>
+                          <div className="rating-stars">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                              <button
+                                key={star}
+                                className={`star-button ${evaluationData.technicalSkills >= star ? "active" : ""}`}
+                                onClick={() => setEvaluationData({ ...evaluationData, technicalSkills: star })}
+                              >
+                                ★
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="rating-item">
+                          <label>Communication:</label>
+                          <div className="rating-stars">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                              <button
+                                key={star}
+                                className={`star-button ${evaluationData.communicationSkills >= star ? "active" : ""}`}
+                                onClick={() => setEvaluationData({ ...evaluationData, communicationSkills: star })}
+                              >
+                                ★
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="comments-section">
+                      <h4>Comments</h4>
+                      <textarea
+                        value={evaluationData.comments}
+                        onChange={(e) => setEvaluationData({ ...evaluationData, comments: e.target.value })}
+                        placeholder="Enter your evaluation comments here..."
+                        rows={4}
+                      ></textarea>
+                    </div>
+                    <div className="recommend-section">
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={evaluationData.recommendForHire}
+                          onChange={(e) => setEvaluationData({ ...evaluationData, recommendForHire: e.target.checked })}
+                        />
+                        Recommend for future employment
+                      </label>
+                    </div>
+                    <div className="modal-actions">
+                      <button className="cancel-button" onClick={() => setShowEvaluationModal(false)}>
+                        Cancel
+                      </button>
+                      <button className="save-button" onClick={handleSaveEvaluation}>
+                        {currentEvaluation ? "Update" : "Save"}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>
