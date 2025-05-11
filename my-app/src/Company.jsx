@@ -1,261 +1,228 @@
 "use client"
 
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import "./Company.css"
+import "./company.css"
 
-function Company() {
-  const navigate = useNavigate()
-  const [searchQuery, setSearchQuery] = useState("")
+export default function Company() {
+  const [activeTab, setActiveTab] = useState("post")
 
-  // Sample internship data
-  const internships = [
+  // Sample job listings data
+  const jobListings = [
     {
       id: 1,
-      title: "Web Developer",
-      startDate: "Immediately",
-      duration: "3 Months",
-      stipend: "Unpaid",
-      lastDateToApply: "28-02-2024",
-      company: "TBNSOFTWARESOLUTIONS & CONSULTANCY",
-      location: "Work From Home",
+      title: "Software developer intern",
+      salary: "€89.10",
+      hourlyRate: "€14.85/h",
+      requirements: ["CODING SKILLS"],
+      location: "N Teseen, New Cairo 1",
+      date: "Friday 09 May",
+      time: "08:00 - 14:00",
+      timeOfDay: "MORNING",
+      isPaid: true,
+      isLearningOpportunity: false,
     },
     {
       id: 2,
-      title: "Hotel - Sales",
-      startDate: "20-11-2023",
-      duration: "6 Months",
-      stipend: "",
-      lastDateToApply: "18-11-2023",
-      company: "PRASADS SP ENTERTAINMENT LLP",
-      location: "Vijayawada",
+      title: "Software developer intern",
+      requirements: ["JAVASCRIPT", "REACT"],
+      location: "N Teseen, New Cairo 1",
+      startDate: "May 15",
+      endDate: "Aug 15, 2025",
+      duration: "3 MONTHS",
+      description: "Gain valuable experience working with our development team on real-world projects.",
+      isPaid: false,
+      isLearningOpportunity: true,
     },
     {
       id: 3,
-      title: "UI/UX Designer",
-      startDate: "30-11-2023",
-      duration: "2 Months",
-      stipend: "Unpaid",
-      lastDateToApply: "29-11-2023",
-      company: "TRK ADVISORS",
-      location: "Work From Home",
+      title: "Software developer intern",
+      salary: "€111.38",
+      hourlyRate: "€14.85/h",
+      requirements: ["CODING SKILLS"],
+      location: "N Teseen, New Cairo 1",
+      date: "Friday 09 May",
+      time: "15:00 - 22:00",
+      timeOfDay: "EVENING",
+      isPaid: true,
+      isLearningOpportunity: false,
     },
     {
       id: 4,
-      title: "Marketing",
-      startDate: "01-11-2023",
-      duration: "6 Months",
-      stipend: "",
-      lastDateToApply: "31-10-2023",
-      company: "ARRIBA LABS",
-      location: "Pune",
+      title: "Software developer intern",
+      requirements: ["PYTHON", "DATA SCIENCE"],
+      location: "N Teseen, New Cairo 1",
+      startDate: "Jun 1",
+      endDate: "Sep 30, 2025",
+      duration: "4 MONTHS",
+      description: "Work on cutting-edge data science projects and build your portfolio with real-world experience.",
+      isPaid: false,
+      isLearningOpportunity: true,
     },
     {
       id: 5,
-      title: "Sales / Business Development",
-      startDate: "15-11-2023",
-      duration: "6 Months",
-      stipend: "",
-      lastDateToApply: "14-11-2023",
-      company: "NoBroker",
-      location: "Bangalore",
+      title: "Software developer intern",
+      salary: "€95.25",
+      hourlyRate: "€15.50/h",
+      requirements: ["MOBILE DEV", "FLUTTER"],
+      location: "N Teseen, New Cairo 1",
+      date: "Monday 12 May",
+      time: "09:00 - 17:00",
+      timeOfDay: "FULL DAY",
+      isPaid: true,
+      isLearningOpportunity: false,
     },
   ]
-
-  // Form state
-  const [formData, setFormData] = useState({
-    title: "",
-    duration: "",
-    paidStatus: "",
-    salary: "",
-    skills: "",
-    description: "",
-  })
-
-  // Handle form input changes
-  const handleInputChange = (e) => {
-    const { name, value } = e.target
-    setFormData({
-      ...formData,
-      [name]: value,
-    })
-  }
-
-  // Handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    // Here you would typically send the data to your backend
-    console.log("Form submitted:", formData)
-    // Reset form after submission
-    setFormData({
-      title: "",
-      duration: "",
-      paidStatus: "",
-      salary: "",
-      skills: "",
-      description: "",
-    })
-  }
-
-  // Filter internships based on search query
-  const filteredInternships = internships.filter((internship) =>
-    internship.title.toLowerCase().includes(searchQuery.toLowerCase()),
-  )
 
   return (
     <div className="company-container">
       <header className="company-header">
-        <div className="header-logo">
-          <div className="diamond-icon"></div>
-          <h1>Company Portal</h1>
-        </div>
-        <div className="header-actions">
-          <div className="search-container">
-            <input type="text" placeholder="Search" className="search-input" />
-          </div>
-          <div className="notification-icon"></div>
-          <div className="profile-icon"></div>
-        </div>
+        <div className="logo">Dell technologies</div>
+        <nav className="main-nav">
+          <ul>
+            <li>
+              <a href="#">Home</a>
+            </li>
+            <li>
+              <a href="#">Tasks</a>
+            </li>
+            <li>
+              <a href="#">My Jobs</a>
+            </li>
+            <li>
+              <a href="#">Profile</a>
+            </li>
+          </ul>
+        </nav>
       </header>
 
-      <main className="company-main">
-        <div className="job-creation-section">
-          <h2 className="section-title">Create New Job Post</h2>
-
-          <form onSubmit={handleSubmit} className="job-form">
-            <div className="form-group">
-              <label htmlFor="title">Internship Title</label>
-              <input
-                type="text"
-                id="title"
-                name="title"
-                placeholder="Enter Title"
-                value={formData.title}
-                onChange={handleInputChange}
-                className="form-input"
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="duration">Duration</label>
-              <input
-                type="text"
-                id="duration"
-                name="duration"
-                placeholder="Enter Duration"
-                value={formData.duration}
-                onChange={handleInputChange}
-                className="form-input"
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="paidStatus">Paid/Unpaid</label>
-              <input
-                type="text"
-                id="paidStatus"
-                name="paidStatus"
-                placeholder="Paid/Unpaid"
-                value={formData.paidStatus}
-                onChange={handleInputChange}
-                className="form-input"
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="salary">Expected Salary</label>
-              <input
-                type="text"
-                id="salary"
-                name="salary"
-                placeholder="Enter Salary"
-                value={formData.salary}
-                onChange={handleInputChange}
-                className="form-input"
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="skills">Required Skills</label>
-              <input
-                type="text"
-                id="skills"
-                name="skills"
-                placeholder="Enter Skills"
-                value={formData.skills}
-                onChange={handleInputChange}
-                className="form-input"
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="description">Job Description</label>
-              <textarea
-                id="description"
-                name="description"
-                placeholder="Enter Description"
-                value={formData.description}
-                onChange={handleInputChange}
-                className="form-textarea"
-                rows={4}
-              ></textarea>
-            </div>
-
-            <button type="submit" className="post-button">
-              Post
-            </button>
-          </form>
+      <div className="content-container">
+        <div className="tabs">
+          <button className={`tab ${activeTab === "post" ? "active" : ""}`} onClick={() => setActiveTab("post")}>
+            Post
+          </button>
+          <button className={`tab ${activeTab === "create" ? "active" : ""}`} onClick={() => setActiveTab("create")}>
+            Create post
+          </button>
         </div>
 
-        <div className="job-listings-section">
-          <div className="search-bar">
-            <input
-              type="text"
-              placeholder="Search by Keywords UI/UX Designer"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="keyword-search"
-            />
-          </div>
-
-          <div className="results-count">Showing 1 to 10 of {filteredInternships.length} Internships</div>
-
-          <div className="internship-listings">
-            {filteredInternships.map((internship) => (
-              <div key={internship.id} className="internship-card">
-                <div className="internship-icon">
-                  <div className="briefcase-icon"></div>
-                </div>
-                <div className="internship-details">
-                  <h3 className="internship-title">{internship.title}</h3>
-                  <div className="internship-info">
-                    Start Date: {internship.startDate} · Duration: {internship.duration} · Stipend:{" "}
-                    {internship.stipend || "Not specified"} · Last Date To Apply: {internship.lastDateToApply}
-                  </div>
-                  <div className="company-info">
-                    @{internship.company} · {internship.location}
-                  </div>
-                </div>
-                <div className="view-details">
-                  <button className="view-details-button">View Details</button>
-                </div>
+        {activeTab === "post" && (
+          <div className="post-section">
+            <div className="filters">
+              <button className="filter-button">
+                <span className="filter-icon">≡</span> Filters
+              </button>
+              <div className="search-container">
+                <input type="text" placeholder="Search" className="search-input" />
+                <span className="search-icon">🔍</span>
               </div>
-            ))}
-          </div>
+            </div>
 
-          <div className="pagination">
-            <button className="pagination-button prev-button">&lt;</button>
-            <button className="pagination-button active">1</button>
-            <button className="pagination-button">2</button>
-            <button className="pagination-button">3</button>
-            <button className="pagination-button">Next</button>
-            <button className="pagination-button">Last</button>
-            <button className="pagination-button next-button">&gt;</button>
+            <div className="job-listings">
+              {jobListings.map((job) => (
+                <div className="job-card" key={job.id}>
+                  {job.salary && (
+                    <div className="job-salary">
+                      <div className="amount">{job.salary}</div>
+                      <div className="hourly-rate">{job.hourlyRate}</div>
+                    </div>
+                  )}
+
+                  <div className="job-details">
+                    {job.isLearningOpportunity && <div className="learning-opportunity">LEARNING OPPORTUNITY</div>}
+
+                    <h3 className="job-title">{job.title}</h3>
+
+                    <div className="job-requirements">
+                      <div className="requirement-label">REQUIRES:</div>
+                      <div className="requirement-tags">
+                        {job.requirements.map((req, index) => (
+                          <span className="requirement-tag" key={index}>
+                            {req}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="job-location">
+                      <span className="location-icon">◎</span>
+                      <span>{job.location}</span>
+                    </div>
+
+                    {job.startDate ? (
+                      <div className="job-duration">
+                        <span className="calendar-icon">📅</span>
+                        <div>
+                          <div className="date-range">
+                            {job.startDate} - {job.endDate}
+                          </div>
+                          <div className="duration">{job.duration}</div>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="job-time">
+                        <span className="calendar-icon">📅</span>
+                        <div>
+                          <div className="date">{job.date}</div>
+                          <div className="today">TODAY</div>
+                        </div>
+                        <div className="time-slot">
+                          <div>{job.time}</div>
+                          <div className="time-of-day">{job.timeOfDay}</div>
+                        </div>
+                      </div>
+                    )}
+
+                    {job.description && <div className="job-description">{job.description}</div>}
+                  </div>
+
+                  <div className={`job-status ${job.isPaid ? "paid" : "unpaid"}`}>{job.isPaid ? "PAID" : "UNPAID"}</div>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </main>
+        )}
+
+        {activeTab === "create" && (
+          <div className="create-post-section">
+            <h2>Create New Job Post</h2>
+
+            <form className="job-form">
+              <div className="form-group">
+                <label>Internship Title</label>
+                <input type="text" placeholder="Enter Title" className="form-input" />
+              </div>
+
+              <div className="form-group">
+                <label>Duration</label>
+                <input type="text" placeholder="Enter Duration" className="form-input" />
+              </div>
+
+              <div className="form-group">
+                <label>Paid/Unpaid</label>
+                <select className="form-select">
+                  <option>Paid</option>
+                  <option>Unpaid</option>
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label>Expected Salary</label>
+                <input type="text" placeholder="Enter Salary" className="form-input" />
+              </div>
+
+              <div className="form-group">
+                <label>Required Skills</label>
+                <input type="text" placeholder="Enter Skills" className="form-input" />
+              </div>
+
+              <div className="form-group">
+                <label>Job Description</label>
+                <textarea placeholder="Enter Description" className="form-textarea"></textarea>
+              </div>
+            </form>
+          </div>
+        )}
+      </div>
     </div>
   )
 }
-
-export default Company
