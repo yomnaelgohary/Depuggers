@@ -234,7 +234,7 @@ function Faculty() {
       </header>
 
       <main className="faculty-main">
-        <h2 className="greeting">Hello Dr. asmine</h2>
+        <h2 className="greeting">Hello Dr. Yasmine</h2>
 
         <div className="tab-navigation-container">
           <div className="tab-navigation">
