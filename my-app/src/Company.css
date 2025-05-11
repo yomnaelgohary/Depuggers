@@ -102,12 +102,20 @@ body {
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
-  background-color: #5f2878;
-  color: white;
-  border: none;
+  background-color: white;
+  color: #333;
+  border: 1px solid #e0e0e0;
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.filter-button:hover,
+.filter-button:focus {
+  background-color: #5f2878;
+  color: white;
+  border-color: #5f2878;
 }
 
 .search-container {
@@ -331,6 +339,27 @@ body {
   position: relative;
 }
 
+/* Fix the completed banner to be lighter and positioned better */
+.completed-banner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(95, 40, 120, 0.15);
+  color: #5f2878;
+  text-align: center;
+  padding: 4px 0;
+  font-size: 12px;
+  font-weight: 600;
+  z-index: 1;
+  border-bottom: 1px solid rgba(95, 40, 120, 0.3);
+}
+
+.job-card.completed-job {
+  padding-top: 28px;
+  border: 1px solid rgba(95, 40, 120, 0.3);
+}
+
 .job-salary {
   padding: 20px;
   min-width: 120px;
@@ -412,6 +441,7 @@ body {
   align-items: flex-start;
   gap: 12px;
   font-size: 14px;
+  margin-bottom: 12px;
 }
 
 .date,
@@ -448,11 +478,34 @@ body {
   color: #666;
 }
 
+.job-work-hours {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: #666;
+}
+
 .job-description {
   margin-top: 12px;
   font-size: 14px;
   color: #666;
   line-height: 1.5;
+}
+
+.job-applications {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 14px;
+  color: #5f2878;
+  font-weight: 500;
+}
+
+.applications-icon {
+  font-size: 16px;
 }
 
 .job-status {
@@ -554,18 +607,24 @@ body {
 }
 
 .file-upload-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   padding: 8px 16px;
-  background-color: #f5f5f5;
+  background-color: white;
+  color: #333;
   border: 1px solid #e0e0e0;
   border-radius: 4px;
-  font-size: 14px;
-  color: #333;
   cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
 }
 
-.file-upload-text {
-  font-size: 14px;
-  color: #666;
+.file-upload-button:hover,
+.file-upload-button:focus {
+  background-color: #5f2878;
+  color: white;
+  border-color: #5f2878;
 }
 
 .form-actions {
@@ -574,22 +633,451 @@ body {
   margin-top: 16px;
 }
 
+.plus-icon {
+  font-size: 18px;
+}
+
+/* Fix dropdown styling */
+.form-select.filter-styled {
+  padding: 8px 16px;
+  background-color: white;
+  color: #333;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23666666%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px top 50%;
+  background-size: 12px auto;
+  padding-right: 30px;
+  transition: all 0.2s ease;
+}
+
+.form-select.filter-styled:hover, 
+.form-select.filter-styled:focus {
+  background-color: #5f2878;
+  color: white;
+  border-color: #5f2878;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFFFFF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+}
+
+/* Fix dropdown styling to be white by default and purple on hover */
+select.form-select option {
+  background-color: white;
+  color: #333;
+}
+
+select.form-select option:hover,
+select.form-select option:focus,
+select.form-select option:active,
+select.form-select option:checked {
+  background-color: #5f2878 !important;
+  color: white !important;
+}
+
+/* For Firefox */
+@-moz-document url-prefix() {
+  select.form-select option:checked,
+  select.form-select option:hover {
+    background-color: #5f2878 !important;
+    color: white !important;
+    box-shadow: 0 0 10px 100px #5f2878 inset !important;
+  }
+}
+
+/* For Chrome and Safari */
+select.form-select option:hover {
+  background-color: #5f2878 !important;
+  color: white !important;
+}
+
+/* For IE and Edge */
+select.form-select:focus > option:checked {
+  background-color: #5f2878 !important;
+  color: white !important;
+}
+
+/* Add a new class for the create post button to match the filter button style */
 .create-post-button {
   display: flex;
   align-items: center;
   gap: 8px;
   padding: 12px 24px;
-  background-color: #1e293b;
-  color: white;
-  border: none;
+  background-color: white;
+  color: #333;
+  border: 1px solid #e0e0e0;
   border-radius: 4px;
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.plus-icon {
-  font-size: 18px;
+.create-post-button:hover,
+.create-post-button:focus {
+  background-color: #5f2878;
+  color: white;
+  border-color: #5f2878;
+}
+
+/* Add styles for the sidebar */
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: white;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transition: transform 0.3s ease;
+}
+
+.sidebar-header {
+  padding: 20px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.sidebar-logo {
+  font-size: 20px;
+  font-weight: 600;
+  color: #5f2878;
+}
+
+.sidebar-menu {
+  padding: 20px 0;
+}
+
+.sidebar-menu-item {
+  padding: 12px 20px;
+  display: block;
+  color: #666;
+  text-decoration: none;
+  font-size: 16px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.sidebar-menu-item:hover,
+.sidebar-menu-item:focus,
+.sidebar-menu-item.active {
+  background-color: #f5f5f5;
+  color: #5f2878;
+  border-left: 3px solid #5f2878;
+}
+
+.sidebar-menu-item.active {
+  font-weight: 500;
+}
+
+.sidebar-toggle {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1001;
+  background: white;
+  border: none;
+  border-radius: 4px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: none;
+}
+
+.content-with-sidebar {
+  margin-left: 250px;
+  transition: margin-left 0.3s ease;
+}
+
+/* Applications section */
+.applications-section {
+  background-color: white;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.applications-section h2 {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  color: #333;
+}
+
+.applications-filters {
+  margin-bottom: 24px;
+}
+
+.applications-list {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.applications-header {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 1.5fr 1fr;
+  background-color: #f5f5f5;
+  padding: 12px 16px;
+  font-weight: 500;
+  color: #333;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.application-header-item {
+  font-size: 14px;
+}
+
+/* Center content in application list */
+.application-item {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 1.5fr 1fr;
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+  align-items: center;
+  text-align: center;
+}
+
+.application-item .application-detail:first-child {
+  text-align: left;
+}
+
+.application-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.application-item:last-child {
+  border-bottom: none;
+}
+
+.application-detail {
+  font-size: 14px;
+  color: #333;
+}
+
+.applicant-name {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.applicant-university {
+  font-size: 12px;
+  color: #666;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+  margin-right: 4px;
+}
+
+.status-pending {
+  background-color: #fff8e1;
+  color: #ff8f00;
+}
+
+.status-accepted {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status-rejected {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.status-finalized {
+  background-color: #e3f2fd;
+  color: #1565c0;
+}
+
+.internship-current {
+  background-color: #e0f7fa;
+  color: #00838f;
+}
+
+.internship-completed {
+  background-color: #f3e5f5;
+  color: #6a1b9a;
+}
+
+.view-application-button {
+  padding: 6px 12px;
+  background-color: white;
+  color: #5f2878;
+  border: 1px solid #5f2878;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.view-application-button:hover {
+  background-color: #5f2878;
+  color: white;
+}
+
+.no-applications {
+  padding: 30px;
+  text-align: center;
+  color: #666;
+}
+
+/* Application details */
+.application-details {
+  background-color: white;
+  border-radius: 8px;
+}
+
+.application-details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.application-details-header h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+}
+
+.back-button {
+  padding: 8px 16px;
+  background-color: white;
+  color: #5f2878;
+  border: 1px solid #5f2878;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.back-button:hover {
+  background-color: #5f2878;
+  color: white;
+}
+
+.application-details-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.application-details-section {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.application-details-section h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.details-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.details-label {
+  font-size: 12px;
+  color: #666;
+}
+
+.details-value {
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+}
+
+.cover-letter {
+  font-size: 14px;
+  color: #333;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.resume-link {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #5f2878;
+  color: white;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.resume-link:hover {
+  background-color: #4a1d5e;
+}
+
+.status-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.status-action-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.status-action-group h5 {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.status-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.status-button {
+  padding: 8px 16px;
+  background-color: white;
+  color: #333;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.status-button:hover {
+  background-color: #f5f5f5;
+}
+
+.status-button.active {
+  background-color: #5f2878;
+  color: white;
+  border-color: #5f2878;
 }
 
 /* Responsive styles */
@@ -633,5 +1121,189 @@ body {
   .form-row {
     flex-direction: column;
     gap: 16px;
+  }
+
+  .applications-header,
+  .application-item {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .applications-header {
+    display: none;
+  }
+
+  .application-detail {
+    padding: 4px 0;
+  }
+
+  .application-actions {
+    justify-content: flex-start;
+    margin-top: 8px;
+  }
+
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .status-buttons {
+    flex-direction: column;
+  }
+}
+
+/* Add styles for the interns tab */
+.interns-section {
+  background-color: white;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.interns-section h2 {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  color: #333;
+}
+
+.interns-filters {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  gap: 20px;
+}
+
+.interns-search {
+  position: relative;
+  flex: 1;
+}
+
+.interns-filter-options {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.interns-filter-options label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+}
+
+.interns-filter-options .form-select {
+  min-width: 180px;
+}
+
+.interns-list {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.interns-header {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 1fr 2fr;
+  background-color: #f5f5f5;
+  padding: 12px 16px;
+  font-weight: 500;
+  color: #333;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: center;
+}
+
+.intern-header-item:first-child {
+  text-align: left;
+}
+
+.intern-item {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 1fr 2fr;
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+  align-items: center;
+  text-align: center;
+}
+
+.intern-item:last-child {
+  border-bottom: none;
+}
+
+.intern-detail {
+  font-size: 14px;
+  color: #333;
+}
+
+.intern-detail:first-child {
+  text-align: left;
+}
+
+.intern-name {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.intern-university {
+  font-size: 12px;
+  color: #666;
+}
+
+.intern-actions {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.view-intern-button,
+.add-evaluation-button,
+.view-evaluation-button {
+  padding: 6px 12px;
+  background-color: white;
+  color: #5f2878;
+  border: 1px solid #5f2878;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.view-intern-button:hover,
+.add-evaluation-button:hover,
+.view-evaluation-button:hover {
+  background-color: #5f2878;
+  color: white;
+}
+
+.add-evaluation-button {
+  background-color: #5f2878;
+  color: white;
+}
+
+.add-evaluation-button:hover {
+  background-color: #4a1d5e;
+}
+
+.view-evaluation-button {
+  background-color: #f0e6f5;
+}
+
+/* Responsive styles for interns section */
+@media (max-width: 768px) {
+  .interns-filters {
+    flex-direction: column;
+  }
+  
+  .interns-header {
+    display: none;
+  }
+  
+  .intern-item {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    text-align: left;
+  }
+  
+  .intern-actions {
+    justify-content: flex-start;
   }
 }

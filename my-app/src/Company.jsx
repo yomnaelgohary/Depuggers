@@ -4,9 +4,11 @@ import { useState } from "react"
 import "./company.css"
 
 export default function Company() {
-  const [activeTab, setActiveTab] = useState("post")
+  const [activeTab, setActiveTab] = useState("posts")
   const [searchQuery, setSearchQuery] = useState("")
   const [showFilters, setShowFilters] = useState(false)
+  const [selectedPost, setSelectedPost] = useState(null)
+  const [selectedApplication, setSelectedApplication] = useState(null)
   const [filters, setFilters] = useState({
     isPaid: null, // null = both, true = paid only, false = unpaid only
     duration: null, // null = all durations, 1, 3, 6, etc. (months)
@@ -15,15 +17,9 @@ export default function Company() {
   })
 
   // Available locations
-  const locations = [
-    "N Teseen, New Cairo",
-    "Maadi, Cairo",
-    "Smart Village, Giza",
-    "Dokki, Giza",
-    "Heliopolis, Cairo"
-  ]
+  const locations = ["N Teseen, New Cairo", "Maadi, Cairo", "Smart Village, Giza", "Dokki, Giza", "Heliopolis, Cairo"]
 
-  // Sample job listings data with consistent duration format
+  // Sample job listings data with consistent duration format and application counts
   const jobListings = [
     {
       id: 1,
@@ -39,6 +35,11 @@ export default function Company() {
       description: "Work on backend systems and APIs for our enterprise applications.",
       isPaid: true,
       isLearningOpportunity: false,
+      applications: 32,
+      workHours: "20-30 hours/week",
+      timeSlot: "9:00 - 17:00",
+      timeOfDay: "MORNING",
+      status: "active",
     },
     {
       id: 2,
@@ -52,6 +53,11 @@ export default function Company() {
       description: "Gain valuable experience working with our development team on real-world projects.",
       isPaid: false,
       isLearningOpportunity: true,
+      applications: 47,
+      workHours: "15-25 hours/week",
+      timeSlot: "10:00 - 16:00",
+      timeOfDay: "MORNING",
+      status: "active",
     },
     {
       id: 3,
@@ -67,6 +73,11 @@ export default function Company() {
       description: "Learn DevOps practices and help automate our deployment pipelines.",
       isPaid: true,
       isLearningOpportunity: false,
+      applications: 28,
+      workHours: "30-40 hours/week",
+      timeSlot: "9:00 - 18:00",
+      timeOfDay: "FULL DAY",
+      status: "active",
     },
     {
       id: 4,
@@ -80,6 +91,11 @@ export default function Company() {
       description: "Work on cutting-edge data science projects and build your portfolio with real-world experience.",
       isPaid: false,
       isLearningOpportunity: true,
+      applications: 39,
+      workHours: "20-30 hours/week",
+      timeSlot: "13:00 - 19:00",
+      timeOfDay: "AFTERNOON",
+      status: "active",
     },
     {
       id: 5,
@@ -95,6 +111,11 @@ export default function Company() {
       description: "Develop mobile applications for iOS and Android platforms.",
       isPaid: true,
       isLearningOpportunity: false,
+      applications: 35,
+      workHours: "25-35 hours/week",
+      timeSlot: "10:00 - 18:00",
+      timeOfDay: "FULL DAY",
+      status: "active",
     },
     {
       id: 6,
@@ -110,6 +131,11 @@ export default function Company() {
       description: "Join our frontend team to build responsive and accessible user interfaces.",
       isPaid: true,
       isLearningOpportunity: false,
+      applications: 51,
+      workHours: "30-40 hours/week",
+      timeSlot: "9:00 - 17:00",
+      timeOfDay: "MORNING",
+      status: "active",
     },
     {
       id: 7,
@@ -123,6 +149,11 @@ export default function Company() {
       description: "Learn about cybersecurity practices and help secure our infrastructure.",
       isPaid: false,
       isLearningOpportunity: true,
+      applications: 27,
+      workHours: "20-30 hours/week",
+      timeSlot: "10:00 - 16:00",
+      timeOfDay: "MORNING",
+      status: "active",
     },
     {
       id: 8,
@@ -138,6 +169,11 @@ export default function Company() {
       description: "Work with our cloud team to design and implement scalable cloud solutions.",
       isPaid: true,
       isLearningOpportunity: true,
+      applications: 31,
+      workHours: "30-40 hours/week",
+      timeSlot: "9:00 - 17:00",
+      timeOfDay: "MORNING",
+      status: "active",
     },
     {
       id: 9,
@@ -151,6 +187,11 @@ export default function Company() {
       description: "Learn software testing methodologies and help ensure product quality.",
       isPaid: false,
       isLearningOpportunity: true,
+      applications: 34,
+      workHours: "15-25 hours/week",
+      timeSlot: "13:00 - 19:00",
+      timeOfDay: "AFTERNOON",
+      status: "active",
     },
     {
       id: 10,
@@ -166,6 +207,11 @@ export default function Company() {
       description: "Gain hands-on experience in product management and agile methodologies.",
       isPaid: true,
       isLearningOpportunity: false,
+      applications: 42,
+      workHours: "20-30 hours/week",
+      timeSlot: "9:00 - 15:00",
+      timeOfDay: "MORNING",
+      status: "active",
     },
     {
       id: 11,
@@ -179,6 +225,11 @@ export default function Company() {
       description: "Work on blockchain projects and learn about decentralized applications.",
       isPaid: false,
       isLearningOpportunity: true,
+      applications: 25,
+      workHours: "20-30 hours/week",
+      timeSlot: "10:00 - 16:00",
+      timeOfDay: "MORNING",
+      status: "active",
     },
     {
       id: 12,
@@ -194,6 +245,11 @@ export default function Company() {
       description: "Participate in cutting-edge AI research and development projects.",
       isPaid: true,
       isLearningOpportunity: true,
+      applications: 38,
+      workHours: "30-40 hours/week",
+      timeSlot: "9:00 - 17:00",
+      timeOfDay: "MORNING",
+      status: "active",
     },
     {
       id: 13,
@@ -207,12 +263,15 @@ export default function Company() {
       description: "Learn game development and contribute to our upcoming mobile game.",
       isPaid: false,
       isLearningOpportunity: true,
+      applications: 36,
+      workHours: "20-30 hours/week",
+      timeSlot: "10:00 - 16:00",
+      timeOfDay: "MORNING",
+      status: "active",
     },
     {
       id: 14,
       title: "Technical Writer Intern",
-      salary: "$85.20",
-      hourlyRate: "$14.20/h",
       requirements: ["TECHNICAL WRITING", "DOCUMENTATION"],
       location: "N Teseen, New Cairo",
       startDate: "Jun 01, 2025",
@@ -222,6 +281,11 @@ export default function Company() {
       description: "Create technical documentation for our software products and APIs.",
       isPaid: true,
       isLearningOpportunity: false,
+      applications: 29,
+      workHours: "15-25 hours/week",
+      timeSlot: "9:00 - 15:00",
+      timeOfDay: "MORNING",
+      status: "active",
     },
     {
       id: 15,
@@ -235,6 +299,360 @@ export default function Company() {
       description: "Learn database administration and help optimize our database systems.",
       isPaid: false,
       isLearningOpportunity: true,
+      applications: 33,
+      workHours: "20-30 hours/week",
+      timeSlot: "10:00 - 16:00",
+      timeOfDay: "MORNING",
+      status: "active",
+    },
+    // Completed internships (before May 2025)
+    {
+      id: 16,
+      title: "Sales Assistant Intern",
+      salary: "$123.51",
+      hourlyRate: "$14.53/h",
+      requirements: ["SALES", "CUSTOMER SERVICE", "RETAIL"],
+      location: "Maadi, Cairo",
+      startDate: "Jan 15, 2025",
+      endDate: "Apr 15, 2025",
+      duration: "3 MONTHS",
+      durationMonths: 3,
+      description: "Assist with sales operations and customer service in our retail department.",
+      isPaid: true,
+      isLearningOpportunity: false,
+      applications: 45,
+      workHours: "25-35 hours/week",
+      timeSlot: "12:00 - 21:00",
+      timeOfDay: "AFTERNOON",
+      status: "completed",
+    },
+    {
+      id: 17,
+      title: "Marketing Intern",
+      salary: "$95.40",
+      hourlyRate: "$15.90/h",
+      requirements: ["DIGITAL MARKETING", "SOCIAL MEDIA", "CONTENT CREATION"],
+      location: "Smart Village, Giza",
+      startDate: "Feb 01, 2025",
+      endDate: "Apr 30, 2025",
+      duration: "3 MONTHS",
+      durationMonths: 3,
+      description: "Support our marketing team with digital campaigns and content creation.",
+      isPaid: true,
+      isLearningOpportunity: true,
+      applications: 52,
+      workHours: "20-30 hours/week",
+      timeSlot: "9:00 - 17:00",
+      timeOfDay: "MORNING",
+      status: "completed",
+    },
+    {
+      id: 18,
+      title: "HR Assistant Intern",
+      requirements: ["HUMAN RESOURCES", "RECRUITMENT", "ADMINISTRATION"],
+      location: "Heliopolis, Cairo",
+      startDate: "Dec 01, 2024",
+      endDate: "Mar 01, 2025",
+      duration: "3 MONTHS",
+      durationMonths: 3,
+      description: "Assist the HR department with recruitment, onboarding, and administrative tasks.",
+      isPaid: false,
+      isLearningOpportunity: true,
+      applications: 38,
+      workHours: "15-25 hours/week",
+      timeSlot: "10:00 - 16:00",
+      timeOfDay: "MORNING",
+      status: "completed",
+    },
+  ]
+
+  // Sample applications data with enhanced student information
+  const applications = [
+    {
+      id: 1,
+      postId: 1,
+      postTitle: "Backend Developer Intern",
+      firstName: "Ahmed",
+      lastName: "Hassan",
+      applicantName: "Ahmed Hassan",
+      applicantEmail: "ahmed.hassan@example.com",
+      applicantPhone: "+20 123 456 7890",
+      university: "Cairo University",
+      major: "Computer Science",
+      currentEducation: "Bachelor's Degree, 3rd Year",
+      gpa: 3.7,
+      graduationYear: 2025,
+      resumeUrl: "#",
+      coverLetter: "I am excited to apply for the Backend Developer Intern position...",
+      applicationDate: "Apr 15, 2025",
+      availabilityHours: "30 hours/week",
+      availableStartDate: "May 10, 2025",
+      status: "pending", // pending, accepted, rejected, finalized
+      internshipStatus: null, // null, current, completed
+    },
+    {
+      id: 2,
+      postId: 1,
+      postTitle: "Backend Developer Intern",
+      firstName: "Fatima",
+      lastName: "Ali",
+      applicantName: "Fatima Ali",
+      applicantEmail: "fatima.ali@example.com",
+      applicantPhone: "+20 123 456 7891",
+      university: "Ain Shams University",
+      major: "Computer Engineering",
+      currentEducation: "Bachelor's Degree, 4th Year",
+      gpa: 3.9,
+      graduationYear: 2024,
+      resumeUrl: "#",
+      coverLetter: "I believe my experience with Java and Spring makes me a strong candidate...",
+      applicationDate: "Apr 16, 2025",
+      availabilityHours: "25 hours/week",
+      availableStartDate: "May 15, 2025",
+      status: "accepted",
+      internshipStatus: "current",
+    },
+    {
+      id: 3,
+      postId: 2,
+      postTitle: "UI/UX Design Intern",
+      firstName: "Omar",
+      lastName: "Mahmoud",
+      applicantName: "Omar Mahmoud",
+      applicantEmail: "omar.mahmoud@example.com",
+      applicantPhone: "+20 123 456 7892",
+      university: "German University in Cairo",
+      major: "Design",
+      currentEducation: "Bachelor's Degree, 3rd Year",
+      gpa: 3.5,
+      graduationYear: 2025,
+      resumeUrl: "#",
+      coverLetter: "As a passionate UI/UX designer with experience in Figma...",
+      applicationDate: "Apr 10, 2025",
+      availabilityHours: "20 hours/week",
+      availableStartDate: "May 20, 2025",
+      status: "finalized",
+      internshipStatus: "completed",
+    },
+    {
+      id: 4,
+      postId: 2,
+      postTitle: "UI/UX Design Intern",
+      firstName: "Nour",
+      lastName: "Ibrahim",
+      applicantName: "Nour Ibrahim",
+      applicantEmail: "nour.ibrahim@example.com",
+      applicantPhone: "+20 123 456 7893",
+      university: "American University in Cairo",
+      major: "Graphic Design",
+      currentEducation: "Bachelor's Degree, 4th Year",
+      gpa: 3.8,
+      graduationYear: 2024,
+      resumeUrl: "#",
+      coverLetter: "I am writing to express my interest in the UI/UX Design Intern position...",
+      applicationDate: "Apr 12, 2025",
+      availabilityHours: "25 hours/week",
+      availableStartDate: "May 16, 2025",
+      status: "rejected",
+      internshipStatus: null,
+    },
+    {
+      id: 5,
+      postId: 3,
+      postTitle: "DevOps Engineer Intern",
+      firstName: "Youssef",
+      lastName: "Ahmed",
+      applicantName: "Youssef Ahmed",
+      applicantEmail: "youssef.ahmed@example.com",
+      applicantPhone: "+20 123 456 7894",
+      university: "Cairo University",
+      major: "Information Technology",
+      currentEducation: "Bachelor's Degree, 3rd Year",
+      gpa: 3.6,
+      graduationYear: 2025,
+      resumeUrl: "#",
+      coverLetter: "I am excited to apply for the DevOps Engineer Intern position...",
+      applicationDate: "Apr 18, 2025",
+      availabilityHours: "35 hours/week",
+      availableStartDate: "May 10, 2025",
+      status: "pending",
+      internshipStatus: null,
+    },
+    {
+      id: 6,
+      postId: 4,
+      postTitle: "Data Science Intern",
+      firstName: "Laila",
+      lastName: "Mohamed",
+      applicantName: "Laila Mohamed",
+      applicantEmail: "laila.mohamed@example.com",
+      applicantPhone: "+20 123 456 7895",
+      university: "Alexandria University",
+      major: "Statistics",
+      currentEducation: "Master's Degree, 1st Year",
+      gpa: 4.0,
+      graduationYear: 2024,
+      resumeUrl: "#",
+      coverLetter: "With my strong background in statistics and machine learning...",
+      applicationDate: "Apr 20, 2025",
+      availabilityHours: "30 hours/week",
+      availableStartDate: "Jun 05, 2025",
+      status: "accepted",
+      internshipStatus: "current",
+    },
+    {
+      id: 7,
+      postId: 5,
+      postTitle: "Mobile App Developer Intern",
+      firstName: "Karim",
+      lastName: "Salah",
+      applicantName: "Karim Salah",
+      applicantEmail: "karim.salah@example.com",
+      applicantPhone: "+20 123 456 7896",
+      university: "Helwan University",
+      major: "Computer Science",
+      currentEducation: "Bachelor's Degree, 3rd Year",
+      gpa: 3.4,
+      graduationYear: 2025,
+      resumeUrl: "#",
+      coverLetter: "I am writing to express my interest in the Mobile App Developer Intern position...",
+      applicationDate: "Apr 22, 2025",
+      availabilityHours: "25 hours/week",
+      availableStartDate: "May 15, 2025",
+      status: "pending",
+      internshipStatus: null,
+    },
+    {
+      id: 8,
+      postId: 6,
+      postTitle: "Frontend Developer Intern",
+      firstName: "Hana",
+      lastName: "Mahmoud",
+      applicantName: "Hana Mahmoud",
+      applicantEmail: "hana.mahmoud@example.com",
+      applicantPhone: "+20 123 456 7897",
+      university: "Cairo University",
+      major: "Computer Engineering",
+      currentEducation: "Bachelor's Degree, 4th Year",
+      gpa: 3.7,
+      graduationYear: 2024,
+      resumeUrl: "#",
+      coverLetter: "As a passionate frontend developer with experience in React...",
+      applicationDate: "Apr 25, 2025",
+      availabilityHours: "35 hours/week",
+      availableStartDate: "Jun 16, 2025",
+      status: "finalized",
+      internshipStatus: "completed",
+    },
+    {
+      id: 9,
+      postId: 7,
+      postTitle: "Cybersecurity Intern",
+      firstName: "Amr",
+      lastName: "Hassan",
+      applicantName: "Amr Hassan",
+      applicantEmail: "amr.hassan@example.com",
+      applicantPhone: "+20 123 456 7898",
+      university: "Ain Shams University",
+      major: "Information Security",
+      currentEducation: "Bachelor's Degree, 3rd Year",
+      gpa: 3.9,
+      graduationYear: 2025,
+      resumeUrl: "#",
+      coverLetter: "I am excited to apply for the Cybersecurity Intern position...",
+      applicationDate: "Apr 28, 2025",
+      availabilityHours: "25 hours/week",
+      availableStartDate: "Jul 05, 2025",
+      status: "pending",
+      internshipStatus: null,
+    },
+    {
+      id: 10,
+      postId: 8,
+      postTitle: "Cloud Engineering Intern",
+      firstName: "Sara",
+      lastName: "Ahmed",
+      applicantName: "Sara Ahmed",
+      applicantEmail: "sara.ahmed@example.com",
+      applicantPhone: "+20 123 456 7899",
+      university: "German University in Cairo",
+      major: "Computer Science",
+      currentEducation: "Bachelor's Degree, 4th Year",
+      gpa: 3.8,
+      graduationYear: 2024,
+      resumeUrl: "#",
+      coverLetter: "With my experience in AWS and cloud computing...",
+      applicationDate: "Apr 30, 2025",
+      availabilityHours: "35 hours/week",
+      availableStartDate: "Aug 05, 2025",
+      status: "accepted",
+      internshipStatus: "current",
+    },
+    {
+      id: 11,
+      postId: 16,
+      postTitle: "Sales Assistant Intern",
+      firstName: "Mariam",
+      lastName: "Khaled",
+      applicantName: "Mariam Khaled",
+      applicantEmail: "mariam.khaled@example.com",
+      applicantPhone: "+20 123 456 7900",
+      university: "Cairo University",
+      major: "Business Administration",
+      currentEducation: "Bachelor's Degree, 3rd Year",
+      gpa: 3.6,
+      graduationYear: 2025,
+      resumeUrl: "#",
+      coverLetter: "I am excited to apply for the Sales Assistant Intern position...",
+      applicationDate: "Jan 05, 2025",
+      availabilityHours: "30 hours/week",
+      availableStartDate: "Jan 15, 2025",
+      status: "finalized",
+      internshipStatus: "completed",
+    },
+    {
+      id: 12,
+      postId: 17,
+      postTitle: "Marketing Intern",
+      firstName: "Tarek",
+      lastName: "Samir",
+      applicantName: "Tarek Samir",
+      applicantEmail: "tarek.samir@example.com",
+      applicantPhone: "+20 123 456 7901",
+      university: "American University in Cairo",
+      major: "Marketing",
+      currentEducation: "Bachelor's Degree, 4th Year",
+      gpa: 3.7,
+      graduationYear: 2024,
+      resumeUrl: "#",
+      coverLetter: "I am writing to express my interest in the Marketing Intern position...",
+      applicationDate: "Jan 25, 2025",
+      availabilityHours: "25 hours/week",
+      availableStartDate: "Feb 05, 2025",
+      status: "finalized",
+      internshipStatus: "completed",
+    },
+    {
+      id: 13,
+      postId: 18,
+      postTitle: "HR Assistant Intern",
+      firstName: "Yasmin",
+      lastName: "Adel",
+      applicantName: "Yasmin Adel",
+      applicantEmail: "yasmin.adel@example.com",
+      applicantPhone: "+20 123 456 7902",
+      university: "Ain Shams University",
+      major: "Human Resources",
+      currentEducation: "Bachelor's Degree, 3rd Year",
+      gpa: 3.5,
+      graduationYear: 2025,
+      resumeUrl: "#",
+      coverLetter: "I am excited to apply for the HR Assistant Intern position...",
+      applicationDate: "Nov 20, 2024",
+      availabilityHours: "20 hours/week",
+      availableStartDate: "Dec 05, 2024",
+      status: "finalized",
+      internshipStatus: "completed",
     },
   ]
 
@@ -282,7 +700,9 @@ export default function Company() {
   }
 
   const hasActiveFilters = () => {
-    return filters.isPaid !== null || filters.duration !== null || filters.location !== null || filters.skills.length > 0
+    return (
+      filters.isPaid !== null || filters.duration !== null || filters.location !== null || filters.skills.length > 0
+    )
   }
 
   const applyFilters = () => {
@@ -323,6 +743,33 @@ export default function Company() {
     return true
   })
 
+  // Filter applications based on selected post
+  const filteredApplications = selectedPost ? applications.filter((app) => app.postId === selectedPost) : applications
+
+  // Update application status
+  const updateApplicationStatus = (applicationId, status) => {
+    const updatedApplications = applications.map((app) => {
+      if (app.id === applicationId) {
+        return { ...app, status }
+      }
+      return app
+    })
+    // In a real app, you would update the state or make an API call here
+    console.log(`Updated application ${applicationId} status to ${status}`)
+  }
+
+  // Update internship status
+  const updateInternshipStatus = (applicationId, internshipStatus) => {
+    const updatedApplications = applications.map((app) => {
+      if (app.id === applicationId) {
+        return { ...app, internshipStatus }
+      }
+      return app
+    })
+    // In a real app, you would update the state or make an API call here
+    console.log(`Updated application ${applicationId} internship status to ${internshipStatus}`)
+  }
+
   return (
     <div className="company-container">
       <header className="company-header">
@@ -332,15 +779,24 @@ export default function Company() {
 
       <div className="content-container">
         <div className="tabs">
-          <button className={`tab ${activeTab === "post" ? "active" : ""}`} onClick={() => setActiveTab("post")}>
-            Post
+          <button className={`tab ${activeTab === "posts" ? "active" : ""}`} onClick={() => setActiveTab("posts")}>
+            Posts
           </button>
           <button className={`tab ${activeTab === "create" ? "active" : ""}`} onClick={() => setActiveTab("create")}>
             Create post
           </button>
+          <button
+            className={`tab ${activeTab === "applications" ? "active" : ""}`}
+            onClick={() => setActiveTab("applications")}
+          >
+            Applications
+          </button>
+          <button className={`tab ${activeTab === "interns" ? "active" : ""}`} onClick={() => setActiveTab("interns")}>
+            Interns
+          </button>
         </div>
 
-        {activeTab === "post" && (
+        {activeTab === "posts" && (
           <div className="post-section">
             <div className="filters">
               <button className="filter-button" onClick={toggleFilters}>
@@ -459,7 +915,9 @@ export default function Company() {
             <div className="job-listings">
               {filteredJobs.length > 0 ? (
                 filteredJobs.map((job) => (
-                  <div className="job-card" key={job.id}>
+                  <div className={`job-card ${job.status === "completed" ? "completed-job" : ""}`} key={job.id}>
+                    {job.status === "completed" && <div className="completed-banner">INTERNSHIP COMPLETE</div>}
+
                     {job.salary && (
                       <div className="job-salary">
                         <div className="amount">{job.salary}</div>
@@ -498,9 +956,23 @@ export default function Company() {
                           </div>
                           <div className="duration">{job.duration}</div>
                         </div>
+                        <div className="time-slot">
+                          <div className="time">{job.timeSlot}</div>
+                          <div className="time-of-day">{job.timeOfDay}</div>
+                        </div>
+                      </div>
+
+                      <div className="job-work-hours">
+                        <span className="work-hours-icon">⏱</span>
+                        <span>{job.workHours}</span>
                       </div>
 
                       {job.description && <div className="job-description">{job.description}</div>}
+
+                      <div className="job-applications">
+                        <span className="applications-icon">👤</span>
+                        <span className="applications-count">{job.applications} applications</span>
+                      </div>
                     </div>
 
                     <div className={`job-status ${job.isPaid ? "paid" : "unpaid"}`}>
@@ -523,7 +995,7 @@ export default function Company() {
         {activeTab === "create" && (
           <div className="create-post-section">
             <h2>Create Post</h2>
-            <div className="create-post-breadcrumb">Post / Create Post</div>
+            <div className="create-post-breadcrumb">Posts / Create Post</div>
 
             <form className="create-post-form">
               <div className="form-row">
@@ -553,14 +1025,9 @@ export default function Company() {
                 </div>
                 <div className="form-column">
                   <div className="form-group">
-                    <label>Location</label>
-                    <select className="form-select">
-                      <option value="">Select location</option>
-                      {locations.map((location, index) => (
-                        <option key={index} value={location}>{location}</option>
-                      ))}
-                    </select>
-                    <div className="form-help-text">Select the location of the internship.</div>
+                    <label>Hourly Rate (in USD)</label>
+                    <input type="number" placeholder="0" className="form-input" />
+                    <div className="form-help-text">Enter the hourly rate in USD.</div>
                   </div>
                 </div>
               </div>
@@ -568,12 +1035,59 @@ export default function Company() {
               <div className="form-row">
                 <div className="form-column">
                   <div className="form-group">
+                    <label>Location</label>
+                    <select className="form-select filter-styled">
+                      <option value="">Select location</option>
+                      {locations.map((location, index) => (
+                        <option key={index} value={location}>
+                          {location}
+                        </option>
+                      ))}
+                    </select>
+                    <div className="form-help-text">Select the location of the internship.</div>
+                  </div>
+                </div>
+                <div className="form-column">
+                  <div className="form-group">
                     <label>Payment Type</label>
-                    <select className="form-select">
+                    <select className="form-select filter-styled">
                       <option>Paid</option>
                       <option>Unpaid</option>
                     </select>
                     <div className="form-help-text">Select whether the internship is paid or unpaid.</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-column">
+                  <div className="form-group">
+                    <label>Start Date</label>
+                    <input type="date" className="form-input" />
+                    <div className="form-help-text">Select the start date of the internship.</div>
+                  </div>
+                </div>
+                <div className="form-column">
+                  <div className="form-group">
+                    <label>End Date</label>
+                    <input type="date" className="form-input" />
+                    <div className="form-help-text">Select the end date of the internship.</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-column">
+                  <div className="form-group">
+                    <label>Time Slot</label>
+                    <select className="form-select filter-styled">
+                      <option value="">Select time slot</option>
+                      <option value="9:00 - 17:00">9:00 - 17:00 (MORNING)</option>
+                      <option value="10:00 - 16:00">10:00 - 16:00 (MORNING)</option>
+                      <option value="12:00 - 21:00">12:00 - 21:00 (AFTERNOON)</option>
+                      <option value="13:00 - 19:00">13:00 - 19:00 (AFTERNOON)</option>
+                    </select>
+                    <div className="form-help-text">Select the time slot for the internship.</div>
                   </div>
                 </div>
                 <div className="form-column">
@@ -581,6 +1095,19 @@ export default function Company() {
                     <label>Required Skills</label>
                     <input type="text" placeholder="Enter skills (comma separated)" className="form-input" />
                     <div className="form-help-text">Enter the required skills, separated by commas.</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-column">
+                  <div className="form-group">
+                    <label>Learning Opportunity</label>
+                    <select className="form-select filter-styled">
+                      <option value="false">No</option>
+                      <option value="true">Yes</option>
+                    </select>
+                    <div className="form-help-text">Is this a learning opportunity?</div>
                   </div>
                 </div>
               </div>
@@ -600,7 +1127,9 @@ export default function Company() {
                   <div className="form-group">
                     <label>Internship Pictures</label>
                     <div className="file-upload">
-                      <button type="button" className="file-upload-button">Choose Files</button>
+                      <button type="button" className="file-upload-button">
+                        Choose Files
+                      </button>
                       <span className="file-upload-text">No file chosen</span>
                     </div>
                     <div className="form-help-text">Upload pictures related to the internship.</div>
@@ -614,6 +1143,300 @@ export default function Company() {
                 </button>
               </div>
             </form>
+          </div>
+        )}
+
+        {activeTab === "applications" && (
+          <div className="applications-section">
+            <h2>Applications</h2>
+
+            {!selectedApplication ? (
+              <>
+                <div className="applications-filters">
+                  <div className="form-group">
+                    <label>Filter by Post</label>
+                    <select
+                      className="form-select filter-styled"
+                      value={selectedPost || ""}
+                      onChange={(e) => setSelectedPost(e.target.value ? Number(e.target.value) : null)}
+                    >
+                      <option value="">All Posts</option>
+                      {jobListings.map((job) => (
+                        <option key={job.id} value={job.id}>
+                          {job.title} ({job.applications} applications)
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="applications-list">
+                  <div className="applications-header">
+                    <div className="application-header-item">Applicant</div>
+                    <div className="application-header-item">Post</div>
+                    <div className="application-header-item">Date</div>
+                    <div className="application-header-item">Status</div>
+                    <div className="application-header-item">Actions</div>
+                  </div>
+
+                  {filteredApplications.length > 0 ? (
+                    filteredApplications.map((application) => (
+                      <div className="application-item" key={application.id}>
+                        <div className="application-detail">
+                          <div className="applicant-name">{application.applicantName}</div>
+                          <div className="applicant-university">{application.university}</div>
+                        </div>
+                        <div className="application-detail">{application.postTitle}</div>
+                        <div className="application-detail">{application.applicationDate}</div>
+                        <div className="application-detail">
+                          <span className={`status-badge status-${application.status}`}>{application.status}</span>
+                          {application.internshipStatus && (
+                            <span className={`status-badge internship-${application.internshipStatus}`}>
+                              {application.internshipStatus}
+                            </span>
+                          )}
+                        </div>
+                        <div className="application-actions">
+                          <button
+                            className="view-application-button"
+                            onClick={() => setSelectedApplication(application)}
+                          >
+                            View Details
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="no-applications">
+                      <p>No applications found</p>
+                    </div>
+                  )}
+                </div>
+              </>
+            ) : (
+              <div className="application-details">
+                <div className="application-details-header">
+                  <h3>Application Details</h3>
+                  <button className="back-button" onClick={() => setSelectedApplication(null)}>
+                    Back to Applications
+                  </button>
+                </div>
+
+                <div className="application-details-content">
+                  <div className="application-details-section">
+                    <h4>Applicant Information</h4>
+                    <div className="details-grid">
+                      <div className="details-item">
+                        <span className="details-label">First Name</span>
+                        <span className="details-value">{selectedApplication.firstName}</span>
+                      </div>
+                      <div className="details-item">
+                        <span className="details-label">Last Name</span>
+                        <span className="details-value">{selectedApplication.lastName}</span>
+                      </div>
+                      <div className="details-item">
+                        <span className="details-label">Email</span>
+                        <span className="details-value">{selectedApplication.applicantEmail}</span>
+                      </div>
+                      <div className="details-item">
+                        <span className="details-label">Phone</span>
+                        <span className="details-value">{selectedApplication.applicantPhone}</span>
+                      </div>
+                      <div className="details-item">
+                        <span className="details-label">University</span>
+                        <span className="details-value">{selectedApplication.university}</span>
+                      </div>
+                      <div className="details-item">
+                        <span className="details-label">Major</span>
+                        <span className="details-value">{selectedApplication.major}</span>
+                      </div>
+                      <div className="details-item">
+                        <span className="details-label">Current Education</span>
+                        <span className="details-value">{selectedApplication.currentEducation}</span>
+                      </div>
+                      <div className="details-item">
+                        <span className="details-label">GPA</span>
+                        <span className="details-value">{selectedApplication.gpa}</span>
+                      </div>
+                      <div className="details-item">
+                        <span className="details-label">Graduation Year</span>
+                        <span className="details-value">{selectedApplication.graduationYear}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="application-details-section">
+                    <h4>Application Information</h4>
+                    <div className="details-grid">
+                      <div className="details-item">
+                        <span className="details-label">Post</span>
+                        <span className="details-value">{selectedApplication.postTitle}</span>
+                      </div>
+                      <div className="details-item">
+                        <span className="details-label">Application Date</span>
+                        <span className="details-value">{selectedApplication.applicationDate}</span>
+                      </div>
+                      <div className="details-item">
+                        <span className="details-label">Availability</span>
+                        <span className="details-value">{selectedApplication.availabilityHours}</span>
+                      </div>
+                      <div className="details-item">
+                        <span className="details-label">Available Start Date</span>
+                        <span className="details-value">{selectedApplication.availableStartDate}</span>
+                      </div>
+                      <div className="details-item">
+                        <span className="details-label">Status</span>
+                        <span className="details-value">
+                          <span className={`status-badge status-${selectedApplication.status}`}>
+                            {selectedApplication.status}
+                          </span>
+                        </span>
+                      </div>
+                      <div className="details-item">
+                        <span className="details-label">Internship Status</span>
+                        <span className="details-value">
+                          {selectedApplication.internshipStatus ? (
+                            <span className={`status-badge internship-${selectedApplication.internshipStatus}`}>
+                              {selectedApplication.internshipStatus}
+                            </span>
+                          ) : (
+                            "Not started"
+                          )}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="application-details-section">
+                    <h4>Cover Letter</h4>
+                    <div className="cover-letter">{selectedApplication.coverLetter}</div>
+                  </div>
+
+                  <div className="application-details-section">
+                    <h4>Resume</h4>
+                    <a
+                      href="/sample-resume.pdf"
+                      className="resume-link"
+                      target="_blank"
+                      rel="noreferrer"
+                      download="applicant-resume.pdf"
+                    >
+                      Download Resume (PDF)
+                    </a>
+                  </div>
+
+                  <div className="application-details-section">
+                    <h4>Update Status</h4>
+                    <div className="status-actions">
+                      <div className="status-action-group">
+                        <h5>Application Status</h5>
+                        <div className="status-buttons">
+                          <button
+                            className={`status-button ${selectedApplication.status === "pending" ? "active" : ""}`}
+                            onClick={() => updateApplicationStatus(selectedApplication.id, "pending")}
+                          >
+                            Pending
+                          </button>
+                          <button
+                            className={`status-button ${selectedApplication.status === "accepted" ? "active" : ""}`}
+                            onClick={() => updateApplicationStatus(selectedApplication.id, "accepted")}
+                          >
+                            Accepted
+                          </button>
+                          <button
+                            className={`status-button ${selectedApplication.status === "rejected" ? "active" : ""}`}
+                            onClick={() => updateApplicationStatus(selectedApplication.id, "rejected")}
+                          >
+                            Rejected
+                          </button>
+                        </div>
+                      </div>
+
+                      {selectedApplication.status === "accepted" && (
+                        <div className="status-action-group">
+                          <h5>Internship Status</h5>
+                          <div className="status-buttons">
+                            <button
+                              className={`status-button ${
+                                selectedApplication.internshipStatus === null ? "active" : ""
+                              }`}
+                              onClick={() => updateInternshipStatus(selectedApplication.id, null)}
+                            >
+                              Not Started
+                            </button>
+                            <button
+                              className={`status-button ${selectedApplication.internshipStatus === "current" ? "active" : ""}`}
+                              onClick={() => updateInternshipStatus(selectedApplication.id, "current")}
+                            >
+                              Current Intern
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {activeTab === "interns" && (
+          <div className="interns-section">
+            <h2>Interns</h2>
+
+            <div className="interns-filters">
+              <div className="interns-search">
+                <input type="text" placeholder="Search by name or job title" className="search-input" />
+                <span className="search-icon">🔍</span>
+              </div>
+
+              <div className="interns-filter-options">
+                <label>Filter by Status:</label>
+                <select className="form-select filter-styled">
+                  <option value="">All Interns</option>
+                  <option value="current">Current Interns</option>
+                  <option value="completed">Completed Internships</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="interns-list">
+              <div className="interns-header">
+                <div className="intern-header-item">Intern</div>
+                <div className="intern-header-item">Position</div>
+                <div className="intern-header-item">Start Date</div>
+                <div className="intern-header-item">Status</div>
+                <div className="intern-header-item">Actions</div>
+              </div>
+
+              {applications
+                .filter((app) => app.internshipStatus === "current" || app.internshipStatus === "completed")
+                .map((intern) => (
+                  <div className="intern-item" key={intern.id}>
+                    <div className="intern-detail">
+                      <div className="intern-name">{intern.applicantName}</div>
+                      <div className="intern-university">{intern.university}</div>
+                    </div>
+                    <div className="intern-detail">{intern.postTitle}</div>
+                    <div className="intern-detail">{intern.availableStartDate}</div>
+                    <div className="intern-detail">
+                      <span className={`status-badge internship-${intern.internshipStatus}`}>
+                        {intern.internshipStatus}
+                      </span>
+                    </div>
+                    <div className="intern-actions">
+                      <button className="view-intern-button">View Details</button>
+                      {intern.internshipStatus === "completed" && !intern.evaluation && (
+                        <button className="add-evaluation-button">Add Evaluation</button>
+                      )}
+                      {intern.internshipStatus === "completed" && intern.evaluation && (
+                        <button className="view-evaluation-button">View Evaluation</button>
+                      )}
+                    </div>
+                  </div>
+                ))}
+            </div>
           </div>
         )}
       </div>
