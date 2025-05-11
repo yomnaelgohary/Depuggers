@@ -446,3 +446,382 @@ body, html, #root {
 .mt-20 { margin-top: 20px; }
 .text-center { text-align: center; }
 .flex-between { display: flex; justify-content: space-between; align-items: center; }
+
+
+.upload-preview {
+  background: #fafafa;
+  padding: 16px;
+  border-radius: 4px;
+  border: 1px dashed #d9d9d9;
+}
+
+.upload-instructions {
+  margin-bottom: 16px;
+}
+
+.internship-details .ant-list-item {
+  padding: 8px 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .internship-details .ant-row > .ant-col {
+    margin-bottom: 12px;
+  }
+}
+/* Internship Content Container */
+.internship-content {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Card Styling */
+.internship-card {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Filter Section */
+.filter-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.filter-label {
+  margin-right: 8px;
+  font-weight: 500;
+}
+
+/* Table Styling */
+.internship-table .ant-table {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Details Modal */
+.internship-details {
+  padding: 0 10px;
+}
+
+.details-section p {
+  margin-bottom: 8px;
+}
+
+.description-section {
+  margin: 20px 0;
+}
+
+.skills-list {
+  margin-top: 10px;
+}
+
+/* Application Form Styles */
+.ant-steps {
+  margin-bottom: 24px;
+}
+
+/* Form Steps */
+.application-step-content {
+  min-height: 300px;
+  padding: 0 10px;
+}
+
+/* Upload Section */
+.upload-section {
+  margin: 20px 0;
+}
+
+.upload-instructions {
+  margin-bottom: 16px;
+}
+
+.upload-preview {
+  background: #fafafa;
+  padding: 16px;
+  border-radius: 4px;
+  border: 1px dashed #d9d9d9;
+  margin-top: 16px;
+}
+
+/* Form Elements */
+.ant-form-item-label label {
+  font-weight: 500;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .filter-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .filter-label {
+    margin-bottom: 8px;
+  }
+  
+  .details-section .ant-col {
+    margin-bottom: 12px;
+  }
+  
+  .application-step-content {
+    padding: 0;
+  }
+}
+
+/* Custom Dragger Upload Styles */
+.ant-upload.ant-upload-drag {
+  padding: 20px;
+  background: #fafafa;
+  border-radius: 8px;
+}
+
+.ant-upload.ant-upload-drag:hover {
+  border-color: #1890ff;
+}
+
+/* File List Styles */
+.ant-list-sm .ant-list-item {
+  padding: 8px 0;
+}
+
+/* Button Styles */
+.ant-btn-primary {
+  background-color: #1890ff;
+  border-color: #1890ff;
+}
+
+/* Modal Footer Buttons */
+.ant-modal-footer .ant-btn + .ant-btn {
+  margin-left: 8px;
+}
+
+/* Form Navigation Buttons */
+.form-navigation {
+  margin-top: 24px;
+  text-align: right;
+}
+
+/* Cover Letter Textarea */
+.cover-letter-textarea {
+  min-height: 150px;
+}
+
+/* Date Picker Full Width */
+.ant-picker {
+  width: 100%;
+}
+
+/* Skills Tags */
+.skills-list .ant-tag {
+  margin-bottom: 8px;
+}
+/* Internship Content Styles */
+.internship-content {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Card Styling */
+.internship-card .ant-card-head {
+  background-color: #fafafa;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.internship-card .ant-card-head-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Filter Section */
+.filter-section {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+}
+
+.filter-label {
+  margin-right: 8px;
+  font-weight: 500;
+  color: #666;
+}
+
+/* Table Styling */
+.internship-table {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.internship-table .ant-table {
+  border-radius: 8px;
+}
+
+.internship-table .ant-table-thead > tr > th {
+  background-color: #fafafa;
+  font-weight: 600;
+}
+
+/* Modal Styles */
+.internship-modal .ant-modal-body {
+  padding: 24px;
+}
+
+.internship-details {
+  padding: 0 8px;
+}
+
+.details-section {
+  margin-bottom: 20px;
+}
+
+.details-section p {
+  margin-bottom: 12px;
+  display: flex;
+}
+
+.details-section strong {
+  min-width: 120px;
+  display: inline-block;
+  color: #666;
+}
+
+.description-section {
+  margin: 24px 0;
+}
+
+.description-section h4 {
+  margin-bottom: 12px;
+  font-size: 16px;
+  color: #333;
+}
+
+.skills-section {
+  margin-top: 20px;
+}
+
+.skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+/* Application Form Styles */
+.application-form-steps .ant-steps {
+  margin-bottom: 32px;
+}
+
+.step-content {
+  min-height: 300px;
+  padding: 0 8px;
+}
+
+/* Form Elements */
+.application-form .ant-form-item-label {
+  font-weight: 500;
+}
+
+.application-form .ant-input,
+.application-form .ant-select-selector,
+.application-form .ant-picker {
+  border-radius: 4px;
+}
+
+/* Upload Section */
+.upload-section {
+  margin: 24px 0;
+}
+
+.upload-instructions {
+  margin-bottom: 16px;
+}
+
+.upload-preview {
+  background: #fafafa;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px dashed #d9d9d9;
+  margin-top: 16px;
+}
+
+/* Document Upload */
+.document-upload .ant-upload-drag {
+  padding: 24px;
+  background: #fafafa;
+  border-radius: 8px;
+  border: 1px dashed #d9d9d9;
+}
+
+.document-upload .ant-upload-drag:hover {
+  border-color: #1890ff;
+}
+
+/* File List */
+.file-list {
+  margin-top: 16px;
+}
+
+.file-list-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.file-list-item:last-child {
+  border-bottom: none;
+}
+
+/* Form Navigation */
+.form-navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .internship-content {
+    padding: 16px;
+  }
+  
+  .filter-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .details-section p {
+    flex-direction: column;
+  }
+  
+  .details-section strong {
+    margin-bottom: 4px;
+  }
+  
+  .step-content {
+    min-height: auto;
+    padding: 0;
+  }
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.internship-card, .application-form {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Utility Classes */
+.mb-16 { margin-bottom: 16px; }
+.mt-16 { margin-top: 16px; }
+.text-muted { color: #666; }

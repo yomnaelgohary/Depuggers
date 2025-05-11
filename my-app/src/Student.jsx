@@ -1,25 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-    Modal, 
-  Upload, 
-  Divider, 
-  Card, 
-  Progress, 
-  Table, 
-  Tag, 
-  Menu, 
-  Input, 
-  Select, 
-  Button, 
+  Modal,
+  Upload,
+  Divider,
+  Card,
+  Progress,
+  Table,
+  Tag,
+  Menu,
+  Input,
+  Select,
+  Button,
   Checkbox,
-  Row, 
+  Row,
   Col,
   Space,
-  message
+  message,
+  Form,
+  DatePicker,
+  InputNumber,
+  Typography,
+  Steps,
+  List,
+  Alert
 } from 'antd';
 import {
-    DollarOutlined,
+  DollarOutlined,
   PieChartOutlined,
   FileSearchOutlined,
   CheckCircleOutlined,
@@ -30,13 +37,18 @@ import {
   FileTextOutlined,
   SearchOutlined,
   FilterOutlined,
-  UploadOutlined
+  UploadOutlined,
+  InboxOutlined,
+  FileDoneOutlined
 } from '@ant-design/icons';
 import "./Student.css";
 
 const { Search } = Input;
 const { Option } = Select;
-
+const { TextArea } = Input;
+const { Text } = Typography;
+const { Step } = Steps;
+const { Dragger } = Upload;
 // ==================== Profile Component ====================
 const ProfileContent = () => {
   const [editMode, setEditMode] = useState(false);
@@ -795,6 +807,12 @@ const InternshipContent = () => {
     isPaid: null,
     status: null
   });
+  const [uploading, setUploading] = useState(false);
+  const [applicationSubmitted, setApplicationSubmitted] = useState(false);
+  const [applicationStep, setApplicationStep] = useState(0);
+  const [form] = Form.useForm();
+  const [applicationFormVisible, setApplicationFormVisible] = useState(false);
+  const [uploadedFiles, setUploadedFiles] = useState([]);
 
   useEffect(() => {
     setFilteredInternships(internships);
@@ -856,25 +874,236 @@ const InternshipContent = () => {
   };
 
   const handleApply = () => {
-    message.success('Application submitted successfully!');
-    setIsModalVisible(false);
+    setApplicationFormVisible(true);
+    setApplicationStep(0);
+    form.resetFields();
+    setUploadedFiles([]);
+  };
+
+  const handleNext = () => {
+    // Special validation for documents step
+    if (applicationStep === 1 && uploadedFiles.length === 0) {
+      message.error('Please upload at least one document');
+      return;
+    }
+
+    form.validateFields()
+      .then(() => {
+        setApplicationStep(applicationStep + 1);
+      })
+      .catch(err => {
+        message.error('Please complete all required fields');
+      });
+  };
+
+  const submitApplication = async (values) => {
+    const formData = new FormData();
+    
+    // Append form values
+    Object.entries(values).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+    
+    // Append files
+    uploadedFiles.forEach(file => {
+      formData.append('documents', file);
+    });
+    
+    try {
+      setUploading(true);
+      // Here you would typically send to your backend:
+      // await axios.post('/api/applications', formData);
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      message.success('Application submitted successfully!');
+      setApplicationFormVisible(false);
+      setIsModalVisible(false);
+      setApplicationSubmitted(true);
+    } catch (error) {
+      message.error('Application failed. Please try again.');
+    } finally {
+      setUploading(false);
+    }
   };
 
   const uploadProps = {
-    beforeUpload: file => {
+    beforeUpload: (file) => {
       const isPDF = file.type === 'application/pdf';
       const isDOC = file.type === 'application/msword' || 
                    file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+      const isLt5M = file.size / 1024 / 1024 < 5;
       
       if (!isPDF && !isDOC) {
-        message.error('You can only upload PDF/DOC files!');
+        message.error('You can only upload PDF or Word documents!');
+        return Upload.LIST_IGNORE;
       }
-      return (isPDF || isDOC) || Upload.LIST_IGNORE;
+      
+      if (!isLt5M) {
+        message.error('File must be smaller than 5MB!');
+        return Upload.LIST_IGNORE;
+      }
+      
+      setUploadedFiles(prev => [...prev, file]);
+      return false;
     },
-    maxCount: 3,
+    onRemove: (file) => {
+      setUploadedFiles(prev => prev.filter(f => f.uid !== file.uid));
+    },
+    fileList: uploadedFiles,
     multiple: true,
+    maxCount: 5,
     accept: '.pdf,.doc,.docx'
   };
+
+  const steps = [
+    {
+      title: 'Personal Information',
+      icon: <UserOutlined />,
+      content: (
+        <>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
+                name="firstName"
+                label="First Name"
+                rules={[{ required: true, message: 'Please enter your first name' }]}
+              >
+                <Input placeholder="John" />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                name="lastName"
+                label="Last Name"
+                rules={[{ required: true, message: 'Please enter your last name' }]}
+              >
+                <Input placeholder="Doe" />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Form.Item
+            name="email"
+            label="Email"
+            rules={[
+              { required: true, message: 'Please enter your email' },
+              { type: 'email', message: 'Please enter a valid email' }
+            ]}
+          >
+            <Input placeholder="john.doe@example.com" />
+          </Form.Item>
+
+          <Form.Item
+            name="phone"
+            label="Phone Number"
+            rules={[{ required: true, message: 'Please enter your phone number' }]}
+          >
+            <Input placeholder="+1 (123) 456-7890" />
+          </Form.Item>
+
+          <Form.Item
+            name="education"
+            label="Current Education"
+            rules={[{ required: true, message: 'Please enter your education level' }]}
+          >
+            <Select placeholder="Select your education level">
+              <Option value="high_school">High School</Option>
+              <Option value="bachelors">Bachelor's Degree</Option>
+              <Option value="masters">Master's Degree</Option>
+              <Option value="phd">PhD</Option>
+              <Option value="other">Other</Option>
+            </Select>
+          </Form.Item>
+        </>
+      )
+    },
+    {
+      title: 'Documents',
+      icon: <FileDoneOutlined />,
+      content: (
+        <>
+          <Text strong>Upload supporting documents:</Text>
+          <div style={{ margin: '16px 0' }}>
+            <Alert
+              message="Required Documents"
+              description="Please upload your CV/resume and any other supporting documents"
+              type="info"
+              showIcon
+            />
+          </div>
+
+          <Upload.Dragger {...uploadProps} style={{ padding: '20px' }}>
+            <p className="ant-upload-drag-icon">
+              <InboxOutlined />
+            </p>
+            <p className="ant-upload-text">Click or drag files to upload</p>
+            <p className="ant-upload-hint">
+              Supports PDF, DOC, DOCX (Max 5 files, 5MB each)
+            </p>
+          </Upload.Dragger>
+
+          {uploadedFiles.length === 0 && (
+            <Alert
+              message="No documents uploaded"
+              type="warning"
+              showIcon
+              style={{ marginTop: 16 }}
+            />
+          )}
+
+          {uploadedFiles.length > 0 && (
+            <div style={{ marginTop: '16px' }}>
+              <Text strong>Files to be submitted:</Text>
+              <List
+                size="small"
+                dataSource={uploadedFiles}
+                renderItem={file => (
+                  <List.Item>
+                    <FileTextOutlined style={{ marginRight: 8 }} />
+                    {file.name} - {(file.size / 1024).toFixed(2)} KB
+                  </List.Item>
+                )}
+              />
+            </div>
+          )}
+        </>
+      )
+    },
+    {
+      title: 'Additional Information',
+      icon: <SolutionOutlined />,
+      content: (
+        <>
+          <Form.Item
+            name="coverLetter"
+            label="Cover Letter"
+            rules={[{ required: true, message: 'Please write a cover letter' }]}
+          >
+            <TextArea
+              rows={6}
+              placeholder="Explain why you're a good fit for this internship..."
+            />
+          </Form.Item>
+
+          <Form.Item
+            name="availability"
+            label="Availability (Hours/Week)"
+            rules={[{ required: true, message: 'Please enter your availability' }]}
+          >
+            <InputNumber min={10} max={40} style={{ width: '100%' }} />
+          </Form.Item>
+
+          <Form.Item
+            name="startDate"
+            label="Available Start Date"
+            rules={[{ required: true, message: 'Please select a start date' }]}
+          >
+            <DatePicker style={{ width: '100%' }} />
+          </Form.Item>
+        </>
+      )
+    }
+  ];
 
   const columns = [
     {
@@ -1030,6 +1259,7 @@ const InternshipContent = () => {
         />
       </Card>
 
+      {/* Internship Details Modal */}
       <Modal
         title="Internship Details"
         visible={isModalVisible}
@@ -1038,7 +1268,12 @@ const InternshipContent = () => {
           <Button key="back" onClick={() => setIsModalVisible(false)}>
             Close
           </Button>,
-          <Button key="apply" type="primary" onClick={handleApply}>
+          <Button 
+            key="apply" 
+            type="primary" 
+            onClick={handleApply}
+            icon={<SolutionOutlined />}
+          >
             Apply Now
           </Button>,
         ]}
@@ -1083,23 +1318,54 @@ const InternshipContent = () => {
                 ))}
               </div>
             </div>
-
-            <Divider />
-
-            <div className="application-section">
-              <h4>Application Materials</h4>
-              <p>Please upload any additional documents to support your application:</p>
-              
-              <Upload {...uploadProps}>
-                <Button icon={<UploadOutlined />}>Upload Documents (PDF/DOC)</Button>
-              </Upload>
-              
-              <div className="upload-hint">
-                <p>Accepted files: CV, Cover Letter, Certificates (Max 3 files, PDF or DOC)</p>
-              </div>
-            </div>
           </div>
         )}
+      </Modal>
+
+      {/* Application Form Modal */}
+      <Modal
+        title={`Application for ${selectedInternship?.title || 'Internship'}`}
+        visible={applicationFormVisible}
+        onCancel={() => setApplicationFormVisible(false)}
+        footer={[
+          applicationStep > 0 && (
+            <Button key="back" onClick={() => setApplicationStep(applicationStep - 1)}>
+              Previous
+            </Button>
+          ),
+          applicationStep < steps.length - 1 ? (
+            <Button key="next" type="primary" onClick={handleNext}>
+              Next
+            </Button>
+          ) : (
+            <Button 
+              key="submit" 
+              type="primary" 
+              loading={uploading}
+              onClick={() => form.submit()}
+            >
+              Submit Application
+            </Button>
+          )
+        ]}
+        width={800}
+        destroyOnClose
+      >
+        <Steps current={applicationStep} style={{ marginBottom: 24 }}>
+          {steps.map((step) => (
+            <Step key={step.title} title={step.title} icon={step.icon} />
+          ))}
+        </Steps>
+
+        <Form
+          form={form}
+          layout="vertical"
+          onFinish={submitApplication}
+        >
+          <div style={{ minHeight: '300px' }}>
+            {steps[applicationStep].content}
+          </div>
+        </Form>
       </Modal>
     </div>
   );
