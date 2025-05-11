@@ -1201,6 +1201,7 @@ body, html, #root {
   margin-top: 24px;
 }
 
+
 /* Responsive Adjustments */
 @media (max-width: 768px) {
   .profile-content {
@@ -1231,4 +1232,161 @@ body, html, #root {
 
 .profile-section {
   animation: fadeIn 0.3s ease-out;
+}
+/* Add this to your CSS file or style tag */
+.reports-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Card styles */
+.ant-card {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 24px;
+}
+
+.ant-card-head {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.ant-card-head-title {
+  font-weight: 600;
+  color: #333;
+}
+
+/* Table styles */
+.ant-table {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.ant-table-thead > tr > th {
+  background-color: #fafafa;
+  font-weight: 600;
+  color: #333;
+}
+
+.ant-table-tbody > tr > td {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* Button styles */
+.ant-btn {
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.ant-btn-primary {
+  background-color: #1890ff;
+  border-color: #1890ff;
+}
+
+.ant-btn-link {
+  padding: 0;
+}
+
+/* Modal styles */
+.ant-modal-content {
+  border-radius: 8px;
+}
+
+.ant-modal-header {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.ant-modal-title {
+  font-weight: 600;
+  color: #333;
+}
+
+/* Form styles */
+.ant-form-item-label > label {
+  font-weight: 500;
+  color: #333;
+}
+
+.ant-input,
+.ant-select-selector,
+.ant-input-textarea {
+  border-radius: 4px;
+}
+
+/* Tag styles */
+.ant-tag {
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+/* Badge styles */
+.ant-badge-status-text {
+  font-weight: 500;
+}
+
+/* Print styles - these will only apply when printing */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #report-to-print,
+  #evaluation-to-print,
+  #report-to-print *,
+  #evaluation-to-print * {
+    visibility: visible;
+  }
+  #report-to-print,
+  #evaluation-to-print {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding: 20px;
+  }
+  .ant-modal-close,
+  .ant-modal-footer {
+    display: none;
+  }
+}
+
+/* Preview content styles */
+.preview-content {
+  padding: 16px;
+}
+
+.preview-content h2 {
+  color: #333;
+  margin-bottom: 16px;
+}
+
+.preview-content h3 {
+  color: #444;
+  margin: 12px 0 8px;
+}
+
+.preview-content p {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .reports-container {
+    padding: 10px;
+  }
+  
+  .ant-table {
+    font-size: 14px;
+  }
+  
+  .ant-btn {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+  
+  .ant-modal {
+    width: 90% !important;
+    max-width: 100%;
+  }
 }

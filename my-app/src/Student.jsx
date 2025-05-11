@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+// Ant Design Components
 import {
   Modal,
   Upload,
@@ -29,6 +31,7 @@ import {
   Popconfirm
 } from 'antd';
 
+// Ant Design Icons
 import {
   DollarOutlined,
   PieChartOutlined,
@@ -56,7 +59,8 @@ import {
   MailOutlined,
   PhoneOutlined,
   BookOutlined,
-  TrophyOutlined
+  TrophyOutlined,
+  PrinterOutlined
 } from '@ant-design/icons';
 
 import "./Student.css";
@@ -1685,7 +1689,6 @@ const Applications = () => {
 };
 
 const Reports = () => {
-  // State for completed internships
   const [internships, setInternships] = useState([
     {
       id: 1,
@@ -1693,51 +1696,70 @@ const Reports = () => {
       title: 'Frontend Developer Intern',
       completedDate: '2023-08-15',
       status: 'completed',
-      hasEvaluation: false,
-      hasReport: false
+      hasEvaluation: true,
+      hasReport: true,
+      position: 'Frontend Developer',
+      duration: 'June 2022 - August 2022',
+      responsibilities: ['Developed React components', 'Participated in code reviews'],
+      skillsGained: ['React', 'TypeScript', 'Redux']
     },
-    // Add more completed internships as needed
+    {
+      id: 2,
+      company: 'Data Analytics Co.',
+      title: 'Data Science Intern',
+      completedDate: '2023-12-20',
+      status: 'completed',
+      hasEvaluation: false,
+      hasReport: false,
+      position: 'Data Science Intern',
+      duration: 'September 2022 - December 2022',
+      responsibilities: ['Analyzed datasets', 'Built predictive models'],
+      skillsGained: ['Python', 'Pandas', 'Machine Learning']
+    }
   ]);
 
-  // State for reports and evaluations
-  const [reports, setReports] = useState([]);
-  const [evaluations, setEvaluations] = useState([]);
-  const [courses, setCourses] = useState([]);
+  const [reports, setReports] = useState([
+    {
+      id: 1,
+      title: 'Summer Internship Technical Report',
+      internshipId: 1,
+      introduction: 'This report documents my summer internship experience...',
+      body: 'Detailed description of my work and learnings...',
+      isFinalized: false,
+      createdAt: '2023-08-20'
+    },
+    {
+      id: 2,
+      title: 'Data Science Internship Preliminary Report',
+      internshipId: 2,
+      introduction: 'Initial report on my data science internship...',
+      body: 'First month focused on data cleaning and analysis...',
+      isFinalized: false,
+      createdAt: '2023-10-15'
+    }
+  ]);
 
-  // Modal states
+  const [evaluations, setEvaluations] = useState([
+    {
+      id: 1,
+      internshipId: 1,
+      company: 'Tech Solutions Inc.',
+      wouldRecommend: true,
+      rating: 4,
+      comments: 'Excellent learning environment with knowledgeable mentors.',
+      isFinalized: false, // Added finalized status
+      createdAt: '2023-08-25'
+    }
+  ]);
+
+  const [selectedInternship, setSelectedInternship] = useState(internships[0]);
   const [reportModalVisible, setReportModalVisible] = useState(false);
   const [evaluationModalVisible, setEvaluationModalVisible] = useState(false);
-  const [coursesModalVisible, setCoursesModalVisible] = useState(false);
   const [currentReport, setCurrentReport] = useState(null);
   const [currentEvaluation, setCurrentEvaluation] = useState(null);
-  const [selectedInternship, setSelectedInternship] = useState(null);
-
-  // Form instances
   const [reportForm] = Form.useForm();
   const [evaluationForm] = Form.useForm();
 
-  // Fetch data on component mount
-  useEffect(() => {
-    // Simulate API calls
-    const fetchData = async () => {
-      try {
-        // Replace with actual API calls
-        const reportsResponse = await axios.get('/api/reports');
-        const evaluationsResponse = await axios.get('/api/evaluations');
-        const coursesResponse = await axios.get('/api/courses');
-        
-        setReports(reportsResponse.data);
-        setEvaluations(evaluationsResponse.data);
-        setCourses(coursesResponse.data);
-      } catch (error) {
-        message.error('Error fetching data');
-      }
-    };
-    
-    fetchData();
-  }, []);
-
-  // Report CRUD operations
   const handleCreateReport = () => {
     reportForm.resetFields();
     setCurrentReport(null);
@@ -1752,7 +1774,8 @@ const Reports = () => {
 
   const handleDeleteReport = async (id) => {
     try {
-      await axios.delete(`/api/reports/${id}`);
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 500));
       setReports(reports.filter(report => report.id !== id));
       message.success('Report deleted successfully');
     } catch (error) {
@@ -1766,16 +1789,19 @@ const Reports = () => {
       
       if (currentReport) {
         // Update existing report
-        await axios.put(`/api/reports/${currentReport.id}`, values);
+        await new Promise(resolve => setTimeout(resolve, 500));
         setReports(reports.map(r => r.id === currentReport.id ? {...r, ...values} : r));
         message.success('Report updated successfully');
       } else {
         // Create new report
-        const response = await axios.post('/api/reports', {
+        const newReport = {
+          id: Date.now(),
           ...values,
-          internshipId: selectedInternship.id
-        });
-        setReports([...reports, response.data]);
+          internshipId: selectedInternship.id,
+          isFinalized: false,
+          createdAt: new Date().toISOString().split('T')[0]
+        };
+        setReports([...reports, newReport]);
         message.success('Report created successfully');
       }
       
@@ -1785,7 +1811,6 @@ const Reports = () => {
     }
   };
 
-  // Evaluation CRUD operations
   const handleCreateEvaluation = () => {
     evaluationForm.resetFields();
     setCurrentEvaluation(null);
@@ -1800,8 +1825,10 @@ const Reports = () => {
 
   const handleDeleteEvaluation = async (id) => {
     try {
-      await axios.delete(`/api/evaluations/${id}`);
-      setEvaluations(evaluations.filter(evaluation => evaluation.id !== id));      message.success('Evaluation deleted successfully');
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 500));
+      setEvaluations(evaluations.filter(evaluation => evaluation.id !== id));
+      message.success('Evaluation deleted successfully');
     } catch (error) {
       message.error('Error deleting evaluation');
     }
@@ -1813,16 +1840,19 @@ const Reports = () => {
       
       if (currentEvaluation) {
         // Update existing evaluation
-        await axios.put(`/api/evaluations/${currentEvaluation.id}`, values);
+        await new Promise(resolve => setTimeout(resolve, 500));
         setEvaluations(evaluations.map(e => e.id === currentEvaluation.id ? {...e, ...values} : e));
         message.success('Evaluation updated successfully');
       } else {
         // Create new evaluation
-        const response = await axios.post('/api/evaluations', {
+        const newEvaluation = {
+          id: Date.now(),
           ...values,
-          internshipId: selectedInternship.id
-        });
-        setEvaluations([...evaluations, response.data]);
+          internshipId: selectedInternship.id,
+          company: selectedInternship.company,
+          createdAt: new Date().toISOString().split('T')[0]
+        };
+        setEvaluations([...evaluations, newEvaluation]);
         message.success('Evaluation created successfully');
       }
       
@@ -1832,288 +1862,277 @@ const Reports = () => {
     }
   };
 
-  // Download report as PDF
   const handleDownloadReport = (id) => {
-    // Implement PDF download logic
     message.success('Downloading report as PDF...');
   };
 
-  // Submit finalized report
   const handleFinalizeReport = async (id) => {
     try {
-      await axios.put(`/api/reports/${id}/finalize`);
+      await new Promise(resolve => setTimeout(resolve, 500));
       setReports(reports.map(r => r.id === id ? {...r, isFinalized: true} : r));
       message.success('Report finalized successfully');
     } catch (error) {
       message.error('Error finalizing report');
     }
   };
-
-  // Table columns
-  const internshipColumns = [
-    {
-      title: 'Company',
-      dataIndex: 'company',
-      key: 'company',
-    },
-    {
-      title: 'Position',
-      dataIndex: 'title',
-      key: 'title',
-    },
-    {
-      title: 'Completed Date',
-      dataIndex: 'completedDate',
-      key: 'completedDate',
-    },
-    {
-      title: 'Status',
-      dataIndex: 'status',
-      key: 'status',
-      render: (status) => (
-        <Tag color={status === 'completed' ? 'green' : 'orange'}>
-          {status.toUpperCase()}
-        </Tag>
-      ),
-    },
-    {
-      title: 'Actions',
-      key: 'actions',
-      render: (_, record) => (
-        <Space size="middle">
-          <Button 
-            type="link" 
-            icon={<FileTextOutlined />}
-            onClick={() => {
-              setSelectedInternship(record);
-              handleCreateReport();
-            }}
-            disabled={record.hasReport}
-          >
-            {record.hasReport ? 'Report Exists' : 'Create Report'}
-          </Button>
-          <Button 
-            type="link" 
-            icon={<EditOutlined />}
-            onClick={() => {
-              setSelectedInternship(record);
-              handleCreateEvaluation();
-            }}
-            disabled={record.hasEvaluation}
-          >
-            {record.hasEvaluation ? 'Evaluated' : 'Evaluate'}
-          </Button>
-        </Space>
-      ),
-    },
-  ];
-
-  const reportsColumns = [
-    {
-      title: 'Title',
-      dataIndex: 'title',
-      key: 'title',
-    },
-    {
-      title: 'Internship',
-      dataIndex: 'internshipTitle',
-      key: 'internshipTitle',
-    },
-    {
-      title: 'Status',
-      dataIndex: 'isFinalized',
-      key: 'status',
-      render: (isFinalized) => (
-        <Badge 
-          status={isFinalized ? 'success' : 'processing'}
-          text={isFinalized ? 'Finalized' : 'Draft'}
-        />
-      ),
-    },
-    {
-      title: 'Actions',
-      key: 'actions',
-      render: (_, record) => (
-        <Space size="middle">
-          <Button 
-            type="link" 
-            icon={<EyeOutlined />} 
-            onClick={() => handleEditReport(record)}
-          >
-            View
-          </Button>
-          {!record.isFinalized && (
-            <>
-              <Button 
-                type="link" 
-                icon={<EditOutlined />} 
-                onClick={() => handleEditReport(record)}
-              >
-                Edit
-              </Button>
-              <Popconfirm
-                title="Are you sure to delete this report?"
-                onConfirm={() => handleDeleteReport(record.id)}
-                okText="Yes"
-                cancelText="No"
-              >
-                <Button type="link" danger icon={<DeleteOutlined />}>Delete</Button>
-              </Popconfirm>
-            </>
-          )}
-          <Button 
-            type="link" 
-            icon={<DownloadOutlined />} 
-            onClick={() => handleDownloadReport(record.id)}
-          >
-            PDF
-          </Button>
-          {!record.isFinalized && (
-            <Button 
-              type="link" 
-              icon={<CheckCircleOutlined />} 
-              onClick={() => handleFinalizeReport(record.id)}
-            >
-              Finalize
-            </Button>
-          )}
-        </Space>
-      ),
-    },
-  ];
-
-  const evaluationsColumns = [
-    {
-      title: 'Company',
-      dataIndex: 'company',
-      key: 'company',
-    },
-    {
-      title: 'Recommend',
-      dataIndex: 'wouldRecommend',
-      key: 'wouldRecommend',
-      render: (recommend) => (
-        <Tag color={recommend ? 'green' : 'red'}>
-          {recommend ? 'Recommended' : 'Not Recommended'}
-        </Tag>
-      ),
-    },
-    {
-      title: 'Rating',
-      dataIndex: 'rating',
-      key: 'rating',
-      render: (rating) => `${rating}/5`,
-    },
-    {
-      title: 'Actions',
-      key: 'actions',
-      render: (_, record) => (
-        <Space size="middle">
-          <Button 
-            type="link" 
-            icon={<EyeOutlined />} 
-            onClick={() => handleEditEvaluation(record)}
-          >
-            View
-          </Button>
-          <Button 
-            type="link" 
-            icon={<EditOutlined />} 
-            onClick={() => handleEditEvaluation(record)}
-          >
-            Edit
-          </Button>
-          <Popconfirm
-            title="Are you sure to delete this evaluation?"
-            onConfirm={() => handleDeleteEvaluation(record.id)}
-            okText="Yes"
-            cancelText="No"
-          >
-            <Button type="link" danger icon={<DeleteOutlined />}>Delete</Button>
-          </Popconfirm>
-        </Space>
-      ),
-    },
-  ];
-
-  const coursesColumns = [
-    {
-      title: 'Course Code',
-      dataIndex: 'code',
-      key: 'code',
-    },
-    {
-      title: 'Course Name',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: 'Credits',
-      dataIndex: 'credits',
-      key: 'credits',
-    },
-    {
-      title: 'Prerequisites',
-      dataIndex: 'prerequisites',
-      key: 'prerequisites',
-      render: (prereqs) => prereqs.join(', ') || 'None',
-    },
-  ];
+  const handleFinalizeEvaluation = async (id) => {
+    try {
+      await new Promise(resolve => setTimeout(resolve, 500));
+      setEvaluations(evaluations.map(e => e.id === id ? {...e, isFinalized: true} : e));
+      message.success('Evaluation finalized successfully');
+    } catch (error) {
+      message.error('Error finalizing evaluation');
+    }
+  };
 
   return (
     <div className="reports-container">
-      <Card title="My Completed Internships" style={{ marginBottom: 24 }}>
+      {/* Completed Internships Section */}
+      <Card title="My Completed Internships" className="section-card">
         <Table 
-          columns={internshipColumns}
+          columns={[
+            {
+              title: 'Company',
+              dataIndex: 'company',
+              key: 'company',
+            },
+            {
+              title: 'Position',
+              dataIndex: 'title',
+              key: 'title',
+            },
+            {
+              title: 'Completed Date',
+              dataIndex: 'completedDate',
+              key: 'completedDate',
+            },
+            {
+              title: 'Status',
+              dataIndex: 'status',
+              key: 'status',
+              render: (status) => (
+                <Tag color={status === 'completed' ? 'green' : 'orange'}>
+                  {status.toUpperCase()}
+                </Tag>
+              ),
+            },
+            {
+              title: 'Actions',
+              key: 'actions',
+              render: (_, record) => (
+                <Space size="middle">
+                  <Button 
+                    type="link" 
+                    onClick={() => {
+                      setSelectedInternship(record);
+                      handleCreateReport();
+                    }}
+                  >
+                    {record.hasReport ? 'Create Report' : 'Create Report'}
+                  </Button>
+                </Space>
+              ),
+            }
+          ]}
           dataSource={internships}
           rowKey="id"
           pagination={false}
         />
       </Card>
 
-      <Card title="My Reports" style={{ marginBottom: 24 }}>
+      {/* Reports Section */}
+      <Card title="My Reports" className="section-card">
         <Button 
           type="primary" 
           icon={<PlusOutlined />} 
           onClick={handleCreateReport}
-          disabled={!selectedInternship}
-          style={{ marginBottom: 16 }}
+          className="mb-16"
         >
           New Report
         </Button>
         <Table 
-          columns={reportsColumns}
+          columns={[
+            {
+              title: 'Title',
+              dataIndex: 'title',
+              key: 'title',
+            },
+            {
+              title: 'Company',
+              key: 'company',
+              render: (_, record) => {
+                const internship = internships.find(i => i.id === record.internshipId);
+                return internship ? internship.company : 'N/A';
+              }
+            },
+            {
+              title: 'Created Date',
+              dataIndex: 'createdAt',
+              key: 'createdAt',
+            },
+            {
+              title: 'Status',
+              dataIndex: 'isFinalized',
+              key: 'status',
+              render: (isFinalized) => (
+                <Tag color={isFinalized ? 'green' : 'orange'}>
+                  {isFinalized ? 'Finalized' : 'Draft'}
+                </Tag>
+              ),
+            },
+            {
+              title: 'Actions',
+              key: 'actions',
+              render: (_, record) => (
+                <Space size="middle">
+                  <Button 
+                    type="link" 
+                    icon={<EyeOutlined />} 
+                    onClick={() => handleEditReport(record)}
+                  >
+                    View
+                  </Button>
+                  {!record.isFinalized && (
+                    <>
+                      <Button 
+                        type="link" 
+                        icon={<EditOutlined />} 
+                        onClick={() => handleEditReport(record)}
+                      >
+                        Edit
+                      </Button>
+                      <Popconfirm
+                        title="Are you sure to delete this report?"
+                        onConfirm={() => handleDeleteReport(record.id)}
+                        okText="Yes"
+                        cancelText="No"
+                      >
+                        <Button type="link" danger icon={<DeleteOutlined />}>Delete</Button>
+                      </Popconfirm>
+                    </>
+                  )}
+                  <Button 
+                    type="link" 
+                    icon={<DownloadOutlined />} 
+                    onClick={() => handleDownloadReport(record.id)}
+                  >
+                    PDF
+                  </Button>
+                  {!record.isFinalized && (
+                    <Button 
+                      type="link" 
+                      icon={<CheckCircleOutlined />} 
+                      onClick={() => handleFinalizeReport(record.id)}
+                    >
+                      Finalize
+                    </Button>
+                  )}
+                </Space>
+              ),
+            }
+          ]}
           dataSource={reports}
           rowKey="id"
         />
       </Card>
 
-      <Card title="My Evaluations" style={{ marginBottom: 24 }}>
+      {/* Evaluations Section */}
+      <Card title="My Evaluations" className="section-card">
         <Button 
           type="primary" 
           icon={<PlusOutlined />} 
           onClick={handleCreateEvaluation}
-          disabled={!selectedInternship}
-          style={{ marginBottom: 16 }}
+          className="mb-16"
         >
           New Evaluation
         </Button>
         <Table 
-          columns={evaluationsColumns}
+          columns={[
+            {
+              title: 'Company',
+              dataIndex: 'company',
+              key: 'company',
+            },
+            {
+              title: 'Recommend',
+              dataIndex: 'wouldRecommend',
+              key: 'wouldRecommend',
+              render: (recommend) => (
+                <Tag color={recommend ? 'green' : 'red'}>
+                  {recommend ? 'Recommended' : 'Not Recommended'}
+                </Tag>
+              ),
+            },
+            {
+              title: 'Rating',
+              dataIndex: 'rating',
+              key: 'rating',
+              render: (rating) => `${rating}/5`,
+            },
+            {
+              title: 'Status',
+              dataIndex: 'isFinalized',
+              key: 'status',
+              render: (isFinalized) => (
+                <Tag color={isFinalized ? 'green' : 'orange'}>
+                  {isFinalized ? 'Finalized' : 'Draft'}
+                </Tag>
+              ),
+            },
+            {
+              title: 'Actions',
+              key: 'actions',
+              render: (_, record) => (
+                <Space size="middle">
+                  <Button 
+                    type="link" 
+                    icon={<EyeOutlined />} 
+                    onClick={() => handleEditEvaluation(record)}
+                  >
+                    View
+                  </Button>
+                  {!record.isFinalized && (
+                    <>
+                      <Button 
+                        type="link" 
+                        icon={<EditOutlined />} 
+                        onClick={() => handleEditEvaluation(record)}
+                      >
+                        Edit
+                      </Button>
+                      <Popconfirm
+                        title="Are you sure to delete this evaluation?"
+                        onConfirm={() => handleDeleteEvaluation(record.id)}
+                        okText="Yes"
+                        cancelText="No"
+                      >
+                        <Button type="link" danger icon={<DeleteOutlined />}>Delete</Button>
+                      </Popconfirm>
+                    </>
+                  )}
+                  <Button 
+                    type="link" 
+                    icon={<DownloadOutlined />} 
+                    onClick={() => message.info('Download functionality would be implemented here')}
+                  >
+                    PDF
+                  </Button>
+                  {!record.isFinalized && (
+                    <Button 
+                      type="link" 
+                      icon={<CheckCircleOutlined />} 
+                      onClick={() => handleFinalizeEvaluation(record.id)}
+                    >
+                      Finalize
+                    </Button>
+                  )}
+                </Space>
+              ),
+            }
+          ]}
           dataSource={evaluations}
           rowKey="id"
         />
-      </Card>
-
-      <Card title="Courses in My Major">
-        <Button 
-          type="primary" 
-          icon={<FileTextOutlined />} 
-          onClick={() => setCoursesModalVisible(true)}
-          style={{ marginBottom: 16 }}
-        >
-          View All Courses
-        </Button>
       </Card>
 
       {/* Report Modal */}
@@ -2150,12 +2169,40 @@ const Reports = () => {
       </Modal>
 
       {/* Evaluation Modal */}
-      <Modal
+            <Modal
         title={currentEvaluation ? 'Edit Evaluation' : 'Create Evaluation'}
         visible={evaluationModalVisible}
         onCancel={() => setEvaluationModalVisible(false)}
         onOk={handleSubmitEvaluation}
         width={600}
+        footer={[
+          <Button key="back" onClick={() => setEvaluationModalVisible(false)}>
+            Cancel
+          </Button>,
+          currentEvaluation?.isFinalized ? null : (
+            <Button 
+              key="submit" 
+              type="primary" 
+              onClick={() => evaluationForm.submit()}
+            >
+              {currentEvaluation ? 'Update' : 'Submit'}
+            </Button>
+          ),
+          currentEvaluation && !currentEvaluation.isFinalized && (
+            <Button 
+              key="finalize"
+              type="primary" 
+              onClick={() => {
+                evaluationForm.submit().then(() => {
+                  handleFinalizeEvaluation(currentEvaluation.id);
+                  setEvaluationModalVisible(false);
+                });
+              }}
+            >
+              Submit & Finalize
+            </Button>
+          )
+        ]}
       >
         <Form form={evaluationForm} layout="vertical">
           <Form.Item
@@ -2163,7 +2210,10 @@ const Reports = () => {
             label="Would you recommend this company to other students?"
             rules={[{ required: true, message: 'This field is required' }]}
           >
-            <Select placeholder="Select recommendation">
+            <Select 
+              placeholder="Select recommendation"
+              disabled={currentEvaluation?.isFinalized}
+            >
               <Option value={true}>Yes, I recommend</Option>
               <Option value={false}>No, I don't recommend</Option>
             </Select>
@@ -2173,7 +2223,10 @@ const Reports = () => {
             label="Rating (1-5)"
             rules={[{ required: true, message: 'Please provide a rating' }]}
           >
-            <Select placeholder="Select rating">
+            <Select 
+              placeholder="Select rating"
+              disabled={currentEvaluation?.isFinalized}
+            >
               <Option value={1}>1 - Poor</Option>
               <Option value={2}>2 - Fair</Option>
               <Option value={3}>3 - Good</Option>
@@ -2186,25 +2239,20 @@ const Reports = () => {
             label="Comments"
             rules={[{ required: true, message: 'Please provide comments' }]}
           >
-            <TextArea rows={4} placeholder="Share your experience..." />
+            <TextArea 
+              rows={4} 
+              placeholder="Share your experience..." 
+              disabled={currentEvaluation?.isFinalized}
+            />
           </Form.Item>
+          {currentEvaluation?.isFinalized && (
+            <Alert
+              message="This evaluation has been finalized and cannot be modified."
+              type="warning"
+              showIcon
+            />
+          )}
         </Form>
-      </Modal>
-
-      {/* Courses Modal */}
-      <Modal
-        title="Courses in My Major"
-        visible={coursesModalVisible}
-        onCancel={() => setCoursesModalVisible(false)}
-        footer={null}
-        width={1000}
-      >
-        <Table 
-          columns={coursesColumns}
-          dataSource={courses}
-          rowKey="code"
-          scroll={{ x: true }}
-        />
       </Modal>
     </div>
   );
