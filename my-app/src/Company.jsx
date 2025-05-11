@@ -5,12 +5,13 @@ import "./company.css"
 
 export default function Company() {
   const [activeTab, setActiveTab] = useState("post")
+  const [searchQuery, setSearchQuery] = useState("")
 
   // Sample job listings data
   const jobListings = [
     {
       id: 1,
-      title: "Software developer intern",
+      title: "Backend Developer Intern",
       salary: "€89.10",
       hourlyRate: "€14.85/h",
       requirements: ["CODING SKILLS"],
@@ -23,7 +24,7 @@ export default function Company() {
     },
     {
       id: 2,
-      title: "Software developer intern",
+      title: "UI/UX Design Intern",
       requirements: ["JAVASCRIPT", "REACT"],
       location: "N Teseen, New Cairo 1",
       startDate: "May 15",
@@ -35,7 +36,7 @@ export default function Company() {
     },
     {
       id: 3,
-      title: "Software developer intern",
+      title: "DevOps Engineer Intern",
       salary: "€111.38",
       hourlyRate: "€14.85/h",
       requirements: ["CODING SKILLS"],
@@ -48,7 +49,7 @@ export default function Company() {
     },
     {
       id: 4,
-      title: "Software developer intern",
+      title: "Data Science Intern",
       requirements: ["PYTHON", "DATA SCIENCE"],
       location: "N Teseen, New Cairo 1",
       startDate: "Jun 1",
@@ -60,7 +61,7 @@ export default function Company() {
     },
     {
       id: 5,
-      title: "Software developer intern",
+      title: "Mobile App Developer Intern",
       salary: "€95.25",
       hourlyRate: "€15.50/h",
       requirements: ["MOBILE DEV", "FLUTTER"],
@@ -72,6 +73,14 @@ export default function Company() {
       isLearningOpportunity: false,
     },
   ]
+
+  // Handle search input change
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value)
+  }
+
+  // Filter job listings based on search query
+  const filteredJobs = jobListings.filter((job) => job.title.toLowerCase().includes(searchQuery.toLowerCase()))
 
   return (
     <div className="company-container">
@@ -112,72 +121,104 @@ export default function Company() {
                 <span className="filter-icon">≡</span> Filters
               </button>
               <div className="search-container">
-                <input type="text" placeholder="Search" className="search-input" />
+                <input
+                  type="text"
+                  placeholder="Search job title"
+                  className="search-input"
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                />
                 <span className="search-icon">🔍</span>
+                {searchQuery && (
+                  <button className="clear-search" onClick={() => setSearchQuery("")}>
+                    ×
+                  </button>
+                )}
               </div>
             </div>
 
+            <div className="search-results">
+              {searchQuery && (
+                <div className="results-count">
+                  Found {filteredJobs.length} {filteredJobs.length === 1 ? "job" : "jobs"} matching "{searchQuery}"
+                </div>
+              )}
+            </div>
+
             <div className="job-listings">
-              {jobListings.map((job) => (
-                <div className="job-card" key={job.id}>
-                  {job.salary && (
-                    <div className="job-salary">
-                      <div className="amount">{job.salary}</div>
-                      <div className="hourly-rate">{job.hourlyRate}</div>
-                    </div>
-                  )}
-
-                  <div className="job-details">
-                    {job.isLearningOpportunity && <div className="learning-opportunity">LEARNING OPPORTUNITY</div>}
-
-                    <h3 className="job-title">{job.title}</h3>
-
-                    <div className="job-requirements">
-                      <div className="requirement-label">REQUIRES:</div>
-                      <div className="requirement-tags">
-                        {job.requirements.map((req, index) => (
-                          <span className="requirement-tag" key={index}>
-                            {req}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="job-location">
-                      <span className="location-icon">◎</span>
-                      <span>{job.location}</span>
-                    </div>
-
-                    {job.startDate ? (
-                      <div className="job-duration">
-                        <span className="calendar-icon">📅</span>
-                        <div>
-                          <div className="date-range">
-                            {job.startDate} - {job.endDate}
-                          </div>
-                          <div className="duration">{job.duration}</div>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="job-time">
-                        <span className="calendar-icon">📅</span>
-                        <div>
-                          <div className="date">{job.date}</div>
-                          <div className="today">TODAY</div>
-                        </div>
-                        <div className="time-slot">
-                          <div>{job.time}</div>
-                          <div className="time-of-day">{job.timeOfDay}</div>
-                        </div>
+              {filteredJobs.length > 0 ? (
+                filteredJobs.map((job) => (
+                  <div className="job-card" key={job.id}>
+                    {job.salary && (
+                      <div className="job-salary">
+                        <div className="amount">{job.salary}</div>
+                        <div className="hourly-rate">{job.hourlyRate}</div>
                       </div>
                     )}
 
-                    {job.description && <div className="job-description">{job.description}</div>}
-                  </div>
+                    <div className="job-details">
+                      {job.isLearningOpportunity && <div className="learning-opportunity">LEARNING OPPORTUNITY</div>}
 
-                  <div className={`job-status ${job.isPaid ? "paid" : "unpaid"}`}>{job.isPaid ? "PAID" : "UNPAID"}</div>
+                      <h3 className="job-title">
+                        {searchQuery ? <HighlightText text={job.title} highlight={searchQuery} /> : job.title}
+                      </h3>
+
+                      <div className="job-requirements">
+                        <div className="requirement-label">REQUIRES:</div>
+                        <div className="requirement-tags">
+                          {job.requirements.map((req, index) => (
+                            <span className="requirement-tag" key={index}>
+                              {req}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="job-location">
+                        <span className="location-icon">◎</span>
+                        <span>{job.location}</span>
+                      </div>
+
+                      {job.startDate ? (
+                        <div className="job-duration">
+                          <span className="calendar-icon">📅</span>
+                          <div>
+                            <div className="date-range">
+                              {job.startDate} - {job.endDate}
+                            </div>
+                            <div className="duration">{job.duration}</div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="job-time">
+                          <span className="calendar-icon">📅</span>
+                          <div>
+                            <div className="date">{job.date}</div>
+                            <div className="today">TODAY</div>
+                          </div>
+                          <div className="time-slot">
+                            <div>{job.time}</div>
+                            <div className="time-of-day">{job.timeOfDay}</div>
+                          </div>
+                        </div>
+                      )}
+
+                      {job.description && <div className="job-description">{job.description}</div>}
+                    </div>
+
+                    <div className={`job-status ${job.isPaid ? "paid" : "unpaid"}`}>
+                      {job.isPaid ? "PAID" : "UNPAID"}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="no-results">
+                  <p>No jobs found matching "{searchQuery}"</p>
+                  <button className="reset-search" onClick={() => setSearchQuery("")}>
+                    Clear search
+                  </button>
                 </div>
-              ))}
+              )}
             </div>
           </div>
         )}
@@ -224,5 +265,29 @@ export default function Company() {
         )}
       </div>
     </div>
+  )
+}
+
+// Helper component to highlight search text
+function HighlightText({ text, highlight }) {
+  if (!highlight.trim()) {
+    return <span>{text}</span>
+  }
+
+  const regex = new RegExp(`(${highlight})`, "gi")
+  const parts = text.split(regex)
+
+  return (
+    <span>
+      {parts.map((part, i) =>
+        regex.test(part) ? (
+          <span key={i} className="highlight">
+            {part}
+          </span>
+        ) : (
+          <span key={i}>{part}</span>
+        ),
+      )}
+    </span>
   )
 }
