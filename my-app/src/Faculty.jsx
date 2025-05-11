@@ -40,7 +40,7 @@ function Faculty() {
     },
     {
       id: 5,
-      name: "Adham Khaled",
+      name: "Adham ashraf",
       major: "Mecha",
       status: "Rejected",
       comment: "Incomplete application",
