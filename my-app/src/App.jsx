@@ -8,6 +8,7 @@ import Faculty from "./Faculty" // Import the Faculty component
 import ReportView from "./report-view" // Import the ReportView component
 import Company from "./Company"
 import CompanyRegister from "./Companyregister"
+import Student from "./Student" 
 // LoginPage component
 function LoginPage() {
   const [email, setEmail] = useState("")
@@ -23,7 +24,11 @@ function LoginPage() {
       navigate("/faculty")
     } else if (email.toLowerCase() === "company" && password === "1234") {
       navigate("/company")
-    } else {
+    }
+    else if (email.toLowerCase() === "student" && password === "1234") {
+      navigate("/student")
+    }
+     else {
       setError("Invalid credentials")
     }
   }
@@ -105,6 +110,7 @@ function App() {
         <Route path="/faculty" element={<Faculty />} />
         <Route path="/report-view/:studentId" element={<ReportView />} />
         <Route path="/company" element={<Company />} />
+        <Route path="/student" element={<Student />} />
       </Routes>
     </Router>
   )

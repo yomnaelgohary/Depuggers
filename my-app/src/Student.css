@@ -1,0 +1,448 @@
+/* Student Dashboard CSS - Modern Design */
+:root {
+  --primary-color: #1890ff;
+  --primary-hover: #40a9ff;
+  --secondary-color: #f0f0f0;
+  --text-dark: #333;
+  --text-medium: #666;
+  --text-light: #888;
+  --white: #ffffff;
+  --border-color: #f0f0f0;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --border-radius: 8px;
+  --transition: all 0.3s ease;
+}
+
+/* Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body, html, #root {
+  width: 100%;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: var(--text-dark);
+  background-color: #f5f7fa;
+  overflow-x: hidden;
+}
+
+/* Layout */
+.student-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.student-sidebar {
+  width: 250px;
+  background: #001529;
+  color: var(--white);
+  transition: width 0.3s;
+  position: fixed;
+  height: 100vh;
+  z-index: 100;
+}
+
+.student-content {
+  flex: 1;
+  margin-left: 250px;
+  padding: 20px;
+  background-color: #f5f7fa;
+}
+
+/* Dashboard Header */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.dashboard-header h1 {
+  font-size: 28px;
+  color: var(--text-dark);
+}
+
+.dashboard-header .subtitle {
+  color: var(--text-medium);
+  font-size: 16px;
+  margin-top: 5px;
+}
+.student-dashboard {
+  padding: 24px;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+.section-card .ant-card-body {
+  padding: 0;
+}
+
+/* Stats Grid */
+.stats-grid {
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+
+.stat-card {
+  background: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  overflow: hidden;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.stat-content {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+}
+
+.stat-icon {
+  font-size: 28px;
+  margin-right: 15px;
+  padding: 15px;
+  border-radius: 50%;
+  background-color: rgba(24, 144, 255, 0.1);
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-info h3 {
+  font-size: 14px;
+  color: var(--text-medium);
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0;
+}
+
+/* Section Cards */
+.section-card {
+  background: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 30px;
+  overflow: hidden;
+}
+
+.section-card .ant-card-head {
+  border-bottom: 1px solid var(--border-color);
+  background-color: #fafafa;
+}
+
+.section-card .ant-card-head-title {
+  font-weight: 600;
+  color: var(--text-dark);
+  padding: 16px 0;
+}
+
+.section-card .ant-card-body {
+  padding: 20px;
+}
+
+/* Internship Grid */
+.internship-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+  padding: 16px;
+}
+
+.internship-card {
+  background: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  overflow: hidden;
+}
+
+.internship-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.internship-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.internship-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: var(--text-dark);
+}
+
+.company {
+  color: var(--text-medium);
+  margin-bottom: 15px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.company svg {
+  margin-right: 5px;
+}
+
+.internship-details {
+  margin-bottom: 15px;
+}
+
+.internship-details p {
+  margin: 8px 0;
+  font-size: 14px;
+  color: var(--text-medium);
+  display: flex;
+  align-items: center;
+}
+
+.internship-details svg {
+  margin-right: 8px;
+  color: var(--text-light);
+}
+
+.skills {
+  margin-top: 15px;
+}
+
+.skills .ant-tag {
+  margin-bottom: 8px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background-color: #f0f2f5;
+  color: var(--text-medium);
+  border: none;
+}
+
+/* Buttons */
+.btn {
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: var(--white);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+}
+
+.btn-secondary {
+  background-color: var(--white);
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+}
+
+.btn-secondary:hover {
+  background-color: #e6f7ff;
+}
+
+.btn-view {
+  background-color: var(--secondary-color);
+  color: var(--text-dark);
+  width: 100%;
+  margin-top: 15px;
+}
+
+.btn-view:hover {
+  background-color: #e0e0e0;
+}
+
+/* Profile Completion */
+.profile-completion {
+  margin-top: 24px;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.progress-bar {
+  height: 10px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: var(--primary-color);
+  border-radius: 5px;
+  transition: width 0.5s ease;
+}
+
+.profile-tasks {
+  margin-top: 20px;
+}
+
+.task {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.task input[type="checkbox"] {
+  margin-right: 12px;
+  margin-top: 3px;
+}
+
+.task label {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.task label strong {
+  color: var(--text-dark);
+  margin-bottom: 3px;
+  font-weight: 500;
+}
+
+.task label span {
+  color: var(--text-medium);
+  font-size: 13px;
+}
+
+/* Table styles */
+.ant-table {
+  width: 100% !important;
+}
+
+.ant-table-thead > tr > th {
+  background-color: #fafafa;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+/* Ensure tables don't overflow */
+.ant-table-container {
+  overflow-x: auto;
+}
+
+/* Card header alignment */
+.ant-card-head {
+  padding: 0 16px;
+}
+
+.ant-card-head-title {
+  padding: 16px 0;
+}
+/* Profile Page Styles */
+.profile-content {
+  background: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+  padding: 25px;
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.profile-header h2 {
+  color: var(--text-dark);
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-item.full-width {
+  grid-column: span 2;
+}
+
+.info-label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text-medium);
+  font-size: 14px;
+}
+
+.info-value {
+  color: var(--text-dark);
+  font-size: 16px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1200px) {
+  .internship-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+}
+
+@media (max-width: 992px) {
+  .stats-grid .ant-col {
+    margin-bottom: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .student-dashboard {
+    padding: 16px;
+  }
+  
+  .internship-grid {
+    grid-template-columns: 1fr;
+  }
+}
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.section-card, .stat-card {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+/* Utility Classes */
+.mb-20 { margin-bottom: 20px; }
+.mt-20 { margin-top: 20px; }
+.text-center { text-align: center; }
+.flex-between { display: flex; justify-content: space-between; align-items: center; }
