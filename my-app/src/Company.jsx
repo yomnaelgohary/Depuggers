@@ -32,6 +32,37 @@ export default function Company() {
     comments: "",
   })
 
+  const [notifications, setNotifications] = useState([
+    {
+      message: "Ahmed Hassan has applied to Backend Developer Intern",
+      time: "5 min ago",
+    },
+    {
+      message: "Your application for UI/UX Design Intern has been accepted",
+      time: "1 hour ago",
+    },
+    {
+      message: "New evaluation added for Fatima Ali",
+      time: "2 hours ago",
+    },
+  ])
+  const [showNotifications, setShowNotifications] = useState(false)
+
+  // Function to clear all notifications
+  const clearAllNotifications = (e) => {
+    e.stopPropagation()
+    setNotifications([])
+  }
+
+  // Function to add a notification
+  const addNotification = (message) => {
+    const newNotification = {
+      message,
+      time: "Just now",
+    }
+    setNotifications([newNotification, ...notifications])
+  }
+
   // Available locations
   const locations = ["N Teseen, New Cairo", "Maadi, Cairo", "Smart Village, Giza", "Dokki, Giza", "Heliopolis, Cairo"]
 
@@ -736,6 +767,8 @@ export default function Company() {
 
   const clearSearch = () => {
     setSearchQuery("")
+    // Reset filters as well
+    resetFilters()
   }
 
   const toggleFilters = () => {
@@ -812,7 +845,7 @@ export default function Company() {
   // Filter applications based on selected post
   const filteredApplications = selectedPost ? applications.filter((app) => app.postId === selectedPost) : applications
 
-  // Update application status
+  // Update application status with notification
   const updateApplicationStatus = (applicationId, status) => {
     const updatedApplications = applications.map((app) => {
       if (app.id === applicationId) {
@@ -820,8 +853,18 @@ export default function Company() {
       }
       return app
     })
+
     // In a real app, you would update the state or make an API call here
     console.log(`Updated application ${applicationId} status to ${status}`)
+
+    // Add notification
+    if (status === "accepted" || status === "rejected") {
+      const app = applications.find((a) => a.id === applicationId)
+      addNotification(`${app.applicantName}'s application for ${app.postTitle} has been ${status}`)
+
+      // In a real app, you would send an email notification here
+      console.log(`Email notification sent to ${app.applicantEmail} about ${status} status`)
+    }
   }
 
   // Update internship status
@@ -897,32 +940,59 @@ export default function Company() {
     <div className="company-container">
       <header className="company-header">
         <div className="logo">Dell technologies</div>
-        <div className="main-nav">
-          <button className={`nav-tab ${activeTab === "posts" ? "active" : ""}`} onClick={() => setActiveTab("posts")}>
-            Posts
-          </button>
-          <button
-            className={`nav-tab ${activeTab === "create" ? "active" : ""}`}
-            onClick={() => setActiveTab("create")}
-          >
-            Create post
-          </button>
-          <button
-            className={`nav-tab ${activeTab === "applications" ? "active" : ""}`}
-            onClick={() => setActiveTab("applications")}
-          >
-            Applications
-          </button>
-          <button
-            className={`nav-tab ${activeTab === "interns" ? "active" : ""}`}
-            onClick={() => setActiveTab("interns")}
-          >
-            Interns
-          </button>
-        </div>
-        <div className="notification-bell">
-          <span className="bell-icon">🔔</span>
-          <span className="notification-count">3</span>
+        <div className="right-section">
+          <div className="main-nav">
+            <button
+              className={`nav-tab ${activeTab === "posts" ? "active" : ""}`}
+              onClick={() => setActiveTab("posts")}
+            >
+              Posts
+            </button>
+            <button
+              className={`nav-tab ${activeTab === "create" ? "active" : ""}`}
+              onClick={() => setActiveTab("create")}
+            >
+              Create post
+            </button>
+            <button
+              className={`nav-tab ${activeTab === "applications" ? "active" : ""}`}
+              onClick={() => setActiveTab("applications")}
+            >
+              Applications
+            </button>
+            <button
+              className={`nav-tab ${activeTab === "interns" ? "active" : ""}`}
+              onClick={() => setActiveTab("interns")}
+            >
+              Interns
+            </button>
+          </div>
+          <div className="notification-bell" onClick={() => setShowNotifications(!showNotifications)}>
+            <span className="bell-icon">🔔</span>
+            <span className="notification-count">{notifications.length}</span>
+            {showNotifications && (
+              <div className="notifications-dropdown">
+                <div className="notifications-header">
+                  <h3>Notifications</h3>
+                  <button className="clear-all" onClick={clearAllNotifications}>
+                    Clear All
+                  </button>
+                </div>
+                {notifications.length > 0 ? (
+                  <div className="notifications-list">
+                    {notifications.map((notification, index) => (
+                      <div key={index} className="notification-item">
+                        <div className="notification-content">{notification.message}</div>
+                        <div className="notification-time">{notification.time}</div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="no-notifications">No new notifications</div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </header>
 
@@ -960,66 +1030,68 @@ export default function Company() {
                     </button>
                   </div>
 
-                  <div className="filter-section">
-                    <h3>DURATION</h3>
-                    <div className="filter-options">
-                      {durationOptions.map((option) => (
+                  <div className="filter-modal-content">
+                    <div className="filter-section">
+                      <h3>PAYMENT</h3>
+                      <div className="filter-options">
                         <button
-                          key={option.value}
-                          className={`filter-option ${filters.duration === option.value ? "selected" : ""}`}
-                          onClick={() => handleFilterChange("duration", option.value)}
+                          className={`filter-option ${filters.isPaid === true ? "selected" : ""}`}
+                          onClick={() => handleFilterChange("isPaid", true)}
                         >
-                          {option.label}
+                          Paid
                         </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="filter-section">
-                    <h3>LOCATION</h3>
-                    <div className="filter-options">
-                      {locations.map((location, index) => (
                         <button
-                          key={index}
-                          className={`filter-option ${filters.location === location ? "selected" : ""}`}
-                          onClick={() => handleFilterChange("location", location)}
+                          className={`filter-option ${filters.isPaid === false ? "selected" : ""}`}
+                          onClick={() => handleFilterChange("isPaid", false)}
                         >
-                          {location}
+                          Unpaid
                         </button>
-                      ))}
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="filter-section">
-                    <h3>PAYMENT</h3>
-                    <div className="filter-options">
-                      <button
-                        className={`filter-option ${filters.isPaid === true ? "selected" : ""}`}
-                        onClick={() => handleFilterChange("isPaid", true)}
-                      >
-                        Paid
-                      </button>
-                      <button
-                        className={`filter-option ${filters.isPaid === false ? "selected" : ""}`}
-                        onClick={() => handleFilterChange("isPaid", false)}
-                      >
-                        Unpaid
-                      </button>
+                    <div className="filter-section">
+                      <h3>DURATION</h3>
+                      <div className="filter-options">
+                        {durationOptions.map((option) => (
+                          <button
+                            key={option.value}
+                            className={`filter-option ${filters.duration === option.value ? "selected" : ""}`}
+                            onClick={() => handleFilterChange("duration", option.value)}
+                          >
+                            {option.label}
+                          </button>
+                        ))}
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="filter-section">
-                    <h3>SKILLS</h3>
-                    <div className="filter-options">
-                      {Array.from(new Set(jobListings.flatMap((job) => job.requirements))).map((skill, index) => (
-                        <button
-                          key={index}
-                          className={`filter-option ${filters.skills.includes(skill) ? "selected" : ""}`}
-                          onClick={() => handleSkillToggle(skill)}
-                        >
-                          {skill}
-                        </button>
-                      ))}
+                    <div className="filter-section">
+                      <h3>LOCATION</h3>
+                      <div className="filter-options">
+                        {locations.map((location, index) => (
+                          <button
+                            key={index}
+                            className={`filter-option ${filters.location === location ? "selected" : ""}`}
+                            onClick={() => handleFilterChange("location", location)}
+                          >
+                            {location}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="filter-section">
+                      <h3>SKILLS</h3>
+                      <div className="filter-options">
+                        {Array.from(new Set(jobListings.flatMap((job) => job.requirements))).map((skill, index) => (
+                          <button
+                            key={index}
+                            className={`filter-option ${filters.skills.includes(skill) ? "selected" : ""}`}
+                            onClick={() => handleSkillToggle(skill)}
+                          >
+                            {skill}
+                          </button>
+                        ))}
+                      </div>
                     </div>
                   </div>
 
@@ -1509,118 +1581,132 @@ export default function Company() {
                   </button>
                 </div>
 
-                <div className="intern-info-section">
-                  <h4>Intern Information</h4>
-                  <div className="info-grid">
-                    <div className="info-row">
-                      <div className="info-label">First Name</div>
-                      <div className="info-value">{selectedIntern.firstName}</div>
-                      <div className="info-label">Last Name</div>
-                      <div className="info-value">{selectedIntern.lastName}</div>
-                    </div>
-                    <div className="info-row">
-                      <div className="info-label">Email</div>
-                      <div className="info-value">{selectedIntern.applicantEmail}</div>
-                      <div className="info-label">Phone</div>
-                      <div className="info-value">{selectedIntern.applicantPhone}</div>
-                    </div>
-                    <div className="info-row">
-                      <div className="info-label">University</div>
-                      <div className="info-value">{selectedIntern.university}</div>
-                      <div className="info-label">Major</div>
-                      <div className="info-value">{selectedIntern.major}</div>
-                    </div>
-                    <div className="info-row">
-                      <div className="info-label">Current Education</div>
-                      <div className="info-value">{selectedIntern.currentEducation}</div>
-                      <div className="info-label">GPA</div>
-                      <div className="info-value">{selectedIntern.gpa}</div>
-                    </div>
-                    <div className="info-row">
-                      <div className="info-label">Graduation Year</div>
-                      <div className="info-value">{selectedIntern.graduationYear}</div>
+                <div className="application-details-content">
+                  <div className="application-details-section">
+                    <h4>Intern Information</h4>
+                    <div className="details-grid">
+                      <div className="details-item">
+                        <span className="details-label">First Name</span>
+                        <span className="details-value">{selectedIntern.firstName}</span>
+                      </div>
+                      <div className="details-item">
+                        <span className="details-label">Last Name</span>
+                        <span className="details-value">{selectedIntern.lastName}</span>
+                      </div>
+                      <div className="details-item">
+                        <span className="details-label">Email</span>
+                        <span className="details-value">{selectedIntern.applicantEmail}</span>
+                      </div>
+                      <div className="details-item">
+                        <span className="details-label">Phone</span>
+                        <span className="details-value">{selectedIntern.applicantPhone}</span>
+                      </div>
+                      <div className="details-item">
+                        <span className="details-label">University</span>
+                        <span className="details-value">{selectedIntern.university}</span>
+                      </div>
+                      <div className="details-item">
+                        <span className="details-label">Major</span>
+                        <span className="details-value">{selectedIntern.major}</span>
+                      </div>
+                      <div className="details-item">
+                        <span className="details-label">Current Education</span>
+                        <span className="details-value">{selectedIntern.currentEducation}</span>
+                      </div>
+                      <div className="details-item">
+                        <span className="details-label">GPA</span>
+                        <span className="details-value">{selectedIntern.gpa}</span>
+                      </div>
+                      <div className="details-item">
+                        <span className="details-label">Graduation Year</span>
+                        <span className="details-value">{selectedIntern.graduationYear}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="internship-info-section">
-                  <h4>Internship Information</h4>
-                  <div className="info-grid">
-                    <div className="info-row">
-                      <div className="info-label">Position</div>
-                      <div className="info-value">{selectedIntern.postTitle}</div>
-                      <div className="info-label">Start Date</div>
-                      <div className="info-value">{selectedIntern.availableStartDate}</div>
-                    </div>
-                    <div className="info-row">
-                      <div className="info-label">Status</div>
-                      <div className="info-value">
-                        <span
-                          className={`status-badge ${selectedIntern.internshipStatus === "current" ? "status-current" : "status-completed"}`}
-                        >
-                          {selectedIntern.internshipStatus === "current" ? "Current" : "Completed"}
+                  <div className="application-details-section">
+                    <h4>Internship Information</h4>
+                    <div className="details-grid">
+                      <div className="details-item">
+                        <span className="details-label">Position</span>
+                        <span className="details-value">{selectedIntern.postTitle}</span>
+                      </div>
+                      <div className="details-item">
+                        <span className="details-label">Start Date</span>
+                        <span className="details-value">{selectedIntern.availableStartDate}</span>
+                      </div>
+                      <div className="details-item">
+                        <span className="details-label">Status</span>
+                        <span className="details-value">
+                          <span
+                            className={`status-badge ${selectedIntern.internshipStatus === "current" ? "status-current" : "status-completed"}`}
+                          >
+                            {selectedIntern.internshipStatus === "current" ? "Current" : "Completed"}
+                          </span>
                         </span>
                       </div>
-                      <div className="info-label">Availability</div>
-                      <div className="info-value">{selectedIntern.availabilityHours}</div>
+                      <div className="details-item">
+                        <span className="details-label">Availability</span>
+                        <span className="details-value">{selectedIntern.availabilityHours}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {selectedIntern.internshipStatus === "completed" && (
-                  <div className="evaluation-section">
-                    <div className="evaluation-header">
-                      <h4>Evaluation</h4>
+                  {selectedIntern.internshipStatus === "completed" && (
+                    <div className="application-details-section">
+                      <div className="evaluation-header">
+                        <h4>Evaluation</h4>
+                        {selectedIntern.evaluation ? (
+                          <div className="evaluation-actions">
+                            <button className="edit-button" onClick={() => handleEditEvaluation(selectedIntern)}>
+                              Edit
+                            </button>
+                            <button className="delete-button" onClick={() => handleDeleteEvaluation(selectedIntern.id)}>
+                              Delete
+                            </button>
+                          </div>
+                        ) : (
+                          <button className="add-button" onClick={() => handleAddEvaluation(selectedIntern)}>
+                            Add Evaluation
+                          </button>
+                        )}
+                      </div>
+
                       {selectedIntern.evaluation ? (
-                        <div className="evaluation-actions">
-                          <button className="edit-button" onClick={() => handleEditEvaluation(selectedIntern)}>
-                            Edit
-                          </button>
-                          <button className="delete-button" onClick={() => handleDeleteEvaluation(selectedIntern.id)}>
-                            Delete
-                          </button>
+                        <div className="evaluation-content">
+                          <div className="details-grid">
+                            <div className="details-item">
+                              <span className="details-label">Overall Performance</span>
+                              <span className="details-value">{selectedIntern.evaluation.overallRating}/5</span>
+                            </div>
+                            <div className="details-item">
+                              <span className="details-label">Technical Skills</span>
+                              <span className="details-value">{selectedIntern.evaluation.technicalSkills}/5</span>
+                            </div>
+                            <div className="details-item">
+                              <span className="details-label">Communication</span>
+                              <span className="details-value">{selectedIntern.evaluation.communicationSkills}/5</span>
+                            </div>
+                            <div className="details-item">
+                              <span className="details-label">Recommend for Hire</span>
+                              <span className="details-value">
+                                {selectedIntern.evaluation.recommendForHire ? "Yes" : "No"}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="evaluation-comments">
+                            <h5>Comments</h5>
+                            <p>{selectedIntern.evaluation.comments}</p>
+                          </div>
                         </div>
                       ) : (
-                        <button className="add-button" onClick={() => handleAddEvaluation(selectedIntern)}>
-                          Add Evaluation
-                        </button>
+                        <div className="no-evaluation">
+                          <p>No evaluation has been submitted for this intern yet.</p>
+                        </div>
                       )}
                     </div>
-
-                    {selectedIntern.evaluation ? (
-                      <div className="evaluation-content">
-                        <div className="rating-grid">
-                          <div className="rating-item">
-                            <span className="rating-label">Overall Performance:</span>
-                            <span className="rating-value">{selectedIntern.evaluation.overallRating}/5</span>
-                          </div>
-                          <div className="rating-item">
-                            <span className="rating-label">Technical Skills:</span>
-                            <span className="rating-value">{selectedIntern.evaluation.technicalSkills}/5</span>
-                          </div>
-                          <div className="rating-item">
-                            <span className="rating-label">Communication:</span>
-                            <span className="rating-value">{selectedIntern.evaluation.communicationSkills}/5</span>
-                          </div>
-                          <div className="rating-item">
-                            <span className="rating-label">Recommend for Hire:</span>
-                            <span className="rating-value">
-                              {selectedIntern.evaluation.recommendForHire ? "Yes" : "No"}
-                            </span>
-                          </div>
-                        </div>
-                        <div className="evaluation-comments">
-                          <h5>Comments</h5>
-                          <p>{selectedIntern.evaluation.comments}</p>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="no-evaluation">
-                        <p>No evaluation has been submitted for this intern yet.</p>
-                      </div>
-                    )}
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
             )}
 
