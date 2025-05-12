@@ -310,6 +310,7 @@ body {
 }
 
 .filter-section h3 {
+  width:100%;
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 12px;

@@ -90,9 +90,6 @@ function MyAppointments({ onClose, addNotification }) {
     alert(
       `(Simulated) Incoming call for appointment ${id} - You would receive a system notification and this UI would appear.`,
     )
-    // Add notification
-    const appointment = appointments.find((app) => app.id === id)
-    addNotification(`Incoming call from ${appointment.with}`, "call")
     setAppointments((prev) =>
       prev.map((app) => (app.id === id ? { ...app, callState: "incoming" } : { ...app, callState: null })),
     ) // Only one incoming at a time
