@@ -129,7 +129,7 @@ body {
 }
 
 .tab-button.active {
-  background-color: #5f2878;
+  background-color: #5b21b6;
   color: #ffffff;
 }
 
@@ -140,9 +140,10 @@ body {
 
 .filter-row {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 12px;
   margin-bottom: 12px;
+  overflow-x: auto;
 }
 
 .filter-pill {
@@ -157,12 +158,13 @@ body {
   color: #6b7280;
   cursor: pointer;
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .filter-pill.active {
-  background-color: #5f2878;
+  background-color: #5b21b6;
   color: #ffffff;
-  border-color: #5f2878;
+  border-color: #5b21b6;
 }
 
 .filter-pill svg {
@@ -205,7 +207,7 @@ body {
 
 .major {
   font-weight: 500;
-  color: #5f2878;
+  color: #5b21b6;
 }
 
 .comment {
@@ -228,7 +230,7 @@ body {
 
 .status-pill.rejected {
   background-color: #f3e8ff;
-  color: #5f2878;
+  color: #5b21b6;
 }
 
 .status-pill.pending {
@@ -247,23 +249,35 @@ body {
 
 .action-button {
   padding: 6px 16px;
-  background-color: #5f2878;
-  color: #ffffff;
-  border: none;
+  background-color: white;
+  color: #5b21b6;
+  border: 1px solid #5b21b6;
   border-radius: 4px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.action-button:hover {
+  background-color: #5b21b6;
+  color: white;
 }
 
 .details-button {
   padding: 6px 16px;
-  background-color: #4b5563;
-  color: #ffffff;
-  border: none;
+  background-color: white;
+  color: #4b5563;
+  border: 1px solid #4b5563;
   border-radius: 4px;
   font-size: 14px;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.details-button:hover {
+  background-color: #4b5563;
+  color: white;
 }
 
 .no-results {
@@ -350,7 +364,7 @@ body {
 
 .status-circle.rejected {
   background-color: #f3e8ff;
-  color: #5f2878;
+  color: #5b21b6;
 }
 
 .status-circle.pending {
@@ -374,7 +388,7 @@ body {
 .time-value {
   font-size: 36px;
   font-weight: 700;
-  color: #5f2878;
+  color: #5b21b6;
 }
 
 /* Stat tables */
@@ -399,7 +413,7 @@ body {
 .stat-table td.count,
 .stat-table td.rating {
   text-align: right;
-  color: #5f2878;
+  color: #5b21b6;
   font-weight: 500;
 }
 
@@ -412,13 +426,19 @@ body {
 
 .generate-report-button {
   padding: 10px 20px;
-  background-color: #5f2878;
-  color: #ffffff;
-  border: none;
+  background-color: white;
+  color: #5b21b6;
+  border: 1px solid #5b21b6;
   border-radius: 4px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.generate-report-button:hover {
+  background-color: #5b21b6;
+  color: white;
 }
 
 /* Report View */
@@ -431,20 +451,32 @@ body {
   align-items: center;
   gap: 16px;
   margin-bottom: 24px;
+  justify-content: center;
+  position: relative;
 }
 
 .back-button {
   padding: 8px 12px;
-  background-color: #f3f4f6;
-  border: none;
+  background-color: white;
+  color: #5b21b6;
+  border: 1px solid #5b21b6;
   border-radius: 4px;
   font-size: 14px;
   cursor: pointer;
+  transition: all 0.2s ease;
+  position: absolute;
+  left: 0;
+}
+
+.back-button:hover {
+  background-color: #5b21b6;
+  color: white;
 }
 
 .report-header h2 {
   font-size: 20px;
   font-weight: 600;
+  text-align: center;
 }
 
 .report-card {
@@ -500,18 +532,25 @@ body {
 
 .status-option input {
   margin: 0;
+  accent-color: #5b21b6;
 }
 
 .save-status-button {
   width: 100%;
   padding: 10px;
-  background-color: #111827;
-  color: #ffffff;
-  border: none;
+  background-color: white;
+  color: #5b21b6;
+  border: 1px solid #5b21b6;
   border-radius: 4px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.save-status-button:hover {
+  background-color: #5b21b6;
+  color: white;
 }
 
 /* Evaluations */
@@ -539,11 +578,18 @@ body {
 
 .view-evaluation-button {
   padding: 4px 12px;
-  background-color: #f3f4f6;
-  border: none;
+  background-color: white;
+  color: #5b21b6;
+  border: 1px solid #5b21b6;
   border-radius: 4px;
   font-size: 12px;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.view-evaluation-button:hover {
+  background-color: #5b21b6;
+  color: white;
 }
 
 .download-container {
@@ -557,11 +603,112 @@ body {
   align-items: center;
   gap: 8px;
   padding: 10px 20px;
-  background-color: #ffffff;
-  border: 1px solid #e5e7eb;
+  background-color: white;
+  color: #5b21b6;
+  border: 1px solid #5b21b6;
   border-radius: 4px;
   font-size: 14px;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.download-pdf-button:hover {
+  background-color: #5b21b6;
+  color: white;
+}
+
+.download-pdf-button:hover svg {
+  stroke: white;
+}
+
+.download-icon {
+  stroke: #5b21b6;
+}
+
+/* Comment Popup */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.comment-popup {
+  background-color: white;
+  border-radius: 8px;
+  padding: 24px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.comment-popup h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 12px 0;
+  color: #111827;
+}
+
+.comment-popup p {
+  font-size: 14px;
+  color: #4b5563;
+  margin: 0 0 16px 0;
+}
+
+.comment-textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 14px;
+  resize: vertical;
+  margin-bottom: 20px;
+  font-family: inherit;
+  min-height: 100px;
+}
+
+.popup-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.cancel-button {
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  color: #4b5563;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancel-button:hover {
+  background-color: #f3f4f6;
+}
+
+.submit-button {
+  background-color: white;
+  color: #5b21b6;
+  border: 1px solid #5b21b6;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.submit-button:hover {
+  background-color: #5b21b6;
+  color: white;
 }
 
 /* Responsive styles */
@@ -587,11 +734,5 @@ body {
   .students-table th,
   .students-table td {
     padding: 12px;
-  }
-
-  .filter-row {
-    overflow-x: auto;
-    padding-bottom: 8px;
-    flex-wrap: nowrap;
   }
 }
