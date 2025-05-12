@@ -1,19 +1,15 @@
 "use client"
 
-import { useState } from "react"
-import "./faculty.css"
+import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import "./Faculty.css"
 
-export default function Faculty() {
-  const [activeTab, setActiveTab] = useState("students")
-  const [selectedMajor, setSelectedMajor] = useState("All Majors")
-  const [selectedStatus, setSelectedStatus] = useState("All Statuses")
-  const [showReportView, setShowReportView] = useState(false)
-  const [selectedStudent, setSelectedStudent] = useState(null)
-  const [commentText, setCommentText] = useState("")
-  const [showCommentPopup, setShowCommentPopup] = useState(false)
-  const [statusToSet, setStatusToSet] = useState("")
+function Faculty() {
+  const navigate = useNavigate()
+  const [activeTab, setActiveTab] = useState("students") // 'students' or 'statistics'
+  const [showReportPreview, setShowReportPreview] = useState(false)
 
-  // Initial students data
+  // Mock student data (ensure this matches your actual data structure or API response)
   const [students, setStudents] = useState([
     {
       id: 1,
@@ -21,21 +17,13 @@ export default function Faculty() {
       major: "Mecha",
       status: "Accepted",
       comment: "",
-      supervisor: "Alex Johnson",
-      company: "TechCorp",
-      startDate: "June 21, 2023",
-      endDate: "September 10, 2023",
     },
     {
       id: 2,
-      name: "Marwan Mahmoud",
+      name: "Marawan Mahmoud",
       major: "MET",
       status: "Rejected",
       comment: "Missing required documents",
-      supervisor: "Sarah Williams",
-      company: "DataMinds",
-      startDate: "May 15, 2023",
-      endDate: "August 30, 2023",
     },
     {
       id: 3,
@@ -43,21 +31,13 @@ export default function Faculty() {
       major: "IET",
       status: "Pending",
       comment: "",
-      supervisor: "David Chen",
-      company: "CloudSphere",
-      startDate: "July 1, 2023",
-      endDate: "October 15, 2023",
     },
     {
       id: 4,
-      name: "Younes Ali",
+      name: "Youmna Ali",
       major: "BI",
       status: "Flagged",
-      comment: "Need to update contact information",
-      supervisor: "Emily Rodriguez",
-      company: "InnovateSoft",
-      startDate: "June 10, 2023",
-      endDate: "September 5, 2023",
+      comment: "Needs to update contact information",
     },
     {
       id: 5,
@@ -65,26 +45,11 @@ export default function Faculty() {
       major: "Mecha",
       status: "Rejected",
       comment: "Incomplete application",
-      supervisor: "Michael Brown",
-      company: "CodeCraft",
-      startDate: "May 20, 2023",
-      endDate: "August 20, 2023",
-    },
-    {
-      id: 6,
-      name: "Katherine F.",
-      major: "Computer Science",
-      status: "Pending",
-      comment: "",
-      supervisor: "Alex Johnson",
-      company: "CalmTech",
-      startDate: "June 21, 2023",
-      endDate: "September 10, 2023",
     },
   ])
 
-  // Statistics data
-  const statisticsData = {
+  // Mock statistics data (ensure this matches your actual data structure or API response)
+  const [statistics, setStatistics] = useState({
     statusCounts: {
       accepted: 12,
       rejected: 5,
@@ -100,11 +65,11 @@ export default function Faculty() {
       { name: "Algorithms", count: 7 },
     ],
     topRatedCompanies: [
-      { name: "TechCorp", rating: 4.85 },
-      { name: "InnovateSoft", rating: 4.75 },
-      { name: "DataMinds", rating: 4.65 },
-      { name: "CloudSphere", rating: 4.55 },
-      { name: "CodeCraft", rating: 4.45 },
+      { name: "TechCorp", rating: 4.8 },
+      { name: "InnovateSoft", rating: 4.7 },
+      { name: "DataMinds", rating: 4.6 },
+      { name: "CloudSphere", rating: 4.5 },
+      { name: "CodeCraft", rating: 4.4 },
     ],
     topCompaniesByCount: [
       { name: "TechCorp", count: 8 },
@@ -113,417 +78,435 @@ export default function Faculty() {
       { name: "InnovateSoft", count: 5 },
       { name: "CodeCraft", count: 4 },
     ],
-  }
-
-  // Available majors and statuses
-  const majors = ["All Majors", "Mecha", "MET", "IET", "BI"]
-  const statuses = ["All Statuses", "Accepted", "Rejected", "Pending", "Flagged"]
-
-  // Filter students based on selected major and status
-  const filteredStudents = students.filter((student) => {
-    const majorMatch = selectedMajor === "All Majors" || student.major === selectedMajor
-    const statusMatch = selectedStatus === "All Statuses" || student.status === selectedStatus
-    return majorMatch && statusMatch
   })
 
-  // Handle status change
-  const handleStatusChange = (studentId, newStatus, comment = "") => {
-    setStudents(
-      students.map((student) => {
-        if (student.id === studentId) {
-          return {
-            ...student,
-            status: newStatus,
-            comment: comment || student.comment,
-          }
-        }
-        return student
-      }),
-    )
-    setShowReportView(false)
+  // In a real app, you might fetch students and statistics data here
+  // useEffect(() => {
+  //   // Fetch students data
+  //   // fetch('/api/students').then(res => res.json()).then(data => setStudents(data));
+  //   // Fetch statistics data
+  //   // fetch('/api/statistics').then(res => res.json()).then(data => setStatistics(data));
+  // }, []);
+
+
+  // Extract unique majors and statuses based on potentially dynamic student data
+  const uniqueMajors = ["All Majors", ...new Set(students.map((student) => student.major))]
+  const uniqueStatuses = ["All Statuses", ...new Set(students.map((student) => student.status))]
+
+  const [selectedMajor, setSelectedMajor] = useState("All Majors")
+  const [selectedStatus, setSelectedStatus] = useState("All Statuses")
+  const [filteredStudents, setFilteredStudents] = useState(students)
+  const reportType = "comprehensive" // Always generate comprehensive reports
+  const [isGeneratingReport, setIsGeneratingReport] = useState(false)
+  const [generatedReport, setGeneratedReport] = useState(null)
+
+  // Apply filters when selections or the base student list changes
+  useEffect(() => {
+    let result = [...students]
+
+    if (selectedMajor !== "All Majors") {
+      result = result.filter((student) => student.major === selectedMajor)
+    }
+
+    if (selectedStatus !== "All Statuses") {
+      result = result.filter((student) => student.status === selectedStatus)
+    }
+
+    setFilteredStudents(result)
+  }, [selectedMajor, selectedStatus, students]) // Add students as dependency
+
+  // Handle view button click
+  const handleViewReport = (studentId) => {
+    // Ensure the path matches your route configuration
+    navigate(`/report-view/${studentId}`)
   }
 
-  // Open report view for a student
-  const openReportView = (student) => {
-    setSelectedStudent(student)
-    setShowReportView(true)
-  }
-
-  // Go back from report view
-  const goBackFromReport = () => {
-    setShowReportView(false)
-    setSelectedStudent(null)
-  }
-
-  // Generate report
+  // Handle generate report
   const handleGenerateReport = () => {
-    alert("Report generation started. The file will be saved to your downloads folder.")
+    setIsGeneratingReport(true)
+
+    // Simulate report generation
+    setTimeout(() => {
+      const currentDate = new Date().toLocaleDateString()
+
+      // Create report data based on selected type
+      const reportData = {
+        title: "",
+        date: currentDate,
+        sections: [],
+      }
+
+      // Use data from state
+      if (reportType === "status" || reportType === "comprehensive") {
+        reportData.sections.push({
+          title: "Status Distribution",
+          data: [
+            { label: "Accepted", value: statistics.statusCounts.accepted },
+            { label: "Rejected", value: statistics.statusCounts.rejected },
+            { label: "Flagged", value: statistics.statusCounts.flagged },
+            { label: "Pending", value: statistics.statusCounts.pending },
+          ],
+        })
+      }
+
+      if (reportType === "courses" || reportType === "comprehensive") {
+        reportData.sections.push({
+          title: "Most Frequently Used Courses",
+          data: statistics.topCourses.map((course) => ({
+            label: course.name,
+            // Corrected template literal usage
+            value: `${course.count} internships`,
+          })),
+        })
+      }
+
+      if (reportType === "companies" || reportType === "comprehensive") {
+        reportData.sections.push({
+          title: "Top Rated Companies",
+          data: statistics.topRatedCompanies.map((company) => ({
+            label: company.name,
+            // Corrected template literal usage
+            value: `${company.rating}/5`,
+          })),
+        })
+      }
+
+      if (reportType === "internships" || reportType === "comprehensive") {
+        reportData.sections.push({
+          title: "Top Companies by Internship Count",
+          data: statistics.topCompaniesByCount.map((company) => ({
+            label: company.name,
+            // Corrected template literal usage
+            value: `${company.count} internships`,
+          })),
+        })
+      }
+
+      // Add average review time to all reports
+      reportData.sections.push({
+        title: "Average Review Time",
+        data: [{ label: "Average Time", value: statistics.averageReviewTime }],
+      })
+
+      // Set report title based on type
+      switch (reportType) {
+        case "status":
+          reportData.title = "Status Distribution Report"
+          break
+        case "courses":
+          reportData.title = "Course Frequency Report"
+          break
+        case "companies":
+          reportData.title = "Company Ratings Report"
+          break
+        case "internships":
+          reportData.title = "Internship Counts Report"
+          break
+        case "comprehensive":
+        default:
+          reportData.title = "Comprehensive Internship Statistics Report"
+          break
+      }
+
+      setGeneratedReport(reportData)
+      setIsGeneratingReport(false)
+      setShowReportPreview(true)
+    }, 1500)
   }
 
-  // Handle status selection in report view
-  const handleStatusSelect = (status) => {
-    if (status === "Rejected" || status === "Flagged") {
-      setStatusToSet(status)
-      setShowCommentPopup(true)
-    } else {
-      handleStatusChange(selectedStudent.id, status)
-    }
+  // Handle download PDF
+  const handleDownloadPDF = () => {
+    // In a real application, you would use a library like jsPDF or html2pdf
+    // to generate a PDF from the report data
+    // For this example, we'll simulate the download
+
+    alert("PDF download started. The file will be saved to your downloads folder.")
+
+    // Simulate download delay
+    setTimeout(() => {
+      console.log("PDF downloaded")
+      // Potentially close preview after download?
+      // handleClosePreview();
+    }, 1000)
   }
 
-  // Handle comment submission
-  const handleCommentSubmit = () => {
-    if (!commentText.trim()) {
-      alert("Please enter a comment")
-      return
-    }
-    handleStatusChange(selectedStudent.id, statusToSet, commentText)
-    setShowCommentPopup(false)
-    setCommentText("")
+  // Close report preview
+  const handleClosePreview = () => {
+    setShowReportPreview(false)
+    setGeneratedReport(null)
   }
 
   return (
     <div className="faculty-container">
       <header className="faculty-header">
-        <h1>Hello Dr. Yasmin</h1>
-        <div className="header-actions">
-          <button className="settings-button">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <circle cx="12" cy="12" r="3"></circle>
-              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-            </svg>
-          </button>
-          <button className="profile-button">Profile</button>
+        <div className="header-title">
+          {/* Consider making back navigation more robust if needed */}
+          <span className="back-icon" onClick={() => navigate(-1)} style={{ cursor: 'pointer' }}>
+            ←
+          </span>
+          <h1>Internship Management</h1>
+        </div>
+        <div className="profile-image">
+          {/* Use a real image source or improve placeholder handling */}
+          <img src="/placeholder.svg" alt="Profile" width="40" height="40" onError={(e) => e.target.src = 'default-profile.png'} />
         </div>
       </header>
 
       <main className="faculty-main">
-        {!showReportView ? (
+        {/* Make greeting dynamic if possible */}
+        <h2 className="greeting">Hello Dr. Yasmine</h2>
+
+        <div className="tab-navigation-container">
+          <div className="tab-navigation">
+            {/* CORRECTED className SYNTAX */}
+            <button
+              className={`tab-button ${activeTab === "students" ? "active" : ""}`}
+              onClick={() => setActiveTab("students")}
+            >
+              Students
+            </button>
+            {/* CORRECTED className SYNTAX */}
+            <button
+              className={`tab-button ${activeTab === "statistics" ? "active" : ""}`}
+              onClick={() => setActiveTab("statistics")}
+            >
+              Statistics
+            </button>
+          </div>
+        </div>
+
+        {activeTab === "students" ? (
           <>
-            <div className="tabs-container">
-              <div className="tabs">
-                <button
-                  className={`tab-button ${activeTab === "students" ? "active" : ""}`}
-                  onClick={() => setActiveTab("students")}
-                >
-                  Students
-                </button>
-                <button
-                  className={`tab-button ${activeTab === "statistics" ? "active" : ""}`}
-                  onClick={() => setActiveTab("statistics")}
-                >
-                  Statistics
-                </button>
+            <div className="filters-container">
+              <div className="filter-section">
+                <h3 className="filter-title">Majors</h3>
+                <div className="filter-buttons">
+                  {uniqueMajors.map((major) => (
+                    <button
+                      key={major}
+                      // CORRECTED className SYNTAX
+                      className={`filter-button ${selectedMajor === major ? "active" : ""}`}
+                      onClick={() => setSelectedMajor(major)}
+                    >
+                      {major}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="filter-section">
+                <h3 className="filter-title">Status</h3>
+                <div className="filter-buttons">
+                  {uniqueStatuses.map((status) => (
+                    <button
+                      key={status}
+                      // CORRECTED className SYNTAX
+                      className={`filter-button ${selectedStatus === status ? "active" : ""}`}
+                      onClick={() => setSelectedStatus(status)}
+                    >
+                      {status}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
 
-            {activeTab === "students" && (
-              <div className="students-section">
-                <div className="filter-section">
-                  <div className="filter-row">
-                    {majors.map((major) => (
-                      <button
-                        key={major}
-                        className={`filter-pill ${selectedMajor === major ? "active" : ""}`}
-                        onClick={() => setSelectedMajor(major)}
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                        </svg>
-                        {major}
-                      </button>
-                    ))}
-                  </div>
-                  <div className="filter-row">
-                    {statuses.map((status) => (
-                      <button
-                        key={status}
-                        className={`filter-pill ${selectedStatus === status ? "active" : ""}`}
-                        onClick={() => setSelectedStatus(status)}
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                          <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                        </svg>
-                        {status}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+            <div className="students-count">
+              Showing {filteredStudents.length} of {students.length} students
+            </div>
 
-                <div className="students-table-container">
-                  <table className="students-table">
-                    <thead>
-                      <tr>
-                        <th>Student</th>
-                        <th>Major</th>
-                        <th>Status</th>
-                        <th>Comment</th>
-                        <th>Actions</th>
+            <div className="students-table-container">
+              <table className="students-table">
+                <thead>
+                  <tr>
+                    <th>Student</th>
+                    <th>Major</th>
+                    <th>Status</th>
+                    <th>Comment</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredStudents.length > 0 ? (
+                    filteredStudents.map((student) => (
+                      <tr key={student.id}>
+                        <td>{student.name}</td>
+                        <td className="major">{student.major}</td>
+                        <td>
+                          {/* CORRECTED className SYNTAX */}
+                          <span className={`status-pill ${student.status.toLowerCase()}`}>{student.status}</span>
+                        </td>
+                        <td className="comment">{student.comment || "-"}</td> {/* Display '-' if comment is empty */}
+                        <td className="actions">
+                          {/* Consistent button naming */}
+                          <button className="action-button view-details-button" onClick={() => handleViewReport(student.id)}>
+                            {student.status === "Pending" ? "View" : "Details"}
+                          </button>
+                        </td>
                       </tr>
-                    </thead>
-                    <tbody>
-                      {filteredStudents.length > 0 ? (
-                        filteredStudents.map((student) => (
-                          <tr key={student.id}>
-                            <td>{student.name}</td>
-                            <td className="major">{student.major}</td>
-                            <td>
-                              <span className={`status-pill ${student.status.toLowerCase()}`}>{student.status}</span>
-                            </td>
-                            <td className="comment">{student.comment || "-"}</td>
-                            <td className="actions">
-                              {student.status === "Pending" ? (
-                                <button className="action-button" onClick={() => openReportView(student)}>
-                                  Review
-                                </button>
-                              ) : (
-                                <button className="details-button" onClick={() => openReportView(student)}>
-                                  Details
-                                </button>
-                              )}
-                            </td>
-                          </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan="5" className="no-results">
-                            No students match the selected filters
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            )}
-
-            {activeTab === "statistics" && (
-              <div className="statistics-section">
-                <div className="statistics-header">
-                  <h3>Real-time Statistics</h3>
-                  <p>View key metrics and insights about internship reports</p>
-                </div>
-
-                <div className="statistics-grid">
-                  <div className="stat-card">
-                    <h4>Status Distribution</h4>
-                    <div className="status-circles">
-                      <div className="status-column">
-                        <div className="status-label">Accepted</div>
-                        <div className="status-circle accepted">
-                          <span>{statisticsData.statusCounts.accepted}</span>
-                        </div>
-                      </div>
-                      <div className="status-column">
-                        <div className="status-label">Rejected</div>
-                        <div className="status-circle rejected">
-                          <span>{statisticsData.statusCounts.rejected}</span>
-                        </div>
-                      </div>
-                      <div className="status-column">
-                        <div className="status-label">Flagged</div>
-                        <div className="status-circle flagged">
-                          <span>{statisticsData.statusCounts.flagged}</span>
-                        </div>
-                      </div>
-                      <div className="status-column">
-                        <div className="status-label">Pending</div>
-                        <div className="status-circle pending">
-                          <span>{statisticsData.statusCounts.pending}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="stat-card review-time">
-                    <h4>Average Review Time</h4>
-                    <div className="time-value">{statisticsData.averageReviewTime}</div>
-                  </div>
-
-                  <div className="stat-card">
-                    <h4>Most Frequently Used Courses</h4>
-                    <table className="stat-table">
-                      <tbody>
-                        {statisticsData.topCourses.map((course, index) => (
-                          <tr key={index}>
-                            <td>{course.name}</td>
-                            <td className="count">{course.count} internships</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-
-                  <div className="stat-card">
-                    <h4>Top Rated Companies</h4>
-                    <table className="stat-table">
-                      <tbody>
-                        {statisticsData.topRatedCompanies.map((company, index) => (
-                          <tr key={index}>
-                            <td>{company.name}</td>
-                            <td className="rating">{company.rating}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-
-                  <div className="stat-card">
-                    <h4>Top Companies by Internship Count</h4>
-                    <table className="stat-table">
-                      <tbody>
-                        {statisticsData.topCompaniesByCount.map((company, index) => (
-                          <tr key={index}>
-                            <td>{company.name}</td>
-                            <td className="count">{company.count} internships</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-                <div className="generate-report-container">
-                  <button className="generate-report-button" onClick={handleGenerateReport}>
-                    Generate Report
-                  </button>
-                </div>
-              </div>
-            )}
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="5" className="no-results">
+                        No students match the selected filters
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </>
         ) : (
-          <div className="report-view">
-            <div className="report-header">
-              <button className="back-button" onClick={goBackFromReport}>
-                ← Back
-              </button>
-              <h2>View Report</h2>
+          <div className="statistics-view">
+            <div className="statistics-header">
+              <h3>Real-time Statistics</h3>
+              <p>View key metrics and insights about internship reports</p>
             </div>
 
-            <div className="report-card">
-              <h3>Report Information</h3>
-              <div className="report-info-grid">
-                <div className="report-info-column">
-                  <div className="report-info-row">
-                    <div className="info-label">Student</div>
-                    <div className="info-value">{selectedStudent.name}</div>
-                  </div>
-                  <div className="report-info-row">
-                    <div className="info-label">Major</div>
-                    <div className="info-value">{selectedStudent.major}</div>
-                  </div>
-                  <div className="report-info-row">
-                    <div className="info-label">Company</div>
-                    <div className="info-value">{selectedStudent.company}</div>
-                  </div>
-                </div>
-                <div className="report-info-column">
-                  <div className="report-info-row">
-                    <div className="info-label">Main Supervisor</div>
-                    <div className="info-value">{selectedStudent.supervisor}</div>
-                  </div>
-                  <div className="report-info-row">
-                    <div className="info-label">Internship Dates</div>
-                    <div className="info-value">
-                      {selectedStudent.startDate} - {selectedStudent.endDate}
+            {/* Check if statistics data exists before rendering */}
+            {statistics ? (
+                <div className="statistics-grid">
+                <div className="stat-card">
+                    <h4>Status Distribution</h4>
+                    <div className="status-stats">
+                    {/* Consider Object.entries for dynamic rendering if needed */}
+                    <div className="status-stat-item">
+                        <div className="status-label">Accepted</div>
+                        <div className={`status-count accepted`}>{statistics.statusCounts?.accepted ?? 0}</div>
                     </div>
-                  </div>
+                    <div className="status-stat-item">
+                        <div className="status-label">Rejected</div>
+                        <div className={`status-count rejected`}>{statistics.statusCounts?.rejected ?? 0}</div>
+                    </div>
+                    <div className="status-stat-item">
+                        <div className="status-label">Flagged</div>
+                        <div className={`status-count flagged`}>{statistics.statusCounts?.flagged ?? 0}</div>
+                    </div>
+                    <div className="status-stat-item">
+                        <div className="status-label">Pending</div>
+                        <div className={`status-count pending`}>{statistics.statusCounts?.pending ?? 0}</div>
+                    </div>
+                    </div>
                 </div>
-              </div>
-            </div>
 
-            {selectedStudent.status === "Pending" && (
-              <div className="report-card">
-                <h3>Set Status</h3>
-                <div className="status-options">
-                  <label className="status-option">
-                    <input 
-                      type="radio" 
-                      name="status" 
-                      value="Accepted" 
-                      defaultChecked 
-                      onChange={() => handleStatusSelect("Accepted")}
-                    />
-                    <span>Accepted</span>
-                  </label>
-                  <label className="status-option">
-                    <input 
-                      type="radio" 
-                      name="status" 
-                      value="Rejected" 
-                      onChange={() => handleStatusSelect("Rejected")}
-                    />
-                    <span>Rejected</span>
-                  </label>
-                  <label className="status-option">
-                    <input 
-                      type="radio" 
-                      name="status" 
-                      value="Flagged" 
-                      onChange={() => handleStatusSelect("Flagged")}
-                    />
-                    <span>Flagged</span>
-                  </label>
+                <div className="stat-card">
+                    <h4>Average Review Time</h4>
+                    <div className="avg-review-time">
+                    <div className="time-value">{statistics.averageReviewTime || "N/A"}</div>
+                    </div>
                 </div>
-                <button
-                  className="save-status-button"
-                  onClick={() => {
-                    const selectedStatus = document.querySelector('input[name="status"]:checked').value
-                    handleStatusSelect(selectedStatus)
-                  }}
-                >
-                  Save Status
-                </button>
-              </div>
+
+                <div className="stat-card">
+                    <h4>Most Frequently Used Courses</h4>
+                    <ul className="stat-list">
+                    {(statistics.topCourses || []).map((course, index) => (
+                        <li key={index} className="stat-list-item">
+                        <span className="item-name">{course.name}</span>
+                        <span className="item-value">{course.count} internships</span>
+                        </li>
+                    ))}
+                    {(!statistics.topCourses || statistics.topCourses.length === 0) && <li className="no-data">No course data available</li>}
+                    </ul>
+                </div>
+
+                <div className="stat-card">
+                    <h4>Top Rated Companies</h4>
+                    <ul className="stat-list">
+                    {(statistics.topRatedCompanies || []).map((company, index) => (
+                        <li key={index} className="stat-list-item">
+                        <span className="item-name">{company.name}</span>
+                        <span className="item-value">{company.rating}/5</span>
+                        </li>
+                    ))}
+                    {(!statistics.topRatedCompanies || statistics.topRatedCompanies.length === 0) && <li className="no-data">No rating data available</li>}
+                    </ul>
+                </div>
+
+                <div className="stat-card">
+                    <h4>Top Companies by Internship Count</h4>
+                    <ul className="stat-list">
+                    {(statistics.topCompaniesByCount || []).map((company, index) => (
+                        <li key={index} className="stat-list-item">
+                        <span className="item-name">{company.name}</span>
+                        <span className="item-value">{company.count} internships</span>
+                        </li>
+                    ))}
+                    {(!statistics.topCompaniesByCount || statistics.topCompaniesByCount.length === 0) && <li className="no-data">No count data available</li>}
+                    </ul>
+                </div>
+                </div>
+            ) : (
+              <p>Loading statistics...</p> // Or some other loading indicator
             )}
 
-            <div className="report-card">
-              <h3>Related Student Company Evaluations</h3>
-              <div className="evaluations-list">
-                <div className="evaluation-item">
-                  <div className="evaluation-info">
-                    <div className="evaluation-title">Evaluation #1</div>
-                  </div>
-                  <button className="view-evaluation-button">View</button>
-                </div>
+
+            <div className="report-generation">
+              <div className="report-form">
+                <button className="generate-button" onClick={handleGenerateReport} disabled={isGeneratingReport || !statistics}>
+                  {isGeneratingReport ? "Generating..." : "Generate Comprehensive Report"}
+                </button>
+                 {!statistics && <p style={{fontSize: '0.8em', color: 'grey', marginTop: '5px'}}>Statistics data unavailable.</p>}
               </div>
-              <div className="download-container">
-                <button className="download-pdf-button">
+            </div>
+          </div>
+        )}
+
+        {/* Report Preview Modal */}
+        {showReportPreview && generatedReport && (
+          <div className="report-preview-overlay">
+            <div className="report-preview-container">
+              <div className="report-preview-header">
+                <h2>{generatedReport.title}</h2>
+                <button className="close-preview-button" onClick={handleClosePreview} aria-label="Close preview">
+                  ×
+                </button>
+              </div>
+
+              <div className="report-preview-content">
+                <div className="report-meta">
+                  <p>Generated on: {generatedReport.date}</p>
+                  {/* Get user dynamically if possible */}
+                  <p>Generated by: Dr. Yasmine</p>
+                </div>
+
+                {generatedReport.sections.map((section, index) => (
+                  <div key={index} className="report-section">
+                    <h3>{section.title}</h3>
+                    {/* Use description list for semantic key-value pairs */}
+                    {section.data?.length > 0 ? (
+                        <dl className="report-list">
+                        {section.data.map((item, i) => (
+                            <div key={i} className="report-list-item">
+                            <dt className="report-item-label">{item.label}</dt>
+                            <dd className="report-item-value">{item.value}</dd>
+                            </div>
+                        ))}
+                        </dl>
+                    ) : (
+                        <p className="no-data">No data available for this section.</p>
+                    )}
+
+                    {/* Alternative Table layout if preferred */}
+                    {/* <table className="report-table">
+                      <tbody>
+                        {section.data.map((item, i) => (
+                          <tr key={i}>
+                            <td className="report-item-label">{item.label}</td>
+                            <td className="report-item-value">{item.value}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table> */}
+                  </div>
+                ))}
+              </div>
+
+              <div className="report-preview-footer">
+                <button className="download-pdf-button" onClick={handleDownloadPDF}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
+                    width="20" // Slightly smaller icon
+                    height="20"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -531,49 +514,21 @@ export default function Faculty() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     className="download-icon"
+                    aria-hidden="true" // Icon is decorative
                   >
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                     <polyline points="7 10 12 15 17 10"></polyline>
                     <line x1="12" y1="15" x2="12" y2="3"></line>
                   </svg>
-                  Download PDF
+                  Download as PDF
                 </button>
               </div>
             </div>
-
-            {/* Comment Popup */}
-            {showCommentPopup && (
-              <div className="popup-overlay">
-                <div className="comment-popup">
-                  <h2>Comment Required</h2>
-                  <p>Please provide a reason for {statusToSet.toLowerCase()} this report:</p>
-                  <textarea
-                    className="comment-textarea"
-                    value={commentText}
-                    onChange={(e) => setCommentText(e.target.value)}
-                    placeholder="Enter your comment here..."
-                    rows={4}
-                  ></textarea>
-                  <div className="popup-buttons">
-                    <button 
-                      className="cancel-button" 
-                      onClick={() => {
-                        setShowCommentPopup(false)
-                        setCommentText("")
-                      }}
-                    >
-                      Cancel
-                    </button>
-                    <button className="submit-button" onClick={handleCommentSubmit}>
-                      Submit
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         )}
       </main>
     </div>
   )
 }
+
+export default Faculty

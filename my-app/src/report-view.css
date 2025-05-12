@@ -18,7 +18,6 @@ body, html {
 }
 
 .report-container {
-  position: relative;
   max-width: 800px;
   width: 100%;
   background-color: #ffffff;
@@ -30,9 +29,7 @@ body, html {
 
 /* Back link styles */
 .back-link {
-  position: absolute;
-  left: 30px;
-  top: 30px;
+  margin-bottom: 20px;
 }
 
 .back-button {
@@ -40,7 +37,7 @@ body, html {
   border: none;
   font-size: 14px;
   cursor: pointer;
-  color: #5b21b6; /* Darker purple color */
+  color: #555;
   padding: 0;
   display: flex;
   align-items: center;
@@ -48,20 +45,18 @@ body, html {
 }
 
 .back-button:hover {
-  color: #4c1d95; /* Even darker purple on hover */
+  color: #111827;
 }
 
-/* Title styles - Properly centered */
+/* Title styles */
 .report-title {
   font-size: 28px;
   font-weight: 600;
-  margin: 0 auto 30px auto;
+  margin-bottom: 30px;
   color: #111827;
   text-align: center;
   border-bottom: 1px solid #e5e7eb;
-  padding: 40px 0 15px 0;
-  width: 100%;
-  display: block;
+  padding-bottom: 15px;
 }
 
 .report-card {
@@ -122,36 +117,19 @@ body, html {
   border: 1px solid #e5e7eb;
   border-radius: 6px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
 .status-option:hover {
   background-color: #f9fafb;
-  border-color: #5b21b6; /* Darker purple border on hover */
 }
 
 .status-option input[type="radio"] {
   margin-right: 10px;
-  accent-color: #5b21b6; /* Darker purple color for radio buttons */
 }
 
 .status-text {
   font-size: 14px;
-  color: #111827;
-}
-
-/* Comment Section Styles */
-.comment-section {
-  background-color: #f9fafb;
-  border-radius: 6px;
-  padding: 16px;
-  margin: 16px 0;
-}
-
-.comment-section h3 {
-  font-size: 14px;
-  font-weight: 600;
-  margin: 0 0 8px 0;
   color: #111827;
 }
 
@@ -187,23 +165,21 @@ body, html {
   padding: 0;
 }
 
-/* Save Status Button - Updated to white with darker purple text */
 .save-status-button {
   width: 100%;
-  background-color: white;
-  color: #5b21b6; /* Darker purple */
-  border: 1px solid #5b21b6;
+  background-color: #111827;
+  color: white;
+  border: none;
   border-radius: 6px;
   padding: 12px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s;
 }
 
 .save-status-button:hover {
-  background-color: #5b21b6;
-  color: white;
+  background-color: #1f2937;
 }
 
 /* Evaluation Styles */
@@ -254,25 +230,21 @@ body, html {
   color: #6b7280;
 }
 
-/* View button - Updated to white with darker purple text */
 .view-button {
-  background-color: white;
-  color: #5b21b6; /* Darker purple */
-  border: 1px solid #5b21b6;
-  border-radius: 6px;
-  padding: 8px 16px;
+  background-color: #f3f4f6;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
   font-size: 14px;
-  font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
 .view-button:hover {
-  background-color: #5b21b6;
-  color: white;
+  background-color: #e5e7eb;
 }
 
-/* Redesigned Download Button - Ensuring it's visible */
+/* Redesigned Download Button */
 .download-button-container {
   display: flex;
   justify-content: center;
@@ -285,9 +257,9 @@ body, html {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  background-color: white;
-  color: #5b21b6; /* Darker purple */
-  border: 1px solid #5b21b6;
+  background-color: #ffffff;
+  color: #111827;
+  border: 1px solid #e5e7eb;
   border-radius: 6px;
   padding: 12px 24px;
   font-size: 15px;
@@ -297,23 +269,21 @@ body, html {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   min-width: 220px;
   height: 48px;
-  opacity: 1 !important; /* Force visibility */
-  visibility: visible !important; /* Force visibility */
-  display: flex !important; /* Force display */
 }
 
 .download-button:hover {
-  background-color: #5b21b6;
-  color: white;
-  border-color: #5b21b6;
+  background-color: #f9fafb;
+  border-color: #d1d5db;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.download-button:hover .download-icon {
-  color: white;
+.download-button:active {
+  transform: translateY(1px);
 }
 
 .download-icon {
-  color: #5b21b6; /* Darker purple */
+  color: #9b2c2c;
+  font-size: 18px;
 }
 
 /* Comment Popup Styles */
@@ -381,7 +351,7 @@ body, html {
 }
 
 .submit-button {
-  background-color: #5b21b6; /* Darker purple */
+  background-color: #111827;
   color: white;
   border: none;
   border-radius: 6px;
