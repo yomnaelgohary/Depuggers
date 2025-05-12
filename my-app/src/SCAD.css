@@ -407,13 +407,12 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.3); 
+  background-color: rgba(0, 0, 0, 0.3);
   z-index: 999;
   display: flex;
   justify-content: center;
   align-items: center;
-} 
-
+}
 
 /* Companies Section Styles (as a modal popup) */
 .companies-section {
@@ -512,11 +511,12 @@ body {
   background-color: #f0f2f5;
 }
 
+/* Update the company-letter class to use purple instead of red */
 .company-letter {
-  width: 36px; /* Smaller letter circle */
+  width: 36px;
   height: 36px;
   border-radius: 4px;
-  background-color: #c31432;
+  background-color: #8a2be2; /* Changed from #c31432 (red) to #8a2be2 (purple) */
   color: white;
   display: flex;
   align-items: center;
@@ -722,7 +722,7 @@ body {
 .month-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  border-color: #c31432;
+  border-color: #8a2be2;
 }
 
 .month-card h3 {
@@ -738,17 +738,63 @@ body {
   gap: 5px;
 }
 
+/* Fix the progress bar styles to ensure the bar itself is purple, not the background */
 .month-progress {
-  height: 6px;
-  background-color: #e0e0e0;
+  height: 8px;
+  background-color: #e0e0e0; /* Light gray background for the empty portion */
   border-radius: 3px;
   overflow: hidden;
+  position: relative;
 }
 
-.progress-bar {
+/* Make sure the progress-bar class is properly defined and visible */
+.month-progress .progress-bar {
   height: 100%;
-  background-color: #c31432;
+  background-color: #8a2be2; /* Vibrant purple for the filled portion */
   border-radius: 3px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 65%; /* Default width to ensure the bar is visible */
+}
+
+/* Make the purple color more saturated and brighter for better visibility */
+.month-card:nth-child(1) .month-progress .progress-bar {
+  width: 75%;
+  background-color: #9932cc; /* Dark Orchid - a rich purple */
+}
+
+.month-card:nth-child(2) .month-progress .progress-bar {
+  width: 45%;
+  background-color: #8a2be2; /* Blue Violet - a vibrant purple */
+}
+
+.month-card:nth-child(3) .month-progress .progress-bar {
+  width: 90%;
+  background-color: #9400d3; /* Dark Violet - a deep purple */
+}
+
+.month-card:nth-child(4) .month-progress .progress-bar {
+  width: 30%;
+  background-color: #800080; /* Purple - a classic purple */
+}
+
+/* Enhance the animation to make the color transition more noticeable */
+@keyframes progressFill {
+  0% {
+    width: 0%;
+    opacity: 0.7;
+  }
+  100% {
+    width: var(--fill-width, 65%);
+    opacity: 1;
+  }
+}
+
+/* Add a subtle glow effect to make the purple more prominent */
+.month-progress .progress-bar {
+  animation: progressFill 1.5s ease-out forwards;
+  box-shadow: 0 0 5px rgba(138, 43, 226, 0.5); /* Subtle purple glow */
 }
 
 .month-stats p {
@@ -943,7 +989,7 @@ body {
 .month-card.active-month:hover {
   transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  border-color: #c31432;
+  border-color: #8a2be2;
 }
 
 .month-card.inactive-month {
@@ -958,7 +1004,7 @@ body {
 }
 
 .month-card.inactive-month .month-progress {
-  background-color: #f0f0f0;
+  background-color: rgba(138, 43, 226, 0.1); /* Even lighter purple for inactive months */
 }
 
 /* Update the months grid to show 4 columns for better layout */
@@ -1131,7 +1177,7 @@ body {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background-color: #c31432; /* Changed to red as requested */
+  background-color: #7d14c3; /* Changed from #c31432 (red) to #7d14c3 (purple) */
   color: white;
   display: flex;
   align-items: center;
@@ -1144,7 +1190,7 @@ body {
 }
 
 .profile-circle:hover {
-  background-color: #a01129;
+  background-color: #6a11a8; /* Darker purple on hover */
   transform: scale(1.05);
 }
 
@@ -3486,7 +3532,7 @@ html body .appointment-modal-overlay > .appointment-confirmation-dialog {
 /* My Appointments Modal Styles */
 .my-appointments-overlay {
   position: fixed;
-  inset: 0; 
+  inset: 0;
   background-color: rgba(0, 0, 0, 0.65);
   display: flex;
   justify-content: center;
@@ -3523,7 +3569,7 @@ html body .appointment-modal-overlay > .appointment-confirmation-dialog {
 
 .my-appointments-header h2 {
   font-size: 22px; /* Larger title */
-  font-weight: 600;
+  font-weight: 600; /* Bolder */
   color: #212529; /* Darker text */
   margin: 0;
   display: flex;
@@ -3591,7 +3637,7 @@ html body .appointment-modal-overlay > .appointment-confirmation-dialog {
 .appointment-actions {
   margin-top: 18px;
   padding-top: 15px;
-  border-top: 1px dashed #ced4da; /* Dashed separator */
+  border-top: 1px dashed #ced4da;
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
