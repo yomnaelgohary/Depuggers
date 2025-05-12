@@ -92,7 +92,92 @@ function Evaluations() {
       learnings: "I learned how to work efficiently under pressure and how to take constructive criticism.",
       feedback: "The internship provided valuable industry experience and helped me grow as a designer.",
     },
-    // More reports...
+    {
+      id: 4,
+      type: "internship",
+      title: "Cloud Engineering Internship Report",
+      studentName: "Michael Chen",
+      studentId: 105,
+      major: "Computer Engineering",
+      company: "Amazon",
+      supervisor: "Sarah Johnson",
+      supervisorPosition: "Cloud Solutions Architect",
+      startDate: "2023-05-15",
+      endDate: "2023-08-15",
+      submissionDate: "2023-09-01",
+      status: "rejected",
+      clarification:
+        "The report does not meet our documentation standards. The technical implementation details are insufficient, and there is no evidence of the claimed AWS architecture you worked on. Please revise with proper technical documentation and include diagrams of your infrastructure design.",
+      content: "This report covers my internship experience in the Cloud Engineering team at Amazon...",
+      tasks: [
+        "Designed and implemented serverless architectures",
+        "Optimized cloud resource utilization",
+        "Automated deployment pipelines",
+        "Participated in on-call rotations",
+      ],
+      skills: ["AWS", "Terraform", "Python", "CI/CD", "Docker"],
+      challenges:
+        "The most significant challenge was understanding the scale and complexity of Amazon's infrastructure and ensuring my solutions were scalable and resilient.",
+      learnings:
+        "I gained deep knowledge of cloud architecture principles, cost optimization strategies, and DevOps practices in a large-scale environment.",
+      feedback: "The internship was challenging but rewarding. I would have appreciated more structured mentorship.",
+    },
+    {
+      id: 5,
+      type: "evaluation",
+      title: "Business Consulting Internship Evaluation",
+      studentName: "Emily Rodriguez",
+      studentId: 106,
+      major: "Business Administration",
+      company: "Deloitte",
+      supervisor: "Michael Thompson",
+      supervisorPosition: "Senior Consultant",
+      startDate: "2023-06-01",
+      endDate: "2023-08-31",
+      submissionDate: "2023-09-10",
+      status: "accepted",
+      performance: {
+        technical: 4.2,
+        communication: 4.7,
+        teamwork: 4.5,
+        problemSolving: 4.3,
+        overall: 4.4,
+      },
+      strengths:
+        "Exceptional communication skills and ability to present complex ideas clearly to clients. Strong analytical thinking and attention to detail.",
+      areasForImprovement:
+        "Could benefit from developing deeper technical knowledge in data analysis tools and financial modeling.",
+      comments:
+        "Emily was an outstanding intern who quickly adapted to our fast-paced environment. She demonstrated remarkable professionalism and contributed valuable insights to client projects.",
+    },
+    {
+      id: 6,
+      type: "evaluation",
+      title: "Automotive Engineering Internship Evaluation",
+      studentName: "James Wilson",
+      studentId: 107,
+      major: "Mechanical Engineering",
+      company: "Tesla",
+      supervisor: "Elena Vasquez",
+      supervisorPosition: "Lead Engineer",
+      startDate: "2023-05-01",
+      endDate: "2023-08-15",
+      submissionDate: "2023-08-30",
+      status: "pending",
+      performance: {
+        technical: 4.8,
+        communication: 3.9,
+        teamwork: 4.0,
+        problemSolving: 4.9,
+        overall: 4.5,
+      },
+      strengths:
+        "Exceptional technical skills and innovative problem-solving approach. Demonstrated deep understanding of mechanical systems and manufacturing processes.",
+      areasForImprovement:
+        "Should work on communication skills, particularly when explaining technical concepts to non-technical team members.",
+      comments:
+        "James showed remarkable talent in engineering design and optimization. His prototype modifications resulted in a 15% efficiency improvement that will be implemented in future models.",
+    },
   ])
 
   useEffect(() => {

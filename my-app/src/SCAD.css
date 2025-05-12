@@ -516,7 +516,7 @@ body {
   width: 36px;
   height: 36px;
   border-radius: 4px;
-  background-color: #8a2be2; /* Changed from #c31432 (red) to #8a2be2 (purple) */
+  background-color: #5f2878; /* Changed from #c31432 (red) to #8a2be2 (purple) */
   color: white;
   display: flex;
   align-items: center;
@@ -2747,7 +2747,7 @@ html body .appointment-modal-overlay > .appointment-modal {
 
 /* --- Submit Button --- */
 .submit-appointment-button {
-  background-color: #c31432;
+  background-color: #5f2878;
   color: white;
   border: none;
   padding: 12px 20px;
@@ -2764,7 +2764,7 @@ html body .appointment-modal-overlay > .appointment-modal {
   width: 100%;
 }
 .submit-appointment-button:hover:not(:disabled) {
-  background-color: #a01129;
+  background-color: #5f2878;
 }
 .submit-appointment-button:active:not(:disabled) {
   transform: translateY(1px);
@@ -2874,11 +2874,11 @@ html body .appointment-modal-overlay > .appointment-confirmation-dialog {
 .request-appointment-cta-box:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-  border-color: #c31432;
+  border-color: #5f2878;
 }
 
 .request-appointment-cta-box .cta-icon {
-  color: #c31432;
+  color: #5f2878;
   margin-bottom: 15px;
 }
 
@@ -2897,7 +2897,7 @@ html body .appointment-modal-overlay > .appointment-confirmation-dialog {
 }
 
 .request-appointment-cta-box .cta-button {
-  background-color: #c31432;
+  background-color: #5f2878;
   color: white;
   border: none;
   padding: 12px 25px;
@@ -2909,7 +2909,7 @@ html body .appointment-modal-overlay > .appointment-confirmation-dialog {
 }
 
 .request-appointment-cta-box .cta-button:hover {
-  background-color: #a01129;
+  background-color: #5f2878;
 }
 
 /* Remove the debug borders that were added for testing */
@@ -2953,7 +2953,7 @@ html body .appointment-modal-overlay > .appointment-confirmation-dialog {
 .form-group input[type="email"]:focus,
 .form-group select:focus,
 .form-group textarea:focus {
-  border-color: #c31432;
+  border-color: #5f2878;
   box-shadow: 0 0 0 3px rgba(195, 20, 50, 0.15);
   outline: none;
 }
@@ -3065,7 +3065,7 @@ html body .appointment-modal-overlay > .appointment-confirmation-dialog {
 
 /* Add a subtle hover effect to the submit button */
 .submit-appointment-button:hover:not(:disabled) {
-  background-color: #a01129;
+  background-color: #5f2878;
   transform: translateY(-1px);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -3233,7 +3233,7 @@ html body .appointment-modal-overlay > .appointment-confirmation-dialog {
 .appointment-info h4 {
   font-size: 19px;
   font-weight: 600;
-  color: #c31432;
+  color: #5f2878;
   margin-bottom: 10px;
 }
 
@@ -4737,7 +4737,6 @@ html body .appointment-modal-overlay > .appointment-confirmation-dialog {
   border: none;
   transition: background-color 0.2s;
 }
-
 .submit-workshop-btn {
   background-color: #4caf50;
   color: white;
