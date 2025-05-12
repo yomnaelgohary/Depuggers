@@ -672,7 +672,37 @@ body, html, #root {
 .internship-modal .ant-modal-body {
   padding: 24px;
 }
+report-timeline {
+  margin-top: 16px;
+}
 
+.report-timeline .ant-timeline-item {
+  padding-bottom: 8px;
+}
+
+.report-timeline .ant-timeline-item-tail {
+  border-left: 2px solid #f0f0f0;
+}
+
+.report-timeline .ant-timeline-item-head {
+  width: 12px;
+  height: 12px;
+  margin-left: -5px;
+}
+
+/* Loading state */
+.reports-loading {
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+}
+.appeal-reason {
+  white-space: pre-wrap;
+  background-color: #fafafa;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
 .internship-details {
   padding: 0 8px;
 }
@@ -1014,8 +1044,215 @@ body, html, #root {
 /* Reports Component Styles */
 .reports-container {
   padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.reports-filters {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
 }
 
+.reports-filters .ant-input-search {
+  width: 300px;
+}
+
+.reports-filters .ant-select {
+  min-width: 180px;
+}
+
+.reports-filters .ant-picker {
+  min-width: 250px;
+}
+
+/* Internship Status Tags */
+.internship-status-tag {
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+.expanded-row-content {
+  padding: 16px;
+  background-color: #fafafa;
+  border-radius: 0 0 8px 8px;
+  margin-top: -1px;
+}
+
+.expanded-row-content h4 {
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.expanded-row-content ul {
+  margin-bottom: 12px;
+  padding-left: 24px;
+}
+
+/* Report Status Indicators */
+.report-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.report-status-badge.approved {
+  background-color: #f6ffed;
+  color: #52c41a;
+}
+
+.report-status-badge.pending {
+  background-color: #fff7e6;
+  color: #fa8c16;
+}
+
+.report-status-badge.flagged {
+  background-color: #fff1f0;
+  color: #f5222d;
+}
+
+.report-status-badge.rejected {
+  background-color: #fff1f0;
+  color: #f5222d;
+  text-decoration: line-through;
+}
+
+.report-status-badge.appealed {
+  background-color: #e6f7ff;
+  color: #1890ff;
+}
+
+/* Supervisor Comments Alert */
+.supervisor-comments-alert {
+  margin-top: 16px;
+  border-left: 3px solid #fa8c16;
+}
+
+/* Appeal Button */
+.appeal-button {
+  color: #1890ff;
+  border-color: #1890ff;
+}
+
+.appeal-button:hover {
+  color: #40a9ff;
+  border-color: #40a9ff;
+}
+
+/* Modal Enhancements */
+.report-modal .ant-modal-body {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.evaluation-modal .ant-rate {
+  font-size: 24px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+  .reports-filters {
+    flex-direction: column;
+  }
+  
+  .reports-filters .ant-input-search,
+  .reports-filters .ant-select,
+  .reports-filters .ant-picker {
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .reports-container {
+    padding: 12px;
+  }
+  
+  .ant-table td {
+    padding: 12px 8px;
+  }
+  
+  .report-actions button {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+}
+
+/* Print Specific Styles */
+@media print {
+  .reports-container {
+    padding: 0;
+  }
+  
+  .ant-table-thead th:last-child,
+  .ant-table-tbody td:last-child {
+    display: none;
+  }
+  
+  .ant-table {
+    border: 1px solid #f0f0f0;
+  }
+  
+  .ant-table-thead > tr > th,
+  .ant-table-tbody > tr > td {
+    padding: 8px;
+    border: 1px solid #f0f0f0;
+  }
+  
+  .report-status-badge {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+
+/* Animation for status changes */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.status-updated {
+  animation: pulse 0.5s ease;
+}
+
+/* Skills Tags */
+.skills-tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.skill-tag {
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 12px;
+  color: #333;
+}
+
+/* Responsive Table Actions */
+.table-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.internship-status-tag.completed {
+  background-color: #f6ffed;
+  color: #52c41a;
+  border: 1px solid #b7eb8f;
+}
+.appeal-modal .ant-modal-body {
+  padding-top: 16px;
+}
+.internship-status-tag.current {
+  background-color: #e6f7ff;
+  color: #1890ff;
+  border: 1px solid #91d5ff;
+}
 .report-actions {
   display: flex;
   gap: 8px;
@@ -1390,3 +1627,265 @@ body, html, #root {
     max-width: 100%;
   }
 }
+/* Reports Component Specific Styles */
+.reports-container {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.report-actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.report-card {
+  margin-bottom: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.report-card .ant-card-head {
+  background-color: #fafafa;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.report-card .ant-card-head-title {
+  font-weight: 600;
+  color: #333;
+}
+
+.report-card .ant-card-body {
+  padding: 20px;
+}
+
+/* Status Tags */
+.report-status-tag {
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.status-approved {
+  background-color: #f6ffed;
+  color: #52c41a;
+  border: 1px solid #b7eb8f;
+}
+
+.status-pending {
+  background-color: #fff7e6;
+  color: #fa8c16;
+  border: 1px solid #ffd591;
+}
+
+.status-flagged {
+  background-color: #fff1f0;
+  color: #f5222d;
+  border: 1px solid #ffa39e;
+}
+
+.status-rejected {
+  background-color: #fff1f0;
+  color: #f5222d;
+  border: 1px solid #ffa39e;
+}
+
+/* Evaluation Tags */
+.evaluation-tag {
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.evaluation-tag.recommended {
+  background-color: #f6ffed;
+  color: #52c41a;
+  border: 1px solid #b7eb8f;
+}
+
+.evaluation-tag.not-recommended {
+  background-color: #fff1f0;
+  color: #f5222d;
+  border: 1px solid #ffa39e;
+}
+
+/* Comments Section */
+.comments-list {
+  margin-top: 16px;
+}
+
+.comment-item {
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  background-color: #fafafa;
+}
+
+.comment-item.system {
+  background-color: #fff7e6;
+}
+
+.comment-item.supervisor {
+  background-color: #e6f7ff;
+}
+
+.comment-item.student {
+  background-color: #f6ffed;
+}
+
+.comment-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  font-size: 12px;
+  color: #666;
+}
+
+.comment-content {
+  color: #333;
+}
+
+/* Appeal Form */
+.appeal-form .ant-form-item {
+  margin-bottom: 16px;
+}
+
+.appeal-form .ant-form-item-label {
+  font-weight: 500;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .reports-container {
+    padding: 16px;
+  }
+  
+  .report-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .report-card .ant-card-body {
+    padding: 16px;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .report-actions,
+  .ant-table-thead,
+  .ant-table-tbody tr:not(.ant-table-expanded-row) > td:last-child {
+    display: none;
+  }
+  
+  .ant-table {
+    width: 100% !important;
+  }
+  
+  .ant-table-tbody tr {
+    page-break-inside: avoid;
+  }
+}
+/* Enhanced Expanded Row Styles */
+.expanded-content {
+  padding: 16px;
+  background: #fafafa;
+  border-radius: 0 0 8px 8px;
+}
+
+.expanded-section {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.expanded-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.skills-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Dropdown Actions */
+.ant-dropdown-link {
+  color: #1890ff;
+}
+
+/* Evaluation Rating */
+.ant-rate {
+  color: #faad14;
+}
+
+/* Responsive Actions */
+@media (max-width: 768px) {
+  .ant-table-tbody .ant-dropdown {
+    display: block;
+    margin-bottom: 8px;
+  }
+  
+  .ant-table-tbody .ant-space {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* Course Selection Styles */
+.course-selection-list {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
+  padding: 8px;
+}
+
+.course-selection-item {
+  padding: 8px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.course-selection-item:last-child {
+  border-bottom: none;
+}
+
+.selected-courses-list {
+  margin-top: 16px;
+}
+
+.selected-course-item {
+  padding: 4px 0;
+}
+
+/* Collapse Panel Styles */
+.ant-collapse {
+  background: #fff;
+  border-radius: 4px;
+}
+
+.ant-collapse-header {
+  font-weight: 500;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .course-selection-modal .ant-modal {
+    width: 90% !important;
+  }
+  
+  .ant-table-tbody .ant-space {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+
