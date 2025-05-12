@@ -165,14 +165,17 @@ function ReportView() {
             </label>
           </div>
 
-          {/* Display comment if one exists and status is Rejected or Flagged */}
-          {comment && (status === "Rejected" || status === "Flagged") && (
-            <div className="comment-display">
+          {/* Always show comment field for Rejected or Flagged status */}
+          {(status === "Rejected" || status === "Flagged") && (
+            <div className="comment-section">
               <h3>Comment:</h3>
-              <p>{comment}</p>
-              <button className="edit-comment-button" onClick={() => setShowCommentPopup(true)}>
-                Edit Comment
-              </button>
+              <textarea
+                className="comment-textarea"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                placeholder="Please provide a reason..."
+                rows={4}
+              ></textarea>
             </div>
           )}
 
@@ -192,7 +195,6 @@ function ReportView() {
               </div>
               <div className="evaluation-details">
                 <div className="evaluation-title">Evaluation #1</div>
-                <div className="evaluation-date">July 1, 2023</div>
               </div>
             </div>
 

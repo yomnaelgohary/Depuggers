@@ -9,6 +9,9 @@ export default function Faculty() {
   const [selectedStatus, setSelectedStatus] = useState("All Statuses")
   const [showReportView, setShowReportView] = useState(false)
   const [selectedStudent, setSelectedStudent] = useState(null)
+  const [commentText, setCommentText] = useState("")
+  const [showCommentPopup, setShowCommentPopup] = useState(false)
+  const [statusToSet, setStatusToSet] = useState("")
 
   // Initial students data
   const [students, setStudents] = useState([
@@ -157,10 +160,31 @@ export default function Faculty() {
     alert("Report generation started. The file will be saved to your downloads folder.")
   }
 
+  // Handle status selection in report view
+  const handleStatusSelect = (status) => {
+    if (status === "Rejected" || status === "Flagged") {
+      setStatusToSet(status)
+      setShowCommentPopup(true)
+    } else {
+      handleStatusChange(selectedStudent.id, status)
+    }
+  }
+
+  // Handle comment submission
+  const handleCommentSubmit = () => {
+    if (!commentText.trim()) {
+      alert("Please enter a comment")
+      return
+    }
+    handleStatusChange(selectedStudent.id, statusToSet, commentText)
+    setShowCommentPopup(false)
+    setCommentText("")
+  }
+
   return (
     <div className="faculty-container">
       <header className="faculty-header">
-        <h1>Internship Management</h1>
+        <h1>Hello Dr. Yasmin</h1>
         <div className="header-actions">
           <button className="settings-button">
             <svg
@@ -185,10 +209,6 @@ export default function Faculty() {
       <main className="faculty-main">
         {!showReportView ? (
           <>
-            <div className="greeting-section">
-              <h2>Hello Dr. Yasmine</h2>
-            </div>
-
             <div className="tabs-container">
               <div className="tabs">
                 <button
@@ -448,15 +468,31 @@ export default function Faculty() {
                 <h3>Set Status</h3>
                 <div className="status-options">
                   <label className="status-option">
-                    <input type="radio" name="status" value="Accepted" defaultChecked />
+                    <input 
+                      type="radio" 
+                      name="status" 
+                      value="Accepted" 
+                      defaultChecked 
+                      onChange={() => handleStatusSelect("Accepted")}
+                    />
                     <span>Accepted</span>
                   </label>
                   <label className="status-option">
-                    <input type="radio" name="status" value="Rejected" />
+                    <input 
+                      type="radio" 
+                      name="status" 
+                      value="Rejected" 
+                      onChange={() => handleStatusSelect("Rejected")}
+                    />
                     <span>Rejected</span>
                   </label>
                   <label className="status-option">
-                    <input type="radio" name="status" value="Flagged" />
+                    <input 
+                      type="radio" 
+                      name="status" 
+                      value="Flagged" 
+                      onChange={() => handleStatusSelect("Flagged")}
+                    />
                     <span>Flagged</span>
                   </label>
                 </div>
@@ -464,7 +500,7 @@ export default function Faculty() {
                   className="save-status-button"
                   onClick={() => {
                     const selectedStatus = document.querySelector('input[name="status"]:checked').value
-                    handleStatusChange(selectedStudent.id, selectedStatus)
+                    handleStatusSelect(selectedStatus)
                   }}
                 >
                   Save Status
@@ -478,7 +514,6 @@ export default function Faculty() {
                 <div className="evaluation-item">
                   <div className="evaluation-info">
                     <div className="evaluation-title">Evaluation #1</div>
-                    <div className="evaluation-date">July 1, 2023</div>
                   </div>
                   <button className="view-evaluation-button">View</button>
                 </div>
@@ -495,6 +530,7 @@ export default function Faculty() {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
+                    className="download-icon"
                   >
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                     <polyline points="7 10 12 15 17 10"></polyline>
@@ -504,10 +540,40 @@ export default function Faculty() {
                 </button>
               </div>
             </div>
+
+            {/* Comment Popup */}
+            {showCommentPopup && (
+              <div className="popup-overlay">
+                <div className="comment-popup">
+                  <h2>Comment Required</h2>
+                  <p>Please provide a reason for {statusToSet.toLowerCase()} this report:</p>
+                  <textarea
+                    className="comment-textarea"
+                    value={commentText}
+                    onChange={(e) => setCommentText(e.target.value)}
+                    placeholder="Enter your comment here..."
+                    rows={4}
+                  ></textarea>
+                  <div className="popup-buttons">
+                    <button 
+                      className="cancel-button" 
+                      onClick={() => {
+                        setShowCommentPopup(false)
+                        setCommentText("")
+                      }}
+                    >
+                      Cancel
+                    </button>
+                    <button className="submit-button" onClick={handleCommentSubmit}>
+                      Submit
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </main>
     </div>
   )
 }
-//zain
