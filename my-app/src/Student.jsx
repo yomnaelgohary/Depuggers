@@ -71,12 +71,13 @@ import {
   SyncOutlined,
   TrophyOutlined,
   UploadOutlined,
-  UserOutlined
+  UserOutlined,
+  TeamOutlined
 } from '@ant-design/icons';
 
 
 import "./Student.css";
-
+const { Title } = Typography;
 const { Search } = Input;
 const { Option } = Select;
 const { TextArea } = Input;
@@ -228,6 +229,70 @@ const ProfileContent = () => {
     }));
   };
 
+  const handlePartTimeJobChange = (id, field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      partTimeJobs: prev.partTimeJobs.map(job => 
+        job.id === id ? { ...job, [field]: value } : job
+      )
+    }));
+  };
+
+  const handleAddPartTimeJob = () => {
+    setFormData(prev => ({
+      ...prev,
+      partTimeJobs: [
+        ...prev.partTimeJobs,
+        {
+          id: Date.now(),
+          company: '',
+          position: '',
+          duration: '',
+          responsibilities: ['']
+        }
+      ]
+    }));
+  };
+
+  const handleRemovePartTimeJob = (id) => {
+    setFormData(prev => ({
+      ...prev,
+      partTimeJobs: prev.partTimeJobs.filter(job => job.id !== id)
+    }));
+  };
+
+  const handleActivityChange = (id, field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      activities: prev.activities.map(activity => 
+        activity.id === id ? { ...activity, [field]: value } : activity
+      )
+    }));
+  };
+
+  const handleAddActivity = () => {
+    setFormData(prev => ({
+      ...prev,
+      activities: [
+        ...prev.activities,
+        {
+          id: Date.now(),
+          organization: '',
+          role: '',
+          duration: '',
+          description: ''
+        }
+      ]
+    }));
+  };
+
+  const handleRemoveActivity = (id) => {
+    setFormData(prev => ({
+      ...prev,
+      activities: prev.activities.filter(activity => activity.id !== id)
+    }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Profile updated:', formData);
@@ -238,7 +303,7 @@ const ProfileContent = () => {
   return (
     <div className="profile-content">
       <div className="profile-header">
-        <h2><UserOutlined /> My Profile</h2>
+        <Title level={2}><UserOutlined /> My Profile</Title>
         <Button 
           onClick={() => setEditMode(!editMode)}
           type={editMode ? 'default' : 'primary'}
@@ -397,7 +462,7 @@ const ProfileContent = () => {
             </Form.Item>
           </Card>
 
-          {/* Enhanced Internships Section */}
+          {/* Internships Section */}
           <Card 
             title={<span><SolutionOutlined /> Internships</span>}
             className="form-section"
@@ -552,6 +617,177 @@ const ProfileContent = () => {
             )}
           </Card>
 
+          {/* Part-Time Jobs Section */}
+          <Card 
+            title={<span><TeamOutlined /> Part-Time Jobs</span>}
+            className="form-section"
+            extra={
+              <Button type="primary" onClick={handleAddPartTimeJob} icon={<PlusOutlined />}>
+                Add Job
+              </Button>
+            }
+          >
+            {formData.partTimeJobs.length > 0 ? (
+              formData.partTimeJobs.map((job) => (
+                <Card 
+                  key={job.id} 
+                  className="job-card"
+                  title={
+                    <div className="job-header">
+                      <h4>{job.position} at {job.company}</h4>
+                    </div>
+                  }
+                  extra={
+                    <Button 
+                      danger 
+                      icon={<DeleteOutlined />}
+                      onClick={() => handleRemovePartTimeJob(job.id)}
+                    />
+                  }
+                >
+                  <div className="job-edit-form">
+                    <Row gutter={16}>
+                      <Col span={12}>
+                        <Form.Item label="Company">
+                          <Input
+                            value={job.company}
+                            onChange={(e) => handlePartTimeJobChange(job.id, 'company', e.target.value)}
+                          />
+                        </Form.Item>
+                      </Col>
+                      <Col span={12}>
+                        <Form.Item label="Position">
+                          <Input
+                            value={job.position}
+                            onChange={(e) => handlePartTimeJobChange(job.id, 'position', e.target.value)}
+                          />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+
+                    <Form.Item label="Duration">
+                      <Input
+                        value={job.duration}
+                        onChange={(e) => handlePartTimeJobChange(job.id, 'duration', e.target.value)}
+                      />
+                    </Form.Item>
+
+                    <Form.Item label="Responsibilities">
+                      {job.responsibilities.map((resp, idx) => (
+                        <div key={idx} className="responsibility-item">
+                          <Input
+                            value={resp}
+                            onChange={(e) => {
+                              const newResponsibilities = [...job.responsibilities];
+                              newResponsibilities[idx] = e.target.value;
+                              handlePartTimeJobChange(job.id, 'responsibilities', newResponsibilities);
+                            }}
+                          />
+                          {idx === job.responsibilities.length - 1 && (
+                            <Button
+                              type="dashed"
+                              onClick={() => {
+                                const newResponsibilities = [...job.responsibilities, ''];
+                                handlePartTimeJobChange(job.id, 'responsibilities', newResponsibilities);
+                              }}
+                              icon={<PlusOutlined />}
+                            />
+                          )}
+                          {job.responsibilities.length > 1 && (
+                            <Button
+                              danger
+                              onClick={() => {
+                                const newResponsibilities = job.responsibilities.filter((_, i) => i !== idx);
+                                handlePartTimeJobChange(job.id, 'responsibilities', newResponsibilities);
+                              }}
+                              icon={<DeleteOutlined />}
+                            />
+                          )}
+                        </div>
+                      ))}
+                    </Form.Item>
+                  </div>
+                </Card>
+              ))
+            ) : (
+              <div className="empty-state">
+                <p>No part-time jobs added yet.</p>
+              </div>
+            )}
+          </Card>
+
+          {/* College Activities Section */}
+          <Card 
+            title={<span><TrophyOutlined /> College Activities</span>}
+            className="form-section"
+            extra={
+              <Button type="primary" onClick={handleAddActivity} icon={<PlusOutlined />}>
+                Add Activity
+              </Button>
+            }
+          >
+            {formData.activities.length > 0 ? (
+              formData.activities.map((activity) => (
+                <Card 
+                  key={activity.id} 
+                  className="activity-card"
+                  title={
+                    <div className="activity-header">
+                      <h4>{activity.role} at {activity.organization}</h4>
+                    </div>
+                  }
+                  extra={
+                    <Button 
+                      danger 
+                      icon={<DeleteOutlined />}
+                      onClick={() => handleRemoveActivity(activity.id)}
+                    />
+                  }
+                >
+                  <div className="activity-edit-form">
+                    <Row gutter={16}>
+                      <Col span={12}>
+                        <Form.Item label="Organization">
+                          <Input
+                            value={activity.organization}
+                            onChange={(e) => handleActivityChange(activity.id, 'organization', e.target.value)}
+                          />
+                        </Form.Item>
+                      </Col>
+                      <Col span={12}>
+                        <Form.Item label="Role">
+                          <Input
+                            value={activity.role}
+                            onChange={(e) => handleActivityChange(activity.id, 'role', e.target.value)}
+                          />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+
+                    <Form.Item label="Duration">
+                      <Input
+                        value={activity.duration}
+                        onChange={(e) => handleActivityChange(activity.id, 'duration', e.target.value)}
+                      />
+                    </Form.Item>
+
+                    <Form.Item label="Description">
+                      <TextArea
+                        rows={3}
+                        value={activity.description}
+                        onChange={(e) => handleActivityChange(activity.id, 'description', e.target.value)}
+                      />
+                    </Form.Item>
+                  </div>
+                </Card>
+              ))
+            ) : (
+              <div className="empty-state">
+                <p>No activities added yet.</p>
+              </div>
+            )}
+          </Card>
+
           <div className="form-actions">
             <Button type="primary" htmlType="submit">Save Changes</Button>
             <Button onClick={() => setEditMode(false)}>Cancel</Button>
@@ -559,7 +795,7 @@ const ProfileContent = () => {
         </Form>
       ) : (
         <div className="profile-view">
-          {/* View Mode Content */}
+          {/* View Mode - Basic Information */}
           <Card title={<span><UserOutlined /> Basic Information</span>} className="profile-section">
             <Descriptions column={2}>
               <Descriptions.Item label="Name">{formData.firstName} {formData.lastName}</Descriptions.Item>
@@ -569,6 +805,7 @@ const ProfileContent = () => {
             </Descriptions>
           </Card>
 
+          {/* View Mode - Academic Information */}
           <Card title={<span><BookOutlined /> Academic Information</span>} className="profile-section">
             <Descriptions column={2}>
               <Descriptions.Item label="Major">{formData.major}</Descriptions.Item>
@@ -578,6 +815,7 @@ const ProfileContent = () => {
             </Descriptions>
           </Card>
 
+          {/* View Mode - Job Interests */}
           <Card title={<span><SolutionOutlined /> Job Interests</span>} className="profile-section">
             <div className="tags-container">
               {formData.jobInterests.map((interest, index) => (
@@ -586,6 +824,7 @@ const ProfileContent = () => {
             </div>
           </Card>
 
+          {/* View Mode - Skills */}
           <Card title={<span><TrophyOutlined /> Skills</span>} className="profile-section">
             <div className="tags-container">
               {formData.skills.map((skill, index) => (
@@ -594,6 +833,7 @@ const ProfileContent = () => {
             </div>
           </Card>
 
+          {/* View Mode - Internships */}
           <Card title={<span><SolutionOutlined /> Internships</span>} className="profile-section">
             {formData.internships.length > 0 ? (
               formData.internships.map((internship, index) => (
@@ -626,11 +866,10 @@ const ProfileContent = () => {
                     </div>
 
                     <Divider orientation="left">Responsibilities</Divider>
-                    <ul className="responsibilities-list">
-                      {internship.responsibilities.map((resp, idx) => (
-                        <li key={idx}>{resp}</li>
-                      ))}
-                    </ul>
+                    <List
+                      dataSource={internship.responsibilities}
+                      renderItem={item => <List.Item>{item}</List.Item>}
+                    />
 
                     {internship.supervisorContact && (
                       <>
@@ -648,7 +887,68 @@ const ProfileContent = () => {
             )}
           </Card>
 
-          {/* ... other sections (partTimeJobs, activities) ... */}
+          {/* View Mode - Part-Time Jobs */}
+          <Card title={<span><TeamOutlined /> Part-Time Jobs</span>} className="profile-section">
+            {formData.partTimeJobs.length > 0 ? (
+              formData.partTimeJobs.map((job, index) => (
+                <Card 
+                  key={index} 
+                  className="job-card"
+                  title={
+                    <div className="job-header">
+                      <h4>{job.position} at {job.company}</h4>
+                    </div>
+                  }
+                >
+                  <div className="job-view">
+                    <div className="job-meta">
+                      <p><CalendarOutlined /> {job.duration}</p>
+                    </div>
+
+                    <Divider orientation="left">Responsibilities</Divider>
+                    <List
+                      dataSource={job.responsibilities}
+                      renderItem={item => <List.Item>{item}</List.Item>}
+                    />
+                  </div>
+                </Card>
+              ))
+            ) : (
+              <div className="empty-state">
+                <p>No part-time jobs added yet.</p>
+              </div>
+            )}
+          </Card>
+
+          {/* View Mode - College Activities */}
+          <Card title={<span><TrophyOutlined /> College Activities</span>} className="profile-section">
+            {formData.activities.length > 0 ? (
+              formData.activities.map((activity, index) => (
+                <Card 
+                  key={index} 
+                  className="activity-card"
+                  title={
+                    <div className="activity-header">
+                      <h4>{activity.role} at {activity.organization}</h4>
+                    </div>
+                  }
+                >
+                  <div className="activity-view">
+                    <div className="activity-meta">
+                      <p><CalendarOutlined /> {activity.duration}</p>
+                    </div>
+
+                    <Divider orientation="left">Description</Divider>
+                    <p>{activity.description}</p>
+                  </div>
+                </Card>
+              ))
+            ) : (
+              <div className="empty-state">
+                <p>No activities added yet.</p>
+              </div>
+            )}
+          </Card>
         </div>
       )}
     </div>
