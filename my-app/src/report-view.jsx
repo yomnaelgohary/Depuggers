@@ -12,22 +12,127 @@ function ReportView() {
   const [showCommentPopup, setShowCommentPopup] = useState(false)
   const [studentData, setStudentData] = useState({
     name: "Katherine F.",
-    major: "Computer Science",
+    major: "Engineering",
     company: "CalmTech",
     supervisor: "Alex Johnson",
     dates: "June 21 - September 10, 2023",
+    status: "Accepted",
+    internshipTitle: "Software Engineering Intern",
+    intro: "Working on backend development",
+    relevantCourse: "Database Systems",
   })
+  const [canEdit, setCanEdit] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
 
   // In a real app, you would fetch the student data based on the studentId
   useEffect(() => {
     // Simulating data fetch based on studentId
     console.log(`Fetching data for student ID: ${studentId}`)
 
-    // This would be replaced with an actual API call
-    // For now, we'll just use the default data
+    // Mock data for different students
+    const mockStudents = {
+      "1": {
+        name: "Omar Ahmed",
+        major: "Engineering",
+        company: "TechCorp",
+        supervisor: "Sarah Williams",
+        dates: "May 15 - August 10, 2023",
+        status: "Accepted",
+        internshipTitle: "Mechanical Design Intern",
+        intro: "Working on CAD designs for new products",
+        relevantCourse: "Mechanical Design",
+      },
+      "2": {
+        name: "Marawan Mahmoud",
+        major: "Engineering",
+        company: "DataMinds",
+        supervisor: "John Davis",
+        dates: "June 1 - August 30, 2023",
+        status: "Rejected",
+        internshipTitle: "Backend Developer Intern",
+        intro: "Developing APIs and database solutions",
+        relevantCourse: "Database Systems",
+      },
+      "3": {
+        name: "Zain Mohamed",
+        major: "Business Informatics",
+        company: "CloudSphere",
+        supervisor: "Emily Chen",
+        dates: "May 20 - August 15, 2023",
+        status: "Pending",
+        internshipTitle: "Network Engineer Intern",
+        intro: "Setting up and maintaining network infrastructure",
+        relevantCourse: "Computer Networks",
+      },
+      "4": {
+        name: "Youmna Ali",
+        major: "Business Informatics",
+        company: "InnovateSoft",
+        supervisor: "Michael Brown",
+        dates: "June 10 - September 5, 2023",
+        status: "Flagged",
+        internshipTitle: "Business Analyst Intern",
+        intro: "Analyzing business processes and suggesting improvements",
+        relevantCourse: "Business Intelligence",
+      },
+      "5": {
+        name: "Adham Ashraf",
+        major: "Pharmacy",
+        company: "CodeCraft",
+        supervisor: "Jessica Lee",
+        dates: "May 25 - August 20, 2023",
+        status: "Rejected",
+        internshipTitle: "Pharmaceutical Researcher Intern",
+        intro: "Researching drug interactions and effects",
+        relevantCourse: "Pharmacology",
+      },
+      "6": {
+        name: "Sara Hassan",
+        major: "Engineering",
+        company: "TechCorp",
+        supervisor: "David Wilson",
+        dates: "June 5 - August 25, 2023",
+        status: "Pending",
+        internshipTitle: "Web Developer Intern",
+        intro: "Building responsive web applications",
+        relevantCourse: "Web Development",
+      },
+      "7": {
+        name: "Ahmed Mahmoud",
+        major: "Engineering",
+        company: "DataMinds",
+        supervisor: "Lisa Johnson",
+        dates: "May 15 - August 10, 2023",
+        status: "Pending",
+        internshipTitle: "Mobile App Developer Intern",
+        intro: "Developing cross-platform mobile applications",
+        relevantCourse: "Mobile Computing",
+      },
+    }
+
+    // Get student data if it exists
+    if (mockStudents[studentId]) {
+      const student = mockStudents[studentId]
+      setStudentData(student)
+      setStatus(student.status)
+
+      // Only allow editing for Engineering students with Pending status
+      if (student.major === "Engineering" && student.status === "Pending") {
+        setCanEdit(true)
+        setErrorMessage("")
+      } else if (student.status === "Pending") {
+        setCanEdit(false)
+        setErrorMessage("Dr. Milad can only review pending students in the Engineering major.")
+      } else {
+        setCanEdit(false)
+        setErrorMessage("")
+      }
+    }
   }, [studentId])
 
   const handleStatusChange = (newStatus) => {
+    if (!canEdit) return
+
     if (newStatus === "Rejected" || newStatus === "Flagged") {
       setStatus(newStatus)
       setShowCommentPopup(true)
@@ -38,6 +143,11 @@ function ReportView() {
   }
 
   const handleSaveStatus = () => {
+    if (!canEdit) {
+      alert("You can only change the status of pending Engineering students.")
+      return
+    }
+
     // Check if comment is required but empty
     if ((status === "Rejected" || status === "Flagged") && !comment.trim()) {
       alert("Please provide a comment for the " + status + " status.")
@@ -51,6 +161,15 @@ function ReportView() {
 
     // You could show a success message here
     alert("Status updated successfully!")
+
+    // Update the student data
+    setStudentData({
+      ...studentData,
+      status: status,
+    })
+
+    // After saving, the student is no longer pending
+    setCanEdit(false)
   }
 
   const handleCommentSubmit = () => {
@@ -113,6 +232,11 @@ function ReportView() {
                 <div className="info-label">Company</div>
                 <div className="info-value">{studentData.company}</div>
               </div>
+
+              <div className="info-item">
+                <div className="info-label">Internship Title</div>
+                <div className="info-value">{studentData.internshipTitle}</div>
+              </div>
             </div>
 
             <div className="info-column">
@@ -125,6 +249,16 @@ function ReportView() {
                 <div className="info-label">Internship Dates</div>
                 <div className="info-value">{studentData.dates}</div>
               </div>
+
+              <div className="info-item">
+                <div className="info-label">Introduction</div>
+                <div className="info-value">{studentData.intro}</div>
+              </div>
+
+              <div className="info-item">
+                <div className="info-label">Relevant Course</div>
+                <div className="info-value">{studentData.relevantCourse}</div>
+              </div>
             </div>
           </div>
         </div>
@@ -133,13 +267,14 @@ function ReportView() {
         <div className="report-card">
           <h2 className="card-title">Set Status</h2>
 
-          <div className="status-options">
+          <div className={`status-options ${!canEdit ? "disabled" : ""}`}>
             <label className="status-option">
               <input
                 type="radio"
                 name="status"
                 checked={status === "Accepted"}
                 onChange={() => handleStatusChange("Accepted")}
+                disabled={!canEdit}
               />
               <span className="status-text">Accepted</span>
             </label>
@@ -150,6 +285,7 @@ function ReportView() {
                 name="status"
                 checked={status === "Rejected"}
                 onChange={() => handleStatusChange("Rejected")}
+                disabled={!canEdit}
               />
               <span className="status-text">Rejected</span>
             </label>
@@ -160,23 +296,36 @@ function ReportView() {
                 name="status"
                 checked={status === "Flagged"}
                 onChange={() => handleStatusChange("Flagged")}
+                disabled={!canEdit}
               />
               <span className="status-text">Flagged</span>
             </label>
           </div>
+
+          {errorMessage && (
+            <div className="edit-restriction-message">
+              <p>{errorMessage}</p>
+            </div>
+          )}
 
           {/* Display comment if one exists and status is Rejected or Flagged */}
           {comment && (status === "Rejected" || status === "Flagged") && (
             <div className="comment-display">
               <h3>Comment:</h3>
               <p>{comment}</p>
-              <button className="edit-comment-button" onClick={() => setShowCommentPopup(true)}>
-                Edit Comment
-              </button>
+              {canEdit && (
+                <button className="edit-comment-button" onClick={() => setShowCommentPopup(true)}>
+                  Edit Comment
+                </button>
+              )}
             </div>
           )}
 
-          <button className="save-status-button" onClick={handleSaveStatus}>
+          <button
+            className={`save-status-button ${!canEdit ? "disabled" : ""}`}
+            onClick={handleSaveStatus}
+            disabled={!canEdit}
+          >
             Save Status
           </button>
         </div>

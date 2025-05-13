@@ -3,52 +3,119 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import "./Faculty.css"
+import { ChevronUp, ChevronDown, User, LogOut } from "lucide-react"
 
 function Faculty() {
   const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState("students") // 'students' or 'statistics'
   const [showReportPreview, setShowReportPreview] = useState(false)
+  const [showProfileMenu, setShowProfileMenu] = useState(false)
 
-  // Mock student data (ensure this matches your actual data structure or API response)
+  // Mock student data with updated majors
   const [students, setStudents] = useState([
     {
       id: 1,
       name: "Omar Ahmed",
-      major: "Mecha",
+      major: "Engineering",
       status: "Accepted",
       comment: "",
+      internshipTitle: "Software Engineering Intern",
+      intro: "Working on backend development",
+      relevantCourse: "Database Systems",
     },
     {
       id: 2,
       name: "Marawan Mahmoud",
-      major: "MET",
+      major: "Engineering",
       status: "Rejected",
       comment: "Missing required documents",
+      internshipTitle: "Data Analyst Intern",
+      intro: "Analyzing customer data",
+      relevantCourse: "Data Mining",
     },
     {
       id: 3,
       name: "Zain Mohamed",
-      major: "IET",
+      major: "Business Informatics",
       status: "Pending",
       comment: "",
+      internshipTitle: "Network Engineer Intern",
+      intro: "Setting up network infrastructure",
+      relevantCourse: "Computer Networks",
     },
     {
       id: 4,
       name: "Youmna Ali",
-      major: "BI",
+      major: "Business Informatics",
       status: "Flagged",
       comment: "Needs to update contact information",
+      internshipTitle: "Business Analyst Intern",
+      intro: "Analyzing business processes",
+      relevantCourse: "Business Intelligence",
     },
     {
       id: 5,
-      name: "Adham ashraf",
-      major: "Mecha",
+      name: "Adham Ashraf",
+      major: "Pharmacy",
       status: "Rejected",
       comment: "Incomplete application",
+      internshipTitle: "Pharmaceutical Intern",
+      intro: "Researching drug interactions",
+      relevantCourse: "Pharmacology",
+    },
+    {
+      id: 6,
+      name: "Sara Hassan",
+      major: "Engineering",
+      status: "Pending",
+      comment: "",
+      internshipTitle: "Web Developer Intern",
+      intro: "Building responsive web applications",
+      relevantCourse: "Web Development",
+    },
+    {
+      id: 7,
+      name: "Ahmed Mahmoud",
+      major: "Engineering",
+      status: "Pending",
+      comment: "",
+      internshipTitle: "Mobile App Developer Intern",
+      intro: "Developing cross-platform mobile apps",
+      relevantCourse: "Mobile Computing",
+    },
+    {
+      id: 8,
+      name: "Laila Kamal",
+      major: "Applied Arts",
+      status: "Accepted",
+      comment: "",
+      internshipTitle: "Graphic Design Intern",
+      intro: "Creating visual content for marketing",
+      relevantCourse: "Digital Design",
+    },
+    {
+      id: 9,
+      name: "Karim Nader",
+      major: "Business Informatics",
+      status: "Flagged",
+      comment: "Missing supervisor information",
+      internshipTitle: "IT Support Intern",
+      intro: "Providing technical support",
+      relevantCourse: "IT Service Management",
+    },
+    {
+      id: 10,
+      name: "Nour Samy",
+      major: "Engineering",
+      status: "Pending",
+      comment: "",
+      internshipTitle: "Frontend Developer Intern",
+      intro: "Building user interfaces",
+      relevantCourse: "User Interface Design",
     },
   ])
 
-  // Mock statistics data (ensure this matches your actual data structure or API response)
+  // Mock statistics data
   const [statistics, setStatistics] = useState({
     statusCounts: {
       accepted: 12,
@@ -80,23 +147,14 @@ function Faculty() {
     ],
   })
 
-  // In a real app, you might fetch students and statistics data here
-  // useEffect(() => {
-  //   // Fetch students data
-  //   // fetch('/api/students').then(res => res.json()).then(data => setStudents(data));
-  //   // Fetch statistics data
-  //   // fetch('/api/statistics').then(res => res.json()).then(data => setStatistics(data));
-  // }, []);
-
-
-  // Extract unique majors and statuses based on potentially dynamic student data
+  // Extract unique majors and statuses
   const uniqueMajors = ["All Majors", ...new Set(students.map((student) => student.major))]
   const uniqueStatuses = ["All Statuses", ...new Set(students.map((student) => student.status))]
 
   const [selectedMajor, setSelectedMajor] = useState("All Majors")
   const [selectedStatus, setSelectedStatus] = useState("All Statuses")
   const [filteredStudents, setFilteredStudents] = useState(students)
-  const reportType = "comprehensive" // Always generate comprehensive reports
+  const reportType = "comprehensive"
   const [isGeneratingReport, setIsGeneratingReport] = useState(false)
   const [generatedReport, setGeneratedReport] = useState(null)
 
@@ -113,12 +171,16 @@ function Faculty() {
     }
 
     setFilteredStudents(result)
-  }, [selectedMajor, selectedStatus, students]) // Add students as dependency
+  }, [selectedMajor, selectedStatus, students])
 
   // Handle view button click
   const handleViewReport = (studentId) => {
-    // Ensure the path matches your route configuration
     navigate(`/report-view/${studentId}`)
+  }
+
+  // Handle logout
+  const handleLogout = () => {
+    navigate("/login")
   }
 
   // Handle generate report
@@ -154,7 +216,6 @@ function Faculty() {
           title: "Most Frequently Used Courses",
           data: statistics.topCourses.map((course) => ({
             label: course.name,
-            // Corrected template literal usage
             value: `${course.count} internships`,
           })),
         })
@@ -165,7 +226,6 @@ function Faculty() {
           title: "Top Rated Companies",
           data: statistics.topRatedCompanies.map((company) => ({
             label: company.name,
-            // Corrected template literal usage
             value: `${company.rating}/5`,
           })),
         })
@@ -176,7 +236,6 @@ function Faculty() {
           title: "Top Companies by Internship Count",
           data: statistics.topCompaniesByCount.map((company) => ({
             label: company.name,
-            // Corrected template literal usage
             value: `${company.count} internships`,
           })),
         })
@@ -189,24 +248,7 @@ function Faculty() {
       })
 
       // Set report title based on type
-      switch (reportType) {
-        case "status":
-          reportData.title = "Status Distribution Report"
-          break
-        case "courses":
-          reportData.title = "Course Frequency Report"
-          break
-        case "companies":
-          reportData.title = "Company Ratings Report"
-          break
-        case "internships":
-          reportData.title = "Internship Counts Report"
-          break
-        case "comprehensive":
-        default:
-          reportData.title = "Comprehensive Internship Statistics Report"
-          break
-      }
+      reportData.title = "Comprehensive Internship Statistics Report"
 
       setGeneratedReport(reportData)
       setIsGeneratingReport(false)
@@ -216,17 +258,11 @@ function Faculty() {
 
   // Handle download PDF
   const handleDownloadPDF = () => {
-    // In a real application, you would use a library like jsPDF or html2pdf
-    // to generate a PDF from the report data
-    // For this example, we'll simulate the download
-
     alert("PDF download started. The file will be saved to your downloads folder.")
 
     // Simulate download delay
     setTimeout(() => {
       console.log("PDF downloaded")
-      // Potentially close preview after download?
-      // handleClosePreview();
     }, 1000)
   }
 
@@ -240,74 +276,70 @@ function Faculty() {
     <div className="faculty-container">
       <header className="faculty-header">
         <div className="header-title">
-          {/* Consider making back navigation more robust if needed */}
-          <span className="back-icon" onClick={() => navigate(-1)} style={{ cursor: 'pointer' }}>
-            ←
-          </span>
-          <h1>Internship Management</h1>
+          <h2 className={`header-greeting ${activeTab === "statistics" ? "statistics-title" : ""}`}>
+            {activeTab === "statistics" ? "Real-time Statistics" : "Hello Dr. Milad"}
+          </h2>
         </div>
-        <div className="profile-image">
-          {/* Use a real image source or improve placeholder handling */}
-          <img src="/placeholder.svg" alt="Profile" width="40" height="40" onError={(e) => e.target.src = 'default-profile.png'} />
+
+        <div className="header-right">
+          <div className="nav-tabs">
+            <button
+              className={`nav-tab ${activeTab === "students" ? "active" : ""}`}
+              onClick={() => setActiveTab("students")}
+            >
+              Students {activeTab === "students" ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+            </button>
+            <button
+              className={`nav-tab ${activeTab === "statistics" ? "active" : ""}`}
+              onClick={() => setActiveTab("statistics")}
+            >
+              Statistics {activeTab === "statistics" ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+            </button>
+          </div>
+
+          <div className="profile-container">
+            <div className="profile-image" onClick={() => setShowProfileMenu(!showProfileMenu)}>
+              <User size={24} />
+            </div>
+
+            {showProfileMenu && (
+              <div className="profile-menu">
+                <button className="profile-menu-item" onClick={handleLogout}>
+                  <LogOut size={16} />
+                  <span>Logout</span>
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </header>
 
       <main className="faculty-main">
-        {/* Make greeting dynamic if possible */}
-        <h2 className="greeting">Hello Dr. Yasmine</h2>
-
-        <div className="tab-navigation-container">
-          <div className="tab-navigation">
-            {/* CORRECTED className SYNTAX */}
-            <button
-              className={`tab-button ${activeTab === "students" ? "active" : ""}`}
-              onClick={() => setActiveTab("students")}
-            >
-              Students
-            </button>
-            {/* CORRECTED className SYNTAX */}
-            <button
-              className={`tab-button ${activeTab === "statistics" ? "active" : ""}`}
-              onClick={() => setActiveTab("statistics")}
-            >
-              Statistics
-            </button>
-          </div>
-        </div>
-
         {activeTab === "students" ? (
           <>
             <div className="filters-container">
-              <div className="filter-section">
-                <h3 className="filter-title">Majors</h3>
-                <div className="filter-buttons">
-                  {uniqueMajors.map((major) => (
-                    <button
-                      key={major}
-                      // CORRECTED className SYNTAX
-                      className={`filter-button ${selectedMajor === major ? "active" : ""}`}
-                      onClick={() => setSelectedMajor(major)}
-                    >
-                      {major}
-                    </button>
-                  ))}
-                </div>
+              <div className="filter-buttons">
+                {uniqueMajors.map((major) => (
+                  <button
+                    key={major}
+                    className={`filter-button ${selectedMajor === major ? "active" : ""}`}
+                    onClick={() => setSelectedMajor(major)}
+                  >
+                    {major}
+                  </button>
+                ))}
               </div>
 
-              <div className="filter-section">
-                <h3 className="filter-title">Status</h3>
-                <div className="filter-buttons">
-                  {uniqueStatuses.map((status) => (
-                    <button
-                      key={status}
-                      // CORRECTED className SYNTAX
-                      className={`filter-button ${selectedStatus === status ? "active" : ""}`}
-                      onClick={() => setSelectedStatus(status)}
-                    >
-                      {status}
-                    </button>
-                  ))}
-                </div>
+              <div className="filter-buttons">
+                {uniqueStatuses.map((status) => (
+                  <button
+                    key={status}
+                    className={`filter-button ${selectedStatus === status ? "active" : ""}`}
+                    onClick={() => setSelectedStatus(status)}
+                  >
+                    {status}
+                  </button>
+                ))}
               </div>
             </div>
 
@@ -333,14 +365,12 @@ function Faculty() {
                         <td>{student.name}</td>
                         <td className="major">{student.major}</td>
                         <td>
-                          {/* CORRECTED className SYNTAX */}
                           <span className={`status-pill ${student.status.toLowerCase()}`}>{student.status}</span>
                         </td>
-                        <td className="comment">{student.comment || "-"}</td> {/* Display '-' if comment is empty */}
+                        <td className="comment">{student.comment || "-"}</td>
                         <td className="actions">
-                          {/* Consistent button naming */}
-                          <button className="action-button view-details-button" onClick={() => handleViewReport(student.id)}>
-                            {student.status === "Pending" ? "View" : "Details"}
+                          <button className="action-button details-button" onClick={() => handleViewReport(student.id)}>
+                            {student.status === "Pending" ? "Review" : "Details"}
                           </button>
                         </td>
                       </tr>
@@ -358,94 +388,86 @@ function Faculty() {
           </>
         ) : (
           <div className="statistics-view">
-            <div className="statistics-header">
-              <h3>Real-time Statistics</h3>
-              <p>View key metrics and insights about internship reports</p>
-            </div>
-
-            {/* Check if statistics data exists before rendering */}
             {statistics ? (
-                <div className="statistics-grid">
-                <div className="stat-card">
-                    <h4>Status Distribution</h4>
-                    <div className="status-stats">
-                    {/* Consider Object.entries for dynamic rendering if needed */}
+              <div className="statistics-content">
+                <div className="stat-section">
+                  <h4 className="stat-title">Status Distribution</h4>
+                  <div className="status-stats">
                     <div className="status-stat-item">
-                        <div className="status-label">Accepted</div>
-                        <div className={`status-count accepted`}>{statistics.statusCounts?.accepted ?? 0}</div>
-                    </div>
-                    <div className="status-stat-item">
-                        <div className="status-label">Rejected</div>
-                        <div className={`status-count rejected`}>{statistics.statusCounts?.rejected ?? 0}</div>
+                      <div className="status-label">Accepted</div>
+                      <div className="status-count accepted">{statistics.statusCounts?.accepted ?? 0}</div>
                     </div>
                     <div className="status-stat-item">
-                        <div className="status-label">Flagged</div>
-                        <div className={`status-count flagged`}>{statistics.statusCounts?.flagged ?? 0}</div>
+                      <div className="status-label">Rejected</div>
+                      <div className="status-count rejected">{statistics.statusCounts?.rejected ?? 0}</div>
                     </div>
                     <div className="status-stat-item">
-                        <div className="status-label">Pending</div>
-                        <div className={`status-count pending`}>{statistics.statusCounts?.pending ?? 0}</div>
+                      <div className="status-label">Flagged</div>
+                      <div className="status-count flagged">{statistics.statusCounts?.flagged ?? 0}</div>
                     </div>
+                    <div className="status-stat-item">
+                      <div className="status-label">Pending</div>
+                      <div className="status-count pending">{statistics.statusCounts?.pending ?? 0}</div>
                     </div>
+                  </div>
                 </div>
 
-                <div className="stat-card">
-                    <h4>Average Review Time</h4>
-                    <div className="avg-review-time">
+                <div className="stat-section">
+                  <h4 className="stat-title">Average Review Time</h4>
+                  <div className="avg-review-time">
                     <div className="time-value">{statistics.averageReviewTime || "N/A"}</div>
-                    </div>
+                  </div>
                 </div>
 
-                <div className="stat-card">
-                    <h4>Most Frequently Used Courses</h4>
-                    <ul className="stat-list">
+                <div className="stat-section">
+                  <h4 className="stat-title">Most Frequently Used Courses</h4>
+                  <ul className="stat-list">
                     {(statistics.topCourses || []).map((course, index) => (
-                        <li key={index} className="stat-list-item">
+                      <li key={index} className="stat-list-item">
                         <span className="item-name">{course.name}</span>
                         <span className="item-value">{course.count} internships</span>
-                        </li>
+                      </li>
                     ))}
-                    {(!statistics.topCourses || statistics.topCourses.length === 0) && <li className="no-data">No course data available</li>}
-                    </ul>
+                  </ul>
                 </div>
 
-                <div className="stat-card">
-                    <h4>Top Rated Companies</h4>
-                    <ul className="stat-list">
+                <div className="stat-section">
+                  <h4 className="stat-title">Top Rated Companies</h4>
+                  <ul className="stat-list">
                     {(statistics.topRatedCompanies || []).map((company, index) => (
-                        <li key={index} className="stat-list-item">
+                      <li key={index} className="stat-list-item">
                         <span className="item-name">{company.name}</span>
                         <span className="item-value">{company.rating}/5</span>
-                        </li>
+                      </li>
                     ))}
-                    {(!statistics.topRatedCompanies || statistics.topRatedCompanies.length === 0) && <li className="no-data">No rating data available</li>}
-                    </ul>
+                  </ul>
                 </div>
 
-                <div className="stat-card">
-                    <h4>Top Companies by Internship Count</h4>
-                    <ul className="stat-list">
+                <div className="stat-section">
+                  <h4 className="stat-title">Top Companies by Internship Count</h4>
+                  <ul className="stat-list">
                     {(statistics.topCompaniesByCount || []).map((company, index) => (
-                        <li key={index} className="stat-list-item">
+                      <li key={index} className="stat-list-item">
                         <span className="item-name">{company.name}</span>
                         <span className="item-value">{company.count} internships</span>
-                        </li>
+                      </li>
                     ))}
-                    {(!statistics.topCompaniesByCount || statistics.topCompaniesByCount.length === 0) && <li className="no-data">No count data available</li>}
-                    </ul>
+                  </ul>
                 </div>
-                </div>
+              </div>
             ) : (
-              <p>Loading statistics...</p> // Or some other loading indicator
+              <p>Loading statistics...</p>
             )}
-
 
             <div className="report-generation">
               <div className="report-form">
-                <button className="generate-button" onClick={handleGenerateReport} disabled={isGeneratingReport || !statistics}>
+                <button
+                  className="generate-button"
+                  onClick={handleGenerateReport}
+                  disabled={isGeneratingReport || !statistics}
+                >
                   {isGeneratingReport ? "Generating..." : "Generate Comprehensive Report"}
                 </button>
-                 {!statistics && <p style={{fontSize: '0.8em', color: 'grey', marginTop: '5px'}}>Statistics data unavailable.</p>}
               </div>
             </div>
           </div>
@@ -465,38 +487,24 @@ function Faculty() {
               <div className="report-preview-content">
                 <div className="report-meta">
                   <p>Generated on: {generatedReport.date}</p>
-                  {/* Get user dynamically if possible */}
-                  <p>Generated by: Dr. Yasmine</p>
+                  <p>Generated by: Dr. Milad</p>
                 </div>
 
                 {generatedReport.sections.map((section, index) => (
                   <div key={index} className="report-section">
                     <h3>{section.title}</h3>
-                    {/* Use description list for semantic key-value pairs */}
                     {section.data?.length > 0 ? (
-                        <dl className="report-list">
+                      <dl className="report-list">
                         {section.data.map((item, i) => (
-                            <div key={i} className="report-list-item">
+                          <div key={i} className="report-list-item">
                             <dt className="report-item-label">{item.label}</dt>
                             <dd className="report-item-value">{item.value}</dd>
-                            </div>
+                          </div>
                         ))}
-                        </dl>
+                      </dl>
                     ) : (
-                        <p className="no-data">No data available for this section.</p>
+                      <p className="no-data">No data available for this section.</p>
                     )}
-
-                    {/* Alternative Table layout if preferred */}
-                    {/* <table className="report-table">
-                      <tbody>
-                        {section.data.map((item, i) => (
-                          <tr key={i}>
-                            <td className="report-item-label">{item.label}</td>
-                            <td className="report-item-value">{item.value}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table> */}
                   </div>
                 ))}
               </div>
@@ -505,7 +513,7 @@ function Faculty() {
                 <button className="download-pdf-button" onClick={handleDownloadPDF}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="20" // Slightly smaller icon
+                    width="20"
                     height="20"
                     viewBox="0 0 24 24"
                     fill="none"
@@ -514,7 +522,7 @@ function Faculty() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     className="download-icon"
-                    aria-hidden="true" // Icon is decorative
+                    aria-hidden="true"
                   >
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                     <polyline points="7 10 12 15 17 10"></polyline>

@@ -1,5 +1,7 @@
 /* Make sure the app takes the full height of the viewport */
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -64,7 +66,7 @@ html, body, #root {
   align-items: center;
   height: 100vh;
   width: 100vw;
-  background: linear-gradient(135deg, #c31432, #240b36);
+  background: linear-gradient(135deg, #5f2878, #3a1a4a);
 }
 
 /* Login box - adjusted for full-screen layout */
@@ -82,7 +84,7 @@ html, body, #root {
 .welcome-box h2 {
   margin-bottom: 25px;
   font-size: 2rem;
-  color: #c31432;
+  color: #5f2878;
 }
 
 /* Input fields */
@@ -97,8 +99,8 @@ html, body, #root {
 
 .input-field:focus {
   outline: none;
-  border: 1px solid #c31432;
-  box-shadow: 0 0 5px rgba(195, 20, 50, 0.5);
+  border: 1px solid #5f2878;
+  box-shadow: 0 0 5px rgba(95, 40, 120, 0.5);
 }
 
 /* CTA button */
@@ -106,7 +108,7 @@ html, body, #root {
   width: 100%;
   padding: 14px 16px;
   font-size: 1.1rem;
-  background-color: #c31432;
+  background-color: #5f2878;
   color: white;
   border: none;
   border-radius: 8px;
@@ -116,7 +118,7 @@ html, body, #root {
 }
 
 .cta-button:hover {
-  background-color: #a2122b;
+  background-color: #4a2060;
 }
 
 /* Error message */
@@ -131,7 +133,7 @@ html, body, #root {
   width: 100%;
   padding: 12px 16px;
   font-size: 1rem;
-  background-color:  #c31432; /* Example blue color */
+  background-color: #5f2878;
   color: white;
   border: none;
   border-radius: 8px;
@@ -140,6 +142,5 @@ html, body, #root {
 }
 
 .register-button:hover {
-  background-color: #a2122b;
+  background-color: #4a2060;
 }
-

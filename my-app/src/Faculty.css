@@ -41,84 +41,124 @@ body {
 .header-title {
   display: flex;
   align-items: center;
-  gap: 12px;
 }
 
-.back-icon {
-  font-size: 18px;
-  cursor: pointer;
-  width: 24px;
-  height: 24px;
+.header-greeting {
+  font-size: 20px;
+  font-weight: 600;
+  color: #5f2878;
+}
+
+.statistics-title {
+  color: #5f2878;
+}
+
+.header-right {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 24px;
 }
 
-.faculty-header h1 {
-  font-size: 18px;
-  font-weight: 600;
-  color: #111827;
+/* Navigation tabs - updated to remove box completely */
+.nav-tabs {
+  display: flex;
+  gap: 24px;
+}
+
+.nav-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 0;
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  color: #4b5563;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  position: relative;
+  outline: none;
+}
+
+.nav-tab:hover {
+  color: #5f2878;
+}
+
+.nav-tab.active {
+  color: #5f2878;
+}
+
+.nav-tab.active::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #5f2878;
+}
+
+/* Profile styles */
+.profile-container {
+  position: relative;
 }
 
 .profile-image {
   width: 40px;
   height: 40px;
   border-radius: 50%;
+  background-color: #f9f5ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #5f2878;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.profile-image:hover {
+  background-color: #efe6ff;
+}
+
+.profile-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  min-width: 150px;
   overflow: hidden;
 }
 
-.profile-image img {
+.profile-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  text-align: left;
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #4b5563;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.profile-menu-item:hover {
+  background-color: #f9f5ff;
+  color: #5f2878;
 }
 
 /* Main content styles */
 .faculty-main {
   width: 100%;
-  padding: 0 24px;
+  padding: 24px;
   flex: 1;
-}
-
-.greeting {
-  font-size: 30px;
-  font-weight: 700;
-  margin: 24px 0;
-  color: #111827;
-}
-
-/* Tab Navigation Container for centering */
-.tab-navigation-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 24px;
-}
-
-/* Tab Navigation */
-.tab-navigation {
-  display: flex;
-  gap: 12px;
-}
-
-.tab-button {
-  padding: 10px 20px;
-  border-radius: 6px;
-  border: 1px solid #e5e7eb;
-  background-color: #ffffff;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  color: #4b5563;
-}
-
-.tab-button:hover {
-  background-color: #f3f4f6;
-}
-
-.tab-button.active {
-  background-color: #9b2c2c;
-  color: white;
-  border-color: #9b2c2c;
 }
 
 /* Filters container */
@@ -127,21 +167,9 @@ body {
   background-color: #f9fafb;
   border-radius: 8px;
   padding: 20px;
-}
-
-.filter-section {
-  margin-bottom: 20px;
-}
-
-.filter-section:last-child {
-  margin-bottom: 0;
-}
-
-.filter-title {
-  font-size: 16px;
-  font-weight: 500;
-  margin-bottom: 12px;
-  color: #4b5563;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 /* Filter buttons */
@@ -163,13 +191,15 @@ body {
 }
 
 .filter-button:hover {
-  background-color: #f3f4f6;
+  background-color: #f9f5ff;
+  border-color: #5f2878;
+  color: #5f2878;
 }
 
 .filter-button.active {
-  background-color: #9b2c2c; /* Darker, more muted red */
+  background-color: #5f2878;
   color: white;
-  border-color: #9b2c2c; /* Matching border color */
+  border-color: #5f2878;
 }
 
 /* Students count */
@@ -197,10 +227,10 @@ body {
 .students-table th {
   text-align: left;
   padding: 16px 24px;
-  font-weight: 500;
+  font-weight: 600;
   border-bottom: 1px solid #e5e7eb;
   background-color: #f9fafb;
-  color: #4b5563;
+  color: #111827;
   font-size: 14px;
 }
 
@@ -216,7 +246,7 @@ body {
 
 /* Table cell styles */
 .major {
-  color: #9b2c2c; /* Darker, more muted red */
+  color: #5f2878;
   font-weight: 500;
 }
 
@@ -229,8 +259,9 @@ body {
   text-align: center;
 }
 
-.view-button {
-  background-color: #9b2c2c; /* Darker, more muted red */
+/* Updated button styles */
+.details-button {
+  background-color: #5f2878;
   color: white;
   border: none;
   padding: 6px 16px;
@@ -241,53 +272,38 @@ body {
   font-weight: 500;
 }
 
-.view-button:hover {
-  background-color: #7f1d1d; /* Even darker red for hover state */
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-.details-button {
-  background-color: #4b5563; /* Gray color for details button */
-  color: white;
-  border: none;
-  padding: 6px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.2s;
-}
-
 .details-button:hover {
-  background-color: #374151; /* Darker gray for hover state */
+  background-color: #4a2060;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* Status pills */
+/* Status pills - updated colors to better match with purple theme */
 .status-pill {
   display: inline-block;
   padding: 6px 12px;
   border-radius: 20px;
   font-size: 14px;
+  font-weight: 500;
 }
 
 .accepted {
-  background-color: #d1fae5;
-  color: #065f46;
+  background-color: #e9f7f0;
+  color: #0f766e;
 }
 
 .rejected {
   background-color: #fee2e2;
-  color: #9b2c2c; /* Updated to match the new red */
+  color: #be123c;
 }
 
 .pending {
   background-color: #fef3c7;
-  color: #92400e;
+  color: #b45309;
 }
 
 .flagged {
-  background-color: #dbeafe;
-  color: #1e40af;
+  background-color: #e0e7ff;
+  color: #4338ca;
 }
 
 /* No results message */
@@ -303,49 +319,37 @@ body {
   width: 100%;
 }
 
-.statistics-header {
-  margin-bottom: 24px;
-}
-
-.statistics-header h3 {
-  font-size: 20px;
-  font-weight: 600;
-  color: #111827;
-  margin-bottom: 8px;
-}
-
-.statistics-header p {
-  font-size: 14px;
-  color: #6b7280;
-}
-
-.statistics-grid {
+/* Reorganized statistics content - grid layout */
+.statistics-content {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
-  margin-bottom: 30px;
+  margin-bottom: 24px;
 }
 
-.stat-card {
+.stat-section {
   background-color: #f9fafb;
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  height: 100%;
 }
 
-.stat-card h4 {
-  font-size: 16px;
+.stat-title {
+  font-size: 18px;
   font-weight: 600;
   color: #111827;
   margin-bottom: 16px;
+  text-align: center;
   padding-bottom: 8px;
   border-bottom: 1px solid #e5e7eb;
 }
 
 /* Status statistics */
 .status-stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
   gap: 16px;
 }
 
@@ -353,12 +357,14 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 10px;
 }
 
 .status-label {
   font-size: 14px;
   color: #6b7280;
   margin-bottom: 8px;
+  font-weight: 500;
 }
 
 .status-count {
@@ -375,13 +381,13 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 120px;
+  padding: 24px 0;
 }
 
 .time-value {
   font-size: 36px;
   font-weight: 700;
-  color: #9b2c2c;
+  color: #5f2878;
 }
 
 /* Stat lists */
@@ -393,7 +399,7 @@ body {
 .stat-list-item {
   display: flex;
   justify-content: space-between;
-  padding: 10px 0;
+  padding: 12px 16px;
   border-bottom: 1px solid #e5e7eb;
 }
 
@@ -402,14 +408,15 @@ body {
 }
 
 .item-name {
-  font-size: 14px;
+  font-size: 15px;
   color: #111827;
+  font-weight: 500;
 }
 
 .item-value {
-  font-size: 14px;
-  font-weight: 500;
-  color: #9b2c2c;
+  font-size: 15px;
+  font-weight: 600;
+  color: #5f2878;
 }
 
 /* Report generation */
@@ -417,57 +424,25 @@ body {
   background-color: #f9fafb;
   border-radius: 8px;
   padding: 20px;
-  margin-top: 20px;
-}
-
-.report-generation h3 {
-  font-size: 18px;
-  font-weight: 600;
-  color: #111827;
-  margin-bottom: 16px;
-}
-
-.report-form {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-}
-
-.report-type-selector {
-  flex: 1;
-  min-width: 250px;
-}
-
-.report-type-selector label {
-  display: block;
-  font-size: 14px;
-  color: #6b7280;
-  margin-bottom: 8px;
-}
-
-.report-select {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #e5e7eb;
-  border-radius: 6px;
-  font-size: 14px;
-  background-color: white;
+  margin-top: 24px;
+  text-align: center;
 }
 
 .generate-button {
-  background-color: #9b2c2c;
+  background-color: #5f2878;
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 12px 24px;
   border-radius: 6px;
-  font-size: 14px;
+  font-size: 16px;
   cursor: pointer;
   transition: background-color 0.2s;
-  min-width: 150px;
+  min-width: 250px;
+  font-weight: 500;
 }
 
 .generate-button:hover {
-  background-color: #7f1d1d;
+  background-color: #4a2060;
 }
 
 .generate-button:disabled {
@@ -567,83 +542,86 @@ body {
   border-bottom: 1px solid #e5e7eb;
 }
 
-.report-table {
-  width: 100%;
-  border-collapse: collapse;
+.report-list {
+  margin: 0;
+  padding: 0;
 }
 
-.report-table tr {
+.report-list-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
   border-bottom: 1px solid #e5e7eb;
 }
 
-.report-table tr:last-child {
+.report-list-item:last-child {
   border-bottom: none;
-}
-
-.report-table td {
-  padding: 12px 8px;
-  font-size: 14px;
 }
 
 .report-item-label {
   color: #111827;
   font-weight: 500;
+  margin: 0;
+  font-size: 15px;
 }
 
 .report-item-value {
-  color: #6b7280;
+  color: #5f2878;
+  font-weight: 600;
+  margin: 0;
   text-align: right;
+  font-size: 15px;
 }
 
-/* Update the download-pdf-button styles to make it bigger and more proportional */
+/* Update the download-pdf-button styles */
 .download-pdf-button {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  background-color: #ffffff;
-  color: #111827;
-  border: 1px solid #e5e7eb;
+  background-color: #5f2878;
+  color: white;
+  border: none;
   padding: 12px 24px;
   border-radius: 6px;
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   min-width: 220px;
   height: 50px;
 }
 
 .download-pdf-button:hover {
-  background-color: #f9fafb;
-  border-color: #d1d5db;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #4a2060;
 }
 
 .download-pdf-button:active {
-  background-color: #f3f4f6;
   transform: translateY(1px);
 }
 
 .download-icon {
   font-size: 20px;
-  color: #9b2c2c;
+  color: white;
 }
 
-/* Add a new class for the report preview footer to improve spacing */
 .report-preview-footer {
   padding: 24px;
   border-top: 1px solid #e5e7eb;
   display: flex;
-  justify-content: center; /* Change from flex-end to center */
+  justify-content: center;
   background-color: #f9fafb;
+}
+
+/* Custom cursor for messages */
+.edit-restriction-message {
+  cursor: url("/83827-200.png"), auto;
 }
 
 /* Responsive styles */
 @media (max-width: 768px) {
   .faculty-main {
-    padding: 0 16px;
+    padding: 16px;
   }
 
   .students-table th,
@@ -660,12 +638,8 @@ body {
     font-size: 13px;
   }
 
-  .statistics-grid {
-    grid-template-columns: 1fr;
-  }
-
   .status-stats {
-    grid-template-columns: 1fr 1fr;
+    flex-wrap: wrap;
   }
 
   .report-form {
@@ -681,6 +655,19 @@ body {
     max-height: 95vh;
     width: 95%;
   }
+
+  .nav-tabs {
+    gap: 16px;
+  }
+
+  .nav-tab {
+    padding: 6px 0;
+    font-size: 14px;
+  }
+
+  .statistics-content {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 480px) {
@@ -692,7 +679,18 @@ body {
     padding: 16px;
   }
 
-  .status-stats {
-    grid-template-columns: 1fr;
+  .faculty-header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .header-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .nav-tabs {
+    gap: 12px;
   }
 }

@@ -1,5 +1,6 @@
 /* Report View Styles */
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
   height: 100%;
@@ -33,19 +34,21 @@ body, html {
 }
 
 .back-button {
-  background: none;
-  border: none;
-  font-size: 14px;
-  cursor: pointer;
-  color: #555;
-  padding: 0;
   display: flex;
   align-items: center;
-  transition: color 0.2s ease;
+  background: none;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 14px;
+  color: #5f2878;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .back-button:hover {
-  color: #111827;
+  background-color: #f9f5ff;
+  border-color: #5f2878;
 }
 
 /* Title styles */
@@ -69,7 +72,7 @@ body, html {
 }
 
 .card-title {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 600;
   margin-bottom: 20px;
   color: #111827;
@@ -94,12 +97,13 @@ body, html {
   font-size: 14px;
   color: #6b7280;
   margin-bottom: 4px;
+  font-weight: 500;
 }
 
 .info-value {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
-  color: #111827;
+  color: #374151;
 }
 
 /* Status Options Styles */
@@ -108,6 +112,11 @@ body, html {
   flex-direction: column;
   gap: 8px;
   margin-bottom: 16px;
+}
+
+.status-options.disabled {
+  opacity: 0.7;
+  pointer-events: none;
 }
 
 .status-option {
@@ -121,16 +130,37 @@ body, html {
 }
 
 .status-option:hover {
-  background-color: #f9fafb;
+  background-color: #f9f5ff;
 }
 
 .status-option input[type="radio"] {
   margin-right: 10px;
 }
 
+.status-option input[type="radio"]:checked + .status-text {
+  color: #5f2878;
+  font-weight: 500;
+}
+
 .status-text {
   font-size: 14px;
   color: #111827;
+}
+
+/* Edit restriction message */
+.edit-restriction-message {
+  background-color: #f9f5ff;
+  border-radius: 6px;
+  padding: 12px 16px;
+  margin: 16px 0;
+  border-left: 3px solid #5f2878;
+  cursor: url("/83827-200.png"), auto;
+}
+
+.edit-restriction-message p {
+  font-size: 14px;
+  color: #5f2878;
+  margin: 0;
 }
 
 /* Comment Display Styles */
@@ -139,7 +169,7 @@ body, html {
   border-radius: 6px;
   padding: 16px;
   margin: 16px 0;
-  border-left: 3px solid #111827;
+  border-left: 3px solid #5f2878;
 }
 
 .comment-display h3 {
@@ -158,7 +188,7 @@ body, html {
 .edit-comment-button {
   background: none;
   border: none;
-  color: #111827;
+  color: #5f2878;
   font-size: 12px;
   text-decoration: underline;
   cursor: pointer;
@@ -167,7 +197,7 @@ body, html {
 
 .save-status-button {
   width: 100%;
-  background-color: #111827;
+  background-color: #5f2878;
   color: white;
   border: none;
   border-radius: 6px;
@@ -179,7 +209,12 @@ body, html {
 }
 
 .save-status-button:hover {
-  background-color: #1f2937;
+  background-color: #4a2060;
+}
+
+.save-status-button.disabled {
+  background-color: #d1d5db;
+  cursor: not-allowed;
 }
 
 /* Evaluation Styles */
@@ -221,7 +256,7 @@ body, html {
 
 .evaluation-title {
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   color: #111827;
 }
 
@@ -230,18 +265,23 @@ body, html {
   color: #6b7280;
 }
 
+/* Updated View button to match back button */
 .view-button {
-  background-color: #f3f4f6;
-  border: none;
+  display: flex;
+  align-items: center;
+  background: none;
+  border: 1px solid #e5e7eb;
   border-radius: 4px;
   padding: 6px 12px;
   font-size: 14px;
+  color: #5f2878;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .view-button:hover {
-  background-color: #e5e7eb;
+  background-color: #f9f5ff;
+  border-color: #5f2878;
 }
 
 /* Redesigned Download Button */
@@ -257,24 +297,21 @@ body, html {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  background-color: #ffffff;
-  color: #111827;
-  border: 1px solid #e5e7eb;
+  background-color: #5f2878;
+  color: white;
+  border: none;
   border-radius: 6px;
   padding: 12px 24px;
   font-size: 15px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   min-width: 220px;
   height: 48px;
 }
 
 .download-button:hover {
-  background-color: #f9fafb;
-  border-color: #d1d5db;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #4a2060;
 }
 
 .download-button:active {
@@ -282,7 +319,7 @@ body, html {
 }
 
 .download-icon {
-  color: #9b2c2c;
+  color: white;
   font-size: 18px;
 }
 
@@ -334,6 +371,12 @@ body, html {
   min-height: 100px;
 }
 
+.comment-textarea:focus {
+  outline: none;
+  border-color: #5f2878;
+  box-shadow: 0 0 0 2px rgba(95, 40, 120, 0.1);
+}
+
 .popup-buttons {
   display: flex;
   justify-content: flex-end;
@@ -350,8 +393,12 @@ body, html {
   cursor: pointer;
 }
 
+.cancel-button:hover {
+  background-color: #f9fafb;
+}
+
 .submit-button {
-  background-color: #111827;
+  background-color: #5f2878;
   color: white;
   border: none;
   border-radius: 6px;
@@ -361,13 +408,17 @@ body, html {
   cursor: pointer;
 }
 
+.submit-button:hover {
+  background-color: #4a2060;
+}
+
 /* Responsive Styles */
 @media (max-width: 640px) {
   .report-container {
     padding: 20px;
     margin: 10px;
   }
-  
+
   .info-grid {
     flex-direction: column;
   }
