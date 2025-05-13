@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+// Ant Design Components
 import {
   Alert,
   Badge,
@@ -27,18 +28,22 @@ import {
   Space,
   Steps,
   Table,
+  Tabs,
   Tag,
+  Tooltip,
   Typography,
   Upload
 } from 'antd';
 
 // Ant Design Icons
 import {
+  BellOutlined,
   BookOutlined,
   CalendarOutlined,
   CheckCircleOutlined,
   ClockCircleOutlined,
   CloseCircleOutlined,
+  CloseOutlined,
   DeleteOutlined,
   DollarOutlined,
   DownloadOutlined,
@@ -56,17 +61,19 @@ import {
   MessageOutlined,
   PhoneOutlined,
   PieChartOutlined,
+  PlayCircleOutlined,
   PlusOutlined,
   PrinterOutlined,
   SearchOutlined,
   SolutionOutlined,
+  StarFilled,
   StarOutlined,
+  SyncOutlined,
   TrophyOutlined,
   UploadOutlined,
-  UserOutlined,
-  BellOutlined, 
-  PlayCircleOutlined 
+  UserOutlined
 } from '@ant-design/icons';
+
 
 import "./Student.css";
 
@@ -77,6 +84,7 @@ const { Text } = Typography;
 const { Step } = Steps;
 const { Dragger } = Upload;
 const { Panel } = Collapse;
+const { TabPane } = Tabs;
 // ==================== Profile Component ====================
 const ProfileContent = () => {
   const [editMode, setEditMode] = useState(false);
@@ -658,73 +666,37 @@ const DashboardContent = () => {
     { title: 'Profile Completion', value: 75, icon: <UserOutlined /> }
   ];
 
-  const recommendedInternships = [
+  const [suggestedCompanies, setSuggestedCompanies] = useState([
     {
-      title: 'Web Developer Intern',
-      company: 'Tech Solutions',
-      location: 'New York, NY',
-      duration: '3 months',
-      industry: 'Technology',
-      skills: ['HTML', 'CSS', 'JavaScript', 'React'],
-      isRecommended: true
-    },
-    {
-      title: 'Data Analyst Intern',
-      company: 'Global Finance',
-      location: 'Remote',
-      duration: '6 months',
-      industry: 'Finance',
-      skills: ['Python', 'SQL', 'Data Visualization'],
-      isRecommended: true
-    },
-    {
-      title: 'UI/UX Design Intern',
-      company: 'Creative Media',
-      location: 'San Francisco, CA',
-      duration: '4 months',
-      industry: 'Design',
-      skills: ['Figma', 'User Research', 'Prototyping'],
-      isRecommended: true
-    }
-  ];
-
-  const recentApplications = [
-    {
-      title: 'Web Developer Intern',
-      company: 'Tech Solutions',
-      date: '2023-09-01',
-      status: 'Under Review'
-    },
-    {
-      title: 'Mobile App Developer',
-      company: 'Innovative Labs',
-      date: '2023-04-28',
-      status: 'Under Review'
-    }
-  ];
-
-  const suggestedCompanies = [
-    {
+      id: 1,
       name: 'Google',
       industry: 'Technology',
       matchScore: 92,
-      why: 'Matches your skills in React and Node.js, and your interest in large-scale systems'
+      why: 'Matches your skills in React and Node.js, and your interest in large-scale systems',
+      saved: false,
+      viewed: false
     },
     {
+      id: 2,
       name: 'Airbnb',
       industry: 'Travel/Tech',
       matchScore: 88,
-      why: 'Strong UX focus aligns with your design coursework'
+      why: 'Strong UX focus aligns with your design coursework',
+      saved: false,
+      viewed: false
     },
     {
+      id: 3,
       name: 'Spotify',
       industry: 'Music/Tech',
       matchScore: 85,
-      why: 'Recommended by 3 past interns with similar profiles'
+      why: 'Recommended by 3 past interns with similar profiles',
+      saved: false,
+      viewed: false
     }
-  ];
+  ]);
 
-  // New state for notifications
+  
   const [notifications, setNotifications] = useState([
     {
       id: 1,
@@ -744,14 +716,32 @@ const DashboardContent = () => {
     }
   ]);
 
-  // State for video modal
   const [videoModalVisible, setVideoModalVisible] = useState(false);
+  const [profileCompletionModalVisible, setProfileCompletionModalVisible] = useState(false);
+  const [activeTab, setActiveTab] = useState('suggestions');
 
-  // Function to mark notification as read
   const markAsRead = (id) => {
     setNotifications(notifications.map(notification => 
       notification.id === id ? {...notification, read: true} : notification
     ));
+  };
+
+  const toggleSaveCompany = (id) => {
+    setSuggestedCompanies(suggestedCompanies.map(company => 
+      company.id === id ? {...company, saved: !company.saved} : company
+    ));
+  };
+
+  const markAsViewed = (id) => {
+    setSuggestedCompanies(suggestedCompanies.map(company => 
+      company.id === id ? {...company, viewed: true} : company
+    ));
+  };
+
+  const refreshSuggestions = () => {
+    // In a real app, this would fetch new suggestions from an API
+    // For now, we'll just shuffle the existing ones
+    setSuggestedCompanies([...suggestedCompanies].sort(() => 0.5 - Math.random()));
   };
 
   return (
@@ -760,7 +750,11 @@ const DashboardContent = () => {
       <p className="subtitle">Here's an overview of your internship journey</p>
 
       {/* Notifications Section */}
-      <Card title="Notifications" className="section-card">
+      <Card 
+        title="Notifications" 
+        className="section-card"
+        extra={<Button type="text" icon={<BellOutlined />} />}
+      >
         <List
           itemLayout="horizontal"
           dataSource={notifications}
@@ -768,6 +762,12 @@ const DashboardContent = () => {
             <List.Item 
               className={notification.read ? 'notification-read' : 'notification-unread'}
               onClick={() => markAsRead(notification.id)}
+              actions={[
+                <Button type="text" icon={<CloseOutlined />} onClick={(e) => {
+                  e.stopPropagation();
+                  setNotifications(notifications.filter(n => n.id !== notification.id));
+                }} />
+              ]}
             >
               <List.Item.Meta
                 avatar={<BellOutlined />}
@@ -787,7 +787,15 @@ const DashboardContent = () => {
       <Row gutter={16} className="stats-grid">
         {stats.map((stat, index) => (
           <Col key={index} xs={24} sm={12} md={12} lg={6}>
-            <Card className="stat-card">
+            <Card 
+              className="stat-card"
+              hoverable
+              onClick={() => {
+                if (stat.title === 'Profile Completion') {
+                  setProfileCompletionModalVisible(true);
+                }
+              }}
+            >
               <div className="stat-content">
                 <div className="stat-icon">{stat.icon}</div>
                 <div>
@@ -807,132 +815,122 @@ const DashboardContent = () => {
         ))}
       </Row>
 
-      <Card title="Recommended For You" className="section-card">
-        <Row gutter={16}>
-          {recommendedInternships.map((internship, index) => (
-            <Col key={index} xs={24} sm={12} md={8}>
-              <Card className="internship-card">
-                <div className="internship-header">
-                  <h3>{internship.title}</h3>
-                  {internship.isRecommended && <Tag icon={<StarOutlined />} color="gold">Recommended</Tag>}
-                </div>
-                <p className="company">{internship.company}</p>
-                <div className="internship-details">
-                  <p><strong>Location:</strong> {internship.location}</p>
-                  <p><strong>Duration:</strong> {internship.duration}</p>
-                  <p><strong>Industry:</strong> {internship.industry}</p>
-                  <div className="skills">
-                    {internship.skills.map((skill, i) => (
-                      <Tag key={i}>{skill}</Tag>
-                    ))}
-                  </div>
-                </div>
-                <Button type="primary" className="view-btn">View Details</Button>
-              </Card>
-            </Col>
-          ))}
-        </Row>
-      </Card>
+      {/* Enhanced Suggested Companies Section */}
+      <Card 
+        title="Career Opportunities" 
+        className="section-card"
+        extra={
+          <Tabs activeKey={activeTab} onChange={setActiveTab}>
+            <TabPane tab="Suggested Companies" key="suggestions" />
+            <TabPane tab="Saved Companies" key="saved" />
+          </Tabs>
+        }
+      >
+        <div style={{ marginBottom: 16 }}>
+          <Button 
+            icon={<SyncOutlined />} 
+            onClick={refreshSuggestions}
+            style={{ marginRight: 8 }}
+          >
+            Refresh Suggestions
+          </Button>
+          <Input.Search 
+            placeholder="Filter companies..." 
+            allowClear 
+            style={{ width: 300 }}
+          />
+        </div>
 
-      <Card title="Suggested Companies Based On Your Profile" className="section-card">
         <Table
-          dataSource={suggestedCompanies}
+          dataSource={activeTab === 'suggestions' 
+            ? suggestedCompanies 
+            : suggestedCompanies.filter(c => c.saved)
+          }
+          rowKey="id"
           columns={[
             {
               title: 'Company',
               dataIndex: 'name',
               key: 'name',
-              render: (text) => <strong>{text}</strong>
+              render: (text, record) => (
+                <div onClick={() => markAsViewed(record.id)}>
+                  <strong>{text}</strong>
+                  {record.viewed || <Badge dot />}
+                </div>
+              )
             },
             {
               title: 'Industry',
               dataIndex: 'industry',
-              key: 'industry'
+              key: 'industry',
+              filters: [
+                { text: 'Technology', value: 'Technology' },
+                { text: 'Travel/Tech', value: 'Travel/Tech' },
+                { text: 'Music/Tech', value: 'Music/Tech' },
+              ],
+              onFilter: (value, record) => record.industry.includes(value),
             },
             {
               title: 'Match Score',
               dataIndex: 'matchScore',
               key: 'matchScore',
+              sorter: (a, b) => a.matchScore - b.matchScore,
               render: (score) => (
-                <Progress 
-                  percent={score} 
-                  status={score > 90 ? 'success' : score > 80 ? 'active' : 'normal'} 
-                  format={() => `${score}%`}
-                />
+                <Tooltip title={`Match score: ${score}%`}>
+                  <Progress 
+                    percent={score} 
+                    status={score > 90 ? 'success' : score > 80 ? 'active' : 'normal'} 
+                    format={() => `${score}%`}
+                  />
+                </Tooltip>
               )
             },
             {
               title: 'Why Recommended',
               dataIndex: 'why',
-              key: 'why'
+              key: 'why',
+              render: (text) => <Text ellipsis={{ tooltip: text }}>{text}</Text>
             },
             {
               title: 'Action',
               key: 'action',
-              render: () => (
+              render: (_, record) => (
                 <Space>
-                  <Button type="primary">View Openings</Button>
-                  <Button>Save</Button>
+                  <Button 
+                    type="primary" 
+                    onClick={() => markAsViewed(record.id)}
+                  >
+                    View Openings
+                  </Button>
+                  <Button 
+                    icon={record.saved ? <StarFilled /> : <StarOutlined />} 
+                    onClick={() => toggleSaveCompany(record.id)}
+                  >
+                    {record.saved ? 'Saved' : 'Save'}
+                  </Button>
                 </Space>
               )
             }
           ]}
-          pagination={false}
+          pagination={{ pageSize: 5 }}
+          rowClassName={(record) => record.viewed ? '' : 'unviewed-row'}
         />
       </Card>
 
-      <Card title="Recent Applications" className="section-card">
-        <Table
-          dataSource={recentApplications}
-          columns={[
-            {
-              title: 'Position',
-              dataIndex: 'title',
-              key: 'title',
-              render: (text) => <strong>{text}</strong>
-            },
-            {
-              title: 'Company',
-              dataIndex: 'company',
-              key: 'company'
-            },
-            {
-              title: 'Applied On',
-              dataIndex: 'date',
-              key: 'date'
-            },
-            {
-              title: 'Status',
-              dataIndex: 'status',
-              key: 'status',
-              render: (status) => (
-                <Tag color={status === 'Under Review' ? 'orange' : 'green'}>
-                  {status}
-                </Tag>
-              )
-            },
-            {
-              title: 'Action',
-              key: 'action',
-              render: () => (
-                <Button type="primary">View Status</Button>
-              )
-            }
-          ]}
-          pagination={false}
-        />
-      </Card>
-
-      <Card title="Complete Your Profile" className="section-card profile-completion">
+          <Card title="Complete Your Profile" className="section-card profile-completion">
         <p>Improve your chances of getting matched with the right internship.</p>
         <div className="profile-tasks">
           <Checkbox>Add job interests</Checkbox>
           <Checkbox>Add your skills</Checkbox>
           <Checkbox>Upload your resume</Checkbox>
         </div>
-        <Button type="primary">Complete Profile</Button>
+        <Button 
+          type="primary"
+          onClick={() => setProfileCompletionModalVisible(true)}
+        >
+          Complete Profile
+        </Button>
         
-        {/* New section for internship requirements video */}
         <Divider />
         <div className="video-guide-section">
           <h3>Not sure what internships count for your major?</h3>
@@ -956,7 +954,6 @@ const DashboardContent = () => {
         width={800}
       >
         <div className="video-container">
-          {/* Replace with your actual video embed code */}
           <iframe 
             width="100%" 
             height="450" 
@@ -978,10 +975,67 @@ const DashboardContent = () => {
           </ul>
         </div>
       </Modal>
+
+      {/* Profile Completion Modal */}
+      <Modal
+        title="Complete Your Profile"
+        visible={profileCompletionModalVisible}
+        onCancel={() => setProfileCompletionModalVisible(false)}
+        footer={[
+          <Button key="back" onClick={() => setProfileCompletionModalVisible(false)}>
+            Cancel
+          </Button>,
+          <Button key="submit" type="primary">
+            Save Changes
+          </Button>,
+        ]}
+      >
+        <Steps current={1} style={{ marginBottom: 24 }}>
+          <Step title="Basic Info" />
+          <Step title="Skills" />
+          <Step title="Interests" />
+          <Step title="Documents" />
+        </Steps>
+        
+        <Form layout="vertical">
+          <Form.Item label="Your Skills">
+            <Select mode="tags" placeholder="Add your skills">
+              <Option value="react">React</Option>
+              <Option value="node">Node.js</Option>
+              <Option value="python">Python</Option>
+              <Option value="java">Java</Option>
+            </Select>
+          </Form.Item>
+          
+          <Form.Item label="Internship Interests">
+            <Checkbox.Group>
+              <Row>
+                <Col span={8}>
+                  <Checkbox value="frontend">Frontend Development</Checkbox>
+                </Col>
+                <Col span={8}>
+                  <Checkbox value="backend">Backend Development</Checkbox>
+                </Col>
+                <Col span={8}>
+                  <Checkbox value="data">Data Science</Checkbox>
+                </Col>
+              </Row>
+            </Checkbox.Group>
+          </Form.Item>
+          
+          <Form.Item label="Upload Resume">
+            <Upload.Dragger>
+              <p className="ant-upload-drag-icon">
+                <InboxOutlined />
+              </p>
+              <p className="ant-upload-text">Click or drag file to this area to upload</p>
+            </Upload.Dragger>
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 };
-
 
 
 // ==================== Internship Component ====================

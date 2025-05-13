@@ -1910,4 +1910,199 @@ report-timeline {
 .video-description {
   padding: 10px;
 }
+/* Interactive Elements - New Styles */
 
+/* Notification Styles */
+.notification-unread {
+  background-color: #f0f7ff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.notification-unread:hover {
+  background-color: #e6f0ff;
+}
+
+.notification-read {
+  opacity: 0.8;
+  background-color: #fff;
+}
+
+/* Video Guide Section */
+.video-guide-section {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  border-left: 4px solid var(--primary-color);
+}
+
+.video-guide-section h3 {
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+.video-guide-section p {
+  color: var(--text-medium);
+  margin-bottom: 12px;
+}
+
+/* Video Container */
+.video-container {
+  margin-bottom: 20px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.video-description {
+  padding: 10px;
+}
+
+.video-description h4 {
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+.video-description ul {
+  padding-left: 20px;
+  color: var(--text-medium);
+}
+
+.video-description li {
+  margin-bottom: 6px;
+}
+
+/* Profile Completion Modal */
+.profile-completion-modal .ant-steps {
+  margin-bottom: 24px;
+}
+
+.profile-completion-modal .ant-form-item {
+  margin-bottom: 16px;
+}
+
+/* Suggested Companies Enhancements */
+.unviewed-row {
+  background-color: #f8fbff !important;
+}
+
+.unviewed-row:hover {
+  background-color: #f0f7ff !important;
+}
+
+/* Badge for new/unviewed items */
+.ant-badge-dot {
+  box-shadow: 0 0 0 2px #fff;
+}
+
+/* Tab Styles for Company Suggestions */
+.ant-tabs-tab {
+  font-weight: 500;
+}
+
+.ant-tabs-tab-active {
+  font-weight: 600;
+}
+
+/* Filter and Search Controls */
+.filter-controls {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+/* Saved Company Indicator */
+.saved-company-icon {
+  color: #faad14;
+}
+
+/* Responsive Adjustments for New Elements */
+@media (max-width: 768px) {
+  .filter-controls {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .video-guide-section {
+    padding: 12px;
+  }
+  
+  .profile-completion-modal .ant-steps {
+    margin-bottom: 16px;
+  }
+}
+
+/* Animation for Refresh Button */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.refreshing {
+  animation: spin 1s linear infinite;
+}
+
+/* Hover Effects for Interactive Elements */
+.stat-card:hover .stat-icon {
+  transform: scale(1.1);
+  transition: transform 0.3s ease;
+}
+
+/* Table Row Highlight */
+.ant-table-row:hover {
+  background-color: #fafafa !important;
+}
+
+/* Modal Content Styles */
+.modal-content {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+/* Form Steps */
+.ant-steps-item-process .ant-steps-item-icon {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+/* Upload Dragger */
+.ant-upload-drag {
+  border-radius: 8px;
+  padding: 24px;
+}
+
+/* Skill Tags in Forms */
+.skill-tag-input .ant-tag {
+  margin-bottom: 8px;
+}
+
+/* Checkbox Group Layout */
+.ant-checkbox-group-item {
+  display: block;
+  margin-bottom: 8px;
+}
+
+/* Enhanced Tooltips */
+.ant-tooltip-inner {
+  border-radius: 4px;
+  padding: 8px 12px;
+}
+
+/* Custom Scrollbar for Modal Content */
+.modal-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
