@@ -1887,5 +1887,27 @@ report-timeline {
     align-items: flex-start;
   }
 }
+.notification-unread {
+  background-color: #f0f7ff;
+  cursor: pointer;
+}
 
+.notification-read {
+  opacity: 0.8;
+}
+
+.video-guide-section {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+}
+
+.video-container {
+  margin-bottom: 20px;
+}
+
+.video-description {
+  padding: 10px;
+}
 

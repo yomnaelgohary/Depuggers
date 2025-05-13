@@ -63,7 +63,9 @@ import {
   StarOutlined,
   TrophyOutlined,
   UploadOutlined,
-  UserOutlined
+  UserOutlined,
+  BellOutlined, 
+  PlayCircleOutlined 
 } from '@ant-design/icons';
 
 import "./Student.css";
@@ -647,6 +649,7 @@ const ProfileContent = () => {
 
 
 // ==================== Dashboard Component ====================
+
 const DashboardContent = () => {
   const stats = [
     { title: 'Available Internships', value: 142, icon: <FileSearchOutlined /> },
@@ -721,10 +724,65 @@ const DashboardContent = () => {
     }
   ];
 
+  // New state for notifications
+  const [notifications, setNotifications] = useState([
+    {
+      id: 1,
+      type: 'internship_cycle',
+      title: 'New Internship Cycle Starting Soon',
+      message: 'The Fall 2023 internship cycle begins in 2 weeks. Get ready to apply!',
+      date: '2023-08-15',
+      read: false
+    },
+    {
+      id: 2,
+      type: 'report_status',
+      title: 'Internship Report Status Updated',
+      message: 'Your report for "Web Developer Intern" has been approved by your supervisor.',
+      date: '2023-08-10',
+      read: false
+    }
+  ]);
+
+  // State for video modal
+  const [videoModalVisible, setVideoModalVisible] = useState(false);
+
+  // Function to mark notification as read
+  const markAsRead = (id) => {
+    setNotifications(notifications.map(notification => 
+      notification.id === id ? {...notification, read: true} : notification
+    ));
+  };
+
   return (
     <div className="student-dashboard">
       <h1>Welcome, Student</h1>
       <p className="subtitle">Here's an overview of your internship journey</p>
+
+      {/* Notifications Section */}
+      <Card title="Notifications" className="section-card">
+        <List
+          itemLayout="horizontal"
+          dataSource={notifications}
+          renderItem={notification => (
+            <List.Item 
+              className={notification.read ? 'notification-read' : 'notification-unread'}
+              onClick={() => markAsRead(notification.id)}
+            >
+              <List.Item.Meta
+                avatar={<BellOutlined />}
+                title={notification.title}
+                description={
+                  <>
+                    <p>{notification.message}</p>
+                    <small>{notification.date}</small>
+                  </>
+                }
+              />
+            </List.Item>
+          )}
+        />
+      </Card>
 
       <Row gutter={16} className="stats-grid">
         {stats.map((stat, index) => (
@@ -873,7 +931,53 @@ const DashboardContent = () => {
           <Checkbox>Upload your resume</Checkbox>
         </div>
         <Button type="primary">Complete Profile</Button>
+        
+        {/* New section for internship requirements video */}
+        <Divider />
+        <div className="video-guide-section">
+          <h3>Not sure what internships count for your major?</h3>
+          <p>Watch this short guide to understand the requirements:</p>
+          <Button 
+            type="primary" 
+            icon={<PlayCircleOutlined />}
+            onClick={() => setVideoModalVisible(true)}
+          >
+            Watch Video Guide
+          </Button>
+        </div>
       </Card>
+
+      {/* Video Modal */}
+      <Modal
+        title="Internship Requirements Guide"
+        visible={videoModalVisible}
+        onCancel={() => setVideoModalVisible(false)}
+        footer={null}
+        width={800}
+      >
+        <div className="video-container">
+          {/* Replace with your actual video embed code */}
+          <iframe 
+            width="100%" 
+            height="450" 
+            src="https://www.youtube.com/embed/example-video-id" 
+            title="Internship Requirements Guide" 
+            frameBorder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowFullScreen
+          ></iframe>
+        </div>
+        <div className="video-description">
+          <h4>Key Points:</h4>
+          <ul>
+            <li>Internships must be directly related to your major</li>
+            <li>Minimum of 300 hours required for full credit</li>
+            <li>Must have a supervisor who can evaluate your work</li>
+            <li>Project-based internships are acceptable</li>
+            <li>Remote internships are permitted with proper documentation</li>
+          </ul>
+        </div>
+      </Modal>
     </div>
   );
 };
