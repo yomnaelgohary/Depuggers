@@ -1,54 +1,33 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { Bell, User, LogOut, X, Info, AlertTriangle, CheckCircle, ArrowLeft, ArrowRight } from "lucide-react"
+import { Bell, User, LogOut, X, Info, AlertTriangle, CheckCircle, ArrowLeft, ArrowRight, Phone } from "lucide-react"
+import { useNotifications } from "./NotificationsContext"
 import "./Header.css"
 
 // Inline NotificationsPanel component
-function NotificationsPanel({ onClose, notifications, clearNotifications, removeNotification }) {
-  // Dummy notifications to use if no real notifications exist
-  const dummyNotifications = [
-    {
-      id: 1,
-      message: "Your appointment with Dr. Smith has been confirmed",
-      type: "success",
-      timestamp: new Date(Date.now() - 1000 * 60 * 30).toISOString(), // 30 minutes ago
-    },
-    {
-      id: 2,
-      message: "New internship cycle has started",
-      type: "info",
-      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(), // 2 hours ago
-    },
-    {
-      id: 3,
-      message: "Your appointment request is pending approval",
-      type: "error",
-      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(), // 1 day ago
-    },
-  ]
+function NotificationsPanel({ onClose }) {
+  const { notifications, clearNotifications, removeNotification } = useNotifications()
+
+  // Dummy notifications data - empty array since we're using real notifications
+  const dummyNotifications = []
 
   // Use notifications from context if available, otherwise use dummy notifications
-  const displayNotifications = notifications && notifications.length > 0 ? notifications : dummyNotifications
-
-  const handleClearAll = () => {
-    if (clearNotifications) {
-      clearNotifications()
-    }
-    // Don't close the panel after clearing
-  }
+  const displayNotifications = notifications.length > 0 ? notifications : dummyNotifications
 
   const getNotificationIcon = (type) => {
     switch (type) {
       case "success":
-        return <CheckCircle size={8} className="notification-icon success" />
+        return <CheckCircle size={14} className="notification-icon success" />
       case "warning":
-        return <AlertTriangle size={8} className="notification-icon warning" />
+        return <AlertTriangle size={14} className="notification-icon warning" />
       case "error":
-        return <X size={8} className="notification-icon error" />
+        return <X size={14} className="notification-icon error" />
+      case "call":
+        return <Phone size={14} className="notification-icon call" />
       case "info":
       default:
-        return <Info size={8} className="notification-icon info" />
+        return <Info size={14} className="notification-icon info" />
     }
   }
 
@@ -79,13 +58,13 @@ function NotificationsPanel({ onClose, notifications, clearNotifications, remove
       </div>
 
       <div className="notifications-content">
-        {notifications.length === 0 ? (
+        {displayNotifications.length === 0 ? (
           <div className="no-notifications">
             <Bell size={24} />
             <p>You have no new notifications at this time.</p>
           </div>
         ) : (
-          notifications.map((notification) => (
+          displayNotifications.map((notification) => (
             <div key={notification.id} className={`notification-item ${notification.type}`}>
               {getNotificationIcon(notification.type)}
               <div className="notification-content">
@@ -94,7 +73,9 @@ function NotificationsPanel({ onClose, notifications, clearNotifications, remove
               </div>
               <button
                 className="notification-dismiss"
-                onClick={() => removeNotification(notification.id)}
+                onClick={() =>
+                  notification.id.toString().startsWith("dummy") ? null : removeNotification(notification.id)
+                }
                 aria-label="Dismiss notification"
               >
                 <X size={14} />
@@ -104,9 +85,9 @@ function NotificationsPanel({ onClose, notifications, clearNotifications, remove
         )}
       </div>
 
-      {notifications.length > 0 && (
+      {displayNotifications.length > 0 && (
         <div className="notifications-footer">
-          <button className="clear-all-button" onClick={handleClearAll}>
+          <button className="clear-all-button" onClick={clearNotifications}>
             Clear All
           </button>
         </div>
@@ -127,41 +108,18 @@ function Header({
 }) {
   const [showNotifications, setShowNotifications] = useState(false)
   const [showUserDropdown, setShowUserDropdown] = useState(false)
-  const [notifications, setNotifications] = useState([])
-  const [notificationCount, setNotificationCount] = useState(0)
+  const { notifications } = useNotifications()
 
-  // Dummy notifications data
-  const dummyNotifications = [
-    {
-      id: 1,
-      message: "Your appointment with Dr. Smith has been confirmed",
-      type: "success",
-      timestamp: new Date(Date.now() - 1000 * 60 * 30).toISOString(), // 30 minutes ago
-    },
-    {
-      id: 2,
-      message: "New internship cycle has started",
-      type: "info",
-      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(), // 2 hours ago
-    },
-    {
-      id: 3,
-      message: "Your appointment request is declined",
-      type: "error",
-      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(), // 1 day ago
-    },
-  ]
+  // Dummy notifications data - empty array since we're using real notifications
+  const dummyNotifications = []
 
-  // Initialize with dummy notifications
-  useEffect(() => {
-    setNotifications(dummyNotifications)
-    setNotificationCount(dummyNotifications.length)
-  }, [])
+  // Calculate notification count - use real notifications if available, otherwise use dummy count
+  const notificationCount = notifications.length > 0 ? notifications.length : dummyNotifications.length
 
   const notificationRef = useRef(null)
   const userDropdownRef = useRef(null)
 
-  // Restore click-outside handler
+  // Handle click outside to close dropdowns
   useEffect(() => {
     function handleClickOutside(event) {
       // Close notifications panel if clicked outside
@@ -192,37 +150,36 @@ function Header({
     setShowUserDropdown(!showUserDropdown)
   }
 
-  // Notification management functions
-  const removeNotification = (id) => {
-    setNotifications((prev) => prev.filter((notification) => notification.id !== id))
-    setNotificationCount((prev) => prev - 1)
-  }
-
-  const clearNotifications = () => {
-    setNotifications([])
-    setNotificationCount(0)
-    // Don't close the panel
-  }
-
   return (
     <header className="app-header">
       <div className="header-left">
         <div className="navigation-controls">
+          {/* Simplified approach with explicit HTML for the arrows */}
           <button
             className={`nav-control-btn ${!canGoBack ? "disabled" : ""}`}
             onClick={canGoBack ? onNavigateBack : undefined}
             aria-disabled={!canGoBack}
             title={canGoBack ? "Go back" : "No previous page"}
           >
-            <ArrowLeft size={18} />
+            {/* Use a span with a class for better styling control */}
+            <span className="nav-arrow-icon">
+              {/* Fallback to HTML entity if SVG doesn't work */}
+              {/* Use both SVG and HTML entity for redundancy */}
+              <ArrowLeft size={18} />
+              <span style={{ display: "none" }}>&larr;</span>
+            </span>
           </button>
+
           <button
             className={`nav-control-btn ${!canGoForward ? "disabled" : ""}`}
             onClick={canGoForward ? onNavigateForward : undefined}
             aria-disabled={!canGoForward}
             title={canGoForward ? "Go forward" : "No next page"}
           >
-            <ArrowRight size={18} />
+            <span className="nav-arrow-icon">
+              <ArrowRight size={18} />
+              <span style={{ display: "none" }}>&rarr;</span>
+            </span>
           </button>
         </div>
       </div>
@@ -263,14 +220,7 @@ function Header({
             {notificationCount > 0 && <span className="notification-count">{notificationCount}</span>}
           </button>
 
-          {showNotifications && (
-            <NotificationsPanel
-              onClose={() => setShowNotifications(false)}
-              notifications={notifications}
-              removeNotification={removeNotification}
-              clearNotifications={clearNotifications}
-            />
-          )}
+          {showNotifications && <NotificationsPanel onClose={() => setShowNotifications(false)} />}
         </div>
 
         <div className="avatar-container" ref={userDropdownRef}>

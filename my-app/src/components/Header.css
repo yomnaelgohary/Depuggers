@@ -84,8 +84,8 @@
 
 /* Add these styles to match the bell icon with the user icon */
 .notification-icon {
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   background-color: #f5f3ff; /* Light purple background */
   display: flex;
@@ -186,8 +186,8 @@
 }
 
 .avatar {
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   background-color: #f5f3ff; /* Light purple background */
   display: flex;
@@ -259,7 +259,7 @@
   background-color: #f8f9fa;
 }
 
-/* Notifications Panel Styles */
+/* Notifications Panel Styles - COMPLETELY REMOVED PURPLE */
 .notifications-panel {
   position: absolute;
   top: 50px;
@@ -273,6 +273,7 @@
   flex-direction: column;
   z-index: 200;
   overflow: hidden;
+  border: 1px solid #e9ecef;
 }
 
 .notifications-header {
@@ -281,6 +282,7 @@
   align-items: center;
   padding: 12px 16px;
   border-bottom: 1px solid #e9ecef;
+  background-color: #f8f9fa; /* Light gray background */
 }
 
 .notifications-header h3 {
@@ -303,8 +305,8 @@
 }
 
 .close-button:hover {
-  background-color: #f5f3ff; /* Light purple background */
-  color: #5f2878; /* Dark purple */
+  background-color: #e9ecef; /* Light gray */
+  color: #343a40; /* Dark gray */
 }
 
 .notifications-content {
@@ -336,6 +338,7 @@
   border-bottom: 1px solid #f1f3f5;
   position: relative;
   transition: background-color 0.2s ease;
+  background-color: white; /* Explicitly white background */
 }
 
 .notification-item:last-child {
@@ -343,9 +346,10 @@
 }
 
 .notification-item:hover {
-  background-color: #f5f3ff; /* Light purple background */
+  background-color: #f8f9fa; /* Light gray on hover - NO PURPLE */
 }
 
+/* Notification icons - keep their colors */
 .notification-icon.success {
   color: #28a745;
 }
@@ -359,7 +363,11 @@
 }
 
 .notification-icon.info {
-  color: #5f2878; /* Dark purple */
+  color: #0d6efd; /* Blue */
+}
+
+.notification-icon.call {
+  color: #28a745; /* Green for call notifications */
 }
 
 .notification-content {
@@ -393,8 +401,8 @@
 }
 
 .notification-dismiss:hover {
-  background-color: #f5f3ff; /* Light purple background */
-  color: #5f2878; /* Dark purple */
+  background-color: #e9ecef; /* Light gray */
+  color: #495057; /* Dark gray */
 }
 
 .notifications-footer {
@@ -402,12 +410,13 @@
   border-top: 1px solid #e9ecef;
   display: flex;
   justify-content: flex-end;
+  background-color: #f8f9fa; /* Light gray background */
 }
 
 .clear-all-button {
   background: none;
   border: none;
-  color: #5f2878; /* Dark purple */
+  color: #0d6efd; /* Blue */
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
@@ -416,7 +425,7 @@
 }
 
 .clear-all-button:hover {
-  background-color: #f5f3ff; /* Light purple background */
+  background-color: #e9ecef; /* Light gray */
 }
 
 /* Responsive adjustments */
@@ -430,48 +439,51 @@
   }
 }
 
-/* Add these styles to your existing Header.css file */
-
+/* COMPLETELY REDESIGNED NAVIGATION CONTROLS */
 .navigation-controls {
   display: flex;
   gap: 8px;
 }
 
+/* Simple, direct approach to ensure arrows are visible */
 .nav-control-btn {
-  stroke: currentColor; /* Explicitly use the parent button's 'color' property for the stroke */
-  stroke-width: 2px;    /* Set a visible stroke width (Lucide icons usually default to 2 or 1.5) */
-  fill: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background-color: #f5f3ff; /* Light purple background */
-  color: #5f2878; /* Dark purple icon */
-  border: none;
+  background-color: white;
+  border: 2px solid #5f2878; /* Dark purple border */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
+/* Explicitly style the arrow icons */
+.nav-arrow-icon {
+  color: #5f2878; /* Dark purple */
+  width: 18px;
+  height: 18px;
+}
+
 .nav-control-btn:hover:not(.disabled) {
-  background-color: #e9e9fe;
-  transform: translateY(-1px);
+  background-color: #5f2878; /* Dark purple background on hover */
+}
+
+.nav-control-btn:hover:not(.disabled) .nav-arrow-icon {
+  color: white; /* White icon on hover */
 }
 
 .nav-control-btn:active:not(.disabled) {
-  transform: translateY(0);
+  transform: scale(0.95);
 }
 
 .nav-control-btn.disabled {
   opacity: 0.4;
-  background-color: #f5f3ff; /* Keep the same background */
-  color: #5f2878; /* Keep the same color but it will appear faded due to opacity */
-  cursor: default; /* Regular cursor instead of not-allowed */
+  border-color: #adb5bd; /* Gray border for disabled */
+  cursor: default;
 }
 
-.nav-control-btn:focus:not(.disabled) {
-  outline: 2px solid #5f2878;
-  outline-offset: 2px;
+.nav-control-btn.disabled .nav-arrow-icon {
+  color: #adb5bd; /* Gray icon for disabled */
 }
-
