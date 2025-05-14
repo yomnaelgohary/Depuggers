@@ -1,0 +1,284 @@
+/* Dashboard Container */
+.dashboard-container {
+  padding: 24px;
+  background-color: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  height: 100%;
+  overflow-y: auto;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Dashboard Header */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0px;
+}
+
+.dashboard-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #212529;
+  margin: 0 0 8px 0;
+}
+
+.dashboard-subtitle {
+  font-size: 14px;
+  color: #6c757d;
+  margin: 0;
+}
+
+.date-display {
+  font-size: 14px;
+  color: #6c757d;
+  background-color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Stats Overview */
+.stats-overview {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.stat-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  min-width: 0; /* Ensure the card can shrink properly */
+  transition: all 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Force stat-icon to be purple with !important */
+.stat-icon {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 50% !important;
+  background-color: #f5f3ff !important; /* Light purple background */
+  color: #5f2878 !important; /* Dark purple icon */
+  flex-shrink: 0; /* Prevent icon from shrinking */
+}
+
+/* Improved stat content layout */
+.stat-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column; /* Changed to column layout */
+  gap: 8px; /* Add space between title and value */
+  min-width: 0; /* Allow content to shrink */
+  overflow: hidden; /* Prevent overflow */
+}
+
+.stat-title {
+  font-size: 14px; /* Slightly smaller */
+  color: #6c757d;
+  font-weight: 500;
+  display: block; /* Ensure it takes full width */
+  white-space: nowrap; /* Prevent wrapping */
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Add ellipsis if needed */
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #5f2878;
+  display: block; /* Ensure it takes full width */
+}
+
+/* Main Dashboard Content */
+.dashboard-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+/* Dashboard Cards */
+.dashboard-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e9ecef;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  color: #212529;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.card-tabs {
+  margin-bottom: 0 !important;
+}
+
+/* Profile Card */
+.profile-card {
+  height: fit-content;
+}
+
+/* Profile Completion */
+.profile-tasks {
+  margin-top: 20px;
+}
+
+.profile-tasks .ant-checkbox-wrapper {
+  display: block;
+  margin-bottom: 12px;
+}
+
+.profile-tasks .ant-checkbox-wrapper:last-child {
+  margin-bottom: 0;
+}
+
+/* Video Guide Section */
+.video-guide-section {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  border-left: 4px solid #5f2878;
+}
+
+.video-guide-section h3 {
+  color: #212529;
+  margin-bottom: 8px;
+}
+
+.video-guide-section p {
+  color: #6c757d;
+  margin-bottom: 12px;
+}
+
+/* Video Container */
+.video-container {
+  margin-bottom: 20px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.video-description {
+  padding: 10px;
+}
+
+.video-description h4 {
+  color: #212529;
+  margin-bottom: 8px;
+}
+
+.video-description ul {
+  padding-left: 20px;
+  color: #6c757d;
+}
+
+.video-description li {
+  margin-bottom: 6px;
+}
+
+/* Unviewed Row */
+.unviewed-row {
+  background-color: #f8fbff !important;
+}
+
+.unviewed-row:hover {
+  background-color: #f5f3ff !important;
+}
+
+/* Ant Design Overrides */
+.ant-btn-primary {
+  background-color: #5f2878 !important;
+  border-color: #5f2878 !important;
+}
+
+.ant-btn-primary:hover {
+  background-color: #4a1d5e !important;
+  border-color: #4a1d5e !important;
+}
+
+.ant-progress-bg {
+  background-color: #5f2878 !important;
+}
+
+.ant-tabs-ink-bar {
+  background-color: #5f2878 !important;
+}
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #5f2878 !important;
+}
+
+.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #5f2878 !important;
+  border-color: #5f2878 !important;
+}
+
+.ant-badge-dot {
+  background-color: #5f2878 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .stats-overview {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 992px) {
+  .dashboard-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .date-display {
+    align-self: flex-start;
+  }
+}
+
+@media (max-width: 576px) {
+  .stats-overview {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-container {
+    padding: 16px;
+  }
+}

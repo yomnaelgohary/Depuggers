@@ -1,0 +1,298 @@
+/* Profile Content Styles */
+.profile-content {
+  background: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+  padding: 25px;
+  margin-bottom: 30px;
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.profile-header h2 {
+  font-size: 24px;
+  color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Form Sections */
+.form-section {
+  margin-bottom: 30px;
+  background: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-section .ant-card-head {
+  background-color: #fafafa;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.form-section .ant-card-head-title {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+/* Card Styles for Internships, Jobs, Activities */
+.internship-card,
+.job-card,
+.activity-card {
+  margin-bottom: 16px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.internship-card:hover,
+.job-card:hover,
+.activity-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.internship-card.current {
+  border-left: 4px solid var(--primary-color);
+}
+
+.internship-card.completed {
+  border-left: 4px solid #52c41a;
+}
+
+/* Header Styles for Cards */
+.internship-header,
+.job-header,
+.activity-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.internship-header h4,
+.job-header h4,
+.activity-header h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-dark);
+}
+
+/* Meta Information Styles */
+.internship-meta,
+.job-meta,
+.activity-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 12px;
+  color: var(--text-medium);
+}
+
+.internship-meta p,
+.job-meta p,
+.activity-meta p {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Skills and Responsibilities */
+.skills-container,
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.responsibilities-list {
+  padding-left: 20px;
+  color: var(--text-medium);
+}
+
+.responsibilities-list li {
+  margin-bottom: 8px;
+}
+
+/* Form Edit Styles */
+.internship-edit-form .ant-form-item,
+.job-edit-form .ant-form-item,
+.activity-edit-form .ant-form-item {
+  margin-bottom: 16px;
+}
+
+.responsibility-item {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+  align-items: center;
+}
+
+.responsibility-item .ant-input {
+  flex: 1;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 24px;
+  border: 1px dashed var(--border-color);
+  border-radius: var(--border-radius);
+  color: var(--text-light);
+}
+
+/* Form Actions */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+}
+
+/* View Mode Styles */
+.profile-view .profile-section {
+  margin-bottom: 24px;
+}
+
+.profile-view .ant-descriptions-item-label {
+  font-weight: 500;
+  color: var(--text-medium);
+}
+
+.profile-view .ant-descriptions-item-content {
+  color: var(--text-dark);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .profile-content {
+    padding: 16px;
+  }
+  
+  .profile-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .internship-meta,
+  .job-meta,
+  .activity-meta {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .responsibility-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .responsibility-item .ant-input {
+    width: 100%;
+  }
+}
+
+/* Animation */
+.profile-section {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Additional Tag Styles */
+.ant-tag {
+  border-radius: 12px;
+  padding: 2px 10px;
+  font-size: 12px;
+}
+
+/* Custom Colors for Different Sections */
+.internship-card .ant-tag {
+  background-color: #e6f7ff;
+  color: #1890ff;
+  border-color: #91d5ff;
+}
+
+.job-card .ant-tag {
+  background-color: #f6ffed;
+  color: #52c41a;
+  border-color: #b7eb8f;
+}
+
+.activity-card .ant-tag {
+  background-color: #fff7e6;
+  color: #fa8c16;
+  border-color: #ffd591;
+}
+
+/* Enhanced Form Controls */
+.ant-input,
+.ant-select-selector,
+.ant-input-number,
+.ant-picker {
+  border-radius: 4px !important;
+}
+
+.ant-input:focus,
+.ant-select-focused .ant-select-selector,
+.ant-input-number-focused,
+.ant-picker-focused {
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2) !important;
+}
+
+/* Checkbox Group Styles */
+.ant-checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ant-checkbox-wrapper + .ant-checkbox-wrapper {
+  margin-left: 0;
+}
+
+/* Textarea Styles */
+.ant-input-textarea {
+  border-radius: 4px;
+}
+
+/* Button Styles in Forms */
+.ant-btn {
+  border-radius: 4px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Danger Button Styles */
+.ant-btn-danger {
+  color: #fff;
+  background: #ff4d4f;
+  border-color: #ff4d4f;
+}
+
+.ant-btn-danger:hover {
+  color: #fff;
+  background: #ff7875;
+  border-color: #ff7875;
+}
+
+/* Dashed Button Styles */
+.ant-btn-dashed {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.ant-btn-dashed:hover {
+  color: var(--primary-hover);
+  border-color: var(--primary-hover);
+}

@@ -1,20 +1,3 @@
-/* Student Dashboard CSS - Modern Design */
-:root {
-  --primary-color: #1890ff;
-  --primary-hover: #40a9ff;
-  --secondary-color: #f0f0f0;
-  --text-dark: #333;
-  --text-medium: #666;
-  --text-light: #888;
-  --white: #ffffff;
-  --border-color: #f0f0f0;
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-  --border-radius: 8px;
-  --transition: all 0.3s ease;
-}
-
 /* Base Styles */
 * {
   box-sizing: border-box;
@@ -22,13 +5,31 @@
   padding: 0;
 }
 
-body, html, #root {
+:root {
+  --primary-color: #5f2878; /* Updated to match SCAD purple */
+  --primary-hover: #7d14c3;
+  --secondary-color: #f8f9fa; /* Updated to match SCAD */
+  --text-dark: #333;
+  --text-medium: #666;
+  --text-light: #888;
+  --white: #ffffff;
+  --border-color: #eaeaea;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --border-radius: 8px;
+  --transition: all 0.3s ease;
+}
+
+body,
+html,
+#root {
   width: 100%;
   min-height: 100vh;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: Arial, sans-serif; /* Updated to match SCAD */
   line-height: 1.6;
   color: var(--text-dark);
-  background-color: #f5f7fa;
+  background-color: var(--secondary-color);
   overflow-x: hidden;
 }
 
@@ -40,2372 +41,403 @@ body, html, #root {
 
 .student-sidebar {
   width: 250px;
-  background: #001529;
-  color: var(--white);
+  background: #fff;
+  color: var(--text-dark);
   transition: width 0.3s;
   position: fixed;
   height: 100vh;
   z-index: 100;
+  border-right: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
 }
 
 .student-content {
   flex: 1;
   margin-left: 250px;
-  padding: 20px;
-  background-color: #f5f7fa;
-}
-
-/* Dashboard Header */
-.dashboard-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.dashboard-header h1 {
-  font-size: 28px;
-  color: var(--text-dark);
-}
-
-.dashboard-header .subtitle {
-  color: var(--text-medium);
-  font-size: 16px;
-  margin-top: 5px;
-}
-.student-dashboard {
-  padding: 24px;
-  max-width: 100%;
-  overflow-x: hidden;
-}
-.section-card .ant-card-body {
-  padding: 0;
-}
-
-/* Stats Grid */
-.stats-grid {
-  width: 100%;
-  margin-bottom: 24px;
-}
-
-
-.stat-card {
-  background: var(--white);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow-sm);
-  transition: var(--transition);
-  overflow: hidden;
-}
-
-.stat-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-lg);
-}
-
-.stat-content {
-  display: flex;
-  align-items: center;
-  padding: 20px;
-}
-
-.stat-icon {
-  font-size: 28px;
-  margin-right: 15px;
-  padding: 15px;
-  border-radius: 50%;
-  background-color: rgba(24, 144, 255, 0.1);
-  color: var(--primary-color);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.stat-info h3 {
-  font-size: 14px;
-  color: var(--text-medium);
-  margin-bottom: 5px;
-  font-weight: 500;
-}
-
-.stat-value {
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--text-dark);
-  margin: 0;
-}
-
-/* Section Cards */
-.section-card {
-  background: var(--white);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow-sm);
-  margin-bottom: 30px;
-  overflow: hidden;
-}
-
-.section-card .ant-card-head {
-  border-bottom: 1px solid var(--border-color);
-  background-color: #fafafa;
-}
-
-.section-card .ant-card-head-title {
-  font-weight: 600;
-  color: var(--text-dark);
-  padding: 16px 0;
-}
-
-.section-card .ant-card-body {
-  padding: 20px;
-}
-
-/* Internship Grid */
-.internship-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 16px;
-  padding: 16px;
-}
-
-.internship-card {
-  background: var(--white);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow-sm);
-  transition: var(--transition);
-  overflow: hidden;
-}
-
-.internship-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-lg);
-}
-
-.internship-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 15px;
-}
-
-.internship-header h3 {
-  margin: 0;
-  font-size: 18px;
-  color: var(--text-dark);
-}
-
-.company {
-  color: var(--text-medium);
-  margin-bottom: 15px;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-}
-
-.company svg {
-  margin-right: 5px;
-}
-
-.internship-details {
-  margin-bottom: 15px;
-}
-
-.internship-details p {
-  margin: 8px 0;
-  font-size: 14px;
-  color: var(--text-medium);
-  display: flex;
-  align-items: center;
-}
-
-.internship-details svg {
-  margin-right: 8px;
-  color: var(--text-light);
-}
-
-.skills {
-  margin-top: 15px;
-}
-
-.skills .ant-tag {
-  margin-bottom: 8px;
-  padding: 4px 10px;
-  border-radius: 4px;
-  background-color: #f0f2f5;
-  color: var(--text-medium);
-  border: none;
-}
-
-/* Buttons */
-.btn {
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: var(--transition);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
-
-.btn-primary {
-  background-color: var(--primary-color);
-  color: var(--white);
-}
-
-.btn-primary:hover {
-  background-color: var(--primary-hover);
-}
-
-.btn-secondary {
-  background-color: var(--white);
-  color: var(--primary-color);
-  border: 1px solid var(--primary-color);
-}
-
-.btn-secondary:hover {
-  background-color: #e6f7ff;
-}
-
-.btn-view {
   background-color: var(--secondary-color);
-  color: var(--text-dark);
-  width: 100%;
-  margin-top: 15px;
-}
-
-.btn-view:hover {
-  background-color: #e0e0e0;
-}
-
-/* Profile Completion */
-.profile-completion {
-  margin-top: 24px;
-}
-
-.progress-header {
+  min-height: 100vh;
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 15px;
+  flex-direction: column;
 }
 
-.progress-bar {
-  height: 10px;
-  background-color: #f0f0f0;
-  border-radius: 5px;
-  margin-bottom: 20px;
-  overflow: hidden;
+/* Sidebar Header */
+.sidebar-header {
+  padding: 20px;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
 }
 
-.progress-fill {
-  height: 100%;
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
   background-color: var(--primary-color);
-  border-radius: 5px;
-  transition: width 0.5s ease;
+  color: white;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 18px;
 }
 
-.profile-tasks {
+.sidebar-header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Content Header - Updated to match SCAD */
+.content-header {
+  height: 70px; /* Increased height to match SCAD */
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px; /* Increased padding to match SCAD */
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+}
+
+.nav-buttons,
+.header-actions {
+  display: flex;
+  gap: 15px; /* Increased gap to match SCAD */
+}
+
+.nav-button,
+.action-button {
+  width: 40px; /* Increased size to match SCAD */
+  height: 40px; /* Increased size to match SCAD */
+  border-radius: 8px; /* Changed to square with rounded corners like SCAD */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  color: #333; /* Darker color for icons */
+  font-size: 18px; /* Larger icons */
+}
+
+.nav-button:hover,
+.action-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px); /* Added subtle lift effect like SCAD */
+}
+
+.content-body {
+  padding: 30px; /* Increased padding to match SCAD */
+  flex: 1;
+  max-width: 1200px; /* Added max-width like SCAD */
+  margin: 0 auto; /* Center content like SCAD */
+  width: 100%;
+}
+
+/* Menu Styles - Updated to match the reference sidebar */
+.ant-menu {
+  background: white !important;
+  border-right: none !important;
+}
+
+.ant-menu-item {
+  margin: 4px 12px !important;
+  height: 48px !important;
+  line-height: 48px !important;
+  border-radius: 8px !important;
+  color: #4b5563 !important;
+  padding: 0 16px !important;
+  margin-right: 0 !important;
+  position: relative !important;
+}
+
+.ant-menu-item:hover {
+  background-color: #f9fafb !important;
+  color: #5f2878 !important;
+}
+
+.ant-menu-item-selected {
+  background-color: #f5f3ff !important;
+  color: #5f2878 !important;
+  font-weight: 500 !important;
+}
+
+/* Add active indicator for selected menu item */
+.ant-menu-item-selected::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 20px;
+  background-color: #5f2878;
+  border-radius: 0 3px 3px 0;
+}
+
+.ant-menu-item .anticon {
+  font-size: 18px;
+  margin-right: 12px !important;
+  color: inherit !important;
+}
+
+/* Override dark theme completely */
+.ant-menu.ant-menu-dark,
+.ant-menu-dark .ant-menu-sub,
+.ant-menu.ant-menu-dark .ant-menu-sub {
+  background: white !important;
+  color: #4b5563 !important;
+}
+
+.ant-menu.ant-menu-dark .ant-menu-item-selected,
+.ant-menu-submenu-popup.ant-menu-dark .ant-menu-item-selected {
+  background-color: #f5f3ff !important;
+  color: #5f2878 !important;
+}
+
+.ant-menu-dark .ant-menu-item,
+.ant-menu-dark .ant-menu-item-group-title,
+.ant-menu-dark .ant-menu-item > a,
+.ant-menu-dark .ant-menu-item > span > a {
+  color: #4b5563 !important;
+}
+
+.ant-menu-dark .ant-menu-item:hover,
+.ant-menu-dark .ant-menu-item-active,
+.ant-menu-dark .ant-menu-submenu-active,
+.ant-menu-dark .ant-menu-submenu-open,
+.ant-menu-dark .ant-menu-submenu-selected,
+.ant-menu-dark .ant-menu-submenu-title:hover {
+  background-color: #f9fafb !important;
+  color: #5f2878 !important;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .student-sidebar {
+    width: 80px;
+  }
+
+  .student-content {
+    margin-left: 80px;
+  }
+
+  .sidebar-header h2 {
+    display: none;
+  }
+
+  .logo-container {
+    justify-content: center;
+  }
+
+  .ant-menu-item .ant-menu-item-icon {
+    margin-right: 0 !important;
+  }
+
+  .ant-menu-item-only-child {
+    padding-left: 24px !important;
+  }
+
+  .ant-menu-item-selected::before {
+    height: 16px;
+  }
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Utility Classes */
+.mb-20 {
+  margin-bottom: 20px;
+}
+.mt-20 {
   margin-top: 20px;
 }
+.text-center {
+  text-align: center;
+}
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-.task {
+/* Notification System Styles - Added from SCAD */
+.notification-bell-container {
+  position: relative;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  animation: pulse-badge 1.5s infinite;
+}
+
+@keyframes pulse-badge {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.notifications-panel {
+  position: absolute;
+  top: 45px;
+  right: -10px;
+  width: 320px;
+  max-height: 400px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  overflow: hidden;
+  animation: slideDown 0.3s ease forwards;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.notifications-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #f8f9fa;
+}
+
+.notifications-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.clear-notifications {
+  background: none;
+  border: none;
+  color: #6c757d;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.clear-notifications:hover {
+  background-color: #e9ecef;
+  color: #495057;
+}
+
+.notifications-list {
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.notification-item {
+  display: flex;
+  padding: 12px 15px;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.notification-item:hover {
+  background-color: #f8f9fa;
+}
+
+.notification-item.unread {
+  background-color: #f0f7ff;
+}
+
+.notification-item.unread:hover {
+  background-color: #e6f2ff;
+}
+
+.notification-icon {
+  margin-right: 12px;
   display: flex;
   align-items: flex-start;
-  margin-bottom: 15px;
+  padding-top: 2px;
 }
 
-.task input[type="checkbox"] {
-  margin-right: 12px;
-  margin-top: 3px;
+.notification-item.success .notification-icon {
+  color: #28a745;
 }
 
-.task label {
-  display: flex;
-  flex-direction: column;
+.notification-item.error .notification-icon {
+  color: #dc3545;
+}
+
+.notification-item.info .notification-icon {
+  color: #17a2b8;
+}
+
+.notification-item.call .notification-icon {
+  color: #007bff;
+}
+
+.notification-content {
   flex: 1;
 }
 
-.task label strong {
-  color: var(--text-dark);
-  margin-bottom: 3px;
-  font-weight: 500;
-}
-
-.task label span {
-  color: var(--text-medium);
-  font-size: 13px;
-}
-
-/* Table styles */
-.ant-table {
-  width: 100% !important;
-}
-
-.ant-table-thead > tr > th {
-  background-color: #fafafa;
-  font-weight: 600;
-  color: var(--text-dark);
-}
-/* Ensure tables don't overflow */
-.ant-table-container {
-  overflow-x: auto;
-}
-
-/* Card header alignment */
-.ant-card-head {
-  padding: 0 16px;
-}
-
-.ant-card-head-title {
-  padding: 16px 0;
-}
-/* Profile Page Styles */
-.profile-content {
-  background: var(--white);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow-sm);
-  padding: 25px;
-}
-
-.profile-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 25px;
-}
-
-.profile-header h2 {
-  color: var(--text-dark);
-}
-
-.info-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-}
-
-.info-item {
-  display: flex;
-  flex-direction: column;
-}
-
-.info-item.full-width {
-  grid-column: span 2;
-}
-
-.info-label {
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: var(--text-medium);
+.notification-content p {
+  margin: 0 0 5px 0;
   font-size: 14px;
+  color: #212529;
+  line-height: 1.4;
 }
 
-.info-value {
-  color: var(--text-dark);
-  font-size: 16px;
-  padding: 8px 0;
-  border-bottom: 1px solid var(--border-color);
+.notification-time {
+  font-size: 12px;
+  color: #6c757d;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 1200px) {
-  .internship-grid {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  }
-}
-
-@media (max-width: 992px) {
-  .stats-grid .ant-col {
-    margin-bottom: 16px;
-  }
-}
-
-@media (max-width: 768px) {
-  .student-dashboard {
-    padding: 16px;
-  }
-  
-  .internship-grid {
-    grid-template-columns: 1fr;
-  }
-}
-/* Animation */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.section-card, .stat-card {
-  animation: fadeIn 0.5s ease forwards;
-}
-
-/* Utility Classes */
-.mb-20 { margin-bottom: 20px; }
-.mt-20 { margin-top: 20px; }
-.text-center { text-align: center; }
-.flex-between { display: flex; justify-content: space-between; align-items: center; }
-
-
-.upload-preview {
-  background: #fafafa;
-  padding: 16px;
-  border-radius: 4px;
-  border: 1px dashed #d9d9d9;
-}
-
-.upload-instructions {
-  margin-bottom: 16px;
-}
-
-.internship-details .ant-list-item {
-  padding: 8px 0;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .internship-details .ant-row > .ant-col {
-    margin-bottom: 12px;
-  }
-}
-/* Internship Content Container */
-.internship-content {
+.no-notifications {
   padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* Card Styling */
-.internship-card {
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Filter Section */
-.filter-section {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
-}
-
-.filter-label {
-  margin-right: 8px;
-  font-weight: 500;
-}
-
-/* Table Styling */
-.internship-table .ant-table {
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-/* Details Modal */
-.internship-details {
-  padding: 0 10px;
-}
-
-.details-section p {
-  margin-bottom: 8px;
-}
-
-.description-section {
-  margin: 20px 0;
-}
-
-.skills-list {
-  margin-top: 10px;
-}
-
-/* Application Form Styles */
-.ant-steps {
-  margin-bottom: 24px;
-}
-
-/* Form Steps */
-.application-step-content {
-  min-height: 300px;
-  padding: 0 10px;
-}
-
-/* Upload Section */
-.upload-section {
-  margin: 20px 0;
-}
-
-.upload-instructions {
-  margin-bottom: 16px;
-}
-
-.upload-preview {
-  background: #fafafa;
-  padding: 16px;
-  border-radius: 4px;
-  border: 1px dashed #d9d9d9;
-  margin-top: 16px;
-}
-
-/* Form Elements */
-.ant-form-item-label label {
-  font-weight: 500;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .filter-section {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .filter-label {
-    margin-bottom: 8px;
-  }
-  
-  .details-section .ant-col {
-    margin-bottom: 12px;
-  }
-  
-  .application-step-content {
-    padding: 0;
-  }
-}
-
-/* Custom Dragger Upload Styles */
-.ant-upload.ant-upload-drag {
-  padding: 20px;
-  background: #fafafa;
-  border-radius: 8px;
-}
-
-.ant-upload.ant-upload-drag:hover {
-  border-color: #1890ff;
-}
-
-/* File List Styles */
-.ant-list-sm .ant-list-item {
-  padding: 8px 0;
-}
-
-/* Button Styles */
-.ant-btn-primary {
-  background-color: #1890ff;
-  border-color: #1890ff;
-}
-
-/* Modal Footer Buttons */
-.ant-modal-footer .ant-btn + .ant-btn {
-  margin-left: 8px;
-}
-
-/* Form Navigation Buttons */
-.form-navigation {
-  margin-top: 24px;
-  text-align: right;
-}
-
-/* Cover Letter Textarea */
-.cover-letter-textarea {
-  min-height: 150px;
-}
-
-/* Date Picker Full Width */
-.ant-picker {
-  width: 100%;
-}
-
-/* Skills Tags */
-.skills-list .ant-tag {
-  margin-bottom: 8px;
-}
-/* Internship Content Styles */
-.internship-content {
-  padding: 24px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-/* Card Styling */
-.internship-card .ant-card-head {
-  background-color: #fafafa;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.internship-card .ant-card-head-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: #333;
-}
-
-/* Filter Section */
-.filter-section {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px;
-  padding: 8px 0;
-}
-
-.filter-label {
-  margin-right: 8px;
-  font-weight: 500;
-  color: #666;
-}
-
-/* Table Styling */
-.internship-table {
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-.internship-table .ant-table {
-  border-radius: 8px;
-}
-
-.internship-table .ant-table-thead > tr > th {
-  background-color: #fafafa;
-  font-weight: 600;
-}
-
-/* Modal Styles */
-.internship-modal .ant-modal-body {
-  padding: 24px;
-}
-report-timeline {
-  margin-top: 16px;
-}
-
-.report-timeline .ant-timeline-item {
-  padding-bottom: 8px;
-}
-
-.report-timeline .ant-timeline-item-tail {
-  border-left: 2px solid #f0f0f0;
-}
-
-.report-timeline .ant-timeline-item-head {
-  width: 12px;
-  height: 12px;
-  margin-left: -5px;
-}
-
-/* Loading state */
-.reports-loading {
-  display: flex;
-  justify-content: center;
-  padding: 40px;
-}
-.appeal-reason {
-  white-space: pre-wrap;
-  background-color: #fafafa;
-  padding: 12px;
-  border-radius: 4px;
-  margin-bottom: 16px;
-}
-.internship-details {
-  padding: 0 8px;
-}
-
-.details-section {
-  margin-bottom: 20px;
-}
-
-.details-section p {
-  margin-bottom: 12px;
-  display: flex;
-}
-
-.details-section strong {
-  min-width: 120px;
-  display: inline-block;
-  color: #666;
-}
-
-.description-section {
-  margin: 24px 0;
-}
-
-.description-section h4 {
-  margin-bottom: 12px;
-  font-size: 16px;
-  color: #333;
-}
-
-.skills-section {
-  margin-top: 20px;
-}
-
-.skills-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 12px;
-}
-
-/* Application Form Styles */
-.application-form-steps .ant-steps {
-  margin-bottom: 32px;
-}
-
-.step-content {
-  min-height: 300px;
-  padding: 0 8px;
-}
-
-/* Form Elements */
-.application-form .ant-form-item-label {
-  font-weight: 500;
-}
-
-.application-form .ant-input,
-.application-form .ant-select-selector,
-.application-form .ant-picker {
-  border-radius: 4px;
-}
-
-/* Upload Section */
-.upload-section {
-  margin: 24px 0;
-}
-
-.upload-instructions {
-  margin-bottom: 16px;
-}
-
-.upload-preview {
-  background: #fafafa;
-  padding: 16px;
-  border-radius: 8px;
-  border: 1px dashed #d9d9d9;
-  margin-top: 16px;
-}
-
-/* Document Upload */
-.document-upload .ant-upload-drag {
-  padding: 24px;
-  background: #fafafa;
-  border-radius: 8px;
-  border: 1px dashed #d9d9d9;
-}
-
-.document-upload .ant-upload-drag:hover {
-  border-color: #1890ff;
-}
-
-/* File List */
-.file-list {
-  margin-top: 16px;
-}
-
-.file-list-item {
-  display: flex;
-  align-items: center;
-  padding: 8px 0;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.file-list-item:last-child {
-  border-bottom: none;
-}
-
-/* Form Navigation */
-.form-navigation {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 24px;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .internship-content {
-    padding: 16px;
-  }
-  
-  .filter-section {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .details-section p {
-    flex-direction: column;
-  }
-  
-  .details-section strong {
-    margin-bottom: 4px;
-  }
-  
-  .step-content {
-    min-height: auto;
-    padding: 0;
-  }
-}
-
-/* Animation */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.internship-card, .application-form {
-  animation: fadeIn 0.3s ease-out;
-}
-
-/* Utility Classes */
-.mb-16 { margin-bottom: 16px; }
-.mt-16 { margin-top: 16px; }
-.text-muted { color: #666; }
-/* Applications Component Styles */
-.applications-container {
-  padding: 24px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.applications-card {
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  border: none;
-}
-
-.applications-card .ant-card-head {
-  border-bottom: 1px solid #f0f0f0;
-  padding: 0 24px;
-}
-
-.applications-card .ant-card-head-title {
-  padding: 20px 0;
-  font-size: 20px;
-  font-weight: 600;
-  color: #1a1a1a;
-}
-
-/* Table Styles */
-.applications-table {
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.applications-table .ant-table {
-  border-radius: 8px;
-}
-
-.applications-table .ant-table-thead > tr > th {
-  background-color: #f8f9fa;
-  font-weight: 600;
-  color: #4a4a4a;
-  padding: 16px;
-}
-
-.applications-table .ant-table-tbody > tr > td {
-  padding: 12px 16px;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.applications-table .ant-table-tbody > tr:hover > td {
-  background-color: #f8f9fa !important;
-}
-
-/* Status Tags */
-.status-tag {
-  padding: 4px 10px;
-  border-radius: 16px;
-  font-size: 12px;
-  font-weight: 500;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.status-pending {
-  background-color: #fff7e6;
-  color: #fa8c16;
-  border: 1px solid #ffd591;
-}
-
-.status-accepted {
-  background-color: #f6ffed;
-  color: #52c41a;
-  border: 1px solid #b7eb8f;
-}
-
-.status-rejected {
-  background-color: #fff1f0;
-  color: #f5222d;
-  border: 1px solid #ffa39e;
-}
-
-.status-finalized {
-  background-color: #f0f0f0;
-  color: #595959;
-  border: 1px solid #d9d9d9;
-}
-
-/* Details Modal */
-.application-modal .ant-modal-content {
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.application-modal .ant-modal-header {
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.application-modal .ant-modal-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: #1a1a1a;
-}
-
-/* Descriptions */
-.application-details .ant-descriptions-item-label {
-  font-weight: 500;
-  color: #595959;
-  width: 160px;
-}
-
-.application-details .ant-descriptions-item-content {
-  color: #1a1a1a;
-}
-
-/* Badges */
-.status-badge {
-  padding: 4px 10px;
-  border-radius: 16px;
-  font-size: 12px;
-  font-weight: 500;
-}
-
-.badge-pending {
-  background-color: #fff7e6;
-  color: #fa8c16;
-}
-
-.badge-accepted {
-  background-color: #f6ffed;
-  color: #52c41a;
-}
-
-.badge-rejected {
-  background-color: #fff1f0;
-  color: #f5222d;
-}
-
-.badge-finalized {
-  background-color: #f0f0f0;
-  color: #595959;
-}
-
-/* Action Buttons */
-.view-button {
-  color: #1890ff;
-  padding: 4px 8px;
-  border-radius: 4px;
-  transition: all 0.3s;
-}
-
-.view-button:hover {
-  background-color: #e6f7ff;
-}
-
-.view-button .anticon {
-  margin-right: 6px;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .applications-container {
-    padding: 16px;
-  }
-  
-  .applications-card .ant-card-head {
-    padding: 0 16px;
-  }
-  
-  .applications-table .ant-table-thead > tr > th,
-  .applications-table .ant-table-tbody > tr > td {
-    padding: 12px;
-  }
-  
-  .application-details .ant-descriptions-item-label {
-    width: 120px;
-  }
-}
-
-/* Animation */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.applications-card {
-  animation: fadeIn 0.3s ease-out;
-}
-/* Reports Component Styles */
-.reports-container {
-  padding: 24px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-.reports-filters {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
-}
-
-.reports-filters .ant-input-search {
-  width: 300px;
-}
-
-.reports-filters .ant-select {
-  min-width: 180px;
-}
-
-.reports-filters .ant-picker {
-  min-width: 250px;
-}
-
-/* Internship Status Tags */
-.internship-status-tag {
-  padding: 4px 10px;
-  border-radius: 4px;
-  font-weight: 500;
-}
-.expanded-row-content {
-  padding: 16px;
-  background-color: #fafafa;
-  border-radius: 0 0 8px 8px;
-  margin-top: -1px;
-}
-
-.expanded-row-content h4 {
-  color: #333;
-  margin-bottom: 8px;
-}
-
-.expanded-row-content ul {
-  margin-bottom: 12px;
-  padding-left: 24px;
-}
-
-/* Report Status Indicators */
-.report-status-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-weight: 500;
-}
-
-.report-status-badge.approved {
-  background-color: #f6ffed;
-  color: #52c41a;
-}
-
-.report-status-badge.pending {
-  background-color: #fff7e6;
-  color: #fa8c16;
-}
-
-.report-status-badge.flagged {
-  background-color: #fff1f0;
-  color: #f5222d;
-}
-
-.report-status-badge.rejected {
-  background-color: #fff1f0;
-  color: #f5222d;
-  text-decoration: line-through;
-}
-
-.report-status-badge.appealed {
-  background-color: #e6f7ff;
-  color: #1890ff;
-}
-
-/* Supervisor Comments Alert */
-.supervisor-comments-alert {
-  margin-top: 16px;
-  border-left: 3px solid #fa8c16;
-}
-
-/* Appeal Button */
-.appeal-button {
-  color: #1890ff;
-  border-color: #1890ff;
-}
-
-.appeal-button:hover {
-  color: #40a9ff;
-  border-color: #40a9ff;
-}
-
-/* Modal Enhancements */
-.report-modal .ant-modal-body {
-  max-height: 70vh;
-  overflow-y: auto;
-}
-
-.evaluation-modal .ant-rate {
-  font-size: 24px;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 992px) {
-  .reports-filters {
-    flex-direction: column;
-  }
-  
-  .reports-filters .ant-input-search,
-  .reports-filters .ant-select,
-  .reports-filters .ant-picker {
-    width: 100%;
-  }
-}
-
-@media (max-width: 576px) {
-  .reports-container {
-    padding: 12px;
-  }
-  
-  .ant-table td {
-    padding: 12px 8px;
-  }
-  
-  .report-actions button {
-    padding: 4px 8px;
-    font-size: 12px;
-  }
-}
-
-/* Print Specific Styles */
-@media print {
-  .reports-container {
-    padding: 0;
-  }
-  
-  .ant-table-thead th:last-child,
-  .ant-table-tbody td:last-child {
-    display: none;
-  }
-  
-  .ant-table {
-    border: 1px solid #f0f0f0;
-  }
-  
-  .ant-table-thead > tr > th,
-  .ant-table-tbody > tr > td {
-    padding: 8px;
-    border: 1px solid #f0f0f0;
-  }
-  
-  .report-status-badge {
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-}
-
-/* Animation for status changes */
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
-}
-
-.status-updated {
-  animation: pulse 0.5s ease;
-}
-
-/* Skills Tags */
-.skills-tag-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 8px;
-}
-
-.skill-tag {
-  background-color: #f0f0f0;
-  border-radius: 4px;
-  padding: 2px 8px;
-  font-size: 12px;
-  color: #333;
-}
-
-/* Responsive Table Actions */
-.table-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-}
-.internship-status-tag.completed {
-  background-color: #f6ffed;
-  color: #52c41a;
-  border: 1px solid #b7eb8f;
-}
-.appeal-modal .ant-modal-body {
-  padding-top: 16px;
-}
-.internship-status-tag.current {
-  background-color: #e6f7ff;
-  color: #1890ff;
-  border: 1px solid #91d5ff;
-}
-.report-actions {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.report-card {
-  margin-bottom: 24px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.report-card .ant-card-head {
-  background-color: #fafafa;
-}
-
-.evaluation-tag {
-  padding: 4px 10px;
-  border-radius: 4px;
-  font-weight: 500;
-}
-
-.evaluation-tag.recommended {
-  background-color: #f6ffed;
-  color: #52c41a;
-  border: 1px solid #b7eb8f;
-}
-
-.evaluation-tag.not-recommended {
-  background-color: #fff1f0;
-  color: #f5222d;
-  border: 1px solid #ffa39e;
-}
-
-/* Modal Forms */
-.report-form .ant-form-item-label {
-  font-weight: 500;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .reports-container {
-    padding: 16px;
-  }
-  
-  .report-actions {
-    flex-direction: column;
-    gap: 4px;
-  }
-}
-/* Profile Content Styles */
-.profile-content {
-  padding: 24px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.profile-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.profile-header h2 {
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* Section Styles */
-.profile-section {
-  margin-bottom: 24px;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.profile-section .ant-card-head {
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.profile-section .ant-card-head-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* Form Styles */
-.profile-form .form-section {
-  margin-bottom: 24px;
-}
-
-.profile-form .ant-form-item {
-  margin-bottom: 16px;
-}
-
-/* Internship Card Styles */
-.internship-card {
-  margin-bottom: 16px;
-  border-radius: 8px;
-}
-
-.internship-card.current {
-  border-left: 4px solid #52c41a;
-}
-
-.internship-card.completed {
-  border-left: 4px solid #1890ff;
-}
-
-.internship-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.internship-header h4 {
-  margin: 0;
-}
-
-.internship-meta {
-  display: flex;
-  gap: 16px;
-  color: #666;
-  margin-bottom: 12px;
-  flex-wrap: wrap;
-}
-
-.internship-meta p {
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-/* Skills and Responsibilities */
-.skills-container, .tags-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.responsibilities-list {
-  padding-left: 20px;
-}
-
-.responsibilities-list li {
-  margin-bottom: 8px;
-}
-
-/* Form Edit Styles */
-.internship-edit-form .ant-form-item {
-  margin-bottom: 16px;
-}
-
-.responsibility-item {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 8px;
-}
-
-.responsibility-item .ant-input {
-  flex: 1;
-}
-
-/* Empty State */
-.empty-state {
   text-align: center;
-  padding: 24px;
-  border: 1px dashed #d9d9d9;
-  border-radius: 8px;
-}
-
-/* Form Actions */
-.form-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  margin-top: 24px;
-}
-
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .profile-content {
-    padding: 16px;
-  }
-  
-  .internship-meta {
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .internship-edit-form .ant-col {
-    margin-bottom: 12px;
-  }
-  
-  .profile-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-}
-
-/* Animation */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.profile-section {
-  animation: fadeIn 0.3s ease-out;
-}
-/* Add this to your CSS file or style tag */
-.reports-container {
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* Card styles */
-.ant-card {
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 24px;
-}
-
-.ant-card-head {
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.ant-card-head-title {
-  font-weight: 600;
-  color: #333;
-}
-
-/* Table styles */
-.ant-table {
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.ant-table-thead > tr > th {
-  background-color: #fafafa;
-  font-weight: 600;
-  color: #333;
-}
-
-.ant-table-tbody > tr > td {
-  border-bottom: 1px solid #f0f0f0;
-}
-
-/* Button styles */
-.ant-btn {
-  border-radius: 4px;
-  font-weight: 500;
-}
-
-.ant-btn-primary {
-  background-color: #1890ff;
-  border-color: #1890ff;
-}
-
-.ant-btn-link {
-  padding: 0;
-}
-
-/* Modal styles */
-.ant-modal-content {
-  border-radius: 8px;
-}
-
-.ant-modal-header {
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.ant-modal-title {
-  font-weight: 600;
-  color: #333;
-}
-
-/* Form styles */
-.ant-form-item-label > label {
-  font-weight: 500;
-  color: #333;
-}
-
-.ant-input,
-.ant-select-selector,
-.ant-input-textarea {
-  border-radius: 4px;
-}
-
-/* Tag styles */
-.ant-tag {
-  border-radius: 4px;
-  font-weight: 500;
-}
-
-/* Badge styles */
-.ant-badge-status-text {
-  font-weight: 500;
-}
-
-/* Print styles - these will only apply when printing */
-@media print {
-  body * {
-    visibility: hidden;
-  }
-  #report-to-print,
-  #evaluation-to-print,
-  #report-to-print *,
-  #evaluation-to-print * {
-    visibility: visible;
-  }
-  #report-to-print,
-  #evaluation-to-print {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    padding: 20px;
-  }
-  .ant-modal-close,
-  .ant-modal-footer {
-    display: none;
-  }
-}
-
-/* Preview content styles */
-.preview-content {
-  padding: 16px;
-}
-
-.preview-content h2 {
-  color: #333;
-  margin-bottom: 16px;
-}
-
-.preview-content h3 {
-  color: #444;
-  margin: 12px 0 8px;
-}
-
-.preview-content p {
-  color: #666;
-  line-height: 1.6;
-  margin-bottom: 12px;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .reports-container {
-    padding: 10px;
-  }
-  
-  .ant-table {
-    font-size: 14px;
-  }
-  
-  .ant-btn {
-    font-size: 12px;
-    padding: 4px 8px;
-  }
-  
-  .ant-modal {
-    width: 90% !important;
-    max-width: 100%;
-  }
-}
-/* Reports Component Specific Styles */
-.reports-container {
-  padding: 24px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.report-actions {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-}
-
-.report-card {
-  margin-bottom: 24px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-}
-
-.report-card .ant-card-head {
-  background-color: #fafafa;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.report-card .ant-card-head-title {
-  font-weight: 600;
-  color: #333;
-}
-
-.report-card .ant-card-body {
-  padding: 20px;
-}
-
-/* Status Tags */
-.report-status-tag {
-  padding: 4px 10px;
-  border-radius: 4px;
-  font-weight: 500;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.status-approved {
-  background-color: #f6ffed;
-  color: #52c41a;
-  border: 1px solid #b7eb8f;
-}
-
-.status-pending {
-  background-color: #fff7e6;
-  color: #fa8c16;
-  border: 1px solid #ffd591;
-}
-
-.status-flagged {
-  background-color: #fff1f0;
-  color: #f5222d;
-  border: 1px solid #ffa39e;
-}
-
-.status-rejected {
-  background-color: #fff1f0;
-  color: #f5222d;
-  border: 1px solid #ffa39e;
-}
-
-/* Evaluation Tags */
-.evaluation-tag {
-  padding: 4px 10px;
-  border-radius: 4px;
-  font-weight: 500;
-}
-
-.evaluation-tag.recommended {
-  background-color: #f6ffed;
-  color: #52c41a;
-  border: 1px solid #b7eb8f;
-}
-
-.evaluation-tag.not-recommended {
-  background-color: #fff1f0;
-  color: #f5222d;
-  border: 1px solid #ffa39e;
-}
-
-/* Comments Section */
-.comments-list {
-  margin-top: 16px;
-}
-
-.comment-item {
-  padding: 12px;
-  border-radius: 4px;
-  margin-bottom: 8px;
-  background-color: #fafafa;
-}
-
-.comment-item.system {
-  background-color: #fff7e6;
-}
-
-.comment-item.supervisor {
-  background-color: #e6f7ff;
-}
-
-.comment-item.student {
-  background-color: #f6ffed;
-}
-
-.comment-meta {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 4px;
-  font-size: 12px;
-  color: #666;
-}
-
-.comment-content {
-  color: #333;
-}
-
-/* Appeal Form */
-.appeal-form .ant-form-item {
-  margin-bottom: 16px;
-}
-
-.appeal-form .ant-form-item-label {
-  font-weight: 500;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .reports-container {
-    padding: 16px;
-  }
-  
-  .report-actions {
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .report-card .ant-card-body {
-    padding: 16px;
-  }
-}
-
-/* Print Styles */
-@media print {
-  .report-actions,
-  .ant-table-thead,
-  .ant-table-tbody tr:not(.ant-table-expanded-row) > td:last-child {
-    display: none;
-  }
-  
-  .ant-table {
-    width: 100% !important;
-  }
-  
-  .ant-table-tbody tr {
-    page-break-inside: avoid;
-  }
-}
-/* Enhanced Expanded Row Styles */
-.expanded-content {
-  padding: 16px;
-  background: #fafafa;
-  border-radius: 0 0 8px 8px;
-}
-
-.expanded-section {
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.expanded-section:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-
-.skills-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-/* Dropdown Actions */
-.ant-dropdown-link {
-  color: #1890ff;
-}
-
-/* Evaluation Rating */
-.ant-rate {
-  color: #faad14;
-}
-
-/* Responsive Actions */
-@media (max-width: 768px) {
-  .ant-table-tbody .ant-dropdown {
-    display: block;
-    margin-bottom: 8px;
-  }
-  
-  .ant-table-tbody .ant-space {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-
-/* Course Selection Styles */
-.course-selection-list {
-  max-height: 300px;
-  overflow-y: auto;
-  border: 1px solid #f0f0f0;
-  border-radius: 4px;
-  padding: 8px;
-}
-
-.course-selection-item {
-  padding: 8px;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.course-selection-item:last-child {
-  border-bottom: none;
-}
-
-.selected-courses-list {
-  margin-top: 16px;
-}
-
-.selected-course-item {
-  padding: 4px 0;
-}
-
-/* Collapse Panel Styles */
-.ant-collapse {
-  background: #fff;
-  border-radius: 4px;
-}
-
-.ant-collapse-header {
-  font-weight: 500;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .course-selection-modal .ant-modal {
-    width: 90% !important;
-  }
-  
-  .ant-table-tbody .ant-space {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-.notification-unread {
-  background-color: #f0f7ff;
-  cursor: pointer;
-}
-
-.notification-read {
-  opacity: 0.8;
-}
-
-.video-guide-section {
-  margin-top: 20px;
-  padding: 15px;
-  background-color: #f9f9f9;
-  border-radius: 4px;
-}
-
-.video-container {
-  margin-bottom: 20px;
-}
-
-.video-description {
-  padding: 10px;
-}
-/* Interactive Elements - New Styles */
-
-/* Notification Styles */
-.notification-unread {
-  background-color: #f0f7ff;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.notification-unread:hover {
-  background-color: #e6f0ff;
-}
-
-.notification-read {
-  opacity: 0.8;
-  background-color: #fff;
-}
-
-/* Video Guide Section */
-.video-guide-section {
-  margin-top: 20px;
-  padding: 15px;
-  background-color: #f9f9f9;
-  border-radius: 4px;
-  border-left: 4px solid var(--primary-color);
-}
-
-.video-guide-section h3 {
-  color: var(--text-dark);
-  margin-bottom: 8px;
-}
-
-.video-guide-section p {
-  color: var(--text-medium);
-  margin-bottom: 12px;
-}
-
-/* Video Container */
-.video-container {
-  margin-bottom: 20px;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.video-description {
-  padding: 10px;
-}
-
-.video-description h4 {
-  color: var(--text-dark);
-  margin-bottom: 8px;
-}
-
-.video-description ul {
-  padding-left: 20px;
-  color: var(--text-medium);
-}
-
-.video-description li {
-  margin-bottom: 6px;
-}
-
-/* Profile Completion Modal */
-.profile-completion-modal .ant-steps {
-  margin-bottom: 24px;
-}
-
-.profile-completion-modal .ant-form-item {
-  margin-bottom: 16px;
-}
-
-/* Suggested Companies Enhancements */
-.unviewed-row {
-  background-color: #f8fbff !important;
-}
-
-.unviewed-row:hover {
-  background-color: #f0f7ff !important;
-}
-
-/* Badge for new/unviewed items */
-.ant-badge-dot {
-  box-shadow: 0 0 0 2px #fff;
-}
-
-/* Tab Styles for Company Suggestions */
-.ant-tabs-tab {
-  font-weight: 500;
-}
-
-.ant-tabs-tab-active {
-  font-weight: 600;
-}
-
-/* Filter and Search Controls */
-.filter-controls {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
-}
-
-/* Saved Company Indicator */
-.saved-company-icon {
-  color: #faad14;
-}
-
-/* Responsive Adjustments for New Elements */
-@media (max-width: 768px) {
-  .filter-controls {
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .video-guide-section {
-    padding: 12px;
-  }
-  
-  .profile-completion-modal .ant-steps {
-    margin-bottom: 16px;
-  }
-}
-
-/* Animation for Refresh Button */
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.refreshing {
-  animation: spin 1s linear infinite;
-}
-
-/* Hover Effects for Interactive Elements */
-.stat-card:hover .stat-icon {
-  transform: scale(1.1);
-  transition: transform 0.3s ease;
-}
-
-/* Table Row Highlight */
-.ant-table-row:hover {
-  background-color: #fafafa !important;
-}
-
-/* Modal Content Styles */
-.modal-content {
-  max-height: 70vh;
-  overflow-y: auto;
-}
-
-/* Form Steps */
-.ant-steps-item-process .ant-steps-item-icon {
-  background: var(--primary-color);
-  border-color: var(--primary-color);
-}
-
-/* Upload Dragger */
-.ant-upload-drag {
-  border-radius: 8px;
-  padding: 24px;
-}
-
-/* Skill Tags in Forms */
-.skill-tag-input .ant-tag {
-  margin-bottom: 8px;
-}
-
-/* Checkbox Group Layout */
-.ant-checkbox-group-item {
-  display: block;
-  margin-bottom: 8px;
-}
-
-/* Enhanced Tooltips */
-.ant-tooltip-inner {
-  border-radius: 4px;
-  padding: 8px 12px;
-}
-
-/* Custom Scrollbar for Modal Content */
-.modal-content::-webkit-scrollbar {
-  width: 6px;
-}
-
-.modal-content::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-.modal-content::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 3px;
-}
-
-.modal-content::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
-}
-/* Profile Content Styles */
-.profile-content {
-  background: var(--white);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow-sm);
-  padding: 25px;
-  margin-bottom: 30px;
-}
-
-.profile-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 25px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.profile-header h2 {
-  font-size: 24px;
-  color: var(--text-dark);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* Form Sections */
-.form-section {
-  margin-bottom: 30px;
-  background: var(--white);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow-sm);
-}
-
-.form-section .ant-card-head {
-  background-color: #fafafa;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.form-section .ant-card-head-title {
-  font-weight: 600;
-  color: var(--text-dark);
-}
-
-/* Card Styles for Internships, Jobs, Activities */
-.internship-card,
-.job-card,
-.activity-card {
-  margin-bottom: 16px;
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow-sm);
-  transition: var(--transition);
-}
-
-.internship-card:hover,
-.job-card:hover,
-.activity-card:hover {
-  box-shadow: var(--shadow-md);
-}
-
-.internship-card.current {
-  border-left: 4px solid var(--primary-color);
-}
-
-.internship-card.completed {
-  border-left: 4px solid #52c41a;
-}
-
-/* Header Styles for Cards */
-.internship-header,
-.job-header,
-.activity-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.internship-header h4,
-.job-header h4,
-.activity-header h4 {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 500;
-  color: var(--text-dark);
-}
-
-/* Meta Information Styles */
-.internship-meta,
-.job-meta,
-.activity-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  margin-bottom: 12px;
-  color: var(--text-medium);
-}
-
-.internship-meta p,
-.job-meta p,
-.activity-meta p {
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-/* Skills and Responsibilities */
-.skills-container,
-.tags-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 12px 0;
-}
-
-.responsibilities-list {
-  padding-left: 20px;
-  color: var(--text-medium);
-}
-
-.responsibilities-list li {
-  margin-bottom: 8px;
-}
-
-/* Form Edit Styles */
-.internship-edit-form .ant-form-item,
-.job-edit-form .ant-form-item,
-.activity-edit-form .ant-form-item {
-  margin-bottom: 16px;
-}
-
-.responsibility-item {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 8px;
-  align-items: center;
-}
-
-.responsibility-item .ant-input {
-  flex: 1;
-}
-
-/* Empty State */
-.empty-state {
-  text-align: center;
-  padding: 24px;
-  border: 1px dashed var(--border-color);
-  border-radius: var(--border-radius);
-  color: var(--text-light);
-}
-
-/* Form Actions */
-.form-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  margin-top: 24px;
-  padding-top: 16px;
-  border-top: 1px solid var(--border-color);
-}
-
-/* View Mode Styles */
-.profile-view .profile-section {
-  margin-bottom: 24px;
-}
-
-.profile-view .ant-descriptions-item-label {
-  font-weight: 500;
-  color: var(--text-medium);
-}
-
-.profile-view .ant-descriptions-item-content {
-  color: var(--text-dark);
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .profile-content {
-    padding: 16px;
-  }
-  
-  .profile-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-  
-  .internship-meta,
-  .job-meta,
-  .activity-meta {
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .responsibility-item {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .responsibility-item .ant-input {
-    width: 100%;
-  }
-}
-
-/* Animation */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.profile-section {
-  animation: fadeIn 0.3s ease-out;
-}
-
-/* Additional Tag Styles */
-.ant-tag {
-  border-radius: 12px;
-  padding: 2px 10px;
-  font-size: 12px;
-}
-
-/* Custom Colors for Different Sections */
-.internship-card .ant-tag {
-  background-color: #e6f7ff;
-  color: #1890ff;
-  border-color: #91d5ff;
-}
-
-.job-card .ant-tag {
-  background-color: #f6ffed;
-  color: #52c41a;
-  border-color: #b7eb8f;
-}
-
-.activity-card .ant-tag {
-  background-color: #fff7e6;
-  color: #fa8c16;
-  border-color: #ffd591;
-}
-
-/* Enhanced Form Controls */
-.ant-input,
-.ant-select-selector,
-.ant-input-number,
-.ant-picker {
-  border-radius: 4px !important;
-}
-
-.ant-input:focus,
-.ant-select-focused .ant-select-selector,
-.ant-input-number-focused,
-.ant-picker-focused {
-  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2) !important;
-}
-
-/* Checkbox Group Styles */
-.ant-checkbox-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.ant-checkbox-wrapper + .ant-checkbox-wrapper {
-  margin-left: 0;
-}
-
-/* Textarea Styles */
-.ant-input-textarea {
-  border-radius: 4px;
-}
-
-/* Button Styles in Forms */
-.ant-btn {
-  border-radius: 4px;
-  font-weight: 500;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-/* Danger Button Styles */
-.ant-btn-danger {
-  color: #fff;
-  background: #ff4d4f;
-  border-color: #ff4d4f;
-}
-
-.ant-btn-danger:hover {
-  color: #fff;
-  background: #ff7875;
-  border-color: #ff7875;
-}
-
-/* Dashed Button Styles */
-.ant-btn-dashed {
-  color: var(--primary-color);
-  border-color: var(--primary-color);
-}
-
-.ant-btn-dashed:hover {
-  color: var(--primary-hover);
-  border-color: var(--primary-hover);
+  color: #6c757d;
+  font-style: italic;
 }
