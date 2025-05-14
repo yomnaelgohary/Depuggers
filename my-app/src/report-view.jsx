@@ -31,7 +31,7 @@ function ReportView() {
 
     // Mock data for different students
     const mockStudents = {
-      "1": {
+      1: {
         name: "Omar Ahmed",
         major: "Engineering",
         company: "TechCorp",
@@ -42,7 +42,7 @@ function ReportView() {
         intro: "Working on CAD designs for new products",
         relevantCourse: "Mechanical Design",
       },
-      "2": {
+      2: {
         name: "Marawan Mahmoud",
         major: "Engineering",
         company: "DataMinds",
@@ -53,7 +53,7 @@ function ReportView() {
         intro: "Developing APIs and database solutions",
         relevantCourse: "Database Systems",
       },
-      "3": {
+      3: {
         name: "Zain Mohamed",
         major: "Business Informatics",
         company: "CloudSphere",
@@ -64,7 +64,7 @@ function ReportView() {
         intro: "Setting up and maintaining network infrastructure",
         relevantCourse: "Computer Networks",
       },
-      "4": {
+      4: {
         name: "Youmna Ali",
         major: "Business Informatics",
         company: "InnovateSoft",
@@ -75,7 +75,7 @@ function ReportView() {
         intro: "Analyzing business processes and suggesting improvements",
         relevantCourse: "Business Intelligence",
       },
-      "5": {
+      5: {
         name: "Adham Ashraf",
         major: "Pharmacy",
         company: "CodeCraft",
@@ -86,7 +86,7 @@ function ReportView() {
         intro: "Researching drug interactions and effects",
         relevantCourse: "Pharmacology",
       },
-      "6": {
+      6: {
         name: "Sara Hassan",
         major: "Engineering",
         company: "TechCorp",
@@ -97,7 +97,7 @@ function ReportView() {
         intro: "Building responsive web applications",
         relevantCourse: "Web Development",
       },
-      "7": {
+      7: {
         name: "Ahmed Mahmoud",
         major: "Engineering",
         company: "DataMinds",
@@ -187,11 +187,6 @@ function ReportView() {
     setShowCommentPopup(false)
   }
 
-  const handleViewEvaluation = () => {
-    // Implement view evaluation functionality
-    console.log("Viewing evaluation")
-  }
-
   const handleDownloadPDF = () => {
     // Implement PDF download functionality
     console.log("Downloading PDF")
@@ -214,7 +209,7 @@ function ReportView() {
 
         {/* Report Information Card */}
         <div className="report-card">
-          <h2 className="card-title">Report Information</h2>
+          <h2 className="card-title">Evaluation Report</h2>
 
           <div className="info-grid">
             <div className="info-column">
@@ -258,6 +253,23 @@ function ReportView() {
               <div className="info-item">
                 <div className="info-label">Relevant Course</div>
                 <div className="info-value">{studentData.relevantCourse}</div>
+              </div>
+
+              <div className="info-item">
+                <div className="info-label">Report Body</div>
+                <div className="info-value">
+                  This report evaluates the performance and learning outcomes of the internship. The student has
+                  demonstrated
+                  {studentData.status === "Accepted"
+                    ? " excellent"
+                    : studentData.status === "Pending"
+                      ? " satisfactory"
+                      : studentData.status === "Flagged"
+                        ? " concerning"
+                        : " insufficient"}
+                  progress throughout the internship period. The student has successfully applied knowledge from their
+                  coursework to real-world scenarios.
+                </div>
               </div>
             </div>
           </div>
@@ -330,26 +342,8 @@ function ReportView() {
           </button>
         </div>
 
-        {/* Related Evaluations Card */}
+        {/* Download Button */}
         <div className="report-card">
-          <h2 className="card-title">Related Student Company Evaluations</h2>
-
-          <div className="evaluation-item">
-            <div className="evaluation-info">
-              <div className="evaluation-icon">
-                <span className="document-icon"></span>
-              </div>
-              <div className="evaluation-details">
-                <div className="evaluation-title">Evaluation #1</div>
-                <div className="evaluation-date">July 1, 2023</div>
-              </div>
-            </div>
-
-            <button className="view-button" onClick={handleViewEvaluation}>
-              View
-            </button>
-          </div>
-
           <div className="download-button-container">
             <button className="download-button" onClick={handleDownloadPDF}>
               <svg

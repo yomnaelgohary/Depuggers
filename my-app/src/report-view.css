@@ -442,3 +442,11 @@ html {
     width: 100%;
   }
 }
+/* Add styles for the report body text */
+.info-value {
+  font-size: 15px;
+  font-weight: 500;
+  color: #374151;
+  line-height: 1.5;
+}
+
