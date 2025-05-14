@@ -2,14 +2,15 @@
 
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import { User, LogOut, Bell, ChevronLeft, ChevronRight, Users, BarChart2, AlignLeft } from 'lucide-react'
 import "./Faculty.css"
-import { ChevronUp, ChevronDown, User, LogOut } from "lucide-react"
 
 function Faculty() {
   const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState("students") // 'students' or 'statistics'
   const [showReportPreview, setShowReportPreview] = useState(false)
   const [showProfileMenu, setShowProfileMenu] = useState(false)
+  const [showNotifications, setShowNotifications] = useState(false)
 
   // Mock student data with updated majors
   const [students, setStudents] = useState([
@@ -272,269 +273,373 @@ function Faculty() {
     setGeneratedReport(null)
   }
 
+  const handleBack = () => {
+    console.log("Going back");
+    window.history.back();
+  };
+
+  const handleNext = () => {
+    console.log("Going forward");
+    window.history.forward();
+  };
+
+  const [showFilterModal, setShowFilterModal] = useState(false);
+  const [selectedFilters, setSelectedFilters] = useState({
+    major: "All Majors",
+    status: "All Statuses"
+  });
+
   return (
-    <div className="faculty-container">
-      <header className="faculty-header">
-        <div className="header-title">
-          <h2 className={`header-greeting ${activeTab === "statistics" ? "statistics-title" : ""}`}>
-            {activeTab === "statistics" ? "Real-time Statistics" : "Hello Dr. Milad"}
-          </h2>
+    <div className="app-container">
+      {/* Sidebar */}
+      <aside className="sidebar">
+        <div className="sidebar-header">
+          <h2 className="logo-text">Hello Dr. Milad</h2>
         </div>
 
-        <div className="header-right">
-          <div className="nav-tabs">
-            <button
-              className={`nav-tab ${activeTab === "students" ? "active" : ""}`}
-              onClick={() => setActiveTab("students")}
-            >
-              Students {activeTab === "students" ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-            </button>
-            <button
-              className={`nav-tab ${activeTab === "statistics" ? "active" : ""}`}
-              onClick={() => setActiveTab("statistics")}
-            >
-              Statistics {activeTab === "statistics" ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-            </button>
+        <div className="sidebar-content">
+          <ul className="sidebar-nav">
+            <li className={`sidebar-nav-item ${activeTab === "students" ? "active" : ""}`}>
+              <a href="#" className="sidebar-nav-link" onClick={() => setActiveTab("students")}>
+                <Users size={20} />
+                <span>Students</span>
+              </a>
+            </li>
+            <li className={`sidebar-nav-item ${activeTab === "statistics" ? "active" : ""}`}>
+              <a href="#" className="sidebar-nav-link" onClick={() => setActiveTab("statistics")}>
+                <BarChart2 size={20} />
+                <span>Statistics</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </aside>
+
+      <div className="main-content">
+        {/* Header */}
+        <header className="main-header">
+          <div className="header-left">
+            <div className="nav-buttons">
+              <button className="nav-button" onClick={handleBack}>
+                <ChevronLeft size={20} />
+              </button>
+              <button className="nav-button" onClick={handleNext}>
+                <ChevronRight size={20} />
+              </button>
+            </div>
           </div>
 
-          <div className="profile-container">
-            <div className="profile-image" onClick={() => setShowProfileMenu(!showProfileMenu)}>
-              <User size={24} />
+          <div className="header-right">
+            <div className="notification-container">
+              <button className="notification-button" onClick={() => setShowNotifications(!showNotifications)}>
+                <Bell size={20} />
+              </button>
+              {showNotifications && (
+                <div className="notification-dropdown">
+                  <div className="notification-item">
+                    <p>No new notifications</p>
+                  </div>
+                </div>
+              )}
             </div>
 
-            {showProfileMenu && (
-              <div className="profile-menu">
-                <button className="profile-menu-item" onClick={handleLogout}>
-                  <LogOut size={16} />
-                  <span>Logout</span>
+            <div className="profile-container">
+              <div className="profile-image" onClick={() => setShowProfileMenu(!showProfileMenu)}>
+                <User size={20} />
+              </div>
+
+              {showProfileMenu && (
+                <div className="profile-menu">
+                  <button className="profile-menu-item" onClick={handleLogout}>
+                    <LogOut size={16} />
+                    <span>Logout</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </header>
+
+        {/* Main content area */}
+        <main className="content-area">
+          <div className="content-header">
+            <h2 className="content-title">{activeTab === "statistics" ? "Real-time Statistics" : "Students"}</h2>
+          </div>
+
+          {activeTab === "students" ? (
+            <>
+              <div className="filters-section">
+                <button
+                  className={`filter-button-main ${showFilterModal ? 'active' : ''}`}
+                  onClick={() => setShowFilterModal(!showFilterModal)}
+                >
+                  <AlignLeft size={18} />
+                  <span>Filters</span>
                 </button>
-              </div>
-            )}
-          </div>
-        </div>
-      </header>
-
-      <main className="faculty-main">
-        {activeTab === "students" ? (
-          <>
-            <div className="filters-container">
-              <div className="filter-buttons">
-                {uniqueMajors.map((major) => (
-                  <button
-                    key={major}
-                    className={`filter-button ${selectedMajor === major ? "active" : ""}`}
-                    onClick={() => setSelectedMajor(major)}
-                  >
-                    {major}
-                  </button>
-                ))}
+                <div className="students-count">
+                  Showing {filteredStudents.length} of {students.length} students
+                </div>
               </div>
 
-              <div className="filter-buttons">
-                {uniqueStatuses.map((status) => (
-                  <button
-                    key={status}
-                    className={`filter-button ${selectedStatus === status ? "active" : ""}`}
-                    onClick={() => setSelectedStatus(status)}
-                  >
-                    {status}
-                  </button>
-                ))}
-              </div>
-            </div>
+              {showFilterModal && (
+                <div className="filter-modal-overlay">
+                  <div className="filter-modal">
+                    <div className="filter-modal-header">
+                      <h3>Filters</h3>
+                      <button className="close-modal-button" onClick={() => setShowFilterModal(false)}>×</button>
+                    </div>
 
-            <div className="students-count">
-              Showing {filteredStudents.length} of {students.length} students
-            </div>
+                    <div className="filter-modal-content">
+                      <div className="filter-section">
+                        <h4>MAJOR</h4>
+                        <div className="filter-options">
+                          {uniqueMajors.map((major) => (
+                            <button
+                              key={major}
+                              className={`filter-option ${selectedFilters.major === major ? 'active' : ''}`}
+                              onClick={() => setSelectedFilters({ ...selectedFilters, major })}
+                            >
+                              {major}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
 
-            <div className="students-table-container">
-              <table className="students-table">
-                <thead>
-                  <tr>
-                    <th>Student</th>
-                    <th>Major</th>
-                    <th>Status</th>
-                    <th>Comment</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredStudents.length > 0 ? (
-                    filteredStudents.map((student) => (
-                      <tr key={student.id}>
-                        <td>{student.name}</td>
-                        <td className="major">{student.major}</td>
-                        <td>
-                          <span className={`status-pill ${student.status.toLowerCase()}`}>{student.status}</span>
-                        </td>
-                        <td className="comment">{student.comment || "-"}</td>
-                        <td className="actions">
-                          <button className="action-button details-button" onClick={() => handleViewReport(student.id)}>
-                            {student.status === "Pending" ? "Review" : "Details"}
-                          </button>
+                      <div className="filter-section">
+                        <h4>STATUS</h4>
+                        <div className="filter-options">
+                          {uniqueStatuses.map((status) => (
+                            <button
+                              key={status}
+                              className={`filter-option ${selectedFilters.status === status ? 'active' : ''}`}
+                              onClick={() => setSelectedFilters({ ...selectedFilters, status })}
+                            >
+                              {status}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="filter-modal-footer">
+                      <button
+                        className="reset-button"
+                        onClick={() => {
+                          setSelectedFilters({
+                            major: "All Majors",
+                            status: "All Statuses"
+                          });
+                        }}
+                      >
+                        Reset
+                      </button>
+                      <button
+                        className="apply-button"
+                        onClick={() => {
+                          setSelectedMajor(selectedFilters.major);
+                          setSelectedStatus(selectedFilters.status);
+                          setShowFilterModal(false);
+                        }}
+                      >
+                        Show {filteredStudents.length} students
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <div className="students-table-container">
+                <table className="students-table">
+                  <thead>
+                    <tr>
+                      <th>Student</th>
+                      <th>Major</th>
+                      <th>Status</th>
+                      <th>Comment</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredStudents.length > 0 ? (
+                      filteredStudents.map((student) => (
+                        <tr key={student.id}>
+                          <td>{student.name}</td>
+                          <td className="major">{student.major}</td>
+                          <td>
+                            <span className={`status-pill ${student.status.toLowerCase()}`}>{student.status}</span>
+                          </td>
+                          <td className="comment">{student.comment || "-"}</td>
+                          <td className="actions">
+                            <button
+                              className="action-button details-button"
+                              onClick={() => handleViewReport(student.id)}
+                            >
+                              {student.status === "Pending" ? "Review" : "Details"}
+                            </button>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="5" className="no-results">
+                          No students match the selected filters
                         </td>
                       </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan="5" className="no-results">
-                        No students match the selected filters
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </>
-        ) : (
-          <div className="statistics-view">
-            {statistics ? (
-              <div className="statistics-content">
-                <div className="stat-section">
-                  <h4 className="stat-title">Status Distribution</h4>
-                  <div className="status-stats">
-                    <div className="status-stat-item">
-                      <div className="status-label">Accepted</div>
-                      <div className="status-count accepted">{statistics.statusCounts?.accepted ?? 0}</div>
-                    </div>
-                    <div className="status-stat-item">
-                      <div className="status-label">Rejected</div>
-                      <div className="status-count rejected">{statistics.statusCounts?.rejected ?? 0}</div>
-                    </div>
-                    <div className="status-stat-item">
-                      <div className="status-label">Flagged</div>
-                      <div className="status-count flagged">{statistics.statusCounts?.flagged ?? 0}</div>
-                    </div>
-                    <div className="status-stat-item">
-                      <div className="status-label">Pending</div>
-                      <div className="status-count pending">{statistics.statusCounts?.pending ?? 0}</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="stat-section">
-                  <h4 className="stat-title">Average Review Time</h4>
-                  <div className="avg-review-time">
-                    <div className="time-value">{statistics.averageReviewTime || "N/A"}</div>
-                  </div>
-                </div>
-
-                <div className="stat-section">
-                  <h4 className="stat-title">Most Frequently Used Courses</h4>
-                  <ul className="stat-list">
-                    {(statistics.topCourses || []).map((course, index) => (
-                      <li key={index} className="stat-list-item">
-                        <span className="item-name">{course.name}</span>
-                        <span className="item-value">{course.count} internships</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="stat-section">
-                  <h4 className="stat-title">Top Rated Companies</h4>
-                  <ul className="stat-list">
-                    {(statistics.topRatedCompanies || []).map((company, index) => (
-                      <li key={index} className="stat-list-item">
-                        <span className="item-name">{company.name}</span>
-                        <span className="item-value">{company.rating}/5</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="stat-section">
-                  <h4 className="stat-title">Top Companies by Internship Count</h4>
-                  <ul className="stat-list">
-                    {(statistics.topCompaniesByCount || []).map((company, index) => (
-                      <li key={index} className="stat-list-item">
-                        <span className="item-name">{company.name}</span>
-                        <span className="item-value">{company.count} internships</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            ) : (
-              <p>Loading statistics...</p>
-            )}
-
-            <div className="report-generation">
-              <div className="report-form">
-                <button
-                  className="generate-button"
-                  onClick={handleGenerateReport}
-                  disabled={isGeneratingReport || !statistics}
-                >
-                  {isGeneratingReport ? "Generating..." : "Generate Comprehensive Report"}
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Report Preview Modal */}
-        {showReportPreview && generatedReport && (
-          <div className="report-preview-overlay">
-            <div className="report-preview-container">
-              <div className="report-preview-header">
-                <h2>{generatedReport.title}</h2>
-                <button className="close-preview-button" onClick={handleClosePreview} aria-label="Close preview">
-                  ×
-                </button>
-              </div>
-
-              <div className="report-preview-content">
-                <div className="report-meta">
-                  <p>Generated on: {generatedReport.date}</p>
-                  <p>Generated by: Dr. Milad</p>
-                </div>
-
-                {generatedReport.sections.map((section, index) => (
-                  <div key={index} className="report-section">
-                    <h3>{section.title}</h3>
-                    {section.data?.length > 0 ? (
-                      <dl className="report-list">
-                        {section.data.map((item, i) => (
-                          <div key={i} className="report-list-item">
-                            <dt className="report-item-label">{item.label}</dt>
-                            <dd className="report-item-value">{item.value}</dd>
-                          </div>
-                        ))}
-                      </dl>
-                    ) : (
-                      <p className="no-data">No data available for this section.</p>
                     )}
-                  </div>
-                ))}
+                  </tbody>
+                </table>
               </div>
+            </>
+          ) : (
+            <div className="statistics-view">
+              {statistics ? (
+                <div className="statistics-content">
+                  <div className="stat-section">
+                    <h4 className="stat-title">Status Distribution</h4>
+                    <div className="status-stats">
+                      <div className="status-stat-item">
+                        <div className="status-label">Accepted</div>
+                        <div className="status-count accepted">{statistics.statusCounts?.accepted ?? 0}</div>
+                      </div>
+                      <div className="status-stat-item">
+                        <div className="status-label">Rejected</div>
+                        <div className="status-count rejected">{statistics.statusCounts?.rejected ?? 0}</div>
+                      </div>
+                      <div className="status-stat-item">
+                        <div className="status-label">Flagged</div>
+                        <div className="status-count flagged">{statistics.statusCounts?.flagged ?? 0}</div>
+                      </div>
+                      <div className="status-stat-item">
+                        <div className="status-label">Pending</div>
+                        <div className="status-count pending">{statistics.statusCounts?.pending ?? 0}</div>
+                      </div>
+                    </div>
+                  </div>
 
-              <div className="report-preview-footer">
-                <button className="download-pdf-button" onClick={handleDownloadPDF}>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="download-icon"
-                    aria-hidden="true"
+                  <div className="stat-section">
+                    <h4 className="stat-title">Average Review Time</h4>
+                    <div className="avg-review-time">
+                      <div className="time-value">{statistics.averageReviewTime || "N/A"}</div>
+                    </div>
+                  </div>
+
+                  <div className="stat-section">
+                    <h4 className="stat-title">Most Frequently Used Courses</h4>
+                    <ul className="stat-list">
+                      {(statistics.topCourses || []).map((course, index) => (
+                        <li key={index} className="stat-list-item">
+                          <span className="item-name">{course.name}</span>
+                          <span className="item-value">{course.count} internships</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="stat-section">
+                    <h4 className="stat-title">Top Rated Companies</h4>
+                    <ul className="stat-list">
+                      {(statistics.topRatedCompanies || []).map((company, index) => (
+                        <li key={index} className="stat-list-item">
+                          <span className="item-name">{company.name}</span>
+                          <span className="item-value">{company.rating}/5</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="stat-section">
+                    <h4 className="stat-title">Top Companies by Internship Count</h4>
+                    <ul className="stat-list">
+                      {(statistics.topCompaniesByCount || []).map((company, index) => (
+                        <li key={index} className="stat-list-item">
+                          <span className="item-name">{company.name}</span>
+                          <span className="item-value">{company.count} internships</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              ) : (
+                <p>Loading statistics...</p>
+              )}
+
+              <div className="report-generation">
+                <div className="report-form">
+                  <button
+                    className="generate-button"
+                    onClick={handleGenerateReport}
+                    disabled={isGeneratingReport || !statistics}
                   >
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                    <polyline points="7 10 12 15 17 10"></polyline>
-                    <line x1="12" y1="15" x2="12" y2="3"></line>
-                  </svg>
-                  Download as PDF
-                </button>
+                    {isGeneratingReport ? "Generating..." : "Generate Comprehensive Report"}
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        )}
-      </main>
+          )}
+
+          {/* Report Preview Modal */}
+          {showReportPreview && generatedReport && (
+            <div className="report-preview-overlay">
+              <div className="report-preview-container">
+                <div className="report-preview-header">
+                  <h2>{generatedReport.title}</h2>
+                  <button className="close-preview-button" onClick={handleClosePreview} aria-label="Close preview">
+                    ×
+                  </button>
+                </div>
+
+                <div className="report-preview-content">
+                  <div className="report-meta">
+                    <p>Generated on: {generatedReport.date}</p>
+                    <p>Generated by: Dr. Milad</p>
+                  </div>
+
+                  {generatedReport.sections.map((section, index) => (
+                    <div key={index} className="report-section">
+                      <h3>{section.title}</h3>
+                      {section.data?.length > 0 ? (
+                        <dl className="report-list">
+                          {section.data.map((item, i) => (
+                            <div key={i} className="report-list-item">
+                              <dt className="report-item-label">{item.label}</dt>
+                              <dd className="report-item-value">{item.value}</dd>
+                            </div>
+                          ))}
+                        </dl>
+                      ) : (
+                        <p className="no-data">No data available for this section.</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                <div className="report-preview-footer">
+                  <button className="download-pdf-button" onClick={handleDownloadPDF}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="download-icon"
+                      aria-hidden="true"
+                    >
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                      <polyline points="7 10 12 15 17 10"></polyline>
+                      <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Download as PDF
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </main>
+      </div>
     </div>
   )
 }
