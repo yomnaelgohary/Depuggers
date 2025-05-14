@@ -158,6 +158,7 @@
   align-items: center;
   gap: 15px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  min-width: 0; /* Ensure the card can shrink properly */
 }
 
 /* Force stat-icon to be purple with !important */
@@ -170,25 +171,34 @@
   border-radius: 50% !important;
   background-color: #f5f3ff !important; /* Light purple background */
   color: #5f2878 !important; /* Dark purple icon */
+  flex-shrink: 0; /* Prevent icon from shrinking */
 }
 
+/* Improved stat content layout */
 .stat-content {
   flex: 1;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column; /* Changed to column layout */
+  gap: 8px; /* Add space between title and value */
+  min-width: 0; /* Allow content to shrink */
+  overflow: hidden; /* Prevent overflow */
 }
 
 .stat-title {
-  font-size: 16px;
+  font-size: 14px; /* Slightly smaller */
   color: #6c757d;
   font-weight: 500;
+  display: block; /* Ensure it takes full width */
+  white-space: nowrap; /* Prevent wrapping */
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Add ellipsis if needed */
 }
 
 .stat-value {
   font-size: 28px;
   font-weight: 700;
   color: #5f2878;
+  display: block; /* Ensure it takes full width */
 }
 
 /* Dashboard Grid */
@@ -511,4 +521,31 @@
   padding: 0;
   margin: 0;
   text-align: center;
+}
+
+/* Responsive adjustments for stat cards */
+@media (max-width: 1400px) {
+  .stats-overview {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .stat-card {
+    padding: 15px; /* Reduce padding on smaller screens */
+  }
+
+  .stat-icon {
+    width: 40px !important; /* Smaller icon on smaller screens */
+    height: 40px !important;
+  }
+}
+
+@media (max-width: 1200px) {
+  .stats-overview {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stat-title {
+    white-space: normal; /* Allow wrapping on smaller screens */
+    font-size: 13px;
+  }
 }

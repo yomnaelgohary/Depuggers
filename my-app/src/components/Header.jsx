@@ -96,16 +96,7 @@ function NotificationsPanel({ onClose }) {
   )
 }
 
-function Header({
-  onRequestAppointment,
-  onShowMyAppointments,
-  onInternshipCycleClick,
-  onStatisticsClick,
-  onNavigateBack,
-  onNavigateForward,
-  canGoBack,
-  canGoForward,
-}) {
+function Header({ onNavigateBack, onNavigateForward, canGoBack, canGoForward }) {
   const [showNotifications, setShowNotifications] = useState(false)
   const [showUserDropdown, setShowUserDropdown] = useState(false)
   const { notifications } = useNotifications()
@@ -182,33 +173,6 @@ function Header({
             </span>
           </button>
         </div>
-      </div>
-
-      <div className="header-center">
-        <nav className="header-nav">
-          <ul className="nav-list">
-            <li className="nav-item">
-              <button onClick={onInternshipCycleClick} className="nav-button">
-                Internship Cycle
-              </button>
-            </li>
-            <li className="nav-item">
-              <button onClick={onStatisticsClick} className="nav-button">
-                Statistics
-              </button>
-            </li>
-            <li className="nav-item">
-              <button onClick={onShowMyAppointments} className="nav-button">
-                My Appointments
-              </button>
-            </li>
-            <li className="nav-item">
-              <button onClick={onRequestAppointment} className="nav-button">
-                Request Appointment
-              </button>
-            </li>
-          </ul>
-        </nav>
       </div>
 
       <div className="header-right">

@@ -95,12 +95,12 @@
 
 .sidebar-menu-item:hover {
   background-color: #f9fafb;
-  color: #5f2878; 
+  color: #5f2878;
 }
 
 .sidebar-menu-item.active {
   background-color: #f5f3ff; /* Very light purple */
-  color: #5f2878; 
+  color: #5f2878;
   font-weight: 500;
 }
 
@@ -144,6 +144,24 @@
   flex-direction: column;
   gap: 4px;
   padding: 0 12px;
+}
+
+/* Highlight the Internship Cycle item to make it more noticeable */
+.sidebar-menu-item[key="internship-cycle"] {
+  position: relative;
+}
+
+.sidebar-menu-item[key="internship-cycle"]::after {
+  content: "";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  background-color: #5f2878;
+  border-radius: 50%;
+  opacity: 0.8;
 }
 
 /* Responsive adjustments */
