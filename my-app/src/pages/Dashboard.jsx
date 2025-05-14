@@ -163,7 +163,7 @@ function Dashboard({ activePage, onPageChange }) {
             <Briefcase size={20} />
           </div>
           <div className="stat-content">
-            <span className="stat-title">Active Internships</span>
+            <span className="stat-title">Live Internships</span>
             <span className="stat-value">{stats.activeInternships}</span>
           </div>
         </div>
