@@ -1,17 +1,17 @@
 "use client"
 
 import { useState, useEffect } from "react"
-// ==================================================
-// 1. ENSURE 'Eye' IS IMPORTED HERE
-// ==================================================
 import { X, CheckCircle, XCircle, Download, Eye } from "lucide-react"
 import { useNotifications } from "../components/NotificationsContext"
 
 function Companies() {
+  const [showFilters, setShowFilters] = useState(false)
+  const [tempSelectedIndustries, setTempSelectedIndustries] = useState(["All"])
+  const [selectedIndustries, setSelectedIndustries] = useState(["All"])
+
   const { addNotification } = useNotifications()
   const [jspdfLoaded, setJspdfLoaded] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
-  const [selectedIndustry, setSelectedIndustry] = useState("All")
   const [selectedCompanyId, setSelectedCompanyId] = useState(null)
   const [showCompanyModal, setShowCompanyModal] = useState(false)
 
@@ -66,11 +66,17 @@ function Companies() {
 
   useEffect(() => {
     let results = initialCompanies
-    if (searchQuery)
+
+    if (searchQuery) {
       results = results.filter((company) => company.name.toLowerCase().includes(searchQuery.toLowerCase()))
-    if (selectedIndustry !== "All") results = results.filter((company) => company.industry === selectedIndustry)
+    }
+
+    if (!selectedIndustries.includes("All")) {
+      results = results.filter((company) => selectedIndustries.includes(company.industry))
+    }
+
     setFilteredCompanies(results)
-  }, [searchQuery, selectedIndustry, initialCompanies])
+  }, [searchQuery, selectedIndustries, initialCompanies])
 
   const handleCompanyClick = (companyId) => {
     setSelectedCompanyId(companyId)
@@ -83,7 +89,49 @@ function Companies() {
   }
 
   const handleSearchChange = (event) => setSearchQuery(event.target.value)
-  const handleIndustryChange = (event) => setSelectedIndustry(event.target.value)
+
+  const openFilterModal = () => {
+    setTempSelectedIndustries([...selectedIndustries])
+    setShowFilters(true)
+  }
+
+  const closeFilterModal = () => {
+    setShowFilters(false)
+  }
+
+  const toggleIndustrySelection = (industry) => {
+    setTempSelectedIndustries((prev) => {
+      // If "All" is clicked
+      if (industry === "All") {
+        return ["All"]
+      }
+
+      // If another option is clicked while "All" is selected, remove "All"
+      if (prev.includes("All")) {
+        return [industry]
+      }
+
+      // Toggle the selected industry
+      if (prev.includes(industry)) {
+        const newSelection = prev.filter((i) => i !== industry)
+        // If nothing is selected, default to "All"
+        return newSelection.length === 0 ? ["All"] : newSelection
+      } else {
+        return [...prev, industry]
+      }
+    })
+  }
+
+  const applyFilters = () => {
+    setSelectedIndustries(tempSelectedIndustries)
+    setShowFilters(false)
+  }
+
+  const resetFilters = () => {
+    setTempSelectedIndustries(["All"])
+    setSelectedIndustries(["All"])
+    setShowFilters(false)
+  }
 
   const handleDownloadPDF = (companyId) => {
     const company = initialCompanies.find((c) => c.id === companyId)
@@ -140,7 +188,7 @@ function Companies() {
   }
 
   const handleRejectCompany = (companyId) => {
-    const companyName = initialCompanies.find(c => c.id === companyId)?.name || `ID ${companyId}`;
+    const companyName = initialCompanies.find((c) => c.id === companyId)?.name || `ID ${companyId}`
     setInitialCompanies((prevCompanies) => prevCompanies.filter((company) => company.id !== companyId))
     setShowCompanyModal(false)
     setSelectedCompanyId(null)
@@ -148,7 +196,7 @@ function Companies() {
   }
 
   const handleAcceptCompany = (companyId) => {
-    const companyName = initialCompanies.find(c => c.id === companyId)?.name || `ID ${companyId}`;
+    const companyName = initialCompanies.find((c) => c.id === companyId)?.name || `ID ${companyId}`
     setShowCompanyModal(false)
     setSelectedCompanyId(null)
     addNotification(`Company "${companyName}" accepted.`, "success")
@@ -161,121 +209,155 @@ function Companies() {
     ? initialCompanies.find((company) => company.id === selectedCompanyId)
     : null
 
+  // Get active filter count for display
+  const getActiveFilterCount = () => {
+    if (selectedIndustries.includes("All")) return 0
+    return selectedIndustries.length
+  }
+
+  const activeFilterCount = getActiveFilterCount()
+
   return (
-    <div className="companies-section h-full flex flex-col overflow-hidden">
-      <div className="companies-header">
-        <h2>Companies</h2>
-      </div>
-      <div className="companies-filter-controls">
-        <div className="search-input">
+    <div className="companies-section-container">
+      <div className="companies-section">
+        <div className="companies-header">
+          <h2>Companies</h2>
+        </div>
+        <div className="companies-filter-controls">
           <input
             type="text"
-            placeholder="Search by company name..."
+            className="minimal-search"
+            placeholder="Search internship"
             value={searchQuery}
             onChange={handleSearchChange}
           />
+
+          <button className="filters-button" onClick={openFilterModal}>
+            <span className="hamburger-icon">≡</span>
+            Filters
+            {activeFilterCount > 0 && <span className="filter-badge">{activeFilterCount}</span>}
+          </button>
         </div>
-        <div className="industry-filter">
-          <label htmlFor="industry">Filter by Industry:</label>
-          <select id="industry" value={selectedIndustry} onChange={handleIndustryChange}>
-            {uniqueIndustries.map((industry) => (
-              <option key={industry} value={industry}>
-                {industry}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-      <div className="companies-list flex-1 overflow-auto">
-        {filteredCompanies.length > 0 ? (
-          filteredCompanies.map((company) => (
-            <div
-              className={`company-card ${selectedCompanyId === company.id ? "selected" : ""}`}
-              key={company.id}
-            >
-              <div className="company-letter">{getFirstLetter(company.name)}</div>
-              <div className="company-info">
-                <div className="company-text-details">
-                  <h3 className="company-name">{company.name}</h3>
-                  <p>{company.industry}</p>
+
+        <div className="companies-list">
+          {filteredCompanies.length > 0 ? (
+            filteredCompanies.map((company) => (
+              <div className={`company-card ${selectedCompanyId === company.id ? "selected" : ""}`} key={company.id}>
+                <div className="company-letter">{getFirstLetter(company.name)}</div>
+                <div className="company-info">
+                  <div className="company-text-details">
+                    <h3 className="company-name">{company.name}</h3>
+                    <p>{company.industry}</p>
+                  </div>
+                  <button
+                    className="view-profile-button"
+                    onClick={() => handleCompanyClick(company.id)}
+                    title={`View profile for ${company.name}`}
+                  >
+                    <Eye size={16} strokeWidth={2} />
+                    <span>View details</span>
+                  </button>
                 </div>
-                {/* ================================================== */}
-                {/* 2. ADD THE <Eye /> ICON TO THE BUTTON HERE */}
-                {/* ================================================== */}
-                <button
-                  className="view-profile-button"
-                  onClick={() => handleCompanyClick(company.id)}
-                  title={`View profile for ${company.name}`}
-                >
-                  <Eye size={16} strokeWidth={2} /> {/* You can adjust size and strokeWidth */}
-                  <span>View details</span>
+              </div>
+            ))
+          ) : (
+            <p className="no-companies-message">No companies match your current filters.</p>
+          )}
+        </div>
+
+        {/* Filter Modal */}
+        {showFilters && (
+          <div className="filter-popup-overlay" onClick={closeFilterModal}>
+            <div className="filter-popup" onClick={(e) => e.stopPropagation()}>
+              <div className="filter-popup-header">
+                <h3>Filter by Industry</h3>
+                <button onClick={closeFilterModal}>
+                  <X size={18} />
+                </button>
+              </div>
+              <div className="filter-options">
+                {uniqueIndustries.map((industry) => (
+                  <div
+                    key={industry}
+                    className={`filter-option ${tempSelectedIndustries.includes(industry) ? "selected" : ""}`}
+                    onClick={() => toggleIndustrySelection(industry)}
+                  >
+                    {industry}
+                    {tempSelectedIndustries.includes(industry) && <CheckCircle size={16} className="check-icon" />}
+                  </div>
+                ))}
+              </div>
+              <div className="filter-popup-footer">
+                <button className="reset-button" onClick={resetFilters}>
+                  Reset
+                </button>
+                <button className="apply-button" onClick={applyFilters}>
+                  Apply
                 </button>
               </div>
             </div>
-          ))
-        ) : (
-          <p className="no-companies-message">No companies match your current filters.</p>
+          </div>
         )}
-      </div>
 
-      {/* Company Details Modal */}
-      {showCompanyModal && selectedCompany && selectedCompanyDetails && (
-        <div className="company-modal-overlay">
-          <div className="company-modal">
-            <div className="company-modal-header">
-              <div className="company-modal-title">
-                <div className="company-modal-letter">{getFirstLetter(selectedCompany.name)}</div>
-                <h2>{selectedCompany.name}</h2>
+        {/* Company Details Modal */}
+        {showCompanyModal && selectedCompany && selectedCompanyDetails && (
+          <div className="company-modal-overlay">
+            <div className="company-modal">
+              <div className="company-modal-header">
+                <div className="company-modal-title">
+                  <div className="company-modal-letter">{getFirstLetter(selectedCompany.name)}</div>
+                  <h2>{selectedCompany.name}</h2>
+                </div>
+                <button className="modal-close-button" onClick={closeCompanyModal} title="Close modal">
+                  <X size={20} />
+                </button>
               </div>
-              <button className="modal-close-button" onClick={closeCompanyModal} title="Close modal">
-                <X size={20} />
-              </button>
-            </div>
-            <div className="company-modal-content">
-              <div className="company-modal-info">
-                <div className="info-group">
-                  <h3>Industry</h3>
-                  <p>{selectedCompany.industry}</p>
-                </div>
-                <div className="info-group">
-                  <h3>Legitimacy Proof</h3>
-                  <p>{selectedCompanyDetails.legitimacyProof}</p>
-                </div>
-                <div className="info-group">
-                  <h3>Description</h3>
-                  <p>{selectedCompanyDetails.description}</p>
+              <div className="company-modal-content">
+                <div className="company-modal-info">
+                  <div className="info-group">
+                    <h3>Industry</h3>
+                    <p>{selectedCompany.industry}</p>
+                  </div>
+                  <div className="info-group">
+                    <h3>Legitimacy Proof</h3>
+                    <p>{selectedCompanyDetails.legitimacyProof}</p>
+                  </div>
+                  <div className="info-group">
+                    <h3>Description</h3>
+                    <p>{selectedCompanyDetails.description}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="company-modal-actions">
-              <button
-                className="download-button"
-                onClick={() => handleDownloadPDF(selectedCompanyId)}
-                title="Download company details as PDF"
-              >
-                <Download size={18} />
-                <span>Download</span>
-              </button>
-              <button
-                className="accept-button"
-                onClick={() => handleAcceptCompany(selectedCompanyId)}
-                title="Accept this company"
-              >
-                <CheckCircle size={18} />
-                <span>Accept</span>
-              </button>
-              <button
-                className="reject-button"
-                onClick={() => handleRejectCompany(selectedCompanyId)}
-                title="Reject this company"
-              >
-                <XCircle size={18} />
-                <span>Reject</span>
-              </button>
+              <div className="company-modal-actions">
+                <button
+                  className="download-button"
+                  onClick={() => handleDownloadPDF(selectedCompanyId)}
+                  title="Download company details as PDF"
+                >
+                  <Download size={18} />
+                  <span>Download</span>
+                </button>
+                <button
+                  className="accept-button"
+                  onClick={() => handleAcceptCompany(selectedCompanyId)}
+                  title="Accept this company"
+                >
+                  <CheckCircle size={18} />
+                  <span>Accept</span>
+                </button>
+                <button
+                  className="reject-button"
+                  onClick={() => handleRejectCompany(selectedCompanyId)}
+                  title="Reject this company"
+                >
+                  <XCircle size={18} />
+                  <span>Reject</span>
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   )
 }

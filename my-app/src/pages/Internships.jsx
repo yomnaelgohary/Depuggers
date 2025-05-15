@@ -1,10 +1,18 @@
 "use client"
 
 import { useState } from "react"
-import { Building, Clock, Search, X } from "lucide-react"
+import { Building, Clock, X, CheckCircle } from "lucide-react"
 
 function Internships() {
   const [searchQuery, setSearchQuery] = useState("")
+  const [showFilters, setShowFilters] = useState(false)
+
+  // Temporary states for the filter popup
+  const [tempIndustry, setTempIndustry] = useState("All")
+  const [tempDuration, setTempDuration] = useState("All")
+  const [tempPayStatus, setTempPayStatus] = useState("All")
+
+  // Actual filter states
   const [selectedIndustry, setSelectedIndustry] = useState("All")
   const [selectedDuration, setSelectedDuration] = useState("All")
   const [selectedPayStatus, setSelectedPayStatus] = useState("All")
@@ -98,6 +106,46 @@ function Internships() {
   const handleInternshipClick = (internship) => setSelectedInternship(internship)
   const closeInternshipDetails = () => setSelectedInternship(null)
 
+  const openFilterModal = () => {
+    // Initialize temp states with current filter values
+    setTempIndustry(selectedIndustry)
+    setTempDuration(selectedDuration)
+    setTempPayStatus(selectedPayStatus)
+    setShowFilters(true)
+  }
+
+  const closeFilterModal = () => {
+    setShowFilters(false)
+  }
+
+  const applyFilters = () => {
+    setSelectedIndustry(tempIndustry)
+    setSelectedDuration(tempDuration)
+    setSelectedPayStatus(tempPayStatus)
+    setShowFilters(false)
+  }
+
+  const resetFilters = () => {
+    setTempIndustry("All")
+    setTempDuration("All")
+    setTempPayStatus("All")
+    setSelectedIndustry("All")
+    setSelectedDuration("All")
+    setSelectedPayStatus("All")
+    setShowFilters(false)
+  }
+
+  // Get active filter count for display
+  const getActiveFilterCount = () => {
+    let count = 0
+    if (selectedIndustry !== "All") count++
+    if (selectedDuration !== "All") count++
+    if (selectedPayStatus !== "All") count++
+    return count
+  }
+
+  const activeFilterCount = getActiveFilterCount()
+
   function InternshipCard({ internship, company, onClick }) {
     return (
       <div className="internship-card" onClick={onClick}>
@@ -126,46 +174,20 @@ function Internships() {
           <div className="internships-header">
             <h2>Available Internships</h2>
           </div>
-          <div className="internships-search">
-            <div className="search-input">
-              <Search size={16} />
+          <div className="search-filter-container">
+            <div className="search-input-wrapper">
               <input
                 type="text"
-                placeholder="Search by job title or company name..."
+                className="search-input"
+                placeholder="Search internship"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-          </div>
-          <div className="internships-filters">
-            <div className="filter-group">
-              <label htmlFor="industry">Industry:</label>
-              <select id="industry" value={selectedIndustry} onChange={(e) => setSelectedIndustry(e.target.value)}>
-                {uniqueIndustries.map((industry) => (
-                  <option key={industry} value={industry}>
-                    {industry}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="filter-group">
-              <label htmlFor="duration">Duration:</label>
-              <select id="duration" value={selectedDuration} onChange={(e) => setSelectedDuration(e.target.value)}>
-                {uniqueDurations.map((duration) => (
-                  <option key={duration} value={duration}>
-                    {duration}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="filter-group">
-              <label htmlFor="payStatus">Payment:</label>
-              <select id="payStatus" value={selectedPayStatus} onChange={(e) => setSelectedPayStatus(e.target.value)}>
-                <option value="All">All</option>
-                <option value="Paid">Paid</option>
-                <option value="Unpaid">Unpaid</option>
-              </select>
-            </div>
+            <button className="filters-button" onClick={openFilterModal}>
+              <span className="hamburger-icon">≡</span> Filters
+              {activeFilterCount > 0 && <span className="filter-badge">{activeFilterCount}</span>}
+            </button>
           </div>
           <div className="internships-list">
             {filteredInternships.length > 0 ? (
@@ -184,6 +206,82 @@ function Internships() {
               <div className="no-results">No internships found matching your criteria.</div>
             )}
           </div>
+
+          {/* Filter Modal */}
+          {showFilters && (
+            <div className="filter-popup-overlay" onClick={closeFilterModal}>
+              <div className="filter-popup" onClick={(e) => e.stopPropagation()}>
+                <div className="filter-popup-header">
+                  <h3>Filter Internships</h3>
+                  <button onClick={closeFilterModal}>
+                    <X size={18} />
+                  </button>
+                </div>
+
+                <div className="filter-popup-content">
+                  {/* Industry Filter Section */}
+                  <div className="filter-section">
+                    <h4>Industry</h4>
+                    <div className="filter-options">
+                      {uniqueIndustries.map((industry) => (
+                        <div
+                          key={industry}
+                          className={`filter-option ${tempIndustry === industry ? "selected" : ""}`}
+                          onClick={() => setTempIndustry(industry)}
+                        >
+                          {industry}
+                          {tempIndustry === industry && <CheckCircle size={16} className="check-icon" />}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Duration Filter Section */}
+                  <div className="filter-section">
+                    <h4>Duration</h4>
+                    <div className="filter-options">
+                      {uniqueDurations.map((duration) => (
+                        <div
+                          key={duration}
+                          className={`filter-option ${tempDuration === duration ? "selected" : ""}`}
+                          onClick={() => setTempDuration(duration)}
+                        >
+                          {duration}
+                          {tempDuration === duration && <CheckCircle size={16} className="check-icon" />}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Payment Filter Section */}
+                  <div className="filter-section">
+                    <h4>Payment</h4>
+                    <div className="filter-options">
+                      {["All", "Paid", "Unpaid"].map((payStatus) => (
+                        <div
+                          key={payStatus}
+                          className={`filter-option ${tempPayStatus === payStatus ? "selected" : ""}`}
+                          onClick={() => setTempPayStatus(payStatus)}
+                        >
+                          {payStatus}
+                          {tempPayStatus === payStatus && <CheckCircle size={16} className="check-icon" />}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="filter-popup-footer">
+                  <button className="reset-button" onClick={resetFilters}>
+                    Reset
+                  </button>
+                  <button className="apply-button" onClick={applyFilters}>
+                    Apply
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       ) : (
         <div className="internship-details">
