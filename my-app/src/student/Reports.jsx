@@ -160,6 +160,11 @@ const Reports = () => {
   const [statusFilter, setStatusFilter] = useState("all")
   const [dateRange, setDateRange] = useState(null)
   const [selectedCourses, setSelectedCourses] = useState([])
+  const [showFilters, setShowFilters] = useState(false)
+  const [filters, setFilters] = useState({
+    status: "all",
+  })
+  const [expandedRowKeys, setExpandedRowKeys] = useState([])
 
   // Initialize selected courses when report is loaded
   useEffect(() => {
@@ -182,9 +187,9 @@ const Reports = () => {
       internship.company.toLowerCase().includes(searchText.toLowerCase()) ||
       internship.title.toLowerCase().includes(searchText.toLowerCase())
     const matchesStatus =
-      statusFilter === "all" ||
-      (statusFilter === "current" && internship.status === "current") ||
-      (statusFilter === "completed" && internship.status === "completed")
+      filters.status === "all" ||
+      (filters.status === "current" && internship.status === "current") ||
+      (filters.status === "completed" && internship.status === "completed")
     const matchesDate =
       !dateRange ||
       (internship.startDate >= dateRange[0] && (!internship.endDate || internship.endDate <= dateRange[1]))
@@ -361,6 +366,38 @@ const Reports = () => {
     }
   }
 
+  const toggleFilters = () => {
+    setShowFilters(!showFilters)
+  }
+
+  const handleFilterChange = (key, value) => {
+    setFilters((prev) => ({ ...prev, [key]: value }))
+  }
+
+  const resetFilters = () => {
+    setFilters({
+      status: "all",
+    })
+    setSearchText("")
+  }
+
+  const clearSearch = () => {
+    setSearchText("")
+  }
+
+  const hasActiveFilters = () => {
+    return filters.status !== "all" || searchText !== ""
+  }
+
+  const handleExpandRow = (record) => {
+    const key = record.id
+    const expanded = expandedRowKeys.includes(key)
+    const newExpandedKeys = expanded
+      ? expandedRowKeys.filter((k) => k !== key)
+      : [...expandedRowKeys, key]
+    setExpandedRowKeys(newExpandedKeys)
+  }
+
   // Enhanced expanded row content with courses
   const expandedRowRender = (record) => {
     const report = reports.find((r) => r.internshipId === record.id)
@@ -469,26 +506,89 @@ const Reports = () => {
   return (
     <div className="reports-container">
       {/* Internships Section */}
-      <Card
-        title="My Internships"
-        className="section-card"
-        extra={
-          <Space>
-            <Input.Search
+      <Card title="My Internships" className="section-card">
+        <div className="filters">
+          <button className="filter-button" onClick={toggleFilters}>
+            <span className="filter-icon">≡</span> Filters
+          </button>
+          <div className="search-container">
+            <input
+              type="text"
               placeholder="Search by company or title"
-              allowClear
-              onSearch={setSearchText}
-              style={{ width: 250 }}
+              className="search-input"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
             />
-            <Select defaultValue="all" style={{ width: 150 }} onChange={setStatusFilter}>
-              <Option value="all">All Statuses</Option>
-              <Option value="current">Current</Option>
-              <Option value="completed">Completed</Option>
-            </Select>
-            <DatePicker.RangePicker onChange={setDateRange} style={{ width: 250 }} />
-          </Space>
-        }
-      >
+            {searchText && (
+              <button className="clear-search" onClick={clearSearch}>
+                ×
+              </button>
+            )}
+          </div>
+        </div>
+
+        {showFilters && (
+          <div className="filter-modal-overlay">
+            <div className="filter-modal">
+              <div className="filter-modal-header">
+                <h2>Filters</h2>
+                <button className="close-button" onClick={toggleFilters}>
+                  ✕
+                </button>
+              </div>
+
+              <div className="filter-modal-content">
+                <div className="filter-section">
+                  <h3>STATUS</h3>
+                  <div className="filter-options">
+                    <button
+                      className={`filter-option ${filters.status === "all" ? "selected" : ""}`}
+                      onClick={() => handleFilterChange("status", "all")}
+                    >
+                      All
+                    </button>
+                    <button
+                      className={`filter-option ${filters.status === "current" ? "selected" : ""}`}
+                      onClick={() => handleFilterChange("status", "current")}
+                    >
+                      Current
+                    </button>
+                    <button
+                      className={`filter-option ${filters.status === "completed" ? "selected" : ""}`}
+                      onClick={() => handleFilterChange("status", "completed")}
+                    >
+                      Completed
+                    </button>
+                  </div>
+                </div>
+
+                <div className="filter-section">
+                  <h3>DATE RANGE</h3>
+                  <DatePicker.RangePicker onChange={setDateRange} style={{ width: "100%" }} />
+                </div>
+              </div>
+
+              <div className="filter-actions">
+                <button className={`reset-button ${hasActiveFilters() ? "active" : ""}`} onClick={resetFilters}>
+                  Reset
+                </button>
+                <button className="apply-button" onClick={toggleFilters}>
+                  Show {filteredInternships.length} internships
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {searchText && (
+          <div className="search-results">
+            <div className="results-count">
+              Found {filteredInternships.length} {filteredInternships.length === 1 ? "internship" : "internships"}{" "}
+              matching "{searchText}"
+            </div>
+          </div>
+        )}
+
         <Table
           columns={[
             {
@@ -535,19 +635,23 @@ const Reports = () => {
                 return (
                   <Space size="middle">
                     <Button
-                      type="link"
+                      className="view-profile-button"
+                      icon={<EyeOutlined />}
                       onClick={() => {
                         setSelectedInternship(record)
                         report ? handleEditReport(report) : handleCreateReport()
                       }}
                     >
-                      {report ? "View Report" : "Create Report"}
+                      View Report
                     </Button>
                     {report && ["flagged", "rejected"].includes(report.status) && (
-                      <Button type="link" onClick={() => handleAppealReport(report)}>
+                      <Button className="view-profile-button" onClick={() => handleAppealReport(report)}>
                         Appeal
                       </Button>
                     )}
+                    <Button className="view-profile-button" icon={<EyeOutlined />} onClick={() => handleExpandRow(record)}>
+                      View More
+                    </Button>
                   </Space>
                 )
               },
@@ -558,7 +662,8 @@ const Reports = () => {
           pagination={false}
           expandable={{
             expandedRowRender,
-            rowExpandable: (record) => true,
+            expandedRowKeys,
+            onExpand: (expanded, record) => handleExpandRow(record),
           }}
         />
       </Card>
@@ -613,12 +718,12 @@ const Reports = () => {
               key: "actions",
               render: (_, record) => (
                 <Space size="middle">
-                  <Button type="link" icon={<EyeOutlined />} onClick={() => handleEditReport(record)}>
+                  <Button className="view-profile-button" icon={<EyeOutlined />} onClick={() => handleEditReport(record)}>
                     View
                   </Button>
                   {!record.isFinalized && (
                     <>
-                      <Button type="link" icon={<EditOutlined />} onClick={() => handleEditReport(record)}>
+                      <Button className="view-profile-button" icon={<EditOutlined />} onClick={() => handleEditReport(record)}>
                         Edit
                       </Button>
                       <Popconfirm
@@ -627,25 +732,21 @@ const Reports = () => {
                         okText="Yes"
                         cancelText="No"
                       >
-                        <Button type="link" danger icon={<DeleteOutlined />}>
+                        <Button className="view-profile-button" danger icon={<DeleteOutlined />}>
                           Delete
                         </Button>
                       </Popconfirm>
                     </>
                   )}
-                  <Button type="link" icon={<DownloadOutlined />} onClick={() => handleDownloadReport(record.id)}>
-                    PDF
+                  <Button className="view-profile-button" icon={<DownloadOutlined />} onClick={() => handleDownloadReport(record.id)}>
+                    Download
                   </Button>
                   {!record.isFinalized && (
-                    <Button type="link" icon={<CheckCircleOutlined />} onClick={() => handleFinalizeReport(record.id)}>
+                    <Button className="view-profile-button" icon={<CheckCircleOutlined />} onClick={() => handleFinalizeReport(record.id)}>
                       Finalize
                     </Button>
                   )}
-                  {["flagged", "rejected"].includes(record.status) && (
-                    <Button type="link" onClick={() => handleAppealReport(record)}>
-                      Appeal
-                    </Button>
-                  )}
+                 
                 </Space>
               ),
             },
@@ -694,12 +795,12 @@ const Reports = () => {
               key: "actions",
               render: (_, record) => (
                 <Space size="middle">
-                  <Button type="link" icon={<EyeOutlined />} onClick={() => handleEditEvaluation(record)}>
+                  <Button className="view-profile-button" icon={<EyeOutlined />} onClick={() => handleEditEvaluation(record)}>
                     View
                   </Button>
                   {!record.isFinalized && (
                     <>
-                      <Button type="link" icon={<EditOutlined />} onClick={() => handleEditEvaluation(record)}>
+                      <Button className="view-profile-button" icon={<EditOutlined />} onClick={() => handleEditEvaluation(record)}>
                         Edit
                       </Button>
                       <Popconfirm
@@ -708,22 +809,22 @@ const Reports = () => {
                         okText="Yes"
                         cancelText="No"
                       >
-                        <Button type="link" danger icon={<DeleteOutlined />}>
+                        <Button className="view-profile-button" danger icon={<DeleteOutlined />}>
                           Delete
                         </Button>
                       </Popconfirm>
                     </>
                   )}
                   <Button
-                    type="link"
+                    className="view-profile-button"
                     icon={<DownloadOutlined />}
                     onClick={() => message.info("Download functionality would be implemented here")}
                   >
-                    PDF
+                    Download
                   </Button>
                   {!record.isFinalized && (
                     <Button
-                      type="link"
+                      className="view-profile-button"
                       icon={<CheckCircleOutlined />}
                       onClick={() => handleFinalizeEvaluation(record.id)}
                     >
