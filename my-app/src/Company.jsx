@@ -4,6 +4,7 @@ import React, { useState } from "react"
 import "./company.css"
 import CompanyHeader from "./components/CompanyHeader"
 import CompanySidebar from "./components/CompanySidebar"
+import { Users } from "lucide-react"
 
 export default function Company() {
   const [activePage, setActivePage] = useState("posts")
@@ -675,7 +676,8 @@ export default function Company() {
       if (internSearch) {
         const searchTerm = internSearch.toLowerCase()
         return (
-          intern.applicantName.toLowerCase().includes(searchTerm) || intern.postTitle.toLowerCase().includes(searchTerm)
+          intern.applicantName.toLowerCase().includes(searchTerm) || 
+          intern.postTitle.toLowerCase().includes(searchTerm)
         )
       }
 
@@ -970,7 +972,6 @@ export default function Company() {
                       </div>
 
                       <div className="job-duration">
-                        <span className="calendar-icon">📅</span>
                         <div>
                           <div className="date-range">
                             {job.startDate} - {job.endDate}
@@ -991,7 +992,7 @@ export default function Company() {
                       {job.description && <div className="job-description">{job.description}</div>}
 
                       <div className="job-applications">
-                        <span className="applications-icon">👤</span>
+                        <Users size={16} className="applications-icon" />
                         <span className="applications-count">{job.applications} applications</span>
                       </div>
                     </div>
@@ -1160,7 +1161,6 @@ export default function Company() {
                       </div>
 
                       <div className="job-duration">
-                        <span className="calendar-icon">📅</span>
                         <div>
                           <div className="date-range">
                             {job.startDate} - {job.endDate}
@@ -1181,7 +1181,7 @@ export default function Company() {
                       {job.description && <div className="job-description">{job.description}</div>}
 
                       <div className="job-applications">
-                        <span className="applications-icon">👤</span>
+                        <Users size={16} className="applications-icon" />
                         <span className="applications-count">{job.applications} applications</span>
                       </div>
                     </div>
@@ -1336,14 +1336,17 @@ export default function Company() {
               <h2>Interns</h2>
               {!selectedIntern ? (
                 <>
-                  <div className="interns-filters">
-                    <div className="search-box">
+                  <div className="filters">
+                    <button className="filter-button" onClick={toggleFilters}>
+                      <span className="filter-icon">≡</span> Filters
+                    </button>
+                    <div className="search-container">
                       <input
                         type="text"
-                        placeholder="Search by name or job title"
+                        placeholder="Search by name or position"
+                        className="search-input"
                         value={internSearch}
                         onChange={handleInternSearchChange}
-                        className="search-input"
                       />
                       {internSearch && (
                         <button className="clear-search" onClick={() => setInternSearch("")}>
@@ -1351,15 +1354,52 @@ export default function Company() {
                         </button>
                       )}
                     </div>
-                    <div className="filter-container">
-                      <span className="filter-label">Filter by Status:</span>
-                      <select className="filter-select" value={internFilter} onChange={handleInternFilterChange}>
-                        <option value="">All Interns</option>
-                        <option value="current">Current Interns</option>
-                        <option value="completed">Completed Internships</option>
-                      </select>
-                    </div>
                   </div>
+
+                  {showFilters && (
+                    <div className="filter-modal-overlay">
+                      <div className="filter-modal">
+                        <div className="filter-modal-header">
+                          <h2>Filters</h2>
+                          <button className="close-button" onClick={toggleFilters}>
+                            ✕
+                          </button>
+                        </div>
+
+                        <div className="filter-modal-content">
+                          <div className="filter-section">
+                            <h3>STATUS</h3>
+                            <div className="filter-options">
+                              <button
+                                className={`filter-option ${internFilter === "current" ? "selected" : ""}`}
+                                onClick={() => setInternFilter(internFilter === "current" ? "" : "current")}
+                              >
+                                Current Interns
+                              </button>
+                              <button
+                                className={`filter-option ${internFilter === "completed" ? "selected" : ""}`}
+                                onClick={() => setInternFilter(internFilter === "completed" ? "" : "completed")}
+                              >
+                                Completed Internships
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="filter-actions">
+                          <button
+                            className={`reset-button ${internFilter ? "active" : ""}`}
+                            onClick={() => setInternFilter("")}
+                          >
+                            Reset
+                          </button>
+                          <button className="apply-button" onClick={toggleFilters}>
+                            Show {filteredInterns.length} interns
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
                   <div className="interns-table">
                     <table>
