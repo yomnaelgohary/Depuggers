@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+"use client"
+
+import { useState, useEffect } from "react"
 // Ant Design Components
 import {
   Alert,
   Button,
-  Card,
   Col,
   DatePicker,
   Divider,
@@ -15,246 +16,290 @@ import {
   Modal,
   Row,
   Select,
-  Space,
   Steps,
-  Table,
   Tag,
-  Upload
-} from 'antd';
+  Upload,
+  Typography,
+} from "antd"
 
 // Ant Design Icons
-import {
-  DollarOutlined,
-  FileTextOutlined,
-  FileDoneOutlined,
-  FilterOutlined,
-  InboxOutlined,
-  SearchOutlined,
-  SolutionOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
+import { FileTextOutlined, FileDoneOutlined, InboxOutlined, SolutionOutlined, UserOutlined } from "@ant-design/icons"
 
-import "./Internships.css";
+import "./internships.css"
 
-const { Search } = Input;
-const { Option } = Select;
-const { Step } = Steps;
-const { TextArea } = Input;
-const { Dragger } = Upload;
+const { Search } = Input
+const { Option } = Select
+const { Step } = Steps
+const { TextArea } = Input
+const { Dragger } = Upload
+const { Text } = Typography
 
 const InternshipContent = () => {
   const [internships, setInternships] = useState([
     {
       id: 1,
-      company: 'Tech Solutions Inc.',
-      title: 'Frontend Developer Intern',
-      duration: '3 months',
-      industry: 'Technology',
+      company: "Tech Solutions Inc.",
+      title: "Frontend Developer Intern",
+      duration: "3 months",
+      industry: "Technology",
       isPaid: true,
-      salary: '$20/hr',
-      skills: ['React', 'JavaScript', 'HTML/CSS'],
-      description: 'Work on building responsive user interfaces using React. Collaborate with design team to implement UI components.',
-    
-      postedDate: '2023-10-15'
+      salary: "$20/hr",
+      skills: ["React", "JavaScript", "HTML/CSS"],
+      description:
+        "Work on building responsive user interfaces using React. Collaborate with design team to implement UI components.",
+      location: "San Francisco, CA",
+      startDate: "2023-11-01",
+      endDate: "2024-02-01",
+      timeSlot: "9:00 AM - 5:00 PM",
+      timeOfDay: "MORNING",
+      workHours: "40 hours/week",
+      applications: 24,
+      isLearningOpportunity: true,
+      postedDate: "2023-10-15",
+      status: "active",
     },
     {
       id: 2,
-      company: 'Data Analytics Co.',
-      title: 'Data Science Intern',
-      duration: '6 months',
-      industry: 'Data Science',
+      company: "Data Analytics Co.",
+      title: "Data Science Intern",
+      duration: "6 months",
+      industry: "Data Science",
       isPaid: true,
-      salary: '$22/hr',
-      skills: ['Python', 'Pandas', 'SQL', 'Machine Learning'],
-      description: 'Analyze large datasets and build predictive models. Work with data engineering team to clean and process data.',
-      
-      postedDate: '2023-10-10'
+      salary: "$22/hr",
+      skills: ["Python", "Pandas", "SQL", "Machine Learning"],
+      description:
+        "Analyze large datasets and build predictive models. Work with data engineering team to clean and process data.",
+      location: "New York, NY",
+      startDate: "2023-12-01",
+      endDate: "2024-06-01",
+      timeSlot: "10:00 AM - 6:00 PM",
+      timeOfDay: "MORNING",
+      workHours: "35 hours/week",
+      applications: 37,
+      isLearningOpportunity: true,
+      postedDate: "2023-10-10",
+      status: "active",
     },
     {
       id: 3,
-      company: 'Creative Designs',
-      title: 'UI/UX Design Intern',
-      duration: '4 months',
-      industry: 'Design',
+      company: "Creative Designs",
+      title: "UI/UX Design Intern",
+      duration: "4 months",
+      industry: "Design",
       isPaid: false,
-      salary: 'Unpaid',
-      skills: ['Figma', 'User Research', 'Prototyping'],
-      description: 'Create wireframes and prototypes for client projects. Conduct user research and usability testing.',
-      
-      postedDate: '2023-10-05'
+      salary: "Unpaid",
+      skills: ["Figma", "User Research", "Prototyping"],
+      description: "Create wireframes and prototypes for client projects. Conduct user research and usability testing.",
+      location: "Los Angeles, CA",
+      startDate: "2023-11-15",
+      endDate: "2024-03-15",
+      timeSlot: "9:00 AM - 3:00 PM",
+      timeOfDay: "MORNING",
+      workHours: "25 hours/week",
+      applications: 19,
+      isLearningOpportunity: true,
+      postedDate: "2023-10-05",
+      status: "active",
     },
     {
       id: 4,
-      company: 'Global Finance',
-      title: 'Financial Analyst Intern',
-      duration: '3 months',
-      industry: 'Finance',
+      company: "Global Finance",
+      title: "Financial Analyst Intern",
+      duration: "3 months",
+      industry: "Finance",
       isPaid: true,
-      salary: '$18/hr',
-      skills: ['Excel', 'Financial Modeling', 'Data Analysis'],
-      description: 'Assist with financial reporting and analysis. Prepare presentations for senior management.',
-      
-      postedDate: '2023-09-20'
+      salary: "$18/hr",
+      skills: ["Excel", "Financial Modeling", "Data Analysis"],
+      description: "Assist with financial reporting and analysis. Prepare presentations for senior management.",
+      location: "Chicago, IL",
+      startDate: "2023-10-01",
+      endDate: "2024-01-01",
+      timeSlot: "8:00 AM - 4:00 PM",
+      timeOfDay: "MORNING",
+      workHours: "30 hours/week",
+      applications: 42,
+      isLearningOpportunity: false,
+      postedDate: "2023-09-20",
+      status: "completed",
     },
-  ]);
+  ])
 
-  const [filteredInternships, setFilteredInternships] = useState([]);
-  const [selectedInternship, setSelectedInternship] = useState(null);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [searchText, setSearchText] = useState('');
+  const [filteredInternships, setFilteredInternships] = useState([])
+  const [selectedInternship, setSelectedInternship] = useState(null)
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [searchText, setSearchText] = useState("")
+  const [showFilters, setShowFilters] = useState(false)
   const [filters, setFilters] = useState({
     industry: null,
     duration: null,
-    isPaid: null
-  });
-  const [uploading, setUploading] = useState(false);
-  const [applicationSubmitted, setApplicationSubmitted] = useState(false);
-  const [applicationStep, setApplicationStep] = useState(0);
-  const [form] = Form.useForm();
-  const [applicationFormVisible, setApplicationFormVisible] = useState(false);
-  const [uploadedFiles, setUploadedFiles] = useState([]);
+    isPaid: null,
+  })
+  const [uploading, setUploading] = useState(false)
+  const [applicationSubmitted, setApplicationSubmitted] = useState(false)
+  const [applicationStep, setApplicationStep] = useState(0)
+  const [form] = Form.useForm()
+  const [applicationFormVisible, setApplicationFormVisible] = useState(false)
+  const [uploadedFiles, setUploadedFiles] = useState([])
 
   useEffect(() => {
-    setFilteredInternships(internships);
-  }, [internships]);
+    setFilteredInternships(internships)
+  }, [internships])
 
   useEffect(() => {
-    let result = [...internships];
-    
-    if (searchText) {
-      result = result.filter(item => 
-        item.title.toLowerCase().includes(searchText.toLowerCase()) ||
-        item.company.toLowerCase().includes(searchText.toLowerCase())
-      );
-    }
-    
-    if (filters.industry) {
-      result = result.filter(item => item.industry === filters.industry);
-    }
-    
-    if (filters.duration) {
-      result = result.filter(item => item.duration === filters.duration);
-    }
-    
-    if (filters.isPaid !== null) {
-      result = result.filter(item => item.isPaid === filters.isPaid);
-    }
-    
-    
-    setFilteredInternships(result);
-  }, [searchText, filters, internships]);
+    applyFilters()
+  }, [searchText, filters, internships])
 
-  const industries = [...new Set(internships.map(item => item.industry))];
-  const durations = [...new Set(internships.map(item => item.duration))];
+  const industries = [...new Set(internships.map((item) => item.industry))]
+  const durations = [...new Set(internships.map((item) => item.duration))]
+  const locations = [...new Set(internships.map((item) => item.location))]
 
   const handleSearch = (value) => {
-    setSearchText(value);
-  };
+    setSearchText(value)
+  }
 
   const handleFilterChange = (key, value) => {
-    setFilters(prev => ({ ...prev, [key]: value }));
-  };
+    setFilters((prev) => ({ ...prev, [key]: value }))
+  }
 
   const resetFilters = () => {
     setFilters({
       industry: null,
       duration: null,
       isPaid: null,
-      
-    });
-    setSearchText('');
-  };
+    })
+    setSearchText("")
+  }
+
+  const clearSearch = () => {
+    setSearchText("")
+  }
+
+  const toggleFilters = () => {
+    setShowFilters(!showFilters)
+  }
+
+  const applyFilters = () => {
+    let result = [...internships]
+
+    if (searchText) {
+      result = result.filter(
+        (item) =>
+          item.title.toLowerCase().includes(searchText.toLowerCase()) ||
+          item.company.toLowerCase().includes(searchText.toLowerCase()),
+      )
+    }
+
+    if (filters.industry) {
+      result = result.filter((item) => item.industry === filters.industry)
+    }
+
+    if (filters.duration) {
+      result = result.filter((item) => item.duration === filters.duration)
+    }
+
+    if (filters.isPaid !== null) {
+      result = result.filter((item) => item.isPaid === filters.isPaid)
+    }
+
+    setFilteredInternships(result)
+  }
+
+  const hasActiveFilters = () => {
+    return filters.industry !== null || filters.duration !== null || filters.isPaid !== null
+  }
 
   const showInternshipDetails = (internship) => {
-    setSelectedInternship(internship);
-    setIsModalVisible(true);
-  };
+    setSelectedInternship(internship)
+    setIsModalVisible(true)
+  }
 
   const handleApply = () => {
-    setApplicationFormVisible(true);
-    setApplicationStep(0);
-    form.resetFields();
-    setUploadedFiles([]);
-  };
+    setApplicationFormVisible(true)
+    setApplicationStep(0)
+    form.resetFields()
+    setUploadedFiles([])
+  }
 
   const handleNext = () => {
     // Special validation for documents step
     if (applicationStep === 1 && uploadedFiles.length === 0) {
-      message.error('Please upload at least one document');
-      return;
+      message.error("Please upload at least one document")
+      return
     }
 
-    form.validateFields()
+    form
+      .validateFields()
       .then(() => {
-        setApplicationStep(applicationStep + 1);
+        setApplicationStep(applicationStep + 1)
       })
-      .catch(err => {
-        message.error('Please complete all required fields');
-      });
-  };
+      .catch((err) => {
+        message.error("Please complete all required fields")
+      })
+  }
 
   const submitApplication = async (values) => {
-    const formData = new FormData();
-    
+    const formData = new FormData()
+
     // Append form values
     Object.entries(values).forEach(([key, value]) => {
-      formData.append(key, value);
-    });
-    
+      formData.append(key, value)
+    })
+
     // Append files
-    uploadedFiles.forEach(file => {
-      formData.append('documents', file);
-    });
-    
+    uploadedFiles.forEach((file) => {
+      formData.append("documents", file)
+    })
+
     try {
-      setUploading(true);
+      setUploading(true)
       // Here you would typically send to your backend:
       // await axios.post('/api/applications', formData);
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      message.success('Application submitted successfully!');
-      setApplicationFormVisible(false);
-      setIsModalVisible(false);
-      setApplicationSubmitted(true);
+      await new Promise((resolve) => setTimeout(resolve, 1500))
+
+      message.success("Application submitted successfully!")
+      setApplicationFormVisible(false)
+      setIsModalVisible(false)
+      setApplicationSubmitted(true)
     } catch (error) {
-      message.error('Application failed. Please try again.');
+      message.error("Application failed. Please try again.")
     } finally {
-      setUploading(false);
+      setUploading(false)
     }
-  };
+  }
 
   const uploadProps = {
     beforeUpload: (file) => {
-      const isPDF = file.type === 'application/pdf';
-      const isDOC = file.type === 'application/msword' || 
-                   file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-      const isLt5M = file.size / 1024 / 1024 < 5;
-      
+      const isPDF = file.type === "application/pdf"
+      const isDOC =
+        file.type === "application/msword" ||
+        file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      const isLt5M = file.size / 1024 / 1024 < 5
+
       if (!isPDF && !isDOC) {
-        message.error('You can only upload PDF or Word documents!');
-        return Upload.LIST_IGNORE;
+        message.error("You can only upload PDF or Word documents!")
+        return Upload.LIST_IGNORE
       }
-      
+
       if (!isLt5M) {
-        message.error('File must be smaller than 5MB!');
-        return Upload.LIST_IGNORE;
+        message.error("File must be smaller than 5MB!")
+        return Upload.LIST_IGNORE
       }
-      
-      setUploadedFiles(prev => [...prev, file]);
-      return false;
+
+      setUploadedFiles((prev) => [...prev, file])
+      return false
     },
     onRemove: (file) => {
-      setUploadedFiles(prev => prev.filter(f => f.uid !== file.uid));
+      setUploadedFiles((prev) => prev.filter((f) => f.uid !== file.uid))
     },
     fileList: uploadedFiles,
     multiple: true,
     maxCount: 5,
-    accept: '.pdf,.doc,.docx'
-  };
+    accept: ".pdf,.doc,.docx",
+  }
 
   const steps = [
     {
-      title: 'Personal Information',
+      title: "Personal Information",
       icon: <UserOutlined />,
       content: (
         <>
@@ -263,7 +308,7 @@ const InternshipContent = () => {
               <Form.Item
                 name="firstName"
                 label="First Name"
-                rules={[{ required: true, message: 'Please enter your first name' }]}
+                rules={[{ required: true, message: "Please enter your first name" }]}
               >
                 <Input placeholder="John" />
               </Form.Item>
@@ -272,7 +317,7 @@ const InternshipContent = () => {
               <Form.Item
                 name="lastName"
                 label="Last Name"
-                rules={[{ required: true, message: 'Please enter your last name' }]}
+                rules={[{ required: true, message: "Please enter your last name" }]}
               >
                 <Input placeholder="Doe" />
               </Form.Item>
@@ -283,8 +328,8 @@ const InternshipContent = () => {
             name="email"
             label="Email"
             rules={[
-              { required: true, message: 'Please enter your email' },
-              { type: 'email', message: 'Please enter a valid email' }
+              { required: true, message: "Please enter your email" },
+              { type: "email", message: "Please enter a valid email" },
             ]}
           >
             <Input placeholder="john.doe@example.com" />
@@ -293,7 +338,7 @@ const InternshipContent = () => {
           <Form.Item
             name="phone"
             label="Phone Number"
-            rules={[{ required: true, message: 'Please enter your phone number' }]}
+            rules={[{ required: true, message: "Please enter your phone number" }]}
           >
             <Input placeholder="+1 (123) 456-7890" />
           </Form.Item>
@@ -301,7 +346,7 @@ const InternshipContent = () => {
           <Form.Item
             name="education"
             label="Current Education"
-            rules={[{ required: true, message: 'Please enter your education level' }]}
+            rules={[{ required: true, message: "Please enter your education level" }]}
           >
             <Select placeholder="Select your education level">
               <Option value="high_school">High School</Option>
@@ -312,15 +357,15 @@ const InternshipContent = () => {
             </Select>
           </Form.Item>
         </>
-      )
+      ),
     },
     {
-      title: 'Documents',
+      title: "Documents",
       icon: <FileDoneOutlined />,
       content: (
         <>
           <Text strong>Upload supporting documents:</Text>
-          <div style={{ margin: '16px 0' }}>
+          <div style={{ margin: "16px 0" }}>
             <Alert
               message="Required Documents"
               description="Please upload your CV/resume and any other supporting documents"
@@ -329,32 +374,25 @@ const InternshipContent = () => {
             />
           </div>
 
-          <Upload.Dragger {...uploadProps} style={{ padding: '20px' }}>
+          <Upload.Dragger {...uploadProps} style={{ padding: "20px" }}>
             <p className="ant-upload-drag-icon">
               <InboxOutlined />
             </p>
             <p className="ant-upload-text">Click or drag files to upload</p>
-            <p className="ant-upload-hint">
-              Supports PDF, DOC, DOCX (Max 5 files, 5MB each)
-            </p>
+            <p className="ant-upload-hint">Supports PDF, DOC, DOCX (Max 5 files, 5MB each)</p>
           </Upload.Dragger>
 
           {uploadedFiles.length === 0 && (
-            <Alert
-              message="No documents uploaded"
-              type="warning"
-              showIcon
-              style={{ marginTop: 16 }}
-            />
+            <Alert message="No documents uploaded" type="warning" showIcon style={{ marginTop: 16 }} />
           )}
 
           {uploadedFiles.length > 0 && (
-            <div style={{ marginTop: '16px' }}>
+            <div style={{ marginTop: "16px" }}>
               <Text strong>Files to be submitted:</Text>
               <List
                 size="small"
                 dataSource={uploadedFiles}
-                renderItem={file => (
+                renderItem={(file) => (
                   <List.Item>
                     <FileTextOutlined style={{ marginRight: 8 }} />
                     {file.name} - {(file.size / 1024).toFixed(2)} KB
@@ -364,173 +402,227 @@ const InternshipContent = () => {
             </div>
           )}
         </>
-      )
+      ),
     },
     {
-      title: 'Additional Information',
+      title: "Additional Information",
       icon: <SolutionOutlined />,
       content: (
         <>
           <Form.Item
             name="coverLetter"
             label="Cover Letter"
-            rules={[{ required: true, message: 'Please write a cover letter' }]}
+            rules={[{ required: true, message: "Please write a cover letter" }]}
           >
-            <TextArea
-              rows={6}
-              placeholder="Explain why you're a good fit for this internship..."
-            />
+            <TextArea rows={6} placeholder="Explain why you're a good fit for this internship..." />
           </Form.Item>
 
           <Form.Item
             name="availability"
             label="Availability (Hours/Week)"
-            rules={[{ required: true, message: 'Please enter your availability' }]}
+            rules={[{ required: true, message: "Please enter your availability" }]}
           >
-            <InputNumber min={10} max={40} style={{ width: '100%' }} />
+            <InputNumber min={10} max={40} style={{ width: "100%" }} />
           </Form.Item>
 
           <Form.Item
             name="startDate"
             label="Available Start Date"
-            rules={[{ required: true, message: 'Please select a start date' }]}
+            rules={[{ required: true, message: "Please select a start date" }]}
           >
-            <DatePicker style={{ width: '100%' }} />
+            <DatePicker style={{ width: "100%" }} />
           </Form.Item>
         </>
-      )
-    }
-  ];
-
-  const columns = [
-    {
-      title: 'Company',
-      dataIndex: 'company',
-      key: 'company',
-      sorter: (a, b) => a.company.localeCompare(b.company),
-    },
-    {
-      title: 'Job Title',
-      dataIndex: 'title',
-      key: 'title',
-      sorter: (a, b) => a.title.localeCompare(b.title),
-    },
-    {
-      title: 'Industry',
-      dataIndex: 'industry',
-      key: 'industry',
-      filters: industries.map(industry => ({ text: industry, value: industry })),
-      onFilter: (value, record) => record.industry === value,
-    },
-    {
-      title: 'Duration',
-      dataIndex: 'duration',
-      key: 'duration',
-      sorter: (a, b) => a.duration.localeCompare(b.duration),
-    },
-    {
-      title: 'Compensation',
-      dataIndex: 'isPaid',
-      key: 'isPaid',
-      render: (isPaid, record) => (
-        <Tag color={isPaid ? 'green' : 'orange'} icon={isPaid ? <DollarOutlined /> : null}>
-          {isPaid ? `Paid (${record.salary})` : 'Unpaid'}
-        </Tag>
-      ),
-      filters: [
-        { text: 'Paid', value: true },
-        { text: 'Unpaid', value: false },
-      ],
-      onFilter: (value, record) => record.isPaid === value,
-    },
-    
-    {
-      title: 'Action',
-      key: 'action',
-      render: (_, record) => (
-        <Button 
-          type="link" 
-          onClick={() => showInternshipDetails(record)}
-          icon={<FileTextOutlined />}
-        >
-          View Details
-        </Button>
       ),
     },
-  ];
+  ]
 
   return (
     <div className="internship-content">
-      <Card title="Available Internships" className="internship-card">
-        <div className="internship-toolbar">
-          <Row gutter={[16, 16]} align="middle">
-            <Col xs={24} sm={12} md={8} lg={6}>
-              <Search
-                placeholder="Search by job title or company"
-                allowClear
-                enterButton={<SearchOutlined />}
-                size="large"
-                onSearch={handleSearch}
-                onChange={e => setSearchText(e.target.value)}
-                value={searchText}
-              />
-            </Col>
-            <Col xs={24} sm={12} md={16} lg={18}>
-              <div className="filter-section">
-                <span className="filter-label"><FilterOutlined /> Filters:</span>
-                <Select
-                  placeholder="Industry"
-                  style={{ width: 120 }}
-                  allowClear
-                  onChange={value => handleFilterChange('industry', value)}
-                  value={filters.industry}
-                >
-                  {industries.map(industry => (
-                    <Option key={industry} value={industry}>{industry}</Option>
-                  ))}
-                </Select>
-                <Select
-                  placeholder="Duration"
-                  style={{ width: 120 }}
-                  allowClear
-                  onChange={value => handleFilterChange('duration', value)}
-                  value={filters.duration}
-                >
-                  {durations.map(duration => (
-                    <Option key={duration} value={duration}>{duration}</Option>
-                  ))}
-                </Select>
-                <Select
-                  placeholder="Paid/Unpaid"
-                  style={{ width: 120 }}
-                  allowClear
-                  onChange={value => handleFilterChange('isPaid', value)}
-                  value={filters.isPaid}
-                >
-                  <Option value={true}>Paid</Option>
-                  <Option value={false}>Unpaid</Option>
-              
-                  <Option value="current">Current</Option>
-                  <Option value="completed">Completed</Option>
-                </Select>
-                <Button type="link" onClick={resetFilters}>
-                  Reset
-                </Button>
-              </div>
-            </Col>
-          </Row>
+      <div className="filters">
+        <button className="filter-button" onClick={toggleFilters}>
+          <span className="filter-icon">≡</span> Filters
+        </button>
+        <div className="search-container">
+          <input
+            type="text"
+            placeholder="Search job title"
+            className="search-input"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+          {searchText && (
+            <button className="clear-search" onClick={clearSearch}>
+              ×
+            </button>
+          )}
         </div>
+      </div>
 
-        <Divider />
+      {showFilters && (
+        <div className="filter-modal-overlay">
+          <div className="filter-modal">
+            <div className="filter-modal-header">
+              <h2>Filters</h2>
+              <button className="close-button" onClick={toggleFilters}>
+                ✕
+              </button>
+            </div>
 
-        <Table
-          columns={columns}
-          dataSource={filteredInternships}
-          rowKey="id"
-          pagination={{ pageSize: 10 }}
-          scroll={{ x: true }}
-        />
-      </Card>
+            <div className="filter-modal-content">
+              <div className="filter-section">
+                <h3>INDUSTRY</h3>
+                <div className="filter-options">
+                  {industries.map((industry, index) => (
+                    <button
+                      key={index}
+                      className={`filter-option ${filters.industry === industry ? "selected" : ""}`}
+                      onClick={() => handleFilterChange("industry", industry)}
+                    >
+                      {industry}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="filter-section">
+                <h3>DURATION</h3>
+                <div className="filter-options">
+                  {durations.map((duration, index) => (
+                    <button
+                      key={index}
+                      className={`filter-option ${filters.duration === duration ? "selected" : ""}`}
+                      onClick={() => handleFilterChange("duration", duration)}
+                    >
+                      {duration}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="filter-section">
+                <h3>LOCATION</h3>
+                <div className="filter-options">
+                  {locations.map((location, index) => (
+                    <button
+                      key={index}
+                      className={`filter-option ${filters.location === location ? "selected" : ""}`}
+                      onClick={() => handleFilterChange("location", location)}
+                    >
+                      {location}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="filter-section">
+                <h3>PAYMENT</h3>
+                <div className="filter-options">
+                  <button
+                    className={`filter-option ${filters.isPaid === true ? "selected" : ""}`}
+                    onClick={() => handleFilterChange("isPaid", true)}
+                  >
+                    Paid
+                  </button>
+                  <button
+                    className={`filter-option ${filters.isPaid === false ? "selected" : ""}`}
+                    onClick={() => handleFilterChange("isPaid", false)}
+                  >
+                    Unpaid
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="filter-actions">
+              <button className={`reset-button ${hasActiveFilters() ? "active" : ""}`} onClick={resetFilters}>
+                Reset
+              </button>
+              <button className="apply-button" onClick={toggleFilters}>
+                Show {filteredInternships.length} jobs
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {searchText && (
+        <div className="search-results">
+          <div className="results-count">
+            Found {filteredInternships.length} {filteredInternships.length === 1 ? "job" : "jobs"} matching "
+            {searchText}"
+          </div>
+        </div>
+      )}
+
+      <div className="job-listings">
+        {filteredInternships.map((internship) => (
+          <div className={`job-card ${internship.status === "completed" ? "completed-job" : ""}`} key={internship.id}>
+            {internship.status === "completed" && <div className="completed-banner">INTERNSHIP COMPLETE</div>}
+
+            {internship.isPaid && internship.salary && (
+              <div className="job-salary">
+                <div className="amount">{internship.salary}</div>
+                <div className="hourly-rate">Hourly Rate</div>
+              </div>
+            )}
+
+            <div className="job-details">
+              <div className="company-name">{internship.company}</div>
+              {internship.isLearningOpportunity && <div className="learning-opportunity">LEARNING OPPORTUNITY</div>}
+
+              <h3 className="job-title">
+                {searchText ? <HighlightText text={internship.title} highlight={searchText} /> : internship.title}
+              </h3>
+
+              <div className="job-requirements">
+                <div className="requirement-label">REQUIRES:</div>
+                <div className="requirement-tags">
+                  {internship.skills.map((skill, index) => (
+                    <span className="requirement-tag" key={index}>
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="job-location">
+                <span className="location-icon">◎</span>
+                <span>{internship.location}</span>
+              </div>
+
+              <div className="job-duration">
+                <span className="calendar-icon">📅</span>
+                <div>
+                  <div className="date-range">
+                    {internship.startDate} - {internship.endDate}
+                  </div>
+                  <div className="duration">{internship.duration}</div>
+                </div>
+                <div className="time-slot">
+                  <div className="time">{internship.timeSlot}</div>
+                  <div className="time-of-day">{internship.timeOfDay}</div>
+                </div>
+              </div>
+
+              <div className="job-work-hours">
+                <span className="work-hours-icon">⏱</span>
+                <span>{internship.workHours}</span>
+              </div>
+
+              {internship.description && <div className="job-description">{internship.description}</div>}
+            </div>
+
+            <button className="apply-now-button" onClick={() => handleApply()}>
+              Apply Now
+            </button>
+
+            <div className={`job-status ${internship.isPaid ? "paid" : "unpaid"}`}>
+              {internship.isPaid ? "PAID" : "UNPAID"}
+            </div>
+          </div>
+        ))}
+      </div>
 
       {/* Internship Details Modal */}
       <Modal
@@ -541,12 +633,7 @@ const InternshipContent = () => {
           <Button key="back" onClick={() => setIsModalVisible(false)}>
             Close
           </Button>,
-          <Button 
-            key="apply" 
-            type="primary" 
-            onClick={handleApply}
-            icon={<SolutionOutlined />}
-          >
+          <Button key="apply" type="primary" onClick={handleApply} icon={<SolutionOutlined />}>
             Apply Now
           </Button>,
         ]}
@@ -556,22 +643,35 @@ const InternshipContent = () => {
           <div className="internship-details">
             <h2>{selectedInternship.title}</h2>
             <h3>{selectedInternship.company}</h3>
-            
+
             <div className="details-section">
               <Row gutter={16}>
                 <Col span={12}>
-                  <p><strong>Industry:</strong> {selectedInternship.industry}</p>
-                  <p><strong>Duration:</strong> {selectedInternship.duration}</p>
+                  <p>
+                    <strong>Industry:</strong> {selectedInternship.industry}
+                  </p>
+                  <p>
+                    <strong>Duration:</strong> {selectedInternship.duration}
+                  </p>
+                  <p>
+                    <strong>Location:</strong> {selectedInternship.location}
+                  </p>
                 </Col>
                 <Col span={12}>
-                  <p><strong>Compensation:</strong> 
+                  <p>
+                    <strong>Compensation:</strong>
                     {selectedInternship.isPaid ? (
                       <Tag color="green">{selectedInternship.salary}</Tag>
                     ) : (
                       <Tag color="orange">Unpaid</Tag>
                     )}
                   </p>
-                  <p><strong>Posted Date:</strong> {selectedInternship.postedDate}</p>
+                  <p>
+                    <strong>Posted Date:</strong> {selectedInternship.postedDate}
+                  </p>
+                  <p>
+                    <strong>Work Hours:</strong> {selectedInternship.workHours}
+                  </p>
                 </Col>
               </Row>
             </div>
@@ -587,7 +687,9 @@ const InternshipContent = () => {
               <h4>Required Skills</h4>
               <div className="skills-list">
                 {selectedInternship.skills.map((skill, index) => (
-                  <Tag key={index} color="blue">{skill}</Tag>
+                  <Tag key={index} color="blue">
+                    {skill}
+                  </Tag>
                 ))}
               </div>
             </div>
@@ -597,7 +699,7 @@ const InternshipContent = () => {
 
       {/* Application Form Modal */}
       <Modal
-        title={`Application for ${selectedInternship?.title || 'Internship'}`}
+        title={`Application for ${selectedInternship?.title || "Internship"}`}
         visible={applicationFormVisible}
         onCancel={() => setApplicationFormVisible(false)}
         footer={[
@@ -611,15 +713,10 @@ const InternshipContent = () => {
               Next
             </Button>
           ) : (
-            <Button 
-              key="submit" 
-              type="primary" 
-              loading={uploading}
-              onClick={() => form.submit()}
-            >
+            <Button key="submit" type="primary" loading={uploading} onClick={() => form.submit()}>
               Submit Application
             </Button>
-          )
+          ),
         ]}
         width={800}
         destroyOnClose
@@ -630,18 +727,36 @@ const InternshipContent = () => {
           ))}
         </Steps>
 
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={submitApplication}
-        >
-          <div style={{ minHeight: '300px' }}>
-            {steps[applicationStep].content}
-          </div>
+        <Form form={form} layout="vertical" onFinish={submitApplication}>
+          <div style={{ minHeight: "300px" }}>{steps[applicationStep].content}</div>
         </Form>
       </Modal>
     </div>
-  );
-};
+  )
+}
 
-export default InternshipContent;
+// Helper component to highlight search text
+function HighlightText({ text, highlight }) {
+  if (!highlight.trim()) {
+    return <span>{text}</span>
+  }
+
+  const regex = new RegExp(`(${highlight})`, "gi")
+  const parts = text.split(regex)
+
+  return (
+    <span>
+      {parts.map((part, i) =>
+        regex.test(part) ? (
+          <span key={i} className="highlight">
+            {part}
+          </span>
+        ) : (
+          <span key={i}>{part}</span>
+        ),
+      )}
+    </span>
+  )
+}
+
+export default InternshipContent
