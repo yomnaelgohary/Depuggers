@@ -918,9 +918,11 @@ select.form-select:focus > option:checked {
   color: #666;
 }
 
-.action-button-container {
+.action-buttons {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
 }
 
 .view-details-button {
@@ -928,15 +930,95 @@ select.form-select:focus > option:checked {
   background-color: white;
   border: 1px solid #5f2878;
   border-radius: 4px;
-  color: #5f2878;
-  font-size: 14px;
   cursor: pointer;
+  font-size: 14px;
+  color: #5f2878;
   transition: all 0.2s ease;
+  width: 120px;
+  text-align: center;
 }
 
 .view-details-button:hover {
   background-color: #5f2878;
   color: white;
+}
+
+.evaluation-button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  width: 120px;
+  text-align: center;
+}
+
+.evaluation-button.add-evaluation {
+  background-color: white;
+  border: 1px solid #5f2878;
+  color: #5f2878;
+}
+
+.evaluation-button.add-evaluation:hover {
+  background-color: #5f2878;
+  color: white;
+}
+
+.evaluation-button.view-evaluation {
+  background-color: white;
+  border: 1px solid #5f2878;
+  color: #5f2878;
+}
+
+.evaluation-button.view-evaluation:hover {
+  background-color: #5f2878;
+  color: white;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid #5f2878;
+  min-width: 100px;
+  user-select: none;
+}
+
+.status-badge.status-current {
+  background-color: #f5f3ff;
+  color: #5f2878;
+  border-color: #5f2878;
+}
+
+.status-badge.status-current:hover {
+  background-color: #5f2878;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(95, 40, 120, 0.2);
+}
+
+.status-badge.status-completed {
+  background-color: #f5f3ff;
+  color: #5f2878;
+  border-color: #5f2878;
+}
+
+.status-badge.status-completed:hover {
+  background-color: #5f2878;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(95, 40, 120, 0.2);
+}
+
+.status-badge:active {
+  transform: translateY(0);
+  box-shadow: none;
 }
 
 /* Application details */
@@ -1045,157 +1127,108 @@ select.form-select:focus > option:checked {
 
 .status-button {
   padding: 12px 24px;
-  background-color: white;
-  border: 1px solid #e0e0e0;
   border-radius: 4px;
   font-size: 14px;
   color: #666;
   cursor: pointer;
-  transition: all 0.2s ease;
-  flex: 1;
   text-align: center;
+  flex: 1;
+  position: relative;
+  transition: all 0.2s ease;
 }
 
-/* Status button hover states */
-.status-button:hover {
-  border-color: currentColor;
+/* Default states */
+.status-button:nth-child(1) {
+  background-color: #faf8fd;  /* Very light purple */
+  border: 1px solid #5f2878;
+  color: #5f2878;
 }
 
-.status-button:hover:nth-child(1) {
-  color: #f4b400;
-  background-color: #fff8e1;
-}
-
-.status-button:hover:nth-child(2) {
+.status-button:nth-child(2) {
+  background-color: white;
+  border: 1px solid #0f9d58;
   color: #0f9d58;
-  background-color: #e8f5e9;
 }
 
-.status-button:hover:nth-child(3) {
+.status-button:nth-child(3) {
+  background-color: white;
+  border: 1px solid #db4437;
   color: #db4437;
-  background-color: #fbe9e7;
 }
 
-/* Status button active states */
-.status-button.active:nth-child(1) {
-  background-color: #f4b400;
+/* Hover states */
+.status-button:nth-child(1):hover {
+  background-color: #5f2878;
   color: white;
-  border-color: #f4b400;
+}
+
+.status-button:nth-child(2):hover {
+  background-color: white;
+  border-width: 2px;
+  color: #0f9d58;
+}
+
+.status-button:nth-child(3):hover {
+  background-color: white;
+  border-width: 2px;
+  color: #db4437;
+}
+
+/* Active states */
+.status-button.active:nth-child(1) {
+  background-color: white;
+  color: #5f2878;
+  border-color: #5f2878;
 }
 
 .status-button.active:nth-child(2) {
-  background-color: #0f9d58;
-  color: white;
+  background-color: white;
+  color: #0f9d58;
   border-color: #0f9d58;
+  border-width: 2px;
 }
 
 .status-button.active:nth-child(3) {
-  background-color: #db4437;
-  color: white;
+  background-color: white;
+  color: #db4437;
   border-color: #db4437;
+  border-width: 2px;
+}
+
+/* When Accept or Reject is active, Pending button style */
+.status-button.active ~ .status-button:nth-child(1),
+.status-button:nth-child(1):has(~ .status-button.active) {
+  background-color: white;
+  color: #5f2878;
+  border-color: #5f2878;
+}
+
+/* Save indication */
+.status-button::after {
+  content: "Status Saved!";
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  opacity: 0;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.status-button.saved::after {
+  opacity: 1;
+  top: -25px;
 }
 
 /* Responsive styles */
 @media (max-width: 768px) {
-  .info-row {
-    grid-template-columns: 1fr;
-  }
-
   .status-buttons {
     flex-direction: column;
-  }
-}
-
-/* Responsive styles */
-@media (max-width: 768px) {
-  .job-card {
-    flex-direction: column;
-  }
-
-  .job-salary {
-    padding: 16px;
-    border-bottom: 1px solid #f0f0f0;
-  }
-
-  .job-details {
-    border-left: none;
-    border-right: none;
-  }
-
-  .job-status {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    min-width: auto;
-    padding: 4px 8px;
-    border-radius: 4px;
-  }
-
-  .search-container {
-    width: 100%;
-  }
-
-  .filters {
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .filter-modal {
-    max-height: 80vh;
-  }
-
-  .form-row {
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .applications-header,
-  .application-item {
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-
-  .applications-header {
-    display: none;
-  }
-
-  .application-detail {
-    padding: 4px 0;
-  }
-
-  .application-actions {
-    justify-content: flex-start;
-    margin-top: 8px;
-  }
-
-  .details-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .status-buttons {
-    flex-direction: column;
-  }
-
-  .interns-filters {
-    flex-direction: column;
-  }
-
-  .interns-header {
-    display: none;
-  }
-
-  .intern-item {
-    grid-template-columns: 1fr;
-    gap: 8px;
-    text-align: left;
-  }
-
-  .intern-actions {
-    justify-content: flex-start;
-  }
-
-  .ratings-grid {
-    grid-template-columns: 1fr;
   }
 }
 
@@ -1656,42 +1689,70 @@ select.form-select:focus > option:checked {
 
 .evaluation-button.add-evaluation {
   background-color: white;
-  border: 1px solid #2e7d32;
-  color: #2e7d32;
+  border: 1px solid #5f2878;
+  color: #5f2878;
 }
 
 .evaluation-button.add-evaluation:hover {
-  background-color: #2e7d32;
+  background-color: #5f2878;
   color: white;
 }
 
 .evaluation-button.view-evaluation {
   background-color: white;
-  border: 1px solid #1976d2;
-  color: #1976d2;
+  border: 1px solid #5f2878;
+  color: #5f2878;
 }
 
 .evaluation-button.view-evaluation:hover {
-  background-color: #1976d2;
+  background-color: #5f2878;
   color: white;
 }
 
 .status-badge {
-  display: inline-block;
-  padding: 4px 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 16px;
   border-radius: 12px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid #5f2878;
+  min-width: 100px;
+  user-select: none;
 }
 
 .status-badge.status-current {
-  background-color: #e3f2fd;
-  color: #1976d2;
+  background-color: #f5f3ff;
+  color: #5f2878;
+  border-color: #5f2878;
+}
+
+.status-badge.status-current:hover {
+  background-color: #5f2878;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(95, 40, 120, 0.2);
 }
 
 .status-badge.status-completed {
-  background-color: #e8f5e9;
-  color: #2e7d32;
+  background-color: #f5f3ff;
+  color: #5f2878;
+  border-color: #5f2878;
+}
+
+.status-badge.status-completed:hover {
+  background-color: #5f2878;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(95, 40, 120, 0.2);
+}
+
+.status-badge:active {
+  transform: translateY(0);
+  box-shadow: none;
 }
 
 /* Responsive styles for intern section */
@@ -1815,8 +1876,9 @@ select.form-select:focus > option:checked {
 
 .action-buttons {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 8px;
-  justify-content: flex-start;
 }
 
 .view-details-button {
@@ -1824,10 +1886,12 @@ select.form-select:focus > option:checked {
   background-color: white;
   border: 1px solid #5f2878;
   border-radius: 4px;
-  color: #5f2878;
-  font-size: 14px;
   cursor: pointer;
+  font-size: 14px;
+  color: #5f2878;
   transition: all 0.2s ease;
+  width: 120px;
+  text-align: center;
 }
 
 .view-details-button:hover {
@@ -1841,46 +1905,76 @@ select.form-select:focus > option:checked {
   cursor: pointer;
   font-size: 14px;
   transition: all 0.2s ease;
+  width: 120px;
+  text-align: center;
 }
 
 .evaluation-button.add-evaluation {
   background-color: white;
-  border: 1px solid #2e7d32;
-  color: #2e7d32;
+  border: 1px solid #5f2878;
+  color: #5f2878;
 }
 
 .evaluation-button.add-evaluation:hover {
-  background-color: #2e7d32;
+  background-color: #5f2878;
   color: white;
 }
 
 .evaluation-button.view-evaluation {
   background-color: white;
-  border: 1px solid #1976d2;
-  color: #1976d2;
+  border: 1px solid #5f2878;
+  color: #5f2878;
 }
 
 .evaluation-button.view-evaluation:hover {
-  background-color: #1976d2;
+  background-color: #5f2878;
   color: white;
 }
 
 .status-badge {
-  display: inline-block;
-  padding: 4px 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 16px;
   border-radius: 12px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid #5f2878;
+  min-width: 100px;
+  user-select: none;
 }
 
 .status-badge.status-current {
-  background-color: #e3f2fd;
-  color: #1976d2;
+  background-color: #f5f3ff;
+  color: #5f2878;
+  border-color: #5f2878;
+}
+
+.status-badge.status-current:hover {
+  background-color: #5f2878;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(95, 40, 120, 0.2);
 }
 
 .status-badge.status-completed {
-  background-color: #e8f5e9;
-  color: #2e7d32;
+  background-color: #f5f3ff;
+  color: #5f2878;
+  border-color: #5f2878;
+}
+
+.status-badge.status-completed:hover {
+  background-color: #5f2878;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(95, 40, 120, 0.2);
+}
+
+.status-badge:active {
+  transform: translateY(0);
+  box-shadow: none;
 }
 
 /* Evaluation modal styles */

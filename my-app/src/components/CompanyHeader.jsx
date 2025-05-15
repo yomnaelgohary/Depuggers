@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react"
 import { ChevronLeft, ChevronRight, Bell, User, LogOut } from "lucide-react"
+import { useNavigate } from "react-router-dom"
 import "./CompanyHeader.css"
 
 function CompanyHeader({ 
@@ -13,6 +14,7 @@ function CompanyHeader({
   const [notifications, setNotifications] = useState([])
   const notificationRef = useRef(null)
   const userDropdownRef = useRef(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -40,6 +42,15 @@ function CompanyHeader({
 
   const clearNotifications = () => {
     setNotifications([])
+  }
+
+  const handleLogout = () => {
+    // Clear any stored user data/tokens
+    localStorage.removeItem("userToken")
+    sessionStorage.removeItem("userToken")
+    
+    // Navigate to login page
+    navigate("/login")
   }
 
   return (
@@ -109,12 +120,7 @@ function CompanyHeader({
 
           {showUserDropdown && (
             <div className="user-dropdown">
-              <div className="user-info">
-                <p className="user-name">Admin</p>
-                <p className="user-email">admin@example.com</p>
-              </div>
-              <div className="dropdown-divider"></div>
-              <button className="logout-button" onClick={() => console.log("Logging out...")}>
+              <button className="logout-button" onClick={handleLogout}>
                 <LogOut size={16} />
                 <span>Logout</span>
               </button>

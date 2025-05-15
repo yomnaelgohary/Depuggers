@@ -466,28 +466,6 @@ export default function Company() {
       internshipStatus: "current",
     },
     {
-      id: 3,
-      postId: 2,
-      postTitle: "UI/UX Design Intern",
-      firstName: "Omar",
-      lastName: "Mahmoud",
-      applicantName: "Omar Mahmoud",
-      applicantEmail: "omar.mahmoud@example.com",
-      applicantPhone: "+20 123 456 7892",
-      university: "German University in Cairo",
-      major: "Design",
-      currentEducation: "Bachelor's Degree, 3rd Year",
-      gpa: 3.5,
-      graduationYear: 2025,
-      resumeUrl: "#",
-      coverLetter: "As a passionate UI/UX designer with experience in Figma...",
-      applicationDate: "Apr 10, 2025",
-      availabilityHours: "20 hours/week",
-      availableStartDate: "May 20, 2025",
-      status: "finalized",
-      internshipStatus: "completed",
-    },
-    {
       id: 4,
       postId: 2,
       postTitle: "UI/UX Design Intern",
@@ -642,28 +620,6 @@ export default function Company() {
       internshipStatus: "current",
     },
     {
-      id: 11,
-      postId: 16,
-      postTitle: "Sales Assistant Intern",
-      firstName: "Mariam",
-      lastName: "Khaled",
-      applicantName: "Mariam Khaled",
-      applicantEmail: "mariam.khaled@example.com",
-      applicantPhone: "+20 123 456 7900",
-      university: "Cairo University",
-      major: "Business Administration",
-      currentEducation: "Bachelor's Degree, 3rd Year",
-      gpa: 3.6,
-      graduationYear: 2025,
-      resumeUrl: "#",
-      coverLetter: "I am excited to apply for the Sales Assistant Intern position...",
-      applicationDate: "Jan 05, 2025",
-      availabilityHours: "30 hours/week",
-      availableStartDate: "Jan 15, 2025",
-      status: "finalized",
-      internshipStatus: "completed",
-    },
-    {
       id: 12,
       postId: 17,
       postTitle: "Marketing Intern",
@@ -682,28 +638,6 @@ export default function Company() {
       applicationDate: "Jan 25, 2025",
       availabilityHours: "25 hours/week",
       availableStartDate: "Feb 05, 2025",
-      status: "finalized",
-      internshipStatus: "completed",
-    },
-    {
-      id: 13,
-      postId: 18,
-      postTitle: "HR Assistant Intern",
-      firstName: "Yasmin",
-      lastName: "Adel",
-      applicantName: "Yasmin Adel",
-      applicantEmail: "yasmin.adel@example.com",
-      applicantPhone: "+20 123 456 7902",
-      university: "Ain Shams University",
-      major: "Human Resources",
-      currentEducation: "Bachelor's Degree, 3rd Year",
-      gpa: 3.5,
-      graduationYear: 2025,
-      resumeUrl: "#",
-      coverLetter: "I am excited to apply for the HR Assistant Intern position...",
-      applicationDate: "Nov 20, 2024",
-      availabilityHours: "20 hours/week",
-      availableStartDate: "Dec 05, 2024",
       status: "finalized",
       internshipStatus: "completed",
     },
@@ -852,26 +786,28 @@ export default function Company() {
   const filteredApplications = selectedPost ? applications.filter((app) => app.postId === selectedPost) : applications
 
   // Update application status with notification
-  const updateApplicationStatus = (applicationId, status) => {
+  const updateApplicationStatus = (applicationId, newStatus) => {
     const updatedApplications = applications.map((app) => {
       if (app.id === applicationId) {
-        return { ...app, status }
+        return { ...app, status: newStatus };
       }
-      return app
-    })
+      return app;
+    });
 
     // In a real app, you would update the state or make an API call here
-    console.log(`Updated application ${applicationId} status to ${status}`)
+    console.log(`Updated application ${applicationId} status to ${newStatus}`);
 
     // Add notification
-    if (status === "accepted" || status === "rejected") {
-      const app = applications.find((a) => a.id === applicationId)
-      addNotification(`${app.applicantName}'s application for ${app.postTitle} has been ${status}`)
+    const app = applications.find((a) => a.id === applicationId);
+    addNotification(`${app.applicantName}'s application status changed to ${newStatus}`);
 
-      // In a real app, you would send an email notification here
-      console.log(`Email notification sent to ${app.applicantEmail} about ${status} status`)
+    // Show save indication
+    const button = document.querySelector(`.status-button[data-status="${newStatus}"]`);
+    if (button) {
+      button.classList.add('saved');
+      setTimeout(() => button.classList.remove('saved'), 2000);
     }
-  }
+  };
 
   // Update internship status
   const updateInternshipStatus = (applicationId, internshipStatus) => {
@@ -971,6 +907,17 @@ export default function Company() {
       setActivePage(nextPage)
     }
   }
+
+  const handleStatusChange = (internId, newStatus) => {
+    const updatedApplications = applications.map((app) => {
+      if (app.id === internId) {
+        return { ...app, internshipStatus: newStatus === "current" ? "completed" : "current" };
+      }
+      return app;
+    });
+    // In a real app, you would make an API call here
+    setApplications(updatedApplications);
+  };
 
   return (
     <div className="company-container">
@@ -1364,7 +1311,10 @@ export default function Company() {
                             <td>{intern.postTitle}</td>
                             <td>{intern.availableStartDate}</td>
                             <td>
-                              <span className={`status-badge ${intern.internshipStatus === "current" ? "status-current" : "status-completed"}`}>
+                              <span 
+                                className={`status-badge ${intern.internshipStatus === "current" ? "status-current" : "status-completed"}`}
+                                onClick={() => handleStatusChange(intern.id, intern.internshipStatus)}
+                              >
                                 {intern.internshipStatus === "current" ? "Current" : "Completed"}
                               </span>
                             </td>
@@ -1733,18 +1683,21 @@ export default function Company() {
                       <button 
                         className={`status-button ${selectedApplication.status === 'pending' ? 'active' : ''}`}
                         onClick={() => updateApplicationStatus(selectedApplication.id, 'pending')}
+                        data-status="pending"
                       >
                         Pending
                       </button>
                       <button 
                         className={`status-button ${selectedApplication.status === 'accepted' ? 'active' : ''}`}
                         onClick={() => updateApplicationStatus(selectedApplication.id, 'accepted')}
+                        data-status="accepted"
                       >
                         Accept
                       </button>
                       <button 
                         className={`status-button ${selectedApplication.status === 'rejected' ? 'active' : ''}`}
                         onClick={() => updateApplicationStatus(selectedApplication.id, 'rejected')}
+                        data-status="rejected"
                       >
                         Reject
                       </button>
