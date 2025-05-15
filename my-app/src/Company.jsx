@@ -76,6 +76,7 @@ export default function Company() {
   const jobListings = [
     {
       id: 1,
+      companyName: "Dell Technologies",
       title: "Backend Developer Intern",
       salary: "$89.10",
       hourlyRate: "$14.85/h",
@@ -96,6 +97,7 @@ export default function Company() {
     },
     {
       id: 2,
+      companyName: "Microsoft",
       title: "UI/UX Design Intern",
       requirements: ["JAVASCRIPT", "REACT", "FIGMA"],
       location: "N Teseen, New Cairo",
@@ -919,6 +921,9 @@ export default function Company() {
     setApplications(updatedApplications);
   };
 
+  // Filter Dell posts for My Posts section
+  const myPosts = jobListings.filter(job => job.companyName === "Dell Technologies")
+
   return (
     <div className="company-container">
       <CompanySidebar activePage={activePage} onPageChange={handlePageChange} />
@@ -932,6 +937,7 @@ export default function Company() {
         <main className="company-main">
           {activePage === "posts" && (
             <div className="post-section">
+              <h2>Posts</h2>
               <div className="filters">
                 <button className="filter-button" onClick={toggleFilters}>
                   <span className="filter-icon">≡</span> Filters
@@ -1049,81 +1055,145 @@ export default function Company() {
               </div>
 
               <div className="job-listings">
-                {filteredJobs.length > 0 ? (
-                  filteredJobs.map((job) => (
-                    <div className={`job-card ${job.status === "completed" ? "completed-job" : ""}`} key={job.id}>
-                      {job.status === "completed" && <div className="completed-banner">INTERNSHIP COMPLETE</div>}
+                {filteredJobs.filter(job => job.companyName === "Dell Technologies").map((job) => (
+                  <div className={`job-card ${job.status === "completed" ? "completed-job" : ""}`} key={job.id}>
+                    {job.status === "completed" && <div className="completed-banner">INTERNSHIP COMPLETE</div>}
 
-                      {job.salary && (
-                        <div className="job-salary">
-                          <div className="amount">{job.salary}</div>
-                          <div className="hourly-rate">{job.hourlyRate}</div>
-                        </div>
-                      )}
+                    {job.salary && (
+                      <div className="job-salary">
+                        <div className="amount">{job.salary}</div>
+                        <div className="hourly-rate">{job.hourlyRate}</div>
+                      </div>
+                    )}
 
-                      <div className="job-details">
-                        {job.isLearningOpportunity && <div className="learning-opportunity">LEARNING OPPORTUNITY</div>}
+                    <div className="job-details">
+                      {job.isLearningOpportunity && <div className="learning-opportunity">LEARNING OPPORTUNITY</div>}
 
-                        <h3 className="job-title">
-                          {searchQuery ? <HighlightText text={job.title} highlight={searchQuery} /> : job.title}
-                        </h3>
+                      <h3 className="job-title">
+                        {searchQuery ? <HighlightText text={job.title} highlight={searchQuery} /> : job.title}
+                      </h3>
 
-                        <div className="job-requirements">
-                          <div className="requirement-label">REQUIRES:</div>
-                          <div className="requirement-tags">
-                            {job.requirements.map((req, index) => (
-                              <span className="requirement-tag" key={index}>
-                                {req}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div className="job-location">
-                          <span className="location-icon">◎</span>
-                          <span>{job.location}</span>
-                        </div>
-
-                        <div className="job-duration">
-                          <span className="calendar-icon">📅</span>
-                          <div>
-                            <div className="date-range">
-                              {job.startDate} - {job.endDate}
-                            </div>
-                            <div className="duration">{job.duration}</div>
-                          </div>
-                          <div className="time-slot">
-                            <div className="time">{job.timeSlot}</div>
-                            <div className="time-of-day">{job.timeOfDay}</div>
-                          </div>
-                        </div>
-
-                        <div className="job-work-hours">
-                          <span className="work-hours-icon">⏱</span>
-                          <span>{job.workHours}</span>
-                        </div>
-
-                        {job.description && <div className="job-description">{job.description}</div>}
-
-                        <div className="job-applications">
-                          <span className="applications-icon">👤</span>
-                          <span className="applications-count">{job.applications} applications</span>
+                      <div className="job-requirements">
+                        <div className="requirement-label">REQUIRES:</div>
+                        <div className="requirement-tags">
+                          {job.requirements.map((req, index) => (
+                            <span className="requirement-tag" key={index}>
+                              {req}
+                            </span>
+                          ))}
                         </div>
                       </div>
 
-                      <div className={`job-status ${job.isPaid ? "paid" : "unpaid"}`}>
-                        {job.isPaid ? "PAID" : "UNPAID"}
+                      <div className="job-location">
+                        <span className="location-icon">◎</span>
+                        <span>{job.location}</span>
+                      </div>
+
+                      <div className="job-duration">
+                        <span className="calendar-icon">📅</span>
+                        <div>
+                          <div className="date-range">
+                            {job.startDate} - {job.endDate}
+                          </div>
+                          <div className="duration">{job.duration}</div>
+                        </div>
+                        <div className="time-slot">
+                          <div className="time">{job.timeSlot}</div>
+                          <div className="time-of-day">{job.timeOfDay}</div>
+                        </div>
+                      </div>
+
+                      <div className="job-work-hours">
+                        <span className="work-hours-icon">⏱</span>
+                        <span>{job.workHours}</span>
+                      </div>
+
+                      {job.description && <div className="job-description">{job.description}</div>}
+
+                      <div className="job-applications">
+                        <span className="applications-icon">👤</span>
+                        <span className="applications-count">{job.applications} applications</span>
                       </div>
                     </div>
-                  ))
-                ) : (
-                  <div className="no-results">
-                    <p>No jobs found matching "{searchQuery}"</p>
-                    <button className="reset-search" onClick={() => clearSearch()}>
-                      Clear search
-                    </button>
+
+                    <div className={`job-status ${job.isPaid ? "paid" : "unpaid"}`}>
+                      {job.isPaid ? "PAID" : "UNPAID"}
+                    </div>
                   </div>
-                )}
+                ))}
+              </div>
+            </div>
+          )}
+
+          {activePage === "myposts" && (
+            <div className="post-section">
+              <h2>My Posts</h2>
+              <div className="job-listings">
+                {jobListings.map((job) => (
+                  <div className={`job-card ${job.status === "completed" ? "completed-job" : ""}`} key={job.id}>
+                    {job.status === "completed" && <div className="completed-banner">INTERNSHIP COMPLETE</div>}
+
+                    {job.salary && (
+                      <div className="job-salary">
+                        <div className="amount">{job.salary}</div>
+                        <div className="hourly-rate">{job.hourlyRate}</div>
+                      </div>
+                    )}
+
+                    <div className="job-details">
+                      <div className="company-name">{job.companyName}</div>
+                      {job.isLearningOpportunity && <div className="learning-opportunity">LEARNING OPPORTUNITY</div>}
+
+                      <h3 className="job-title">{job.title}</h3>
+                      
+                      <div className="job-requirements">
+                        <div className="requirement-label">REQUIRES:</div>
+                        <div className="requirement-tags">
+                          {job.requirements.map((req, index) => (
+                            <span className="requirement-tag" key={index}>
+                              {req}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="job-location">
+                        <span className="location-icon">◎</span>
+                        <span>{job.location}</span>
+                      </div>
+
+                      <div className="job-duration">
+                        <span className="calendar-icon">📅</span>
+                        <div>
+                          <div className="date-range">
+                            {job.startDate} - {job.endDate}
+                          </div>
+                          <div className="duration">{job.duration}</div>
+                        </div>
+                        <div className="time-slot">
+                          <div className="time">{job.timeSlot}</div>
+                          <div className="time-of-day">{job.timeOfDay}</div>
+                        </div>
+                      </div>
+
+                      <div className="job-work-hours">
+                        <span className="work-hours-icon">⏱</span>
+                        <span>{job.workHours}</span>
+                      </div>
+
+                      {job.description && <div className="job-description">{job.description}</div>}
+
+                      <div className="job-applications">
+                        <span className="applications-icon">👤</span>
+                        <span className="applications-count">{job.applications} applications</span>
+                      </div>
+                    </div>
+
+                    <div className={`job-status ${job.isPaid ? "paid" : "unpaid"}`}>
+                      {job.isPaid ? "PAID" : "UNPAID"}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           )}

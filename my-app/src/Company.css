@@ -2090,3 +2090,10 @@ select.form-select:focus > option:checked {
   gap: 8px;
   margin: 0 auto;
 }
+
+.company-name {
+  font-size: 14px;
+  color: #5f2878;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
