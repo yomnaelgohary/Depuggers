@@ -14,13 +14,13 @@ import {
   RightOutlined,
 } from "@ant-design/icons"
 
-import Dashboard from "./Dashboard"
-import Profile from "./Profile"
-import Internships from "./Internships"
-import Applications from "./Applications"
-import Reports from "./Reports"
-import { NotificationsProvider, useNotifications } from "./NotificationsContext"
-import NotificationsPanel from "./NotificationsPanel"
+import Dashboard from "./student/Dashboard"
+import Profile from "./student/Profile"
+import Internships from "./student/Internships"
+import Applications from "./student/Applications"
+import Reports from "./student/Reports"
+import { NotificationsProvider, useNotifications } from "./student/NotificationsContext"
+import NotificationsPanel from "./student/NotificationsPanel"
 
 import "./Student.css"
 

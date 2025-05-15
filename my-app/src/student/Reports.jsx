@@ -37,7 +37,7 @@ import {
   UserOutlined,
 } from "@ant-design/icons"
 
-import "./Profile.css"
+import "./Reports.css"
 
 const { Title } = Typography
 const { TextArea } = Input
