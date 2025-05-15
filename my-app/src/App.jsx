@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom"
 import "./App.css"
 import SCAD from "./SCAD" // Import the SCAD component
@@ -8,13 +8,25 @@ import Faculty from "./Faculty" // Import the Faculty component
 import ReportView from "./report-view" // Import the ReportView component
 import Company from "./Company"
 import CompanyRegister from "./Companyregister"
-import Student from "./Student" 
+import Student from "./Student"
+import ProStudent from "./ProStudent"
+
 // LoginPage component
 function LoginPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
+  const [showRejectionModal, setShowRejectionModal] = useState(false)
   const navigate = useNavigate()
+
+  // Check URL parameters for rejection status when component mounts
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search)
+    const rejectionStatus = urlParams.get("rejected")
+    if (rejectionStatus === "true") {
+      setShowRejectionModal(true)
+    }
+  }, [])
 
   const handleLogin = () => {
     // Check credentials and redirect accordingly
@@ -24,11 +36,11 @@ function LoginPage() {
       navigate("/faculty")
     } else if (email.toLowerCase() === "company" && password === "1234") {
       navigate("/company")
-    }
-    else if (email.toLowerCase() === "student" && password === "1234") {
+    } else if (email.toLowerCase() === "student" && password === "1234") {
       navigate("/student")
-    }
-     else {
+    }else if (email.toLowerCase() === "prostudent" && password === "1234") {
+      navigate("/prostudent")
+    } else {
       setError("Invalid credentials")
     }
   }
@@ -38,6 +50,10 @@ function LoginPage() {
     console.log("Register button clicked for companies")
     // For now, let's just navigate to a placeholder or handle as needed
     navigate("/register-company")
+  }
+
+  const closeRejectionModal = () => {
+    setShowRejectionModal(false)
   }
 
   return (
@@ -66,11 +82,12 @@ function LoginPage() {
           Register Now (for Companies)
         </button>
       </div>
+
     </div>
   )
 }
 
-export {LoginPage};
+export { LoginPage }
 
 // Placeholder for a company registration page
 function CompanyRegistrationPage() {
@@ -113,6 +130,7 @@ function App() {
         <Route path="/report-view/:studentId" element={<ReportView />} />
         <Route path="/company" element={<Company />} />
         <Route path="/student" element={<Student />} />
+         <Route path="/prostudent" element={<ProStudent />} />
       </Routes>
     </Router>
   )
