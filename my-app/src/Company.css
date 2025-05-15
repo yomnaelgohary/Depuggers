@@ -896,16 +896,27 @@ select.form-select:focus > option:checked {
   font-size: 14px;
   color: #333;
   border-bottom: 1px solid #e0e0e0;
+  vertical-align: bottom;
+}
+
+/* Align Actions column header with View Details button */
+.applications-table th:last-child {
+  text-align: center;
+  padding: 16px;
+  vertical-align: middle;
 }
 
 .applications-table td {
   padding: 16px;
   border-bottom: 1px solid #e0e0e0;
   font-size: 14px;
+  vertical-align: middle;
 }
 
-.applications-table tr:last-child td {
-  border-bottom: none;
+.action-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .applicant-name {
@@ -920,21 +931,22 @@ select.form-select:focus > option:checked {
 
 .action-buttons {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
+  justify-content: center;
   gap: 8px;
 }
 
 .view-details-button {
-  padding: 8px 16px;
+  padding: 6px 10px;
   background-color: white;
   border: 1px solid #5f2878;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
   color: #5f2878;
   transition: all 0.2s ease;
-  width: 120px;
+  width: 75px;
   text-align: center;
 }
 
@@ -944,24 +956,24 @@ select.form-select:focus > option:checked {
 }
 
 .evaluation-button {
-  padding: 8px 16px;
+  padding: 6px 10px;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
   transition: all 0.2s ease;
-  width: 120px;
+  width: 75px;
   text-align: center;
 }
 
 .evaluation-button.add-evaluation {
-  background-color: white;
+  background-color: #5f2878;
   border: 1px solid #5f2878;
-  color: #5f2878;
+  color: white;
 }
 
 .evaluation-button.add-evaluation:hover {
-  background-color: #5f2878;
-  color: white;
+  background-color: white;
+  color: #5f2878;
 }
 
 .evaluation-button.view-evaluation {
@@ -983,42 +995,20 @@ select.form-select:focus > option:checked {
   border-radius: 12px;
   font-size: 14px;
   font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: 1px solid #5f2878;
   min-width: 100px;
   user-select: none;
 }
 
 .status-badge.status-current {
-  background-color: #f5f3ff;
-  color: #5f2878;
-  border-color: #5f2878;
-}
-
-.status-badge.status-current:hover {
-  background-color: #5f2878;
-  color: white;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(95, 40, 120, 0.2);
+  background-color: #e0f7fa;
+  color: #00838f;
+  border: none;
 }
 
 .status-badge.status-completed {
-  background-color: #f5f3ff;
-  color: #5f2878;
-  border-color: #5f2878;
-}
-
-.status-badge.status-completed:hover {
-  background-color: #5f2878;
-  color: white;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(95, 40, 120, 0.2);
-}
-
-.status-badge:active {
-  transform: translateY(0);
-  box-shadow: none;
+  background-color: #f3e5f5;
+  color: #6a1b9a;
+  border: none;
 }
 
 /* Application details */
@@ -1664,14 +1654,16 @@ select.form-select:focus > option:checked {
 }
 
 .view-details-button {
-  padding: 8px 16px;
+  padding: 6px 10px;
   background-color: white;
   border: 1px solid #5f2878;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
   color: #5f2878;
   transition: all 0.2s ease;
+  width: 75px;
+  text-align: center;
 }
 
 .view-details-button:hover {
@@ -1680,22 +1672,24 @@ select.form-select:focus > option:checked {
 }
 
 .evaluation-button {
-  padding: 8px 16px;
+  padding: 6px 10px;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
   transition: all 0.2s ease;
+  width: 75px;
+  text-align: center;
 }
 
 .evaluation-button.add-evaluation {
-  background-color: white;
+  background-color: #5f2878;
   border: 1px solid #5f2878;
-  color: #5f2878;
+  color: white;
 }
 
 .evaluation-button.add-evaluation:hover {
-  background-color: #5f2878;
-  color: white;
+  background-color: white;
+  color: #5f2878;
 }
 
 .evaluation-button.view-evaluation {
@@ -1717,42 +1711,20 @@ select.form-select:focus > option:checked {
   border-radius: 12px;
   font-size: 14px;
   font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: 1px solid #5f2878;
   min-width: 100px;
   user-select: none;
 }
 
 .status-badge.status-current {
-  background-color: #f5f3ff;
-  color: #5f2878;
-  border-color: #5f2878;
-}
-
-.status-badge.status-current:hover {
-  background-color: #5f2878;
-  color: white;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(95, 40, 120, 0.2);
+  background-color: #e0f7fa;
+  color: #00838f;
+  border: none;
 }
 
 .status-badge.status-completed {
-  background-color: #f5f3ff;
-  color: #5f2878;
-  border-color: #5f2878;
-}
-
-.status-badge.status-completed:hover {
-  background-color: #5f2878;
-  color: white;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(95, 40, 120, 0.2);
-}
-
-.status-badge:active {
-  transform: translateY(0);
-  box-shadow: none;
+  background-color: #f3e5f5;
+  color: #6a1b9a;
+  border: none;
 }
 
 /* Responsive styles for intern section */
@@ -1851,6 +1823,30 @@ select.form-select:focus > option:checked {
   font-size: 14px;
   color: #333;
   border-bottom: 1px solid #e0e0e0;
+  vertical-align: bottom;
+}
+
+/* Specific alignment for Status column header */
+.interns-table th:nth-child(4) {
+  text-align: left;
+  padding: 16px;
+  padding-left: 35px;
+  vertical-align: middle;
+}
+
+/* Specific alignment for Date column header */
+.interns-table th:nth-child(3) {
+  text-align: left;
+  padding: 16px;
+  vertical-align: bottom;
+  padding-bottom: 20px;
+}
+
+/* Keep Actions column header alignment */
+.interns-table th:last-child {
+  text-align: center;
+  padding: 16px;
+  vertical-align: middle;
 }
 
 .interns-table td {
@@ -1876,21 +1872,22 @@ select.form-select:focus > option:checked {
 
 .action-buttons {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
+  justify-content: center;
   gap: 8px;
 }
 
 .view-details-button {
-  padding: 8px 16px;
+  padding: 6px 10px;
   background-color: white;
   border: 1px solid #5f2878;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
   color: #5f2878;
   transition: all 0.2s ease;
-  width: 120px;
+  width: 75px;
   text-align: center;
 }
 
@@ -1900,24 +1897,24 @@ select.form-select:focus > option:checked {
 }
 
 .evaluation-button {
-  padding: 8px 16px;
+  padding: 6px 10px;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
   transition: all 0.2s ease;
-  width: 120px;
+  width: 75px;
   text-align: center;
 }
 
 .evaluation-button.add-evaluation {
-  background-color: white;
+  background-color: #5f2878;
   border: 1px solid #5f2878;
-  color: #5f2878;
+  color: white;
 }
 
 .evaluation-button.add-evaluation:hover {
-  background-color: #5f2878;
-  color: white;
+  background-color: white;
+  color: #5f2878;
 }
 
 .evaluation-button.view-evaluation {
@@ -1939,42 +1936,20 @@ select.form-select:focus > option:checked {
   border-radius: 12px;
   font-size: 14px;
   font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: 1px solid #5f2878;
   min-width: 100px;
   user-select: none;
 }
 
 .status-badge.status-current {
-  background-color: #f5f3ff;
-  color: #5f2878;
-  border-color: #5f2878;
-}
-
-.status-badge.status-current:hover {
-  background-color: #5f2878;
-  color: white;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(95, 40, 120, 0.2);
+  background-color: #e0f7fa;
+  color: #00838f;
+  border: none;
 }
 
 .status-badge.status-completed {
-  background-color: #f5f3ff;
-  color: #5f2878;
-  border-color: #5f2878;
-}
-
-.status-badge.status-completed:hover {
-  background-color: #5f2878;
-  color: white;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(95, 40, 120, 0.2);
-}
-
-.status-badge:active {
-  transform: translateY(0);
-  box-shadow: none;
+  background-color: #f3e5f5;
+  color: #6a1b9a;
+  border: none;
 }
 
 /* Evaluation modal styles */
@@ -2093,11 +2068,25 @@ select.form-select:focus > option:checked {
   }
 
   .action-buttons {
-    flex-direction: column;
+    flex-direction: row;
   }
 
   .interns-table {
     display: block;
     overflow-x: auto;
   }
+}
+
+/* Center the buttons in the Actions column */
+.interns-table td:last-child {
+  text-align: center;
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 auto;
 }
