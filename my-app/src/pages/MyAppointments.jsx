@@ -42,7 +42,7 @@ function MyAppointments({ onClose }) {
     },
     {
       id: 3,
-      with: "SCAD Officer Jane Smith",
+      with: "Student Jane Smith",
       dateTime: "2024-09-15 at 11:00 AM",
       status: "Awaiting Your Response",
       isUserOnline: true,

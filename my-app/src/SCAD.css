@@ -401,17 +401,28 @@ body {
 .internships-section-overlay,
 .internship-details-overlay,
 .pdf-viewer-overlay,
-.statistics-section-overlay {
+.statistics-section-overlay,
+.company-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.5);
   z-index: 999;
   display: flex;
   justify-content: center;
   align-items: center;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* Companies Section Styles (as a modal popup) */
@@ -421,20 +432,26 @@ body {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Softer shadow */
   padding: 15px; /* Reduced padding */
   z-index: 1000; /* Ensure it's on top of the overlay */
-  width: 100%; /* Adjust width for responsiveness */
+  width: 90%;
+  max-width: 1000px;
+  height: 85%;
+  max-height: 700px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .companies-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px; /* Reduced margin */
-  padding-bottom: 10px; /* Reduced padding */
-  border-bottom: 1px solid #e0e0e0; /* Lighter border */
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .companies-header h2 {
-  font-size: 18px; /* Even smaller header */
+  font-size: 18px;
   font-weight: 600;
   color: #333;
 }
@@ -443,20 +460,26 @@ body {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 18px; /* Slightly smaller close button */
+  font-size: 18px;
   color: #777;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  border-radius: 50%;
 }
 
 .modal-close-button:hover {
   color: #c31432;
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 .companies-filter-controls {
   display: flex;
-  gap: 10px; /* Reduced gap */
+  gap: 10px;
   align-items: center;
-  margin-bottom: 15px; /* Reduced margin */
+  margin-bottom: 15px;
 }
 
 .companies-filter-controls .search-input {
@@ -465,31 +488,53 @@ body {
 
 .companies-filter-controls .search-input input[type="text"] {
   width: 100%;
-  padding: 8px; /* Reduced padding */
+  padding: 8px;
   border: 1px solid #ccc;
-  border-radius: 4px; /* Smaller radius */
-  font-size: 12px; /* Smaller font */
+  border-radius: 4px;
+  font-size: 12px;
 }
 
 .companies-filter-controls .industry-filter label {
-  font-size: 12px; /* Smaller font */
-  margin-right: 8px; /* Reduced margin */
+  font-size: 12px;
+  margin-right: 8px;
   color: #555;
 }
 
 .companies-filter-controls .industry-filter select {
-  padding: 8px; /* Reduced padding */
+  padding: 8px;
   border: 1px solid #ccc;
-  border-radius: 4px; /* Smaller radius */
-  font-size: 12px; /* Smaller font */
+  border-radius: 4px;
+  font-size: 12px;
   cursor: pointer;
 }
 
+/*
+  -----------------------------------------------------------------------------
+  IMPORTANT FIX FOR COMPANY CARD SIZING:
+  The 'grid-template-columns' and 'justify-content' properties below
+  are designed to PREVENT company cards from stretching when filtered.
+  Each card's column will be 300px wide (or 280px on smaller screens).
+  'justify-content: center' will center the group of cards if they don't fill the row.
+
+  IF CARDS ARE STILL STRETCHING AFTER APPLYING THIS AND CLEARING CACHE:
+  1. Right-click on the '.companies-list' area -> Inspect.
+  2. In DevTools, select the <div class="companies-list ..."> element.
+  3. Check the 'Styles' (or 'Rules') pane:
+     - Is 'grid-template-columns: repeat(auto-fill, 300px);' VISIBLE and NOT STRUCK OUT?
+     - If it's struck out, another CSS rule with higher specificity or !important is overriding it.
+     - The DevTools will show you which rule is winning.
+  4. Check the 'Computed' pane for 'grid-template-columns' to see the final applied value.
+  -----------------------------------------------------------------------------
+*/
 .companies-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Adjust min width as needed */
+  grid-template-columns: repeat(auto-fill, 300px);
   gap: 12px;
   margin-bottom: 20px;
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 10px;
+  justify-content: center;
 }
 
 .company-card {
@@ -500,153 +545,268 @@ body {
   border-radius: 6px;
   border: 1px solid #e0e0e0;
   transition: all 0.2s ease;
-  cursor: pointer;
   background-color: #f9f9f9;
 }
 
 .company-card:hover {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   transform: translateY(-2px);
-  border-color: #c31432;
+  border-color: #5f2878;
   background-color: #f0f2f5;
 }
 
-/* Update the company-letter class to use purple instead of red */
+.company-card.selected {
+  border-color: #5f2878;
+  background-color: #eadaff;
+}
+
 .company-letter {
   width: 36px;
   height: 36px;
   border-radius: 4px;
-  background-color: #5f2878; /* Changed from #c31432 (red) to #8a2be2 (purple) */
+  background-color: #5f2878;
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 16px;
   font-weight: 600;
+  flex-shrink: 0;
 }
 
 .company-info {
   flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
 }
 
-.company-info h3 {
+.company-text-details {
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.company-text-details h3.company-name {
   font-size: 14px;
   font-weight: 500;
   margin-bottom: 2px;
   color: #333;
+  word-break: break-word;
 }
 
-.company-info h3.company-name {
-  font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 2px;
-  color: #333;
-}
-
-.company-info p {
+.company-text-details p {
   font-size: 12px;
   color: #777;
+  word-break: break-word;
 }
 
-/* Company Details Section within the modal */
-.company-details {
-  padding: 10px;
-  border-top: 1px solid #e0e0e0;
+/* MODIFIED VIEW PROFILE BUTTON STYLES */
+.view-profile-button {
+  background-color: #f0f2f5; /* Light grey background */
+  color: #333;             /* Dark grey text and icon color */
+  border: 1px solid #ced4da; /* Subtle light grey border */
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px; /* Space between icon and text */
+}
+
+.view-profile-button:hover {
+  background-color: #e2e6ea; /* Slightly darker grey on hover */
+  border-color: #adb5bd;    /* Slightly darker border on hover */
+}
+
+.no-companies-message {
+  text-align: center;
+  color: #777;
+  padding: 20px;
+  grid-column: 1 / -1;
+}
+
+
+/* Company Modal Styles */
+.company-modal {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 480px;
+  max-height: 75vh;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  animation: slideUp 0.3s ease;
 }
 
-.company-details h3 {
-  font-size: 14px;
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.company-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #f8f9fa;
+}
+
+.company-modal-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.company-modal-title h2 {
+  font-size: 18px;
   font-weight: 600;
-  margin-bottom: 8px;
+  margin: 0;
   color: #333;
 }
 
-.company-details .detail-item h4 {
-  font-size: 12px;
-  font-weight: 500;
-  margin-bottom: 2px;
+.company-modal-letter {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  background-color: #5f2878;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.company-modal-content {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.company-modal-info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.company-modal-info .info-group {
+  margin-bottom: 8px;
+}
+.company-modal-info .info-group h3 {
+  font-size: 13px;
+  font-weight: 600;
+  color: #5f2878;
+  margin-bottom: 4px;
+}
+.company-modal-info .info-group p {
+  font-size: 14px;
   color: #555;
+  line-height: 1.5;
 }
 
-.company-details .detail-item p {
-  font-size: 12px;
-  color: #777;
-  line-height: 1.3;
-}
-
-.company-details .action-buttons {
+.company-modal-actions {
   display: flex;
-  gap: 8px;
-  margin-top: 10px;
-  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 20px;
+  border-top: 1px solid #e0e0e0;
+  background-color: #f8f9fa;
 }
 
-.company-details .action-buttons button {
-  padding: 6px 10px;
-  border-radius: 4px;
-  border: none;
-  font-weight: 500;
+.company-modal-actions button {
+  padding: 8px 15px;
+  border-radius: 5px;
   cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
   display: flex;
   align-items: center;
-  gap: 3px;
-  transition: opacity 0.2s ease, background-color 0.2s ease; /* Corrected transition */
-  font-size: 12px;
+  gap: 6px;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
-.company-details .action-buttons button:hover {
-  opacity: 0.9;
+.company-modal-actions .download-button {
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ddd;
+}
+.company-modal-actions .download-button:hover {
+  background-color: #e0e0e0;
+  border-color: #ccc;
 }
 
-.company-details .action-buttons .accept-button {
-  background-color: #4caf50;
+.company-modal-actions .accept-button {
+  background-color: #28a745;
   color: white;
-}
-
-.company-details .action-buttons .reject-button {
-  background-color: #f44336;
-  color: white;
-}
-
-/* Add styles for the download button */
-.company-details .action-buttons .download-button {
-  padding: 6px 10px;
-  border-radius: 4px;
   border: none;
-  font-weight: 500;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  transition: opacity 0.2s ease, background-color 0.2s ease;
-  font-size: 12px;
-  background-color: #2196f3;
+}
+.company-modal-actions .accept-button:hover {
+  background-color: #1e7e34;
+}
+
+.company-modal-actions .reject-button {
+  background-color: #dc3545;
   color: white;
+  border: none;
+}
+.company-modal-actions .reject-button:hover {
+  background-color: #b02a37;
 }
 
-.company-details .action-buttons .download-button:hover {
-  background-color: #0b7dda;
+/* Responsive adjustments if needed */
+@media (max-width: 768px) {
+  .companies-list {
+    grid-template-columns: repeat(auto-fill, 280px);
+    justify-content: center;
+  }
+  .company-modal {
+    width: 95%;
+  }
+  .company-modal-actions {
+    flex-direction: column;
+  }
+  .company-modal-actions button {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
-/* Responsive styles for the modal */
-@media (max-width: 600px) {
+@media (max-width: 480px) {
   .companies-section {
     width: 95%;
-    padding: 10px;
+    height: 90%;
   }
-
   .companies-filter-controls {
     flex-direction: column;
     align-items: stretch;
-    gap: 8px;
   }
-
   .companies-list {
     grid-template-columns: 1fr;
-    gap: 6px;
+  }
+   .company-info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .view-profile-button {
+    margin-top: 8px;
+    align-self: flex-start;
   }
 }
 
@@ -722,7 +882,7 @@ body {
 .month-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  border-color: #8a2be2;
+  border-color: #5f2878;
 }
 
 .month-card h3 {
@@ -750,7 +910,7 @@ body {
 /* Make sure the progress-bar class is properly defined and visible */
 .month-progress .progress-bar {
   height: 100%;
-  background-color: #8a2be2; /* Vibrant purple for the filled portion */
+  background-color: #5f2878; /* Vibrant purple for the filled portion */
   border-radius: 3px;
   position: absolute;
   top: 0;
@@ -761,22 +921,22 @@ body {
 /* Make the purple color more saturated and brighter for better visibility */
 .month-card:nth-child(1) .month-progress .progress-bar {
   width: 75%;
-  background-color: #9932cc; /* Dark Orchid - a rich purple */
+  background-color: #5f2878; /* Dark Orchid - a rich purple */
 }
 
 .month-card:nth-child(2) .month-progress .progress-bar {
   width: 45%;
-  background-color: #8a2be2; /* Blue Violet - a vibrant purple */
+  background-color: #5f2878; /* Blue Violet - a vibrant purple */
 }
 
 .month-card:nth-child(3) .month-progress .progress-bar {
   width: 90%;
-  background-color: #9400d3; /* Dark Violet - a deep purple */
+  background-color: #5f2878; /* Dark Violet - a deep purple */
 }
 
 .month-card:nth-child(4) .month-progress .progress-bar {
   width: 30%;
-  background-color: #800080; /* Purple - a classic purple */
+  background-color: #5f2878; /* Purple - a classic purple */
 }
 
 /* Enhance the animation to make the color transition more noticeable */
@@ -989,7 +1149,7 @@ body {
 .month-card.active-month:hover {
   transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  border-color: #8a2be2;
+  border-color: #5f2878;
 }
 
 .month-card.inactive-month {
@@ -1177,7 +1337,7 @@ body {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background-color: #7d14c3; /* Changed from #c31432 (red) to #7d14c3 (purple) */
+  background-color: #5f2878; /* Changed from #c31432 (red) to #7d14c3 (purple) */
   color: white;
   display: flex;
   align-items: center;
@@ -1190,7 +1350,7 @@ body {
 }
 
 .profile-circle:hover {
-  background-color: #6a11a8; /* Darker purple on hover */
+  background-color: #5f2878; /* Darker purple on hover */
   transform: scale(1.05);
 }
 
@@ -2204,7 +2364,159 @@ body {
   font-style: italic;
   color: #f57f17;
 }
+/* ... (keep all your existing CSS) ... */
 
+/* Styles for the New Evaluation Form View */
+.evaluation-form-view-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  z-index: 1000; /* Ensure it's on top */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.evaluation-form-container {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 700px; /* Adjust as needed */
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Important for scrolling content */
+}
+
+.evaluation-form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Align items to the start for multi-line title */
+  padding: 20px;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #f8f9fa; /* Light header background */
+}
+
+.evaluation-form-header h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 5px 0; /* Margin for title */
+}
+
+.evaluation-form-header .form-rating-guide {
+  font-size: 13px;
+  color: #555;
+  margin: 0;
+}
+
+/* Re-using modal-close-button styling if it fits, or define a new one */
+.evaluation-form-header .modal-close-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #777;
+  padding: 5px;
+}
+.evaluation-form-header .modal-close-button:hover {
+  color: #c31432;
+}
+
+.evaluation-form-content {
+  padding: 20px;
+  overflow-y: auto; /* Allow content to scroll */
+  flex-grow: 1;
+}
+
+.form-section {
+  margin-bottom: 25px;
+}
+
+.form-section h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 15px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #eee;
+}
+
+.form-question-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column; /* Stack label above select */
+  gap: 8px; /* Space between label and select */
+}
+
+.form-question-group label {
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.select-wrapper {
+  position: relative;
+  width: 100%; /* Make select take full width of its container */
+  max-width: 300px; /* Or adjust as needed, e.g., make it narrower */
+}
+
+.form-question-group select {
+  width: 100%;
+  padding: 10px 30px 10px 12px; /* Make space for arrow */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: #fff;
+  appearance: none; /* Remove default browser arrow */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+}
+
+.form-question-group select:focus {
+  outline: none;
+  border-color: #5f2878; /* Example focus color */
+  box-shadow: 0 0 0 2px rgba(95, 40, 120, 0.2);
+}
+
+.select-arrow {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #777;
+  pointer-events: none; /* So it doesn't interfere with select click */
+}
+
+
+.evaluation-form-actions {
+  padding: 15px 20px;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: flex-end;
+  background-color: #f8f9fa;
+}
+
+.save-evaluation-button { /* Example save button style */
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.save-evaluation-button:hover {
+  background-color: #218838;
+}
 /* Statistics Section Styles */
 .statistics-section-overlay {
   position: fixed;
@@ -4754,4 +5066,159 @@ html body .appointment-modal-overlay > .appointment-confirmation-dialog {
 
 .cancel-workshop-btn:hover {
   background-color: #e0e0e0;
+}
+/* View Profile Button Styles */
+.view-profile-button {
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.view-profile-button:hover {
+  background-color: #e0e0e0;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.view-profile-button:active {
+  transform: translateY(0);
+  background-color: #d0d0d0;
+}
+
+/* Profile circle styling */
+.profile-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #7d14c3;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: bold;
+  margin-right: 15px;
+  cursor: default;
+}
+
+/* Student Profile Modal Overlay */
+.student-profile-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Student Profile Modal */
+.student-profile {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  width: 90%;
+  max-width: 500px;
+  z-index: 1001;
+  animation: slideIn 0.3s ease;
+  position: relative;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #f8f9fa;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.profile-header h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.modal-close-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #777;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  border-radius: 50%;
+}
+
+.modal-close-button:hover {
+  color: #c31432;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.profile-details {
+  padding: 20px;
+}
+
+.profile-details p {
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #555;
+}
+
+.profile-details h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.profile-details ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin-top: 10px;
+}
+
+.profile-details li {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #555;
 }
