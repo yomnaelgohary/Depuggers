@@ -58,6 +58,12 @@ const Applications = () => {
 
   const [selectedApplication, setSelectedApplication] = useState(null)
   const [isModalVisible, setIsModalVisible] = useState(false)
+  const [searchText, setSearchText] = useState("")
+  const [showFilters, setShowFilters] = useState(false)
+  const [filters, setFilters] = useState({
+    status: null,
+  })
+  const [filteredApplications, setFilteredApplications] = useState(applications)
 
   const statusColors = {
     pending: "processing",
@@ -72,6 +78,59 @@ const Applications = () => {
     rejected: <CloseCircleOutlined />,
     finalized: <FileTextOutlined />,
   }
+
+  const toggleFilters = () => {
+    setShowFilters(!showFilters)
+  }
+
+  const handleFilterChange = (key, value) => {
+    setFilters((prev) => ({ ...prev, [key]: value }))
+  }
+
+  const resetFilters = () => {
+    setFilters({
+      status: null,
+    })
+    setSearchText("")
+    applyFilters()
+  }
+
+  const clearSearch = () => {
+    setSearchText("")
+    applyFilters()
+  }
+
+  const handleSearch = (value) => {
+    setSearchText(value)
+    applyFilters()
+  }
+
+  const applyFilters = () => {
+    let result = [...applications]
+
+    if (searchText) {
+      result = result.filter(
+        (item) =>
+          item.internshipTitle.toLowerCase().includes(searchText.toLowerCase()) ||
+          item.company.toLowerCase().includes(searchText.toLowerCase()),
+      )
+    }
+
+    if (filters.status) {
+      result = result.filter((item) => item.status === filters.status)
+    }
+
+    setFilteredApplications(result)
+  }
+
+  const hasActiveFilters = () => {
+    return filters.status !== null || searchText !== ""
+  }
+
+  // Apply filters when component mounts or filters change
+  useState(() => {
+    applyFilters()
+  }, [filters, searchText])
 
   const columns = [
     {
@@ -100,13 +159,6 @@ const Applications = () => {
           {status.charAt(0).toUpperCase() + status.slice(1)}
         </Tag>
       ),
-      filters: [
-        { text: "Pending", value: "pending" },
-        { text: "Accepted", value: "accepted" },
-        { text: "Rejected", value: "rejected" },
-        { text: "Finalized", value: "finalized" },
-      ],
-      onFilter: (value, record) => record.status === value,
     },
     {
       title: "Decision Date",
@@ -120,14 +172,14 @@ const Applications = () => {
       key: "actions",
       render: (_, record) => (
         <Button
-          type="link"
+          className="view-profile-button"
           icon={<EyeOutlined />}
           onClick={() => {
             setSelectedApplication(record)
             setIsModalVisible(true)
           }}
         >
-          Details
+          View Details
         </Button>
       ),
     },
@@ -136,9 +188,92 @@ const Applications = () => {
   return (
     <div className="applications-container">
       <Card title="My Applications" bordered={false} className="applications-card" headStyle={{ borderBottom: 0 }}>
+        <div className="filters">
+          <button className="filter-button" onClick={toggleFilters}>
+            <span className="filter-icon">≡</span> Filters
+          </button>
+          <div className="search-container">
+            <input
+              type="text"
+              placeholder="Search internship"
+              className="search-input"
+              value={searchText}
+              onChange={(e) => handleSearch(e.target.value)}
+            />
+            {searchText && (
+              <button className="clear-search" onClick={clearSearch}>
+                ×
+              </button>
+            )}
+          </div>
+        </div>
+
+        {showFilters && (
+          <div className="filter-modal-overlay">
+            <div className="filter-modal">
+              <div className="filter-modal-header">
+                <h2>Filters</h2>
+                <button className="close-button" onClick={toggleFilters}>
+                  ✕
+                </button>
+              </div>
+
+              <div className="filter-modal-content">
+                <div className="filter-section">
+                  <h3>STATUS</h3>
+                  <div className="filter-options">
+                    <button
+                      className={`filter-option ${filters.status === "pending" ? "selected" : ""}`}
+                      onClick={() => handleFilterChange("status", "pending")}
+                    >
+                      Pending
+                    </button>
+                    <button
+                      className={`filter-option ${filters.status === "accepted" ? "selected" : ""}`}
+                      onClick={() => handleFilterChange("status", "accepted")}
+                    >
+                      Accepted
+                    </button>
+                    <button
+                      className={`filter-option ${filters.status === "rejected" ? "selected" : ""}`}
+                      onClick={() => handleFilterChange("status", "rejected")}
+                    >
+                      Rejected
+                    </button>
+                    <button
+                      className={`filter-option ${filters.status === "finalized" ? "selected" : ""}`}
+                      onClick={() => handleFilterChange("status", "finalized")}
+                    >
+                      Finalized
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="filter-actions">
+                <button className={`reset-button ${hasActiveFilters() ? "active" : ""}`} onClick={resetFilters}>
+                  Reset
+                </button>
+                <button className="apply-button" onClick={toggleFilters}>
+                  Show {filteredApplications.length} applications
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {searchText && (
+          <div className="search-results">
+            <div className="results-count">
+              Found {filteredApplications.length} {filteredApplications.length === 1 ? "application" : "applications"}{" "}
+              matching "{searchText}"
+            </div>
+          </div>
+        )}
+
         <Table
           columns={columns}
-          dataSource={applications}
+          dataSource={filteredApplications}
           rowKey="id"
           pagination={{ pageSize: 10 }}
           scroll={{ x: true }}
