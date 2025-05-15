@@ -1020,7 +1020,6 @@ export default function Company() {
                     value={searchQuery}
                     onChange={handleSearchChange}
                   />
-                  <span className="search-icon">🔍</span>
                   {searchQuery && (
                     <button className="clear-search" onClick={() => clearSearch()}>
                       ×
@@ -1346,7 +1345,11 @@ export default function Company() {
                         onChange={handleInternSearchChange}
                         className="search-input"
                       />
-                      <span className="search-icon">🔍</span>
+                      {internSearch && (
+                        <button className="clear-search" onClick={() => setInternSearch("")}>
+                          ×
+                        </button>
+                      )}
                     </div>
                     <div className="filter-container">
                       <span className="filter-label">Filter by Status:</span>
@@ -1602,22 +1605,53 @@ export default function Company() {
               <h2>Applications</h2>
               {!selectedApplication ? (
                 <>
-                  <div className="filter-by">
-                    <span>Filter by Post</span>
-                    <select 
-                      className="post-filter"
-                      value={selectedPost || ""}
-                      onChange={(e) => setSelectedPost(e.target.value ? Number(e.target.value) : null)}
-                    >
-                      <option value="">All Posts</option>
-                      {jobListings.map((job) => (
-                        <option key={job.id} value={job.id}>
-                          {job.title}
-                        </option>
-                      ))}
-                    </select>
+                  <div className="filters">
+                    <button className="filter-button" onClick={toggleFilters}>
+                      <span className="filter-icon">≡</span> Filters
+                    </button>
                   </div>
 
+                  {showFilters && (
+                    <div className="filter-modal-overlay">
+                      <div className="filter-modal">
+                        <div className="filter-modal-header">
+                          <h2>Filters</h2>
+                          <button className="close-button" onClick={toggleFilters}>
+                            ✕
+                          </button>
+                        </div>
+
+                        <div className="filter-modal-content">
+                          <div className="filter-section">
+                            <h3>POST</h3>
+                            <div className="filter-options">
+                              {jobListings.map((job) => (
+                                <button
+                                  key={job.id}
+                                  className={`filter-option ${selectedPost === job.id ? "selected" : ""}`}
+                                  onClick={() => setSelectedPost(selectedPost === job.id ? null : job.id)}
+                                >
+                                  {job.title}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="filter-actions">
+                          <button
+                            className={`reset-button ${selectedPost ? "active" : ""}`}
+                            onClick={() => setSelectedPost(null)}
+                          >
+                            Reset
+                          </button>
+                          <button className="apply-button" onClick={toggleFilters}>
+                            Show {filteredApplications.length} applications
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                   <div className="applications-table">
                     <table>
                       <thead>
