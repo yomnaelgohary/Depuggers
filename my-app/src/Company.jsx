@@ -115,85 +115,71 @@ export default function Company() {
       status: "active",
     },
     {
-      id: 3,
-      title: "DevOps Engineer Intern",
-      salary: "$111.38",
-      hourlyRate: "$14.85/h",
-      requirements: ["CODING SKILLS", "DOCKER", "KUBERNETES"],
-      location: "N Teseen, New Cairo",
-      startDate: "May 09, 2025",
-      endDate: "Nov 09, 2025",
-      duration: "6 MONTHS",
-      durationMonths: 6,
-      description: "Learn DevOps practices and help automate our deployment pipelines.",
-      isPaid: true,
-      isLearningOpportunity: false,
-      applications: 28,
-      workHours: "30-40 hours/week",
-      timeSlot: "9:00 - 18:00",
-      timeOfDay: "FULL DAY",
-      status: "active",
-    },
-    {
-      id: 4,
-      title: "Data Science Intern",
-      requirements: ["PYTHON", "DATA SCIENCE", "MACHINE LEARNING"],
-      location: "N Teseen, New Cairo",
+      id: 19,
+      companyName: "Google",
+      title: "Software Engineering Intern",
+      salary: "$125.00",
+      hourlyRate: "$25.00/h",
+      requirements: ["ALGORITHMS", "DATA STRUCTURES", "PYTHON"],
+      location: "Smart Village, Giza",
       startDate: "Jun 01, 2025",
-      endDate: "Sep 30, 2025",
-      duration: "4 MONTHS",
-      durationMonths: 4,
-      description: "Work on cutting-edge data science projects and build your portfolio with real-world experience.",
-      isPaid: false,
-      isLearningOpportunity: true,
-      applications: 39,
-      workHours: "20-30 hours/week",
-      timeSlot: "13:00 - 19:00",
-      timeOfDay: "AFTERNOON",
-      status: "active",
-    },
-    {
-      id: 5,
-      title: "Mobile App Developer Intern",
-      salary: "$95.25",
-      hourlyRate: "$15.50/h",
-      requirements: ["MOBILE DEV", "FLUTTER", "DART"],
-      location: "N Teseen, New Cairo",
-      startDate: "May 12, 2025",
-      endDate: "Aug 12, 2025",
+      endDate: "Sep 01, 2025",
       duration: "3 MONTHS",
       durationMonths: 3,
-      description: "Develop mobile applications for iOS and Android platforms.",
+      description: "Join Google's engineering team to work on cutting-edge projects.",
       isPaid: true,
-      isLearningOpportunity: false,
-      applications: 35,
-      workHours: "25-35 hours/week",
-      timeSlot: "10:00 - 18:00",
-      timeOfDay: "FULL DAY",
-      status: "active",
-    },
-    {
-      id: 6,
-      title: "Frontend Developer Intern",
-      salary: "$92.40",
-      hourlyRate: "$15.40/h",
-      requirements: ["JAVASCRIPT", "REACT", "CSS"],
-      location: "Maadi, Cairo",
-      startDate: "Jun 15, 2025",
-      endDate: "Dec 15, 2025",
-      duration: "6 MONTHS",
-      durationMonths: 6,
-      description: "Join our frontend team to build responsive and accessible user interfaces.",
-      isPaid: true,
-      isLearningOpportunity: false,
-      applications: 51,
+      isLearningOpportunity: true,
+      applications: 85,
       workHours: "30-40 hours/week",
       timeSlot: "9:00 - 17:00",
       timeOfDay: "MORNING",
       status: "active",
     },
     {
+      id: 20,
+      companyName: "Amazon",
+      title: "Cloud Solutions Intern",
+      salary: "$115.00",
+      hourlyRate: "$23.00/h",
+      requirements: ["AWS", "CLOUD COMPUTING", "PYTHON"],
+      location: "N Teseen, New Cairo",
+      startDate: "Jul 01, 2025",
+      endDate: "Dec 31, 2025",
+      duration: "6 MONTHS",
+      durationMonths: 6,
+      description: "Work with AWS services and help build scalable cloud solutions.",
+      isPaid: true,
+      isLearningOpportunity: true,
+      applications: 62,
+      workHours: "30-40 hours/week",
+      timeSlot: "9:00 - 17:00",
+      timeOfDay: "MORNING",
+      status: "active",
+    },
+    {
+      id: 21,
+      companyName: "Meta",
+      title: "Machine Learning Intern",
+      salary: "$120.00",
+      hourlyRate: "$24.00/h",
+      requirements: ["MACHINE LEARNING", "PYTHON", "DEEP LEARNING"],
+      location: "Smart Village, Giza",
+      startDate: "Jun 15, 2025",
+      endDate: "Sep 15, 2025",
+      duration: "3 MONTHS",
+      durationMonths: 3,
+      description: "Join Meta's AI team to work on innovative machine learning projects.",
+      isPaid: true,
+      isLearningOpportunity: true,
+      applications: 73,
+      workHours: "25-35 hours/week",
+      timeSlot: "10:00 - 18:00",
+      timeOfDay: "MORNING",
+      status: "active",
+    },
+    {
       id: 7,
+      companyName: "Dell Technologies",
       title: "Cybersecurity Intern",
       requirements: ["NETWORK SECURITY", "PENETRATION TESTING"],
       location: "Smart Village, Giza",
@@ -212,6 +198,7 @@ export default function Company() {
     },
     {
       id: 8,
+      companyName: "Dell Technologies",
       title: "Cloud Engineering Intern",
       salary: "$105.60",
       hourlyRate: "$16.50/h",
@@ -232,6 +219,7 @@ export default function Company() {
     },
     {
       id: 9,
+      companyName: "Dell Technologies",
       title: "QA Testing Intern",
       requirements: ["TESTING", "SELENIUM", "QUALITY ASSURANCE"],
       location: "Dokki, Giza",
@@ -250,6 +238,7 @@ export default function Company() {
     },
     {
       id: 10,
+      companyName: "Dell Technologies",
       title: "Product Management Intern",
       salary: "$88.00",
       hourlyRate: "$14.67/h",
@@ -270,6 +259,7 @@ export default function Company() {
     },
     {
       id: 11,
+      companyName: "Dell Technologies",
       title: "Blockchain Developer Intern",
       requirements: ["BLOCKCHAIN", "SOLIDITY", "WEB3"],
       location: "Heliopolis, Cairo",
@@ -288,6 +278,7 @@ export default function Company() {
     },
     {
       id: 12,
+      companyName: "Dell Technologies",
       title: "AI Research Intern",
       salary: "$120.00",
       hourlyRate: "$20.00/h",
@@ -308,6 +299,7 @@ export default function Company() {
     },
     {
       id: 13,
+      companyName: "Dell Technologies",
       title: "Game Development Intern",
       requirements: ["UNITY", "C#", "GAME DESIGN"],
       location: "Maadi, Cairo",
@@ -326,6 +318,7 @@ export default function Company() {
     },
     {
       id: 14,
+      companyName: "Dell Technologies",
       title: "Technical Writer Intern",
       requirements: ["TECHNICAL WRITING", "DOCUMENTATION"],
       location: "N Teseen, New Cairo",
@@ -344,6 +337,7 @@ export default function Company() {
     },
     {
       id: 15,
+      companyName: "Dell Technologies",
       title: "Database Administrator Intern",
       requirements: ["SQL", "DATABASE MANAGEMENT", "MYSQL"],
       location: "N Teseen, New Cairo",
@@ -363,6 +357,7 @@ export default function Company() {
     // Completed internships (before May 2025)
     {
       id: 16,
+      companyName: "Dell Technologies",
       title: "Sales Assistant Intern",
       salary: "$123.51",
       hourlyRate: "$14.53/h",
@@ -383,6 +378,7 @@ export default function Company() {
     },
     {
       id: 17,
+      companyName: "Dell Technologies",
       title: "Marketing Intern",
       salary: "$95.40",
       hourlyRate: "$15.90/h",
@@ -403,6 +399,7 @@ export default function Company() {
     },
     {
       id: 18,
+      companyName: "Dell Technologies",
       title: "HR Assistant Intern",
       requirements: ["HUMAN RESOURCES", "RECRUITMENT", "ADMINISTRATION"],
       location: "Heliopolis, Cairo",
@@ -938,6 +935,79 @@ export default function Company() {
           {activePage === "posts" && (
             <div className="post-section">
               <h2>Posts</h2>
+              <div className="job-listings">
+                {jobListings.map((job) => (
+                  <div className={`job-card ${job.status === "completed" ? "completed-job" : ""}`} key={job.id}>
+                    {job.status === "completed" && <div className="completed-banner">INTERNSHIP COMPLETE</div>}
+
+                    {job.salary && (
+                      <div className="job-salary">
+                        <div className="amount">{job.salary}</div>
+                        <div className="hourly-rate">{job.hourlyRate}</div>
+                      </div>
+                    )}
+
+                    <div className="job-details">
+                      <div className="company-name">{job.companyName}</div>
+                      {job.isLearningOpportunity && <div className="learning-opportunity">LEARNING OPPORTUNITY</div>}
+
+                      <h3 className="job-title">{job.title}</h3>
+
+                      <div className="job-requirements">
+                        <div className="requirement-label">REQUIRES:</div>
+                        <div className="requirement-tags">
+                          {job.requirements.map((req, index) => (
+                            <span className="requirement-tag" key={index}>
+                              {req}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="job-location">
+                        <span className="location-icon">◎</span>
+                        <span>{job.location}</span>
+                      </div>
+
+                      <div className="job-duration">
+                        <span className="calendar-icon">📅</span>
+                        <div>
+                          <div className="date-range">
+                            {job.startDate} - {job.endDate}
+                          </div>
+                          <div className="duration">{job.duration}</div>
+                        </div>
+                        <div className="time-slot">
+                          <div className="time">{job.timeSlot}</div>
+                          <div className="time-of-day">{job.timeOfDay}</div>
+                        </div>
+                      </div>
+
+                      <div className="job-work-hours">
+                        <span className="work-hours-icon">⏱</span>
+                        <span>{job.workHours}</span>
+                      </div>
+
+                      {job.description && <div className="job-description">{job.description}</div>}
+
+                      <div className="job-applications">
+                        <span className="applications-icon">👤</span>
+                        <span className="applications-count">{job.applications} applications</span>
+                      </div>
+                    </div>
+
+                    <div className={`job-status ${job.isPaid ? "paid" : "unpaid"}`}>
+                      {job.isPaid ? "PAID" : "UNPAID"}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {activePage === "myposts" && (
+            <div className="post-section">
+              <h2>My Posts</h2>
               <div className="filters">
                 <button className="filter-button" onClick={toggleFilters}>
                   <span className="filter-icon">≡</span> Filters
@@ -1055,7 +1125,7 @@ export default function Company() {
               </div>
 
               <div className="job-listings">
-                {filteredJobs.filter(job => job.companyName === "Dell Technologies").map((job) => (
+                {filteredJobs.map((job) => (
                   <div className={`job-card ${job.status === "completed" ? "completed-job" : ""}`} key={job.id}>
                     {job.status === "completed" && <div className="completed-banner">INTERNSHIP COMPLETE</div>}
 
@@ -1067,85 +1137,13 @@ export default function Company() {
                     )}
 
                     <div className="job-details">
+                      <div className="company-name">Dell Technologies</div>
                       {job.isLearningOpportunity && <div className="learning-opportunity">LEARNING OPPORTUNITY</div>}
 
                       <h3 className="job-title">
                         {searchQuery ? <HighlightText text={job.title} highlight={searchQuery} /> : job.title}
                       </h3>
 
-                      <div className="job-requirements">
-                        <div className="requirement-label">REQUIRES:</div>
-                        <div className="requirement-tags">
-                          {job.requirements.map((req, index) => (
-                            <span className="requirement-tag" key={index}>
-                              {req}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-
-                      <div className="job-location">
-                        <span className="location-icon">◎</span>
-                        <span>{job.location}</span>
-                      </div>
-
-                      <div className="job-duration">
-                        <span className="calendar-icon">📅</span>
-                        <div>
-                          <div className="date-range">
-                            {job.startDate} - {job.endDate}
-                          </div>
-                          <div className="duration">{job.duration}</div>
-                        </div>
-                        <div className="time-slot">
-                          <div className="time">{job.timeSlot}</div>
-                          <div className="time-of-day">{job.timeOfDay}</div>
-                        </div>
-                      </div>
-
-                      <div className="job-work-hours">
-                        <span className="work-hours-icon">⏱</span>
-                        <span>{job.workHours}</span>
-                      </div>
-
-                      {job.description && <div className="job-description">{job.description}</div>}
-
-                      <div className="job-applications">
-                        <span className="applications-icon">👤</span>
-                        <span className="applications-count">{job.applications} applications</span>
-                      </div>
-                    </div>
-
-                    <div className={`job-status ${job.isPaid ? "paid" : "unpaid"}`}>
-                      {job.isPaid ? "PAID" : "UNPAID"}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {activePage === "myposts" && (
-            <div className="post-section">
-              <h2>My Posts</h2>
-              <div className="job-listings">
-                {jobListings.map((job) => (
-                  <div className={`job-card ${job.status === "completed" ? "completed-job" : ""}`} key={job.id}>
-                    {job.status === "completed" && <div className="completed-banner">INTERNSHIP COMPLETE</div>}
-
-                    {job.salary && (
-                      <div className="job-salary">
-                        <div className="amount">{job.salary}</div>
-                        <div className="hourly-rate">{job.hourlyRate}</div>
-                      </div>
-                    )}
-
-                    <div className="job-details">
-                      <div className="company-name">{job.companyName}</div>
-                      {job.isLearningOpportunity && <div className="learning-opportunity">LEARNING OPPORTUNITY</div>}
-
-                      <h3 className="job-title">{job.title}</h3>
-                      
                       <div className="job-requirements">
                         <div className="requirement-label">REQUIRES:</div>
                         <div className="requirement-tags">
