@@ -11,6 +11,7 @@ export default function CompanySidebar({ activePage, onPageChange }) {
   const menuItems = [
     { section: "MAIN", items: [
       { id: "posts", label: "Posts", icon: <FileText size={20} /> },
+      { id: "myposts", label: "My Posts", icon: <FileText size={20} /> },
       { id: "create", label: "Create Post", icon: <FilePlus size={20} /> },
       { id: "applicants", label: "Applicants", icon: <Users size={20} /> },
       { id: "interns", label: "Interns", icon: <GraduationCap size={20} /> }
