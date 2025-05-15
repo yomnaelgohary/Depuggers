@@ -1814,9 +1814,11 @@ export default function Company() {
 
                   <div className="details-section">
                     <h4>Resume</h4>
-                    <button className="download-resume">
-                      Download Resume (PDF)
-                    </button>
+                    <div className="download-buttons">
+                      <button className="download-button">
+                        Download Resume
+                      </button>
+                    </div>
                   </div>
 
                   <div className="details-section">
@@ -1842,6 +1844,11 @@ export default function Company() {
                         data-status="rejected"
                       >
                         Reject
+                      </button>
+                    </div>
+                    <div className="download-buttons">
+                      <button className="download-button">
+                        Download
                       </button>
                     </div>
                   </div>
