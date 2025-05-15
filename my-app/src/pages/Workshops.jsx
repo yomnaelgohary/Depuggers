@@ -1,79 +1,91 @@
 "use client"
 
-import { useState } from "react"
-import { X, Edit, Plus, CalendarIcon, User, ChevronRight } from "lucide-react"
+import { useState, useEffect } from "react"
+import { X, Edit, Plus, CalendarIcon, User, CheckCircle } from "lucide-react"
 
 function Workshops() {
-  const [workshops, setWorkshops] = useState([
-    {
-      id: 1,
-      name: "Resume Building Masterclass",
-      startDate: "2024-09-15",
-      startTime: "10:00",
-      endDate: "2024-09-15",
-      endTime: "12:00",
-      description:
-        "Learn how to create a professional resume that stands out to employers and highlights your skills and experiences effectively.",
-      speaker: {
-        name: "Dr. Jennifer Adams",
-        title: "Career Development Specialist",
-        bio: "Dr. Adams has over 15 years of experience in career counseling and has helped thousands of students secure internships and jobs at top companies.",
+  // Initialize workshops from localStorage if available, otherwise use default data
+  const [workshops, setWorkshops] = useState(() => {
+    // Check if we're in the browser environment
+    if (typeof window !== "undefined") {
+      const savedWorkshops = localStorage.getItem("workshops")
+      if (savedWorkshops) {
+        return JSON.parse(savedWorkshops)
+      }
+    }
+
+    // Default workshops if nothing in localStorage
+    return [
+      {
+        id: 1,
+        name: "Resume Building Masterclass",
+        startDate: "2024-09-15",
+        startTime: "10:00",
+        endDate: "2024-09-15",
+        endTime: "12:00",
+        description:
+          "Learn how to create a professional resume that stands out to employers and highlights your skills and experiences effectively.",
+        speaker: {
+          name: "Dr. Jennifer Adams",
+          title: "Career Development Specialist",
+          bio: "Dr. Adams has over 15 years of experience in career counseling and has helped thousands of students secure internships and jobs at top companies.",
+        },
+        agenda: [
+          "Introduction to resume formats",
+          "Tailoring your resume for different industries",
+          "Highlighting key achievements",
+          "Common resume mistakes to avoid",
+          "Q&A session",
+        ],
       },
-      agenda: [
-        "Introduction to resume formats",
-        "Tailoring your resume for different industries",
-        "Highlighting key achievements",
-        "Common resume mistakes to avoid",
-        "Q&A session",
-      ],
-    },
-    {
-      id: 2,
-      name: "Interview Skills Workshop",
-      startDate: "2024-09-20",
-      startTime: "14:00",
-      endDate: "2024-09-20",
-      endTime: "16:30",
-      description:
-        "Prepare for job interviews with confidence. This workshop covers common interview questions, techniques for answering effectively, and strategies for making a great impression.",
-      speaker: {
-        name: "Michael Chen",
-        title: "HR Director, Tech Innovations Inc.",
-        bio: "Michael has conducted over 500 interviews for various positions and specializes in helping candidates showcase their potential during the interview process.",
+      {
+        id: 2,
+        name: "Interview Skills Workshop",
+        startDate: "2024-09-20",
+        startTime: "14:00",
+        endDate: "2024-09-20",
+        endTime: "16:30",
+        description:
+          "Prepare for job interviews with confidence. This workshop covers common interview questions, techniques for answering effectively, and strategies for making a great impression.",
+        speaker: {
+          name: "Michael Chen",
+          title: "HR Director, Tech Innovations Inc.",
+          bio: "Michael has conducted over 500 interviews for various positions and specializes in helping candidates showcase their potential during the interview process.",
+        },
+        agenda: [
+          "Understanding different interview formats",
+          "Preparing for behavioral questions",
+          "Technical interview strategies",
+          "Body language and communication skills",
+          "Mock interview practice",
+          "Follow-up etiquette",
+        ],
       },
-      agenda: [
-        "Understanding different interview formats",
-        "Preparing for behavioral questions",
-        "Technical interview strategies",
-        "Body language and communication skills",
-        "Mock interview practice",
-        "Follow-up etiquette",
-      ],
-    },
-    {
-      id: 3,
-      name: "Networking in the Digital Age",
-      startDate: "2024-10-05",
-      startTime: "11:00",
-      endDate: "2024-10-05",
-      endTime: "13:00",
-      description:
-        "Discover effective strategies for building and maintaining professional relationships online. Learn how to leverage social media platforms for career advancement.",
-      speaker: {
-        name: "Sophia Rodriguez",
-        title: "Professional Networking Coach",
-        bio: "Sophia is a certified networking coach who specializes in helping professionals build meaningful connections in the digital space.",
+      {
+        id: 3,
+        name: "Networking in the Digital Age",
+        startDate: "2024-10-05",
+        startTime: "11:00",
+        endDate: "2024-10-05",
+        endTime: "13:00",
+        description:
+          "Discover effective strategies for building and maintaining professional relationships online. Learn how to leverage social media platforms for career advancement.",
+        speaker: {
+          name: "Sophia Rodriguez",
+          title: "Professional Networking Coach",
+          bio: "Sophia is a certified networking coach who specializes in helping professionals build meaningful connections in the digital space.",
+        },
+        agenda: [
+          "LinkedIn profile optimization",
+          "Effective online communication",
+          "Virtual networking events",
+          "Building your personal brand",
+          "Maintaining professional relationships",
+          "Interactive networking exercise",
+        ],
       },
-      agenda: [
-        "LinkedIn profile optimization",
-        "Effective online communication",
-        "Virtual networking events",
-        "Building your personal brand",
-        "Maintaining professional relationships",
-        "Interactive networking exercise",
-      ],
-    },
-  ])
+    ]
+  })
 
   const [selectedWorkshop, setSelectedWorkshop] = useState(null)
   const [isEditingWorkshop, setIsEditingWorkshop] = useState(false)
@@ -92,6 +104,36 @@ function Workshops() {
     },
     agenda: [""],
   })
+  const [newWorkshopId, setNewWorkshopId] = useState(null)
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false)
+  const [successMessage, setSuccessMessage] = useState("")
+
+  // Save workshops to localStorage whenever they change
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("workshops", JSON.stringify(workshops))
+    }
+  }, [workshops])
+
+  // Clear the new workshop highlight after 5 seconds
+  useEffect(() => {
+    if (newWorkshopId) {
+      const timer = setTimeout(() => {
+        setNewWorkshopId(null)
+      }, 5000)
+      return () => clearTimeout(timer)
+    }
+  }, [newWorkshopId])
+
+  // Hide success message after 5 seconds
+  useEffect(() => {
+    if (showSuccessMessage) {
+      const timer = setTimeout(() => {
+        setShowSuccessMessage(false)
+      }, 5000)
+      return () => clearTimeout(timer)
+    }
+  }, [showSuccessMessage])
 
   const handleCreateWorkshop = () => {
     setIsEditingWorkshop(true)
@@ -194,15 +236,23 @@ function Workshops() {
       return
     }
 
+    const updatedWorkshop = { ...workshopFormData }
+
     if (selectedWorkshop) {
       // Update existing workshop
-      setWorkshops(workshops.map((workshop) => (workshop.id === workshopFormData.id ? workshopFormData : workshop)))
+      setWorkshops(workshops.map((workshop) => (workshop.id === updatedWorkshop.id ? updatedWorkshop : workshop)))
+      setSuccessMessage("Workshop updated successfully!")
     } else {
       // Create new workshop
-      setWorkshops([...workshops, workshopFormData])
+      setWorkshops([...workshops, updatedWorkshop])
+      setNewWorkshopId(updatedWorkshop.id)
+      setSuccessMessage("Workshop created successfully!")
     }
 
+    setShowSuccessMessage(true)
     setIsEditingWorkshop(false)
+
+    // Return to the list view instead of showing details
     setSelectedWorkshop(null)
   }
 
@@ -241,171 +291,183 @@ function Workshops() {
     })
 
   const renderWorkshopForm = () => (
-    <div className="workshop-form-container">
-      <div className="workshop-form-header">
-        <h2>{selectedWorkshop ? "Edit Workshop" : "Create New Workshop"}</h2>
-        <button className="modal-close-button" onClick={() => setIsEditingWorkshop(false)}>
-          <X size={20} />
-        </button>
-      </div>
-      <form onSubmit={handleWorkshopSubmit} className="workshop-form">
-        <div className="form-group">
-          <label htmlFor="name">Workshop Name*</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={workshopFormData.name}
-            onChange={handleWorkshopFormChange}
-            required
-          />
+    <div className="workshop-form-overlay">
+      <div className="workshop-form-container">
+        <div className="workshop-form-header">
+          <h2>{selectedWorkshop ? "Edit Workshop" : "Create New Workshop"}</h2>
+          <button className="modal-close-button" onClick={() => setIsEditingWorkshop(false)}>
+            <X size={20} />
+          </button>
         </div>
-
-        <div className="form-row">
+        <form onSubmit={handleWorkshopSubmit} className="workshop-form">
           <div className="form-group">
-            <label htmlFor="startDate">Start Date*</label>
-            <input
-              type="date"
-              id="startDate"
-              name="startDate"
-              value={workshopFormData.startDate}
-              onChange={handleWorkshopFormChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="startTime">Start Time*</label>
-            <input
-              type="time"
-              id="startTime"
-              name="startTime"
-              value={workshopFormData.startTime}
-              onChange={handleWorkshopFormChange}
-              required
-            />
-          </div>
-        </div>
-
-        <div className="form-row">
-          <div className="form-group">
-            <label htmlFor="endDate">End Date*</label>
-            <input
-              type="date"
-              id="endDate"
-              name="endDate"
-              value={workshopFormData.endDate}
-              onChange={handleWorkshopFormChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="endTime">End Time*</label>
-            <input
-              type="time"
-              id="endTime"
-              name="endTime"
-              value={workshopFormData.endTime}
-              onChange={handleWorkshopFormChange}
-              required
-            />
-          </div>
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="description">Workshop Description*</label>
-          <textarea
-            id="description"
-            name="description"
-            value={workshopFormData.description}
-            onChange={handleWorkshopFormChange}
-            rows="4"
-            required
-          ></textarea>
-        </div>
-
-        <div className="speaker-section">
-          <h3>Speaker Information</h3>
-          <div className="form-group">
-            <label htmlFor="speaker.name">Speaker Name*</label>
+            <label htmlFor="name">Workshop Name*</label>
             <input
               type="text"
-              id="speaker.name"
-              name="speaker.name"
-              value={workshopFormData.speaker.name}
+              id="name"
+              name="name"
+              value={workshopFormData.name}
               onChange={handleWorkshopFormChange}
               required
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="speaker.title">Speaker Title*</label>
-            <input
-              type="text"
-              id="speaker.title"
-              name="speaker.title"
-              value={workshopFormData.speaker.title}
-              onChange={handleWorkshopFormChange}
-              required
-            />
+
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="startDate">Start Date*</label>
+              <input
+                type="date"
+                id="startDate"
+                name="startDate"
+                value={workshopFormData.startDate}
+                onChange={handleWorkshopFormChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="startTime">Start Time*</label>
+              <input
+                type="time"
+                id="startTime"
+                name="startTime"
+                value={workshopFormData.startTime}
+                onChange={handleWorkshopFormChange}
+                required
+              />
+            </div>
           </div>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="endDate">End Date*</label>
+              <input
+                type="date"
+                id="endDate"
+                name="endDate"
+                value={workshopFormData.endDate}
+                onChange={handleWorkshopFormChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="endTime">End Time*</label>
+              <input
+                type="time"
+                id="endTime"
+                name="endTime"
+                value={workshopFormData.endTime}
+                onChange={handleWorkshopFormChange}
+                required
+              />
+            </div>
+          </div>
+
           <div className="form-group">
-            <label htmlFor="speaker.bio">Speaker Bio*</label>
+            <label htmlFor="description">Workshop Description*</label>
             <textarea
-              id="speaker.bio"
-              name="speaker.bio"
-              value={workshopFormData.speaker.bio}
+              id="description"
+              name="description"
+              value={workshopFormData.description}
               onChange={handleWorkshopFormChange}
-              rows="3"
+              rows="4"
               required
             ></textarea>
           </div>
-        </div>
 
-        <div className="agenda-section">
-          <h3>Workshop Agenda</h3>
-          {workshopFormData.agenda.map((item, index) => (
-            <div key={index} className="agenda-item">
-              <div className="form-group agenda-input">
-                <label htmlFor={`agenda-${index}`}>Agenda Item {index + 1}*</label>
-                <input
-                  type="text"
-                  id={`agenda-${index}`}
-                  value={item}
-                  onChange={(e) => handleAgendaItemChange(index, e.target.value)}
-                  required
-                />
-              </div>
-              <button
-                type="button"
-                className="remove-agenda-btn"
-                onClick={() => handleRemoveAgendaItem(index)}
-                disabled={workshopFormData.agenda.length <= 1}
-              >
-                <X size={16} />
-              </button>
+          <div className="speaker-section">
+            <h3>Speaker Information</h3>
+            <div className="form-group">
+              <label htmlFor="speaker.name">Speaker Name*</label>
+              <input
+                type="text"
+                id="speaker.name"
+                name="speaker.name"
+                value={workshopFormData.speaker.name}
+                onChange={handleWorkshopFormChange}
+                required
+              />
             </div>
-          ))}
-          <button type="button" className="add-agenda-btn" onClick={handleAddAgendaItem}>
-            + Add Agenda Item
-          </button>
-        </div>
+            <div className="form-group">
+              <label htmlFor="speaker.title">Speaker Title*</label>
+              <input
+                type="text"
+                id="speaker.title"
+                name="speaker.title"
+                value={workshopFormData.speaker.title}
+                onChange={handleWorkshopFormChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="speaker.bio">Speaker Bio*</label>
+              <textarea
+                id="speaker.bio"
+                name="speaker.bio"
+                value={workshopFormData.speaker.bio}
+                onChange={handleWorkshopFormChange}
+                rows="3"
+                required
+              ></textarea>
+            </div>
+          </div>
 
-        <div className="form-actions">
-          <button type="submit" className="submit-workshop-btn">
-            {selectedWorkshop ? "Update Workshop" : "Create Workshop"}
-          </button>
-          <button type="button" className="cancel-workshop-btn" onClick={() => setIsEditingWorkshop(false)}>
-            Cancel
-          </button>
-        </div>
-      </form>
+          <div className="agenda-section">
+            <h3>Workshop Agenda</h3>
+            {workshopFormData.agenda.map((item, index) => (
+              <div key={index} className="agenda-item">
+                <div className="form-group agenda-input">
+                  <label htmlFor={`agenda-${index}`}>Agenda Item {index + 1}*</label>
+                  <input
+                    type="text"
+                    id={`agenda-${index}`}
+                    value={item}
+                    onChange={(e) => handleAgendaItemChange(index, e.target.value)}
+                    required
+                  />
+                </div>
+                <button
+                  type="button"
+                  className="remove-agenda-btn"
+                  onClick={() => handleRemoveAgendaItem(index)}
+                  disabled={workshopFormData.agenda.length <= 1}
+                >
+                  <X size={16} />
+                </button>
+              </div>
+            ))}
+            <button type="button" className="add-agenda-btn" onClick={handleAddAgendaItem}>
+              + Add Agenda Item
+            </button>
+          </div>
+
+          <div className="form-actions">
+            <button type="submit" className="submit-workshop-btn">
+              {selectedWorkshop ? "Update Workshop" : "Create Workshop"}
+            </button>
+            <button type="button" className="cancel-workshop-btn" onClick={() => setIsEditingWorkshop(false)}>
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   )
 
   const renderWorkshopDetails = () => (
     <div className="workshop-details">
+      {showSuccessMessage && (
+        <div className="success-message">
+          <CheckCircle size={18} />
+          {successMessage}
+        </div>
+      )}
+
       <div className="workshop-details-header">
         <h2>{selectedWorkshop.name}</h2>
         <div className="workshop-actions">
+          <button className="add-workshop-btn" onClick={handleCreateWorkshop}>
+            <Plus size={16} /> Add Workshop
+          </button>
           <button className="edit-workshop-btn" onClick={() => handleEditWorkshop(selectedWorkshop)}>
             <Edit size={16} /> Edit
           </button>
@@ -470,10 +532,21 @@ function Workshops() {
         </button>
       </div>
 
+      {showSuccessMessage && (
+        <div className="success-message">
+          <CheckCircle size={18} />
+          {successMessage}
+        </div>
+      )}
+
       {upcomingWorkshops.length > 0 ? (
         <div className="workshops-list">
           {upcomingWorkshops.map((workshop) => (
-            <div key={workshop.id} className="workshop-card" onClick={() => handleViewWorkshopDetails(workshop)}>
+            <div
+              key={workshop.id}
+              className={`workshop-card ${newWorkshopId === workshop.id ? "new-workshop" : ""}`}
+              onClick={() => handleViewWorkshopDetails(workshop)}
+            >
               <div className="workshop-card-header">
                 <h3>{workshop.name}</h3>
               </div>
@@ -494,7 +567,21 @@ function Workshops() {
               </div>
               <div className="workshop-card-footer">
                 <button className="view-details-btn">
-                  View Details <ChevronRight size={14} />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                  View Details
                 </button>
               </div>
             </div>
@@ -515,4 +602,3 @@ function Workshops() {
 }
 
 export default Workshops
-
