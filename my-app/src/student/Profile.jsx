@@ -24,14 +24,17 @@ import {
 import {
   BookOutlined,
   CalendarOutlined,
+  CheckCircleOutlined,
+  CheckOutlined,
+  ClockCircleOutlined,
   DeleteOutlined,
   EditOutlined,
   EnvironmentOutlined,
+  FileTextOutlined,
   MailOutlined,
   PhoneOutlined,
   PlusOutlined,
   SolutionOutlined,
-  StarOutlined,
   TeamOutlined,
   TrophyOutlined,
   UserOutlined,
@@ -243,6 +246,7 @@ const ProfileContent = () => {
     }))
   }
 
+  // Update the handleSubmit function to properly save changes
   const handleSubmit = (e) => {
     e.preventDefault()
     console.log("Profile updated:", formData)
@@ -250,16 +254,94 @@ const ProfileContent = () => {
     message.success("Profile updated successfully")
   }
 
+  // Add a handleCancel function to discard changes
+  const handleCancel = () => {
+    // Reset form data to original state
+    setFormData({
+      firstName: "John",
+      lastName: "Doe",
+      email: "john.doe@university.edu",
+      phone: "+1 (555) 123-4567",
+      bio: "Computer Science student with interest in web development and data analysis.",
+      major: "Computer Science",
+      semester: 5,
+      graduationYear: 2024,
+      gpa: 3.7,
+      jobInterests: ["Web Development", "Data Analysis", "UI/UX Design"],
+      skills: ["JavaScript", "React", "Python", "HTML/CSS", "SQL"],
+      internships: [
+        {
+          id: 1,
+          company: "Tech Solutions Inc.",
+          position: "Frontend Developer Intern",
+          duration: "June 2022 - August 2022",
+          status: "completed",
+          location: "San Francisco, CA",
+          skillsGained: ["React", "Redux", "TypeScript"],
+          responsibilities: [
+            "Developed responsive web interfaces using React",
+            "Collaborated with UX team to implement designs",
+            "Participated in code reviews",
+          ],
+          recommendationLetter: true,
+          supervisorContact: "jane.smith@techsolutions.com",
+        },
+        {
+          id: 2,
+          company: "Data Analytics Co.",
+          position: "Data Science Intern",
+          duration: "June 2023 - Present",
+          status: "current",
+          location: "Remote",
+          skillsGained: ["Python", "Pandas", "SQL"],
+          responsibilities: [
+            "Analyzed large datasets for business insights",
+            "Created predictive models using machine learning",
+            "Prepared data visualizations for stakeholders",
+          ],
+          recommendationLetter: false,
+          supervisorContact: "michael.johnson@dataanalytics.com",
+        },
+      ],
+      partTimeJobs: [
+        {
+          id: 1,
+          company: "University IT Department",
+          position: "Student Technician",
+          duration: "September 2021 - Present",
+          responsibilities: [
+            "Provided technical support to students and faculty",
+            "Maintained computer labs",
+            "Assisted with network troubleshooting",
+          ],
+        },
+      ],
+      activities: [
+        {
+          id: 1,
+          organization: "Computer Science Club",
+          role: "Vice President",
+          duration: "2021 - Present",
+          description: "Organized hackathons and tech talks for members",
+        },
+      ],
+    })
+    setEditMode(false)
+    message.info("Changes discarded")
+  }
+
   return (
     <div className="profile-content">
       <div className="profile-header">
-        <Title level={2}>
-          <UserOutlined /> My Profile
-        </Title>
+        <div className="profile-title">
+          <UserOutlined className="profile-icon" />
+          <Title level={2}>My Profile</Title>
+        </div>
         <Button
           onClick={() => setEditMode(!editMode)}
           type={editMode ? "default" : "primary"}
           icon={editMode ? <DeleteOutlined /> : <EditOutlined />}
+          size="large"
         >
           {editMode ? "Cancel Editing" : "Edit Profile"}
         </Button>
@@ -762,86 +844,153 @@ const ProfileContent = () => {
             )}
           </Card>
 
+          {/* Update the form actions at the bottom of the form */}
           <div className="form-actions">
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" onClick={handleSubmit}>
               Save Changes
             </Button>
-            <Button onClick={() => setEditMode(false)}>Cancel</Button>
+            <Button onClick={handleCancel}>Cancel</Button>
           </div>
         </Form>
       ) : (
         <div className="profile-view">
-          {/* View Mode - Basic Information */}
           <Card
             title={
-              <span>
-                <UserOutlined /> Basic Information
+              <span className="section-title">
+                <UserOutlined className="section-icon" /> Basic Information
               </span>
             }
             className="profile-section"
           >
-            <Descriptions column={2}>
-              <Descriptions.Item label="Name">
+            <Descriptions column={{ xs: 1, sm: 2 }} bordered>
+              <Descriptions.Item
+                label={
+                  <span className="description-label">
+                    <UserOutlined /> Name
+                  </span>
+                }
+              >
                 {formData.firstName} {formData.lastName}
               </Descriptions.Item>
-              <Descriptions.Item label="Email">{formData.email}</Descriptions.Item>
-              <Descriptions.Item label="Phone">{formData.phone}</Descriptions.Item>
-              <Descriptions.Item label="Bio">{formData.bio}</Descriptions.Item>
+              <Descriptions.Item
+                label={
+                  <span className="description-label">
+                    <MailOutlined /> Email
+                  </span>
+                }
+              >
+                {formData.email}
+              </Descriptions.Item>
+              <Descriptions.Item
+                label={
+                  <span className="description-label">
+                    <PhoneOutlined /> Phone
+                  </span>
+                }
+              >
+                {formData.phone}
+              </Descriptions.Item>
+              <Descriptions.Item
+                label={
+                  <span className="description-label">
+                    <SolutionOutlined /> Bio
+                  </span>
+                }
+              >
+                {formData.bio}
+              </Descriptions.Item>
             </Descriptions>
           </Card>
 
-          {/* View Mode - Academic Information */}
           <Card
             title={
-              <span>
-                <BookOutlined /> Academic Information
+              <span className="section-title">
+                <BookOutlined className="section-icon" /> Academic Information
               </span>
             }
             className="profile-section"
           >
-            <Descriptions column={2}>
-              <Descriptions.Item label="Major">{formData.major}</Descriptions.Item>
-              <Descriptions.Item label="Current Semester">Semester {formData.semester}</Descriptions.Item>
-              <Descriptions.Item label="Graduation Year">{formData.graduationYear}</Descriptions.Item>
-              <Descriptions.Item label="GPA">{formData.gpa}</Descriptions.Item>
+            <Descriptions column={{ xs: 1, sm: 2 }} bordered>
+              <Descriptions.Item
+                label={
+                  <span className="description-label">
+                    <BookOutlined /> Major
+                  </span>
+                }
+              >
+                {formData.major}
+              </Descriptions.Item>
+              <Descriptions.Item
+                label={
+                  <span className="description-label">
+                    <CalendarOutlined /> Current Semester
+                  </span>
+                }
+              >
+                Semester {formData.semester}
+              </Descriptions.Item>
+              <Descriptions.Item
+                label={
+                  <span className="description-label">
+                    <CalendarOutlined /> Graduation Year
+                  </span>
+                }
+              >
+                {formData.graduationYear}
+              </Descriptions.Item>
+              <Descriptions.Item
+                label={
+                  <span className="description-label">
+                    <TrophyOutlined /> GPA
+                  </span>
+                }
+              >
+                {formData.gpa}
+              </Descriptions.Item>
             </Descriptions>
           </Card>
 
-          {/* View Mode - Job Interests */}
+          {/* Update the Job Interests section in view mode */}
           <Card
             title={
-              <span>
-                <SolutionOutlined /> Job Interests
+              <span className="section-title">
+                <SolutionOutlined className="section-icon" /> Job Interests
               </span>
             }
             className="profile-section"
           >
-            <div className="tags-container">
-              {formData.jobInterests.map((interest, index) => (
-                <Tag key={index} color="blue">
-                  {interest}
-                </Tag>
-              ))}
+            <div className="section-content">
+              <div className="tags-container">
+                {formData.jobInterests.map((interest, index) => (
+                  <span key={index} className="interest-tag">
+                    {interest}
+                  </span>
+                ))}
+              </div>
             </div>
           </Card>
 
-          {/* View Mode - Skills */}
+          {/* Update the Skills section in view mode */}
           <Card
             title={
-              <span>
-                <TrophyOutlined /> Skills
+              <span className="section-title">
+                <TrophyOutlined className="section-icon" /> Skills
               </span>
             }
             className="profile-section"
           >
-            <div className="tags-container">
-              {formData.skills.map((skill, index) => (
-                <Tag key={index} color="green">
-                  {skill}
-                </Tag>
-              ))}
+            <div className="skills-section">
+              <div className="tags-container">
+                {formData.skills.map((skill, index) => (
+                  <span key={index} className="skill-tag">
+                    {skill}
+                  </span>
+                ))}
+              </div>
             </div>
           </Card>
+
+          {/* View Mode - Internships */}
 
           {/* View Mode - Internships */}
           <Card
@@ -860,9 +1009,10 @@ const ProfileContent = () => {
                   title={
                     <div className="internship-header">
                       <h4>
-                        {internship.position} at {internship.company}
+                        <SolutionOutlined /> {internship.position} at {internship.company}
                       </h4>
-                      <Tag color={internship.status === "current" ? "green" : "blue"}>
+                      <Tag color={internship.status === "current" ? "green" : "blue"} className="status-tag">
+                        {internship.status === "current" ? <ClockCircleOutlined /> : <CheckCircleOutlined />}
                         {internship.status === "current" ? "Current" : "Completed"}
                       </Tag>
                     </div>
@@ -870,32 +1020,46 @@ const ProfileContent = () => {
                 >
                   <div className="internship-view">
                     <div className="internship-meta">
-                      <p>
+                      <p className="meta-item">
                         <CalendarOutlined /> {internship.duration}
                       </p>
-                      <p>
+                      <p className="meta-item">
                         <EnvironmentOutlined /> {internship.location}
                       </p>
+                      {internship.supervisorContact && (
+                        <p className="meta-item">
+                          <MailOutlined /> {internship.supervisorContact}
+                        </p>
+                      )}
                       {internship.recommendationLetter && (
-                        <p>
-                          <StarOutlined /> Recommendation letter available
+                        <p className="meta-item">
+                          <FileTextOutlined /> Recommendation letter available
                         </p>
                       )}
                     </div>
 
-                    <Divider orientation="left">Skills Gained</Divider>
+                    {/* Update the Skills Gained in internships */}
+                    <Divider orientation="left">
+                      <TrophyOutlined /> Skills Gained
+                    </Divider>
                     <div className="skills-container">
                       {internship.skillsGained.map((skill, idx) => (
-                        <Tag key={idx} color="geekblue">
+                        <span key={idx} className="skill-gained-tag">
                           {skill}
-                        </Tag>
+                        </span>
                       ))}
                     </div>
 
-                    <Divider orientation="left">Responsibilities</Divider>
+                    <Divider orientation="left">
+                      <SolutionOutlined /> Responsibilities
+                    </Divider>
                     <List
                       dataSource={internship.responsibilities}
-                      renderItem={(item) => <List.Item>{item}</List.Item>}
+                      renderItem={(item) => (
+                        <List.Item className="responsibility-item">
+                          <CheckOutlined className="responsibility-icon" /> {item}
+                        </List.Item>
+                      )}
                     />
 
                     {internship.supervisorContact && (
@@ -916,11 +1080,11 @@ const ProfileContent = () => {
             )}
           </Card>
 
-          {/* View Mode - Part-Time Jobs */}
+          {/* Update the Part-Time Jobs section in view mode */}
           <Card
             title={
-              <span>
-                <TeamOutlined /> Part-Time Jobs
+              <span className="section-title">
+                <TeamOutlined className="section-icon" /> Part-Time Jobs
               </span>
             }
             className="profile-section"
@@ -933,7 +1097,7 @@ const ProfileContent = () => {
                   title={
                     <div className="job-header">
                       <h4>
-                        {job.position} at {job.company}
+                        <TeamOutlined /> {job.position} at {job.company}
                       </h4>
                     </div>
                   }
@@ -945,8 +1109,19 @@ const ProfileContent = () => {
                       </p>
                     </div>
 
-                    <Divider orientation="left">Responsibilities</Divider>
-                    <List dataSource={job.responsibilities} renderItem={(item) => <List.Item>{item}</List.Item>} />
+                    <Divider orientation="left">
+                      <FileTextOutlined /> Responsibilities
+                    </Divider>
+                    <List
+                      className="responsibilities-list"
+                      dataSource={job.responsibilities}
+                      renderItem={(item) => (
+                        <List.Item className="responsibility-item">
+                          <CheckOutlined className="responsibility-icon" />
+                          <div>{item}</div>
+                        </List.Item>
+                      )}
+                    />
                   </div>
                 </Card>
               ))
@@ -957,11 +1132,11 @@ const ProfileContent = () => {
             )}
           </Card>
 
-          {/* View Mode - College Activities */}
+          {/* Update the College Activities section in view mode */}
           <Card
             title={
-              <span>
-                <TrophyOutlined /> College Activities
+              <span className="section-title">
+                <TrophyOutlined className="section-icon" /> College Activities
               </span>
             }
             className="profile-section"
@@ -974,7 +1149,7 @@ const ProfileContent = () => {
                   title={
                     <div className="activity-header">
                       <h4>
-                        {activity.role} at {activity.organization}
+                        <TrophyOutlined /> {activity.role} at {activity.organization}
                       </h4>
                     </div>
                   }
@@ -986,8 +1161,10 @@ const ProfileContent = () => {
                       </p>
                     </div>
 
-                    <Divider orientation="left">Description</Divider>
-                    <p>{activity.description}</p>
+                    <Divider orientation="left">
+                      <FileTextOutlined /> Description
+                    </Divider>
+                    <div className="activity-description">{activity.description}</div>
                   </div>
                 </Card>
               ))

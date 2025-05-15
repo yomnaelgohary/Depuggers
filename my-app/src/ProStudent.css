@@ -1,0 +1,443 @@
+/* Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --primary-color: #5f2878; /* Updated to match SCAD purple */
+  --primary-hover: #7d14c3;
+  --secondary-color: #f8f9fa; /* Updated to match SCAD */
+  --text-dark: #333;
+  --text-medium: #666;
+  --text-light: #888;
+  --white: #ffffff;
+  --border-color: #eaeaea;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --border-radius: 8px;
+  --transition: all 0.3s ease;
+}
+
+body,
+html,
+#root {
+  width: 100%;
+  min-height: 100vh;
+  font-family: Arial, sans-serif; /* Updated to match SCAD */
+  line-height: 1.6;
+  color: var(--text-dark);
+  background-color: var(--secondary-color);
+  overflow-x: hidden;
+}
+
+/* Layout */
+.student-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.student-sidebar {
+  width: 250px;
+  background: #fff;
+  color: var(--text-dark);
+  transition: width 0.3s;
+  position: fixed;
+  height: 100vh;
+  z-index: 100;
+  border-right: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+}
+
+.student-content {
+  flex: 1;
+  margin-left: 250px;
+  background-color: var(--secondary-color);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Sidebar Header */
+.sidebar-header {
+  padding: 20px;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.sidebar-header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Content Header - Updated to match SCAD */
+.content-header {
+  height: 70px; /* Increased height to match SCAD */
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px; /* Increased padding to match SCAD */
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+}
+
+.nav-buttons,
+.header-actions {
+  display: flex;
+  gap: 15px; /* Increased gap to match SCAD */
+}
+
+.nav-button,
+.action-button {
+  width: 40px; /* Increased size to match SCAD */
+  height: 40px; /* Increased size to match SCAD */
+  border-radius: 8px; /* Changed to square with rounded corners like SCAD */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  color: #333; /* Darker color for icons */
+  font-size: 18px; /* Larger icons */
+}
+
+.nav-button:hover,
+.action-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px); /* Added subtle lift effect like SCAD */
+}
+
+.content-body {
+  padding: 30px; /* Increased padding to match SCAD */
+  flex: 1;
+  max-width: 1200px; /* Added max-width like SCAD */
+  margin: 0 auto; /* Center content like SCAD */
+  width: 100%;
+}
+
+/* Menu Styles - Updated to match the reference sidebar */
+.ant-menu {
+  background: white !important;
+  border-right: none !important;
+}
+
+.ant-menu-item {
+  margin: 4px 12px !important;
+  height: 48px !important;
+  line-height: 48px !important;
+  border-radius: 8px !important;
+  color: #4b5563 !important;
+  padding: 0 16px !important;
+  margin-right: 0 !important;
+  position: relative !important;
+}
+
+.ant-menu-item:hover {
+  background-color: #f9fafb !important;
+  color: #5f2878 !important;
+}
+
+.ant-menu-item-selected {
+  background-color: #f5f3ff !important;
+  color: #5f2878 !important;
+  font-weight: 500 !important;
+}
+
+/* Add active indicator for selected menu item */
+.ant-menu-item-selected::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 20px;
+  background-color: #5f2878;
+  border-radius: 0 3px 3px 0;
+}
+
+.ant-menu-item .anticon {
+  font-size: 18px;
+  margin-right: 12px !important;
+  color: inherit !important;
+}
+
+/* Override dark theme completely */
+.ant-menu.ant-menu-dark,
+.ant-menu-dark .ant-menu-sub,
+.ant-menu.ant-menu-dark .ant-menu-sub {
+  background: white !important;
+  color: #4b5563 !important;
+}
+
+.ant-menu.ant-menu-dark .ant-menu-item-selected,
+.ant-menu-submenu-popup.ant-menu-dark .ant-menu-item-selected {
+  background-color: #f5f3ff !important;
+  color: #5f2878 !important;
+}
+
+.ant-menu-dark .ant-menu-item,
+.ant-menu-dark .ant-menu-item-group-title,
+.ant-menu-dark .ant-menu-item > a,
+.ant-menu-dark .ant-menu-item > span > a {
+  color: #4b5563 !important;
+}
+
+.ant-menu-dark .ant-menu-item:hover,
+.ant-menu-dark .ant-menu-item-active,
+.ant-menu-dark .ant-menu-submenu-active,
+.ant-menu-dark .ant-menu-submenu-open,
+.ant-menu-dark .ant-menu-submenu-selected,
+.ant-menu-dark .ant-menu-submenu-title:hover {
+  background-color: #f9fafb !important;
+  color: #5f2878 !important;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .student-sidebar {
+    width: 80px;
+  }
+
+  .student-content {
+    margin-left: 80px;
+  }
+
+  .sidebar-header h2 {
+    display: none;
+  }
+
+  .logo-container {
+    justify-content: center;
+  }
+
+  .ant-menu-item .ant-menu-item-icon {
+    margin-right: 0 !important;
+  }
+
+  .ant-menu-item-only-child {
+    padding-left: 24px !important;
+  }
+
+  .ant-menu-item-selected::before {
+    height: 16px;
+  }
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Utility Classes */
+.mb-20 {
+  margin-bottom: 20px;
+}
+.mt-20 {
+  margin-top: 20px;
+}
+.text-center {
+  text-align: center;
+}
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Notification System Styles - Added from SCAD */
+.notification-bell-container {
+  position: relative;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  animation: pulse-badge 1.5s infinite;
+}
+
+@keyframes pulse-badge {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.notifications-panel {
+  position: absolute;
+  top: 45px;
+  right: -10px;
+  width: 320px;
+  max-height: 400px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  overflow: hidden;
+  animation: slideDown 0.3s ease forwards;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.notifications-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #f8f9fa;
+}
+
+.notifications-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.clear-notifications {
+  background: none;
+  border: none;
+  color: #6c757d;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.clear-notifications:hover {
+  background-color: #e9ecef;
+  color: #495057;
+}
+
+.notifications-list {
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.notification-item {
+  display: flex;
+  padding: 12px 15px;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.notification-item:hover {
+  background-color: #f8f9fa;
+}
+
+.notification-item.unread {
+  background-color: #f0f7ff;
+}
+
+.notification-item.unread:hover {
+  background-color: #e6f2ff;
+}
+
+.notification-icon {
+  margin-right: 12px;
+  display: flex;
+  align-items: flex-start;
+  padding-top: 2px;
+}
+
+.notification-item.success .notification-icon {
+  color: #28a745;
+}
+
+.notification-item.error .notification-icon {
+  color: #dc3545;
+}
+
+.notification-item.info .notification-icon {
+  color: #17a2b8;
+}
+
+.notification-item.call .notification-icon {
+  color: #007bff;
+}
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-content p {
+  margin: 0 0 5px 0;
+  font-size: 14px;
+  color: #212529;
+  line-height: 1.4;
+}
+
+.notification-time {
+  font-size: 12px;
+  color: #6c757d;
+}
+
+.no-notifications {
+  padding: 20px;
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+}

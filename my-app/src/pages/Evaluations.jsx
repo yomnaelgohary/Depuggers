@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import { X, AlertTriangle, Edit, Save, Download, Search } from "lucide-react"
+import { X, AlertTriangle, Edit, Save, Download, Menu } from "lucide-react"
 
 function Evaluations() {
   const [jspdfLoaded, setJspdfLoaded] = useState(false)
@@ -12,6 +12,8 @@ function Evaluations() {
   const [reportType, setReportType] = useState(null)
   const [editingClarification, setEditingClarification] = useState(false)
   const [clarificationText, setClarificationText] = useState("")
+  const [showFilterPopup, setShowFilterPopup] = useState(false)
+  const filterPopupRef = useRef(null)
   const clarificationTextareaRef = useRef(null)
 
   const [reports, setReports] = useState([
@@ -73,8 +75,8 @@ function Evaluations() {
       studentId: 104,
       major: "Design",
       company: "Microsoft",
-      supervisor: "John Smith",
-      supervisorPosition: "Senior Data Scientist",
+      supervisor: "Emily Parker",
+      supervisorPosition: "UX Design Lead",
       startDate: "2023-06-01",
       endDate: "2023-08-31",
       submissionDate: "2023-08-20",
@@ -181,6 +183,21 @@ function Evaluations() {
   ])
 
   useEffect(() => {
+    // Add clarification to flagged/rejected reports that don't have one
+    const updatedReports = reports.map((report) => {
+      const updatedReport = { ...report }
+
+      if ((report.status === "flagged" || report.status === "rejected") && !report.clarification) {
+        updatedReport.clarification =
+          "Additional information or corrections are needed for this report. Please review and resubmit."
+      }
+
+      return updatedReport
+    })
+
+    setReports(updatedReports)
+
+    // Load jsPDF script
     const script = document.createElement("script")
     script.src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
     script.async = true
@@ -189,10 +206,34 @@ function Evaluations() {
     }
     document.body.appendChild(script)
 
-    return () => {
-      document.body.removeChild(script)
+    // Add click event listener to close filter popup when clicking outside
+    const handleClickOutside = (event) => {
+      if (filterPopupRef.current && !filterPopupRef.current.contains(event.target)) {
+        setShowFilterPopup(false)
+      }
     }
-  }, [])
+
+    // Add keyboard event listener to close filter popup when Escape key is pressed
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape" && showFilterPopup) {
+        setShowFilterPopup(false)
+      }
+      if (event.key === "Enter" && showFilterPopup) {
+        handleApplyFilters()
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside)
+    document.addEventListener("keydown", handleKeyDown)
+
+    return () => {
+      if (document.body.contains(script)) {
+        document.body.removeChild(script)
+      }
+      document.removeEventListener("mousedown", handleClickOutside)
+      document.removeEventListener("keydown", handleKeyDown)
+    }
+  }, [showFilterPopup])
 
   const filteredReports = reports.filter((report) => {
     if (searchQuery) {
@@ -203,11 +244,12 @@ function Evaluations() {
       if (!matchesTitle && !matchesStudent && !matchesCompany) return false
     }
     if (selectedMajor !== "All" && report.major !== selectedMajor) return false
-    if (selectedStatus !== "All" && report.status !== selectedStatus) return false
+    if (selectedStatus !== "All" && report.status.toLowerCase() !== selectedStatus.toLowerCase()) return false
     return true
   })
 
   const uniqueMajors = ["All", ...new Set(reports.map((report) => report.major).filter(Boolean))].sort()
+  const statusOptions = ["All", "Accepted", "Pending", "Flagged", "Rejected"]
 
   const handleReportClick = (report) => {
     setSelectedReport(report)
@@ -249,7 +291,7 @@ function Evaluations() {
   }
 
   const getStatusBadgeClass = (status) => {
-    switch (status) {
+    switch (status.toLowerCase()) {
       case "pending":
         return "status-badge pending"
       case "flagged":
@@ -347,6 +389,15 @@ function Evaluations() {
     doc.save(`${reportTypeString}_${report.studentName.replace(/\s+/g, "_")}.pdf`)
   }
 
+  const handleResetFilters = () => {
+    setSelectedMajor("All")
+    setSelectedStatus("All")
+  }
+
+  const handleApplyFilters = () => {
+    setShowFilterPopup(false)
+  }
+
   const renderInternshipReport = (report) => {
     return (
       <div className="report-details">
@@ -378,7 +429,25 @@ function Evaluations() {
             </div>
           </div>
           <div className="report-actions">
-            <button className="download-pdf-button" onClick={() => generateReportPDF(report)}>
+            <button
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+                padding: "8px 12px",
+                backgroundColor: "#f0f0f0",
+                color: "#333",
+                border: "1px solid #ddd",
+                borderRadius: "4px",
+                fontSize: "14px",
+                fontWeight: "500",
+                cursor: "pointer",
+                transition: "background-color 0.2s ease",
+              }}
+              onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#e0e0e0")}
+              onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#f0f0f0")}
+              onClick={() => generateReportPDF(report)}
+            >
               <Download size={16} /> Download PDF
             </button>
             <button className="modal-close-button" onClick={closeReportDetails}>
@@ -433,8 +502,10 @@ function Evaluations() {
               <p>{report.company}</p>
             </div>
             <div className="meta-item">
-              <h4>Submission Date</h4>
-              <p>{report.submissionDate}</p>
+              <h4>Supervisor</h4>
+              <p>
+                {report.supervisor} ({report.supervisorPosition})
+              </p>
             </div>
           </div>
           <div className="report-section">
@@ -507,7 +578,25 @@ function Evaluations() {
             </div>
           </div>
           <div className="report-actions">
-            <button className="download-pdf-button" onClick={() => generateReportPDF(report)}>
+            <button
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+                padding: "8px 12px",
+                backgroundColor: "#f0f0f0",
+                color: "#333",
+                border: "1px solid #ddd",
+                borderRadius: "4px",
+                fontSize: "14px",
+                fontWeight: "500",
+                cursor: "pointer",
+                transition: "background-color 0.2s ease",
+              }}
+              onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#e0e0e0")}
+              onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#f0f0f0")}
+              onClick={() => generateReportPDF(report)}
+            >
               <Download size={16} /> Download PDF
             </button>
             <button className="modal-close-button" onClick={closeReportDetails}>
@@ -624,44 +713,83 @@ function Evaluations() {
     )
   }
 
+  const formatReportType = (type, reportType) => {
+    if (type === "internship") return "Internship Report"
+    if (type === "evaluation") return "Evaluation Report"
+    return reportType
+  }
+
   return (
-    <>
+    <div className="container">
       {!selectedReport ? (
         <div className="evaluations-section">
           <div className="evaluations-header">
             <h2>Evaluations & Reports</h2>
           </div>
-          <div className="evaluations-search">
-            <div className="search-input">
-              <Search size={16} />
+          <div className="search-filter-container">
+            <div className="search-container">
               <input
                 type="text"
+                className="search-input"
                 placeholder="Search by title, student name, or company..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-          </div>
-          <div className="evaluations-filters">
-            <div className="filter-group">
-              <label htmlFor="major">Major:</label>
-              <select id="major" value={selectedMajor} onChange={(e) => setSelectedMajor(e.target.value)}>
-                {uniqueMajors.map((major) => (
-                  <option key={major} value={major}>
-                    {major}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="filter-group">
-              <label htmlFor="status">Status:</label>
-              <select id="status" value={selectedStatus} onChange={(e) => setSelectedStatus(e.target.value)}>
-                <option value="All">All</option>
-                <option value="pending">Pending</option>
-                <option value="flagged">Flagged</option>
-                <option value="rejected">Rejected</option>
-                <option value="accepted">Accepted</option>
-              </select>
+            <div className="filter-container">
+              <button className="filter-button" onClick={() => setShowFilterPopup(!showFilterPopup)}>
+                <Menu size={16} /> Filters
+              </button>
+              {showFilterPopup && (
+                <div className="filter-overlay">
+                  <div className="filter-popup" ref={filterPopupRef}>
+                    <div className="filter-popup-header">
+                      <h3>Filter Reports</h3>
+                      <button className="close-popup-button" onClick={() => setShowFilterPopup(false)}>
+                        <X size={16} />
+                      </button>
+                    </div>
+                    <div className="filter-content">
+                      <div className="filter-section">
+                        <h4>Status</h4>
+                        <div className="filter-options">
+                          {statusOptions.map((status) => (
+                            <div
+                              key={status}
+                              className={`filter-option ${selectedStatus === status ? "selected" : ""}`}
+                              onClick={() => setSelectedStatus(status)}
+                            >
+                              {status}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="filter-section">
+                        <h4>Major</h4>
+                        <div className="filter-options">
+                          {uniqueMajors.map((major) => (
+                            <div
+                              key={major}
+                              className={`filter-option ${selectedMajor === major ? "selected" : ""}`}
+                              onClick={() => setSelectedMajor(major)}
+                            >
+                              {major}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="filter-actions">
+                      <button className="reset-button" onClick={handleResetFilters}>
+                        Reset
+                      </button>
+                      <button className="apply-button" onClick={handleApplyFilters}>
+                        Apply
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
           <div className="reports-list">
@@ -676,13 +804,16 @@ function Evaluations() {
                   </div>
                   <div className="report-card-content">
                     <p>
-                      <strong>Type:</strong> {report.type === "internship" ? "Internship Report" : "Evaluation Report"}
+                      <strong>Type:</strong> {formatReportType(report.type, report.title)}
                     </p>
                     <p>
                       <strong>Student:</strong> {report.studentName}
                     </p>
                     <p>
                       <strong>Company:</strong> {report.company}
+                    </p>
+                    <p>
+                      <strong>Supervisor:</strong> {report.supervisor}
                     </p>
                     <p>
                       <strong>Submitted:</strong> {report.submissionDate}
@@ -706,7 +837,7 @@ function Evaluations() {
       ) : (
         renderEvaluationReport(selectedReport)
       )}
-    </>
+    </div>
   )
 }
 

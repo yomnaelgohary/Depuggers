@@ -12,21 +12,34 @@ import {
   UserAddOutlined,
   LeftOutlined,
   RightOutlined,
+  CalendarOutlined,
+  EyeOutlined,
+  TrophyOutlined,
+  VideoCameraOutlined,
 } from "@ant-design/icons"
-
+import { ListChecks } from "lucide-react"
 import Dashboard from "./student/Dashboard"
 import Profile from "./student/Profile"
 import Internships from "./student/Internships"
 import Applications from "./student/Applications"
 import Reports from "./student/Reports"
-import { NotificationsProvider, useNotifications } from "./student/NotificationsContext"
-import NotificationsPanel from "./student/NotificationsPanel"
-
-import "./Student.css"
+import Appointments from "./pages/Appointments"
+import MyAppointments from "./pages/MyAppointments"
+import ViewedMyProfile from "./student/ViewedMyProfile"
+import Assessments from "./student/Assessments"
+import Workshops from "./student/Workshops"
+import "./ProStudent.css"
+import { NotificationsProvider, useNotifications } from "./components/NotificationsContext"
+import NotificationsPanel from "./components/NotificationsPanel"
 
 // Header component with notifications
 const Header = () => {
-  const { toggleNotifications, unreadCount } = useNotifications()
+  const [showNotifications, setShowNotifications] = useState(false)
+  const { unreadCount } = useNotifications()
+
+  const toggleNotifications = () => {
+    setShowNotifications((prev) => !prev)
+  }
 
   return (
     <header className="content-header">
@@ -44,7 +57,7 @@ const Header = () => {
             <BellOutlined />
             {unreadCount > 0 && <span className="notification-badge">{unreadCount}</span>}
           </button>
-          <NotificationsPanel />
+          {showNotifications && <NotificationsPanel onClose={() => setShowNotifications(false)} />}
         </div>
         <button className="action-button">
           <UserAddOutlined />
@@ -55,7 +68,7 @@ const Header = () => {
 }
 
 // Main Student component
-function StudentContent() {
+function ProStudentContent() {
   const [activeTab, setActiveTab] = useState("dashboard")
 
   const renderTabContent = () => {
@@ -70,37 +83,32 @@ function StudentContent() {
         return <Applications />
       case "reports":
         return <Reports />
+      case "appointments":
+        return <Appointments onNavigateBack={() => setActiveTab("dashboard")} />
+      case "myappointments":
+        return <MyAppointments onClose={() => setActiveTab("dashboard")} />
+      case "viewedprofile":
+        return <ViewedMyProfile />
+      case "assessments":
+        return <Assessments />
+      case "workshops":
+        return <Workshops />
       default:
         return <Dashboard />
     }
   }
 
   const menuItems = [
-    {
-      key: "dashboard",
-      icon: <PieChartOutlined />,
-      label: "Dashboard",
-    },
-    {
-      key: "profile",
-      icon: <UserOutlined />,
-      label: "Profile",
-    },
-    {
-      key: "internships",
-      icon: <FileSearchOutlined />,
-      label: "Internships",
-    },
-    {
-      key: "applications",
-      icon: <SolutionOutlined />,
-      label: "Applications",
-    },
-    {
-      key: "reports",
-      icon: <FileTextOutlined />,
-      label: "My Internships",
-    },
+    { key: "dashboard", icon: <PieChartOutlined />, label: "Dashboard" },
+    { key: "profile", icon: <UserOutlined />, label: "Profile" },
+    { key: "internships", icon: <FileSearchOutlined />, label: "Internships" },
+    { key: "applications", icon: <SolutionOutlined />, label: "Applications" },
+    { key: "reports", icon: <FileTextOutlined />, label: "My Internships" },
+    { key: "viewedprofile", icon: <EyeOutlined />, label: "Viewed My Profile" },
+    { key: "assessments", icon: <TrophyOutlined />, label: "Assessments" },
+    { key: "workshops", icon: <VideoCameraOutlined />, label: "Workshops" },
+    { key: "appointments", icon: <CalendarOutlined />, label: "Appointments" },
+    { key: "myappointments", icon: <ListChecks size={16} />, label: "My Appointments" },
   ]
 
   return (
@@ -129,10 +137,10 @@ function StudentContent() {
 }
 
 // Wrap the component with NotificationsProvider
-export default function Student() {
+export default function ProStudent() {
   return (
     <NotificationsProvider>
-      <StudentContent />
+      <ProStudentContent />
     </NotificationsProvider>
   )
 }
