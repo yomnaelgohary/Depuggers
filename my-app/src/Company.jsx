@@ -1,9 +1,14 @@
 "use client"
 
-import { useState } from "react"
+import React, { useState } from "react"
 import "./company.css"
+import CompanyHeader from "./components/CompanyHeader"
+import CompanySidebar from "./components/CompanySidebar"
 
 export default function Company() {
+  const [activePage, setActivePage] = useState("posts")
+  const [navigationHistory, setNavigationHistory] = useState(["posts"])
+  const [historyPosition, setHistoryPosition] = useState(0)
   const [activeTab, setActiveTab] = useState("posts")
   const [searchQuery, setSearchQuery] = useState("")
   const [showFilters, setShowFilters] = useState(false)
@@ -25,11 +30,12 @@ export default function Company() {
   const [showEvaluationModal, setShowEvaluationModal] = useState(false)
   const [currentEvaluation, setCurrentEvaluation] = useState(null)
   const [evaluationData, setEvaluationData] = useState({
-    overallRating: 3,
-    technicalSkills: 3,
-    communicationSkills: 3,
-    recommendForHire: true,
-    comments: "",
+    professionalAppearance: "",
+    professionalConfidence: "",
+    professionalDemeanor: "",
+    trustworthiness: "",
+    ethicalBehavior: "",
+    punctuality: ""
   })
 
   const [notifications, setNotifications] = useState([
@@ -882,11 +888,12 @@ export default function Company() {
   const handleAddEvaluation = (intern) => {
     setSelectedIntern(intern)
     setEvaluationData({
-      overallRating: 3,
-      technicalSkills: 3,
-      communicationSkills: 3,
-      recommendForHire: true,
-      comments: "",
+      professionalAppearance: "",
+      professionalConfidence: "",
+      professionalDemeanor: "",
+      trustworthiness: "",
+      ethicalBehavior: "",
+      punctuality: ""
     })
     setCurrentEvaluation(null)
     setShowEvaluationModal(true)
@@ -936,870 +943,818 @@ export default function Company() {
     alert("Evaluation saved successfully")
   }
 
+  const handlePageChange = (page) => {
+    if (historyPosition < navigationHistory.length - 1) {
+      const newHistory = navigationHistory.slice(0, historyPosition + 1)
+      setNavigationHistory([...newHistory, page])
+    } else {
+      setNavigationHistory((prevHistory) => [...prevHistory, page])
+    }
+    setHistoryPosition((prev) => prev + 1)
+    setActivePage(page)
+  }
+
+  const handleNavigateBack = () => {
+    if (historyPosition > 0) {
+      const newPosition = historyPosition - 1
+      const previousPage = navigationHistory[newPosition]
+      setHistoryPosition(newPosition)
+      setActivePage(previousPage)
+    }
+  }
+
+  const handleNavigateForward = () => {
+    if (historyPosition < navigationHistory.length - 1) {
+      const newPosition = historyPosition + 1
+      const nextPage = navigationHistory[newPosition]
+      setHistoryPosition(newPosition)
+      setActivePage(nextPage)
+    }
+  }
+
   return (
     <div className="company-container">
-      <header className="company-header">
-        <div className="logo">Dell technologies</div>
-        <div className="right-section">
-          <div className="main-nav">
-            <button
-              className={`nav-tab ${activeTab === "posts" ? "active" : ""}`}
-              onClick={() => setActiveTab("posts")}
-            >
-              Posts
-            </button>
-            <button
-              className={`nav-tab ${activeTab === "create" ? "active" : ""}`}
-              onClick={() => setActiveTab("create")}
-            >
-              Create post
-            </button>
-            <button
-              className={`nav-tab ${activeTab === "applications" ? "active" : ""}`}
-              onClick={() => setActiveTab("applications")}
-            >
-              Applications
-            </button>
-            <button
-              className={`nav-tab ${activeTab === "interns" ? "active" : ""}`}
-              onClick={() => setActiveTab("interns")}
-            >
-              Interns
-            </button>
-          </div>
-          <div className="notification-bell" onClick={() => setShowNotifications(!showNotifications)}>
-            <span className="bell-icon">🔔</span>
-            <span className="notification-count">{notifications.length}</span>
-            {showNotifications && (
-              <div className="notifications-dropdown">
-                <div className="notifications-header">
-                  <h3>Notifications</h3>
-                  <button className="clear-all" onClick={clearAllNotifications}>
-                    Clear All
-                  </button>
-                </div>
-                {notifications.length > 0 ? (
-                  <div className="notifications-list">
-                    {notifications.map((notification, index) => (
-                      <div key={index} className="notification-item">
-                        <div className="notification-content">{notification.message}</div>
-                        <div className="notification-time">{notification.time}</div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="no-notifications">No new notifications</div>
-                )}
-              </div>
-            )}
-          </div>
-        </div>
-      </header>
-
-      <div className="content-container">
-        {activeTab === "posts" && (
-          <div className="post-section">
-            <div className="filters">
-              <button className="filter-button" onClick={toggleFilters}>
-                <span className="filter-icon">≡</span> Filters
-              </button>
-              <div className="search-container">
-                <input
-                  type="text"
-                  placeholder="Search job title"
-                  className="search-input"
-                  value={searchQuery}
-                  onChange={handleSearchChange}
-                />
-                <span className="search-icon">🔍</span>
-                {searchQuery && (
-                  <button className="clear-search" onClick={() => clearSearch()}>
-                    ×
-                  </button>
-                )}
-              </div>
-            </div>
-
-            {showFilters && (
-              <div className="filter-modal-overlay">
-                <div className="filter-modal">
-                  <div className="filter-modal-header">
-                    <h2>Filters</h2>
-                    <button className="close-button" onClick={toggleFilters}>
-                      ✕
+      <CompanySidebar activePage={activePage} onPageChange={handlePageChange} />
+      <div className="company-content">
+        <CompanyHeader
+          onNavigateBack={handleNavigateBack}
+          onNavigateForward={handleNavigateForward}
+          canGoBack={historyPosition > 0}
+          canGoForward={historyPosition < navigationHistory.length - 1}
+        />
+        <main className="company-main">
+          {activePage === "posts" && (
+            <div className="post-section">
+              <div className="filters">
+                <button className="filter-button" onClick={toggleFilters}>
+                  <span className="filter-icon">≡</span> Filters
+                </button>
+                <div className="search-container">
+                  <input
+                    type="text"
+                    placeholder="Search job title"
+                    className="search-input"
+                    value={searchQuery}
+                    onChange={handleSearchChange}
+                  />
+                  <span className="search-icon">🔍</span>
+                  {searchQuery && (
+                    <button className="clear-search" onClick={() => clearSearch()}>
+                      ×
                     </button>
-                  </div>
-
-                  <div className="filter-modal-content">
-                    <div className="filter-section">
-                      <h3>PAYMENT</h3>
-                      <div className="filter-options">
-                        <button
-                          className={`filter-option ${filters.isPaid === true ? "selected" : ""}`}
-                          onClick={() => handleFilterChange("isPaid", true)}
-                        >
-                          Paid
-                        </button>
-                        <button
-                          className={`filter-option ${filters.isPaid === false ? "selected" : ""}`}
-                          onClick={() => handleFilterChange("isPaid", false)}
-                        >
-                          Unpaid
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className="filter-section">
-                      <h3>DURATION</h3>
-                      <div className="filter-options">
-                        {durationOptions.map((option) => (
-                          <button
-                            key={option.value}
-                            className={`filter-option ${filters.duration === option.value ? "selected" : ""}`}
-                            onClick={() => handleFilterChange("duration", option.value)}
-                          >
-                            {option.label}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="filter-section">
-                      <h3>LOCATION</h3>
-                      <div className="filter-options">
-                        {locations.map((location, index) => (
-                          <button
-                            key={index}
-                            className={`filter-option ${filters.location === location ? "selected" : ""}`}
-                            onClick={() => handleFilterChange("location", location)}
-                          >
-                            {location}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="filter-section">
-                      <h3>SKILLS</h3>
-                      <div className="filter-options">
-                        {Array.from(new Set(jobListings.flatMap((job) => job.requirements))).map((skill, index) => (
-                          <button
-                            key={index}
-                            className={`filter-option ${filters.skills.includes(skill) ? "selected" : ""}`}
-                            onClick={() => handleSkillToggle(skill)}
-                          >
-                            {skill}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="filter-actions">
-                    <button className={`reset-button ${hasActiveFilters() ? "active" : ""}`} onClick={resetFilters}>
-                      Reset
-                    </button>
-                    <button className="apply-button" onClick={applyFilters}>
-                      Show {filteredJobs.length} jobs
-                    </button>
-                  </div>
+                  )}
                 </div>
               </div>
-            )}
 
-            <div className="search-results">
-              {searchQuery && (
-                <div className="results-count">
-                  Found {filteredJobs.length} {filteredJobs.length === 1 ? "job" : "jobs"} matching "{searchQuery}"
-                </div>
-              )}
-            </div>
+              {showFilters && (
+                <div className="filter-modal-overlay">
+                  <div className="filter-modal">
+                    <div className="filter-modal-header">
+                      <h2>Filters</h2>
+                      <button className="close-button" onClick={toggleFilters}>
+                        ✕
+                      </button>
+                    </div>
 
-            <div className="job-listings">
-              {filteredJobs.length > 0 ? (
-                filteredJobs.map((job) => (
-                  <div className={`job-card ${job.status === "completed" ? "completed-job" : ""}`} key={job.id}>
-                    {job.status === "completed" && <div className="completed-banner">INTERNSHIP COMPLETE</div>}
-
-                    {job.salary && (
-                      <div className="job-salary">
-                        <div className="amount">{job.salary}</div>
-                        <div className="hourly-rate">{job.hourlyRate}</div>
+                    <div className="filter-modal-content">
+                      <div className="filter-section">
+                        <h3>PAYMENT</h3>
+                        <div className="filter-options">
+                          <button
+                            className={`filter-option ${filters.isPaid === true ? "selected" : ""}`}
+                            onClick={() => handleFilterChange("isPaid", true)}
+                          >
+                            Paid
+                          </button>
+                          <button
+                            className={`filter-option ${filters.isPaid === false ? "selected" : ""}`}
+                            onClick={() => handleFilterChange("isPaid", false)}
+                          >
+                            Unpaid
+                          </button>
+                        </div>
                       </div>
-                    )}
 
-                    <div className="job-details">
-                      {job.isLearningOpportunity && <div className="learning-opportunity">LEARNING OPPORTUNITY</div>}
-
-                      <h3 className="job-title">
-                        {searchQuery ? <HighlightText text={job.title} highlight={searchQuery} /> : job.title}
-                      </h3>
-
-                      <div className="job-requirements">
-                        <div className="requirement-label">REQUIRES:</div>
-                        <div className="requirement-tags">
-                          {job.requirements.map((req, index) => (
-                            <span className="requirement-tag" key={index}>
-                              {req}
-                            </span>
+                      <div className="filter-section">
+                        <h3>DURATION</h3>
+                        <div className="filter-options">
+                          {durationOptions.map((option) => (
+                            <button
+                              key={option.value}
+                              className={`filter-option ${filters.duration === option.value ? "selected" : ""}`}
+                              onClick={() => handleFilterChange("duration", option.value)}
+                            >
+                              {option.label}
+                            </button>
                           ))}
                         </div>
                       </div>
 
-                      <div className="job-location">
-                        <span className="location-icon">◎</span>
-                        <span>{job.location}</span>
-                      </div>
-
-                      <div className="job-duration">
-                        <span className="calendar-icon">📅</span>
-                        <div>
-                          <div className="date-range">
-                            {job.startDate} - {job.endDate}
-                          </div>
-                          <div className="duration">{job.duration}</div>
-                        </div>
-                        <div className="time-slot">
-                          <div className="time">{job.timeSlot}</div>
-                          <div className="time-of-day">{job.timeOfDay}</div>
+                      <div className="filter-section">
+                        <h3>LOCATION</h3>
+                        <div className="filter-options">
+                          {locations.map((location, index) => (
+                            <button
+                              key={index}
+                              className={`filter-option ${filters.location === location ? "selected" : ""}`}
+                              onClick={() => handleFilterChange("location", location)}
+                            >
+                              {location}
+                            </button>
+                          ))}
                         </div>
                       </div>
 
-                      <div className="job-work-hours">
-                        <span className="work-hours-icon">⏱</span>
-                        <span>{job.workHours}</span>
-                      </div>
-
-                      {job.description && <div className="job-description">{job.description}</div>}
-
-                      <div className="job-applications">
-                        <span className="applications-icon">👤</span>
-                        <span className="applications-count">{job.applications} applications</span>
+                      <div className="filter-section">
+                        <h3>SKILLS</h3>
+                        <div className="filter-options">
+                          {Array.from(new Set(jobListings.flatMap((job) => job.requirements))).map((skill, index) => (
+                            <button
+                              key={index}
+                              className={`filter-option ${filters.skills.includes(skill) ? "selected" : ""}`}
+                              onClick={() => handleSkillToggle(skill)}
+                            >
+                              {skill}
+                            </button>
+                          ))}
+                        </div>
                       </div>
                     </div>
 
-                    <div className={`job-status ${job.isPaid ? "paid" : "unpaid"}`}>
-                      {job.isPaid ? "PAID" : "UNPAID"}
+                    <div className="filter-actions">
+                      <button className={`reset-button ${hasActiveFilters() ? "active" : ""}`} onClick={resetFilters}>
+                        Reset
+                      </button>
+                      <button className="apply-button" onClick={applyFilters}>
+                        Show {filteredJobs.length} jobs
+                      </button>
                     </div>
                   </div>
-                ))
-              ) : (
-                <div className="no-results">
-                  <p>No jobs found matching "{searchQuery}"</p>
-                  <button className="reset-search" onClick={() => clearSearch()}>
-                    Clear search
+                </div>
+              )}
+
+              <div className="search-results">
+                {searchQuery && (
+                  <div className="results-count">
+                    Found {filteredJobs.length} {filteredJobs.length === 1 ? "job" : "jobs"} matching "{searchQuery}"
+                  </div>
+                )}
+              </div>
+
+              <div className="job-listings">
+                {filteredJobs.length > 0 ? (
+                  filteredJobs.map((job) => (
+                    <div className={`job-card ${job.status === "completed" ? "completed-job" : ""}`} key={job.id}>
+                      {job.status === "completed" && <div className="completed-banner">INTERNSHIP COMPLETE</div>}
+
+                      {job.salary && (
+                        <div className="job-salary">
+                          <div className="amount">{job.salary}</div>
+                          <div className="hourly-rate">{job.hourlyRate}</div>
+                        </div>
+                      )}
+
+                      <div className="job-details">
+                        {job.isLearningOpportunity && <div className="learning-opportunity">LEARNING OPPORTUNITY</div>}
+
+                        <h3 className="job-title">
+                          {searchQuery ? <HighlightText text={job.title} highlight={searchQuery} /> : job.title}
+                        </h3>
+
+                        <div className="job-requirements">
+                          <div className="requirement-label">REQUIRES:</div>
+                          <div className="requirement-tags">
+                            {job.requirements.map((req, index) => (
+                              <span className="requirement-tag" key={index}>
+                                {req}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="job-location">
+                          <span className="location-icon">◎</span>
+                          <span>{job.location}</span>
+                        </div>
+
+                        <div className="job-duration">
+                          <span className="calendar-icon">📅</span>
+                          <div>
+                            <div className="date-range">
+                              {job.startDate} - {job.endDate}
+                            </div>
+                            <div className="duration">{job.duration}</div>
+                          </div>
+                          <div className="time-slot">
+                            <div className="time">{job.timeSlot}</div>
+                            <div className="time-of-day">{job.timeOfDay}</div>
+                          </div>
+                        </div>
+
+                        <div className="job-work-hours">
+                          <span className="work-hours-icon">⏱</span>
+                          <span>{job.workHours}</span>
+                        </div>
+
+                        {job.description && <div className="job-description">{job.description}</div>}
+
+                        <div className="job-applications">
+                          <span className="applications-icon">👤</span>
+                          <span className="applications-count">{job.applications} applications</span>
+                        </div>
+                      </div>
+
+                      <div className={`job-status ${job.isPaid ? "paid" : "unpaid"}`}>
+                        {job.isPaid ? "PAID" : "UNPAID"}
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="no-results">
+                    <p>No jobs found matching "{searchQuery}"</p>
+                    <button className="reset-search" onClick={() => clearSearch()}>
+                      Clear search
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+          {activePage === "create" && (
+            <div className="create-post-section">
+              <h2>Create Post</h2>
+
+              <form className="create-post-form">
+                <div className="form-row">
+                  <div className="form-column">
+                    <div className="form-group">
+                      <label>Internship Title</label>
+                      <input type="text" placeholder="Enter title" className="form-input" />
+                      <div className="form-help-text">Enter the title of the internship.</div>
+                    </div>
+                  </div>
+                  <div className="form-column">
+                    <div className="form-group">
+                      <label>Duration (in months)</label>
+                      <input type="number" placeholder="0" className="form-input" />
+                      <div className="form-help-text">Enter the duration of the internship in months.</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <div className="form-column">
+                    <div className="form-group">
+                      <label>Salary (in USD)</label>
+                      <input type="number" placeholder="0" className="form-input" />
+                      <div className="form-help-text">Enter the salary of the internship in USD.</div>
+                    </div>
+                  </div>
+                  <div className="form-column">
+                    <div className="form-group">
+                      <label>Hourly Rate (in USD)</label>
+                      <input type="number" placeholder="0" className="form-input" />
+                      <div className="form-help-text">Enter the hourly rate in USD.</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <div className="form-column">
+                    <div className="form-group">
+                      <label>Location</label>
+                      <select className="form-select filter-styled">
+                        <option value="">Select location</option>
+                        {locations.map((location, index) => (
+                          <option key={index} value={location}>
+                            {location}
+                          </option>
+                        ))}
+                      </select>
+                      <div className="form-help-text">Select the location of the internship.</div>
+                    </div>
+                  </div>
+                  <div className="form-column">
+                    <div className="form-group">
+                      <label>Payment Type</label>
+                      <select className="form-select filter-styled">
+                        <option>Paid</option>
+                        <option>Unpaid</option>
+                      </select>
+                      <div className="form-help-text">Select whether the internship is paid or unpaid.</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <div className="form-column">
+                    <div className="form-group">
+                      <label>Start Date</label>
+                      <input type="date" className="form-input" />
+                      <div className="form-help-text">Select the start date of the internship.</div>
+                    </div>
+                  </div>
+                  <div className="form-column">
+                    <div className="form-group">
+                      <label>End Date</label>
+                      <input type="date" className="form-input" />
+                      <div className="form-help-text">Select the end date of the internship.</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <div className="form-column">
+                    <div className="form-group">
+                      <label>Time Slot</label>
+                      <select className="form-select filter-styled">
+                        <option value="">Select time slot</option>
+                        <option value="9:00 - 17:00">9:00 - 17:00 (MORNING)</option>
+                        <option value="10:00 - 16:00">10:00 - 16:00 (MORNING)</option>
+                        <option value="12:00 - 21:00">12:00 - 21:00 (AFTERNOON)</option>
+                        <option value="13:00 - 19:00">13:00 - 19:00 (AFTERNOON)</option>
+                      </select>
+                      <div className="form-help-text">Select the time slot for the internship.</div>
+                    </div>
+                  </div>
+                  <div className="form-column">
+                    <div className="form-group">
+                      <label>Required Skills</label>
+                      <input type="text" placeholder="Enter skills (comma separated)" className="form-input" />
+                      <div className="form-help-text">Enter the required skills, separated by commas.</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <div className="form-column">
+                    <div className="form-group">
+                      <label>Learning Opportunity</label>
+                      <select className="form-select filter-styled">
+                        <option value="false">No</option>
+                        <option value="true">Yes</option>
+                      </select>
+                      <div className="form-help-text">Is this a learning opportunity?</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <div className="form-column full-width">
+                    <div className="form-group">
+                      <label>Description (min. 200 characters)</label>
+                      <textarea placeholder="Enter description" className="form-textarea"></textarea>
+                      <div className="form-help-text">Provide a detailed description of the internship.</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="form-actions">
+                  <button type="submit" className="create-post-button">
+                    <span className="plus-icon">+</span> Create Post
                   </button>
+                </div>
+              </form>
+            </div>
+          )}
+          {activePage === "interns" && (
+            <div className="interns-section">
+              <h2>Interns</h2>
+              {!selectedIntern ? (
+                <>
+                  <div className="interns-filters">
+                    <div className="search-box">
+                      <input
+                        type="text"
+                        placeholder="Search by name or job title"
+                        value={internSearch}
+                        onChange={handleInternSearchChange}
+                        className="search-input"
+                      />
+                      <span className="search-icon">🔍</span>
+                    </div>
+                    <div className="filter-container">
+                      <span className="filter-label">Filter by Status:</span>
+                      <select className="filter-select" value={internFilter} onChange={handleInternFilterChange}>
+                        <option value="">All Interns</option>
+                        <option value="current">Current Interns</option>
+                        <option value="completed">Completed Internships</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="interns-table">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Intern</th>
+                          <th>Position</th>
+                          <th>Start Date</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {filteredInterns.map((intern) => (
+                          <tr key={intern.id}>
+                            <td>
+                              <div className="intern-name">{intern.applicantName}</div>
+                              <div className="intern-university">{intern.university}</div>
+                            </td>
+                            <td>{intern.postTitle}</td>
+                            <td>{intern.availableStartDate}</td>
+                            <td>
+                              <span className={`status-badge ${intern.internshipStatus === "current" ? "status-current" : "status-completed"}`}>
+                                {intern.internshipStatus === "current" ? "Current" : "Completed"}
+                              </span>
+                            </td>
+                            <td>
+                              <div className="action-buttons">
+                                <button className="view-details-button" onClick={() => setSelectedIntern(intern)}>
+                                  View Details
+                                </button>
+                                {intern.internshipStatus === "completed" && (
+                                  <button 
+                                    className={`evaluation-button ${intern.evaluation ? "view-evaluation" : "add-evaluation"}`}
+                                    onClick={() => intern.evaluation ? handleEditEvaluation(intern) : handleAddEvaluation(intern)}
+                                  >
+                                    {intern.evaluation ? "View Evaluation" : "Add Evaluation"}
+                                  </button>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </>
+              ) : (
+                <div className="intern-details">
+                  <div className="intern-details-header">
+                    <h3>Intern Details</h3>
+                    <button className="back-button" onClick={() => setSelectedIntern(null)}>
+                      Back to Interns
+                    </button>
+                  </div>
+
+                  <div className="details-section">
+                    <h4>Intern Information</h4>
+                    <div className="info-grid">
+                      <div className="info-row">
+                        <div className="info-group">
+                          <label>First Name</label>
+                          <div>{selectedIntern.firstName}</div>
+                        </div>
+                        <div className="info-group">
+                          <label>Last Name</label>
+                          <div>{selectedIntern.lastName}</div>
+                        </div>
+                        <div className="info-group">
+                          <label>Email</label>
+                          <div>{selectedIntern.applicantEmail}</div>
+                        </div>
+                        <div className="info-group">
+                          <label>Phone</label>
+                          <div>{selectedIntern.applicantPhone}</div>
+                        </div>
+                      </div>
+                      <div className="info-row">
+                        <div className="info-group">
+                          <label>University</label>
+                          <div>{selectedIntern.university}</div>
+                        </div>
+                        <div className="info-group">
+                          <label>Major</label>
+                          <div>{selectedIntern.major}</div>
+                        </div>
+                        <div className="info-group">
+                          <label>Current Education</label>
+                          <div>{selectedIntern.currentEducation}</div>
+                        </div>
+                        <div className="info-group">
+                          <label>GPA</label>
+                          <div>{selectedIntern.gpa}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="details-section">
+                    <h4>Internship Information</h4>
+                    <div className="info-grid">
+                      <div className="info-row">
+                        <div className="info-group">
+                          <label>Position</label>
+                          <div>{selectedIntern.postTitle}</div>
+                        </div>
+                        <div className="info-group">
+                          <label>Start Date</label>
+                          <div>{selectedIntern.availableStartDate}</div>
+                        </div>
+                        <div className="info-group">
+                          <label>Status</label>
+                          <div>
+                            <span className={`status-badge ${selectedIntern.internshipStatus === "current" ? "status-current" : "status-completed"}`}>
+                              {selectedIntern.internshipStatus === "current" ? "Current" : "Completed"}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="info-group">
+                          <label>Availability</label>
+                          <div>{selectedIntern.availabilityHours}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {showEvaluationModal && (
+                <div className="evaluation-modal-overlay">
+                  <div className="evaluation-modal">
+                    <div className="evaluation-modal-header">
+                      <h3>{currentEvaluation ? "View/Edit Evaluation" : "Add Evaluation"}</h3>
+                      <button className="close-button" onClick={() => setShowEvaluationModal(false)}>✕</button>
+                    </div>
+                    <div className="evaluation-form">
+                      <div className="evaluation-section">
+                        <h4>Rating: (1=Disagree and 5=Definitely True/Agree)</h4>
+                        <div className="evaluation-field">
+                          <label>Practices professional appearance and conduct:</label>
+                          <select 
+                            value={evaluationData.professionalAppearance || ""}
+                            onChange={(e) => setEvaluationData({ ...evaluationData, professionalAppearance: e.target.value })}
+                          >
+                            <option value="">Please Select</option>
+                            <option value="1">1 - Strongly Disagree</option>
+                            <option value="2">2 - Disagree</option>
+                            <option value="3">3 - Neutral</option>
+                            <option value="4">4 - Agree</option>
+                            <option value="5">5 - Strongly Agree</option>
+                          </select>
+                        </div>
+                        <div className="evaluation-field">
+                          <label>Demonstrates professional confidence:</label>
+                          <select 
+                            value={evaluationData.professionalConfidence || ""}
+                            onChange={(e) => setEvaluationData({ ...evaluationData, professionalConfidence: e.target.value })}
+                          >
+                            <option value="">Please Select</option>
+                            <option value="1">1 - Strongly Disagree</option>
+                            <option value="2">2 - Disagree</option>
+                            <option value="3">3 - Neutral</option>
+                            <option value="4">4 - Agree</option>
+                            <option value="5">5 - Strongly Agree</option>
+                          </select>
+                        </div>
+                        <div className="evaluation-field">
+                          <label>Demonstrates professional demeanor when dealing with internal or external clients, co-workers, and/or superiors:</label>
+                          <select 
+                            value={evaluationData.professionalDemeanor || ""}
+                            onChange={(e) => setEvaluationData({ ...evaluationData, professionalDemeanor: e.target.value })}
+                          >
+                            <option value="">Please Select</option>
+                            <option value="1">1 - Strongly Disagree</option>
+                            <option value="2">2 - Disagree</option>
+                            <option value="3">3 - Neutral</option>
+                            <option value="4">4 - Agree</option>
+                            <option value="5">5 - Strongly Agree</option>
+                          </select>
+                        </div>
+                        <div className="evaluation-field">
+                          <label>Shows trustworthiness and confidentiality:</label>
+                          <select 
+                            value={evaluationData.trustworthiness || ""}
+                            onChange={(e) => setEvaluationData({ ...evaluationData, trustworthiness: e.target.value })}
+                          >
+                            <option value="">Please Select</option>
+                            <option value="1">1 - Strongly Disagree</option>
+                            <option value="2">2 - Disagree</option>
+                            <option value="3">3 - Neutral</option>
+                            <option value="4">4 - Agree</option>
+                            <option value="5">5 - Strongly Agree</option>
+                          </select>
+                        </div>
+                        <div className="evaluation-field">
+                          <label>Demonstrates/practices ethical behavior:</label>
+                          <select 
+                            value={evaluationData.ethicalBehavior || ""}
+                            onChange={(e) => setEvaluationData({ ...evaluationData, ethicalBehavior: e.target.value })}
+                          >
+                            <option value="">Please Select</option>
+                            <option value="1">1 - Strongly Disagree</option>
+                            <option value="2">2 - Disagree</option>
+                            <option value="3">3 - Neutral</option>
+                            <option value="4">4 - Agree</option>
+                            <option value="5">5 - Strongly Agree</option>
+                          </select>
+                        </div>
+                        <div className="evaluation-field">
+                          <label>Regularly on time and maintains agreeable schedule/hours:</label>
+                          <select 
+                            value={evaluationData.punctuality || ""}
+                            onChange={(e) => setEvaluationData({ ...evaluationData, punctuality: e.target.value })}
+                          >
+                            <option value="">Please Select</option>
+                            <option value="1">1 - Strongly Disagree</option>
+                            <option value="2">2 - Disagree</option>
+                            <option value="3">3 - Neutral</option>
+                            <option value="4">4 - Agree</option>
+                            <option value="5">5 - Strongly Agree</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div className="evaluation-modal-actions">
+                        <button className="cancel-button" onClick={() => setShowEvaluationModal(false)}>
+                          Cancel
+                        </button>
+                        <button className="save-button" onClick={handleSaveEvaluation}>
+                          Save Evaluation
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
-          </div>
-        )}
-        {activeTab === "create" && (
-          <div className="create-post-section">
-            <h2>Create Post</h2>
-
-            <form className="create-post-form">
-              <div className="form-row">
-                <div className="form-column">
-                  <div className="form-group">
-                    <label>Internship Title</label>
-                    <input type="text" placeholder="Enter title" className="form-input" />
-                    <div className="form-help-text">Enter the title of the internship.</div>
-                  </div>
-                </div>
-                <div className="form-column">
-                  <div className="form-group">
-                    <label>Duration (in months)</label>
-                    <input type="number" placeholder="0" className="form-input" />
-                    <div className="form-help-text">Enter the duration of the internship in months.</div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="form-row">
-                <div className="form-column">
-                  <div className="form-group">
-                    <label>Salary (in USD)</label>
-                    <input type="number" placeholder="0" className="form-input" />
-                    <div className="form-help-text">Enter the salary of the internship in USD.</div>
-                  </div>
-                </div>
-                <div className="form-column">
-                  <div className="form-group">
-                    <label>Hourly Rate (in USD)</label>
-                    <input type="number" placeholder="0" className="form-input" />
-                    <div className="form-help-text">Enter the hourly rate in USD.</div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="form-row">
-                <div className="form-column">
-                  <div className="form-group">
-                    <label>Location</label>
-                    <select className="form-select filter-styled">
-                      <option value="">Select location</option>
-                      {locations.map((location, index) => (
-                        <option key={index} value={location}>
-                          {location}
+          )}
+          {activePage === "applicants" && (
+            <div className="applications-section">
+              <h2>Applications</h2>
+              {!selectedApplication ? (
+                <>
+                  <div className="filter-by">
+                    <span>Filter by Post</span>
+                    <select 
+                      className="post-filter"
+                      value={selectedPost || ""}
+                      onChange={(e) => setSelectedPost(e.target.value ? Number(e.target.value) : null)}
+                    >
+                      <option value="">All Posts</option>
+                      {jobListings.map((job) => (
+                        <option key={job.id} value={job.id}>
+                          {job.title}
                         </option>
                       ))}
                     </select>
-                    <div className="form-help-text">Select the location of the internship.</div>
-                  </div>
-                </div>
-                <div className="form-column">
-                  <div className="form-group">
-                    <label>Payment Type</label>
-                    <select className="form-select filter-styled">
-                      <option>Paid</option>
-                      <option>Unpaid</option>
-                    </select>
-                    <div className="form-help-text">Select whether the internship is paid or unpaid.</div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="form-row">
-                <div className="form-column">
-                  <div className="form-group">
-                    <label>Start Date</label>
-                    <input type="date" className="form-input" />
-                    <div className="form-help-text">Select the start date of the internship.</div>
-                  </div>
-                </div>
-                <div className="form-column">
-                  <div className="form-group">
-                    <label>End Date</label>
-                    <input type="date" className="form-input" />
-                    <div className="form-help-text">Select the end date of the internship.</div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="form-row">
-                <div className="form-column">
-                  <div className="form-group">
-                    <label>Time Slot</label>
-                    <select className="form-select filter-styled">
-                      <option value="">Select time slot</option>
-                      <option value="9:00 - 17:00">9:00 - 17:00 (MORNING)</option>
-                      <option value="10:00 - 16:00">10:00 - 16:00 (MORNING)</option>
-                      <option value="12:00 - 21:00">12:00 - 21:00 (AFTERNOON)</option>
-                      <option value="13:00 - 19:00">13:00 - 19:00 (AFTERNOON)</option>
-                    </select>
-                    <div className="form-help-text">Select the time slot for the internship.</div>
-                  </div>
-                </div>
-                <div className="form-column">
-                  <div className="form-group">
-                    <label>Required Skills</label>
-                    <input type="text" placeholder="Enter skills (comma separated)" className="form-input" />
-                    <div className="form-help-text">Enter the required skills, separated by commas.</div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="form-row">
-                <div className="form-column">
-                  <div className="form-group">
-                    <label>Learning Opportunity</label>
-                    <select className="form-select filter-styled">
-                      <option value="false">No</option>
-                      <option value="true">Yes</option>
-                    </select>
-                    <div className="form-help-text">Is this a learning opportunity?</div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="form-row">
-                <div className="form-column full-width">
-                  <div className="form-group">
-                    <label>Description (min. 200 characters)</label>
-                    <textarea placeholder="Enter description" className="form-textarea"></textarea>
-                    <div className="form-help-text">Provide a detailed description of the internship.</div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="form-actions">
-                <button type="submit" className="create-post-button">
-                  <span className="plus-icon">+</span> Create Post
-                </button>
-              </div>
-            </form>
-          </div>
-        )}
-        {activeTab === "applications" && (
-          <div className="applications-section">
-            <h2>Applications</h2>
-
-            {!selectedApplication ? (
-              <>
-                <div className="applications-filters">
-                  <div className="filter-label">Filter by Post</div>
-                  <select
-                    className="form-select filter-styled"
-                    value={selectedPost || ""}
-                    onChange={(e) => setSelectedPost(e.target.value ? Number(e.target.value) : null)}
-                  >
-                    <option value="">All Posts</option>
-                    {jobListings.map((job) => (
-                      <option key={job.id} value={job.id}>
-                        {job.title} ({job.applications} applications)
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="applications-list">
-                  <div className="applications-header">
-                    <div className="application-header-item">Applicant</div>
-                    <div className="application-header-item">Post</div>
-                    <div className="application-header-item">Date</div>
-                    <div className="application-header-item">Actions</div>
                   </div>
 
-                  {filteredApplications.length > 0 ? (
-                    filteredApplications.map((application) => (
-                      <div className="application-item" key={application.id}>
-                        <div className="application-detail applicant-column">
-                          <div className="applicant-name">{application.applicantName}</div>
-                          <div className="applicant-university">{application.university}</div>
-                        </div>
-                        <div className="application-detail">{application.postTitle}</div>
-                        <div className="application-detail">{application.applicationDate}</div>
-                        <div className="application-actions">
-                          <button
-                            className="view-application-button"
-                            onClick={() => setSelectedApplication(application)}
-                          >
-                            View Details
-                          </button>
-                        </div>
-                      </div>
-                    ))
-                  ) : (
-                    <div className="no-applications">
-                      <p>No applications found</p>
-                    </div>
-                  )}
-                </div>
-              </>
-            ) : (
-              <div className="application-details">
-                <div className="application-details-header">
-                  <h3>Application Details</h3>
-                  <button className="back-button" onClick={() => setSelectedApplication(null)}>
-                    Back to Applications
-                  </button>
-                </div>
-
-                <div className="application-details-content">
-                  <div className="application-details-section">
-                    <h4>Applicant Information</h4>
-                    <div className="details-grid">
-                      <div className="details-item">
-                        <span className="details-label">First Name</span>
-                        <span className="details-value">{selectedApplication.firstName}</span>
-                      </div>
-                      <div className="details-item">
-                        <span className="details-label">Last Name</span>
-                        <span className="details-value">{selectedApplication.lastName}</span>
-                      </div>
-                      <div className="details-item">
-                        <span className="details-label">Email</span>
-                        <span className="details-value">{selectedApplication.applicantEmail}</span>
-                      </div>
-                      <div className="details-item">
-                        <span className="details-label">Phone</span>
-                        <span className="details-value">{selectedApplication.applicantPhone}</span>
-                      </div>
-                      <div className="details-item">
-                        <span className="details-label">University</span>
-                        <span className="details-value">{selectedApplication.university}</span>
-                      </div>
-                      <div className="details-item">
-                        <span className="details-label">Major</span>
-                        <span className="details-value">{selectedApplication.major}</span>
-                      </div>
-                      <div className="details-item">
-                        <span className="details-label">Current Education</span>
-                        <span className="details-value">{selectedApplication.currentEducation}</span>
-                      </div>
-                      <div className="details-item">
-                        <span className="details-label">GPA</span>
-                        <span className="details-value">{selectedApplication.gpa}</span>
-                      </div>
-                      <div className="details-item">
-                        <span className="details-label">Graduation Year</span>
-                        <span className="details-value">{selectedApplication.graduationYear}</span>
-                      </div>
-                    </div>
+                  <div className="applications-table">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Applicant</th>
+                          <th>Post</th>
+                          <th>Date</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {filteredApplications.map((application) => (
+                          <tr key={application.id}>
+                            <td>
+                              <div className="applicant-name">{application.applicantName}</div>
+                              <div className="applicant-university">{application.university}</div>
+                            </td>
+                            <td>{application.postTitle}</td>
+                            <td>{application.applicationDate}</td>
+                            <td>
+                              <div className="action-button-container">
+                                <button 
+                                  className="view-details-button"
+                                  onClick={() => setSelectedApplication(application)}
+                                >
+                                  View Details
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
-
-                  <div className="application-details-section">
-                    <h4>Application Information</h4>
-                    <div className="details-grid">
-                      <div className="details-item">
-                        <span className="details-label">Post</span>
-                        <span className="details-value">{selectedApplication.postTitle}</span>
-                      </div>
-                      <div className="details-item">
-                        <span className="details-label">Application Date</span>
-                        <span className="details-value">{selectedApplication.applicationDate}</span>
-                      </div>
-                      <div className="details-item">
-                        <span className="details-label">Availability</span>
-                        <span className="details-value">{selectedApplication.availabilityHours}</span>
-                      </div>
-                      <div className="details-item">
-                        <span className="details-label">Available Start Date</span>
-                        <span className="details-value">{selectedApplication.availableStartDate}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="application-details-section">
-                    <h4>Cover Letter</h4>
-                    <div className="cover-letter">{selectedApplication.coverLetter}</div>
-                  </div>
-
-                  <div className="application-details-section">
-                    <h4>Resume</h4>
-                    <a
-                      href="/sample-resume.pdf"
-                      className="resume-link"
-                      target="_blank"
-                      rel="noreferrer"
-                      download="applicant-resume.pdf"
+                </>
+              ) : (
+                <div className="application-details">
+                  <div className="application-details-header">
+                    <h3>Application Details</h3>
+                    <button 
+                      className="back-button"
+                      onClick={() => setSelectedApplication(null)}
                     >
-                      Download Resume (PDF)
-                    </a>
-                  </div>
-
-                  <div className="application-details-section">
-                    <h4>Application Status</h4>
-                    <div className="status-actions">
-                      <div className="status-buttons">
-                        <button
-                          className={`status-button ${selectedApplication.status === "pending" ? "active" : ""}`}
-                          onClick={() => updateApplicationStatus(selectedApplication.id, "pending")}
-                        >
-                          Pending
-                        </button>
-                        <button
-                          className={`status-button ${selectedApplication.status === "accepted" ? "active" : ""}`}
-                          onClick={() => updateApplicationStatus(selectedApplication.id, "accepted")}
-                        >
-                          Accept
-                        </button>
-                        <button
-                          className={`status-button ${selectedApplication.status === "rejected" ? "active" : ""}`}
-                          onClick={() => updateApplicationStatus(selectedApplication.id, "rejected")}
-                        >
-                          Reject
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-        {activeTab === "interns" && (
-          <div className="interns-section">
-            <h2>Interns</h2>
-
-            {!selectedIntern ? (
-              <>
-                <div className="interns-filters">
-                  <div className="search-box">
-                    <input
-                      type="text"
-                      placeholder="Search by name or job title"
-                      value={internSearch}
-                      onChange={handleInternSearchChange}
-                      className="search-input"
-                    />
-                    <span className="search-icon">🔍</span>
-                  </div>
-                  <div className="filter-container">
-                    <span className="filter-label">Filter by Status:</span>
-                    <select className="filter-select" value={internFilter} onChange={handleInternFilterChange}>
-                      <option value="">All Interns</option>
-                      <option value="current">Current Interns</option>
-                      <option value="completed">Completed Internships</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="interns-list">
-                  <div className="interns-header">
-                    <div className="intern-header-item">Intern</div>
-                    <div className="intern-header-item">Position</div>
-                    <div className="intern-header-item">Start Date</div>
-                    <div className="intern-header-item">Status</div>
-                    <div className="intern-header-item">Actions</div>
-                  </div>
-
-                  {filteredInterns.map((intern) => (
-                    <div className="intern-item" key={intern.id}>
-                      <div className="intern-detail">
-                        <div className="intern-name">{intern.applicantName}</div>
-                        <div className="intern-university">{intern.university}</div>
-                      </div>
-                      <div className="intern-detail">{intern.postTitle}</div>
-                      <div className="intern-detail">{intern.availableStartDate}</div>
-                      <div className="intern-detail">
-                        <span
-                          className={`status-badge ${intern.internshipStatus === "current" ? "status-current" : "status-completed"}`}
-                        >
-                          {intern.internshipStatus === "current" ? "Current" : "Completed"}
-                        </span>
-                      </div>
-                      <div className="intern-actions">
-                        <button className="view-details-button" onClick={() => setSelectedIntern(intern)}>
-                          View Details
-                        </button>
-                        <button className="add-evaluation-button" onClick={() => handleAddEvaluation(intern)}>
-                          {intern.evaluation ? "View Evaluation" : "Add Evaluation"}
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </>
-            ) : (
-              <div className="intern-details">
-                <div className="intern-details-header">
-                  <h3>Intern Details</h3>
-                  <button className="back-button" onClick={() => setSelectedIntern(null)}>
-                    Back to Interns
-                  </button>
-                </div>
-
-                <div className="application-details-content">
-                  <div className="application-details-section">
-                    <h4>Intern Information</h4>
-                    <div className="details-grid">
-                      <div className="details-item">
-                        <span className="details-label">First Name</span>
-                        <span className="details-value">{selectedIntern.firstName}</span>
-                      </div>
-                      <div className="details-item">
-                        <span className="details-label">Last Name</span>
-                        <span className="details-value">{selectedIntern.lastName}</span>
-                      </div>
-                      <div className="details-item">
-                        <span className="details-label">Email</span>
-                        <span className="details-value">{selectedIntern.applicantEmail}</span>
-                      </div>
-                      <div className="details-item">
-                        <span className="details-label">Phone</span>
-                        <span className="details-value">{selectedIntern.applicantPhone}</span>
-                      </div>
-                      <div className="details-item">
-                        <span className="details-label">University</span>
-                        <span className="details-value">{selectedIntern.university}</span>
-                      </div>
-                      <div className="details-item">
-                        <span className="details-label">Major</span>
-                        <span className="details-value">{selectedIntern.major}</span>
-                      </div>
-                      <div className="details-item">
-                        <span className="details-label">Current Education</span>
-                        <span className="details-value">{selectedIntern.currentEducation}</span>
-                      </div>
-                      <div className="details-item">
-                        <span className="details-label">GPA</span>
-                        <span className="details-value">{selectedIntern.gpa}</span>
-                      </div>
-                      <div className="details-item">
-                        <span className="details-label">Graduation Year</span>
-                        <span className="details-value">{selectedIntern.graduationYear}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="application-details-section">
-                    <h4>Internship Information</h4>
-                    <div className="details-grid">
-                      <div className="details-item">
-                        <span className="details-label">Position</span>
-                        <span className="details-value">{selectedIntern.postTitle}</span>
-                      </div>
-                      <div className="details-item">
-                        <span className="details-label">Start Date</span>
-                        <span className="details-value">{selectedIntern.availableStartDate}</span>
-                      </div>
-                      <div className="details-item">
-                        <span className="details-label">Status</span>
-                        <span className="details-value">
-                          <span
-                            className={`status-badge ${selectedIntern.internshipStatus === "current" ? "status-current" : "status-completed"}`}
-                          >
-                            {selectedIntern.internshipStatus === "current" ? "Current" : "Completed"}
-                          </span>
-                        </span>
-                      </div>
-                      <div className="details-item">
-                        <span className="details-label">Availability</span>
-                        <span className="details-value">{selectedIntern.availabilityHours}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {selectedIntern.internshipStatus === "completed" && (
-                    <div className="application-details-section">
-                      <div className="evaluation-header">
-                        <h4>Evaluation</h4>
-                        {selectedIntern.evaluation ? (
-                          <div className="evaluation-actions">
-                            <button className="edit-button" onClick={() => handleEditEvaluation(selectedIntern)}>
-                              Edit
-                            </button>
-                            <button className="delete-button" onClick={() => handleDeleteEvaluation(selectedIntern.id)}>
-                              Delete
-                            </button>
-                          </div>
-                        ) : (
-                          <button className="add-button" onClick={() => handleAddEvaluation(selectedIntern)}>
-                            Add Evaluation
-                          </button>
-                        )}
-                      </div>
-
-                      {selectedIntern.evaluation ? (
-                        <div className="evaluation-content">
-                          <div className="details-grid">
-                            <div className="details-item">
-                              <span className="details-label">Overall Performance</span>
-                              <span className="details-value">{selectedIntern.evaluation.overallRating}/5</span>
-                            </div>
-                            <div className="details-item">
-                              <span className="details-label">Technical Skills</span>
-                              <span className="details-value">{selectedIntern.evaluation.technicalSkills}/5</span>
-                            </div>
-                            <div className="details-item">
-                              <span className="details-label">Communication</span>
-                              <span className="details-value">{selectedIntern.evaluation.communicationSkills}/5</span>
-                            </div>
-                            <div className="details-item">
-                              <span className="details-label">Recommend for Hire</span>
-                              <span className="details-value">
-                                {selectedIntern.evaluation.recommendForHire ? "Yes" : "No"}
-                              </span>
-                            </div>
-                          </div>
-                          <div className="evaluation-comments">
-                            <h5>Comments</h5>
-                            <p>{selectedIntern.evaluation.comments}</p>
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="no-evaluation">
-                          <p>No evaluation has been submitted for this intern yet.</p>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {showEvaluationModal && (
-              <div className="evaluation-modal-overlay">
-                <div className="evaluation-modal">
-                  <div className="evaluation-modal-header">
-                    <h3>{currentEvaluation ? "Edit Evaluation" : "New Evaluation"}</h3>
-                    <button className="close-button" onClick={() => setShowEvaluationModal(false)}>
-                      ×
+                      Back to Applications
                     </button>
                   </div>
-                  <div className="evaluation-form">
-                    <div className="rating-section">
-                      <h4>Performance Ratings</h4>
-                      <div className="rating-grid">
-                        <div className="rating-item">
-                          <label>Overall Performance:</label>
-                          <div className="rating-stars">
-                            {[1, 2, 3, 4, 5].map((star) => (
-                              <button
-                                key={star}
-                                className={`star-button ${evaluationData.overallRating >= star ? "active" : ""}`}
-                                onClick={() => setEvaluationData({ ...evaluationData, overallRating: star })}
-                              >
-                                ★
-                              </button>
-                            ))}
-                          </div>
+
+                  <div className="details-section">
+                    <h4>Applicant Information</h4>
+                    <div className="info-grid">
+                      <div className="info-row">
+                        <div className="info-group">
+                          <label>First Name</label>
+                          <div>{selectedApplication.firstName}</div>
                         </div>
-                        <div className="rating-item">
-                          <label>Technical Skills:</label>
-                          <div className="rating-stars">
-                            {[1, 2, 3, 4, 5].map((star) => (
-                              <button
-                                key={star}
-                                className={`star-button ${evaluationData.technicalSkills >= star ? "active" : ""}`}
-                                onClick={() => setEvaluationData({ ...evaluationData, technicalSkills: star })}
-                              >
-                                ★
-                              </button>
-                            ))}
-                          </div>
+                        <div className="info-group">
+                          <label>Last Name</label>
+                          <div>{selectedApplication.lastName}</div>
                         </div>
-                        <div className="rating-item">
-                          <label>Communication:</label>
-                          <div className="rating-stars">
-                            {[1, 2, 3, 4, 5].map((star) => (
-                              <button
-                                key={star}
-                                className={`star-button ${evaluationData.communicationSkills >= star ? "active" : ""}`}
-                                onClick={() => setEvaluationData({ ...evaluationData, communicationSkills: star })}
-                              >
-                                ★
-                              </button>
-                            ))}
-                          </div>
+                        <div className="info-group">
+                          <label>Email</label>
+                          <div>{selectedApplication.applicantEmail}</div>
+                        </div>
+                        <div className="info-group">
+                          <label>Phone</label>
+                          <div>{selectedApplication.applicantPhone}</div>
+                        </div>
+                      </div>
+                      <div className="info-row">
+                        <div className="info-group">
+                          <label>University</label>
+                          <div>{selectedApplication.university}</div>
+                        </div>
+                        <div className="info-group">
+                          <label>Major</label>
+                          <div>{selectedApplication.major}</div>
+                        </div>
+                        <div className="info-group">
+                          <label>Current Education</label>
+                          <div>{selectedApplication.currentEducation}</div>
+                        </div>
+                        <div className="info-group">
+                          <label>GPA</label>
+                          <div>{selectedApplication.gpa}</div>
                         </div>
                       </div>
                     </div>
-                    <div className="comments-section">
-                      <h4>Comments</h4>
-                      <textarea
-                        value={evaluationData.comments}
-                        onChange={(e) => setEvaluationData({ ...evaluationData, comments: e.target.value })}
-                        placeholder="Enter your evaluation comments here..."
-                        rows={4}
-                      ></textarea>
+                  </div>
+
+                  <div className="details-section">
+                    <h4>Application Information</h4>
+                    <div className="info-grid">
+                      <div className="info-row">
+                        <div className="info-group">
+                          <label>Position</label>
+                          <div>{selectedApplication.postTitle}</div>
+                        </div>
+                        <div className="info-group">
+                          <label>Application Date</label>
+                          <div>{selectedApplication.applicationDate}</div>
+                        </div>
+                        <div className="info-group">
+                          <label>Availability</label>
+                          <div>{selectedApplication.availabilityHours}</div>
+                        </div>
+                        <div className="info-group">
+                          <label>Start Date</label>
+                          <div>{selectedApplication.availableStartDate}</div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="recommend-section">
-                      <label>
-                        <input
-                          type="checkbox"
-                          checked={evaluationData.recommendForHire}
-                          onChange={(e) => setEvaluationData({ ...evaluationData, recommendForHire: e.target.checked })}
-                        />
-                        Recommend for future employment
-                      </label>
+                  </div>
+
+                  <div className="details-section">
+                    <h4>Cover Letter</h4>
+                    <div className="cover-letter-text">
+                      {selectedApplication.coverLetter}
                     </div>
-                    <div className="modal-actions">
-                      <button className="cancel-button" onClick={() => setShowEvaluationModal(false)}>
-                        Cancel
+                  </div>
+
+                  <div className="details-section">
+                    <h4>Resume</h4>
+                    <button className="download-resume">
+                      Download Resume (PDF)
+                    </button>
+                  </div>
+
+                  <div className="details-section">
+                    <h4>Application Status</h4>
+                    <div className="status-buttons">
+                      <button 
+                        className={`status-button ${selectedApplication.status === 'pending' ? 'active' : ''}`}
+                        onClick={() => updateApplicationStatus(selectedApplication.id, 'pending')}
+                      >
+                        Pending
                       </button>
-                      <button className="save-button" onClick={handleSaveEvaluation}>
-                        {currentEvaluation ? "Update" : "Save"}
+                      <button 
+                        className={`status-button ${selectedApplication.status === 'accepted' ? 'active' : ''}`}
+                        onClick={() => updateApplicationStatus(selectedApplication.id, 'accepted')}
+                      >
+                        Accept
+                      </button>
+                      <button 
+                        className={`status-button ${selectedApplication.status === 'rejected' ? 'active' : ''}`}
+                        onClick={() => updateApplicationStatus(selectedApplication.id, 'rejected')}
+                      >
+                        Reject
                       </button>
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
-          </div>
-        )}
+              )}
+            </div>
+          )}
+        </main>
       </div>
     </div>
   )
