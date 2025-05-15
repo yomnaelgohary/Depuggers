@@ -1,1006 +1,892 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 // Ant Design Components
 import {
+  Alert,
   Button,
   Card,
   Checkbox,
-  Col,
-  Descriptions,
+  Collapse,
+  DatePicker,
   Divider,
   Form,
   Input,
-  InputNumber,
   List,
   message,
-  Row,
+  Modal,
+  Popconfirm,
+  Rate,
   Select,
+  Space,
+  Table,
   Tag,
-  Typography,
 } from "antd"
 
 // Ant Design Icons
 import {
-  BookOutlined,
-  CalendarOutlined,
+  CheckCircleOutlined,
   DeleteOutlined,
+  DownloadOutlined,
   EditOutlined,
-  EnvironmentOutlined,
-  MailOutlined,
-  PhoneOutlined,
+  EyeOutlined,
   PlusOutlined,
-  SolutionOutlined,
-  StarOutlined,
-  TeamOutlined,
-  TrophyOutlined,
-  UserOutlined,
 } from "@ant-design/icons"
 
-import "./Reports.css"
+import "./reports.css"
 
-const { Title } = Typography
+const { Panel } = Collapse
 const { TextArea } = Input
 const { Option } = Select
 
-const ProfileContent = () => {
-  const [editMode, setEditMode] = useState(false)
-  const [formData, setFormData] = useState({
-    firstName: "John",
-    lastName: "Doe",
-    email: "john.doe@university.edu",
-    phone: "+1 (555) 123-4567",
-    bio: "Computer Science student with interest in web development and data analysis.",
-    major: "Computer Science",
-    semester: 5,
-    graduationYear: 2024,
-    gpa: 3.7,
-    jobInterests: ["Web Development", "Data Analysis", "UI/UX Design"],
-    skills: ["JavaScript", "React", "Python", "HTML/CSS", "SQL"],
-    internships: [
-      {
-        id: 1,
-        company: "Tech Solutions Inc.",
-        position: "Frontend Developer Intern",
-        duration: "June 2022 - August 2022",
-        status: "completed",
-        location: "San Francisco, CA",
-        skillsGained: ["React", "Redux", "TypeScript"],
-        responsibilities: [
-          "Developed responsive web interfaces using React",
-          "Collaborated with UX team to implement designs",
-          "Participated in code reviews",
-        ],
-        recommendationLetter: true,
-        supervisorContact: "jane.smith@techsolutions.com",
-      },
-      {
-        id: 2,
-        company: "Data Analytics Co.",
-        position: "Data Science Intern",
-        duration: "June 2023 - Present",
-        status: "current",
-        location: "Remote",
-        skillsGained: ["Python", "Pandas", "SQL"],
-        responsibilities: [
-          "Analyzed large datasets for business insights",
-          "Created predictive models using machine learning",
-          "Prepared data visualizations for stakeholders",
-        ],
-        recommendationLetter: false,
-        supervisorContact: "michael.johnson@dataanalytics.com",
-      },
-    ],
-    partTimeJobs: [
-      {
-        id: 1,
-        company: "University IT Department",
-        position: "Student Technician",
-        duration: "September 2021 - Present",
-        responsibilities: [
-          "Provided technical support to students and faculty",
-          "Maintained computer labs",
-          "Assisted with network troubleshooting",
-        ],
-      },
-    ],
-    activities: [
-      {
-        id: 1,
-        organization: "Computer Science Club",
-        role: "Vice President",
-        duration: "2021 - Present",
-        description: "Organized hackathons and tech talks for members",
-      },
-    ],
+const Reports = () => {
+  // State for courses in the major
+  const [coursesInMajor, setCoursesInMajor] = useState([
+    { id: 1, code: "CS101", name: "Introduction to Programming", selected: false },
+    { id: 2, code: "CS201", name: "Data Structures", selected: false },
+    { id: 3, code: "CS301", name: "Algorithms", selected: false },
+    { id: 4, code: "CS401", name: "Database Systems", selected: false },
+    { id: 5, code: "CS402", name: "Web Development", selected: false },
+    { id: 6, code: "CS403", name: "Software Engineering", selected: false },
+  ])
+
+  const [internships, setInternships] = useState([
+    {
+      id: 1,
+      company: "Tech Solutions Inc.",
+      title: "Frontend Developer Intern",
+      completedDate: "2023-08-15",
+      status: "completed",
+      hasEvaluation: true,
+      hasReport: true,
+      position: "Frontend Developer",
+      duration: "June 2022 - August 2022",
+      responsibilities: ["Developed React components", "Participated in code reviews"],
+      skillsGained: ["React", "TypeScript", "Redux"],
+      reportStatus: "approved",
+      reportComments: "",
+      startDate: "2022-06-01",
+      endDate: "2022-08-15",
+      relevantCourses: [],
+    },
+    {
+      id: 2,
+      company: "Data Analytics Co.",
+      title: "Data Science Intern",
+      completedDate: "2023-12-20",
+      status: "completed",
+      hasEvaluation: false,
+      hasReport: false,
+      position: "Data Science Intern",
+      duration: "September 2022 - December 2022",
+      responsibilities: ["Analyzed datasets", "Built predictive models"],
+      skillsGained: ["Python", "Pandas", "Machine Learning"],
+      reportStatus: "flagged",
+      reportComments: "Please provide more details about your modeling approach",
+      startDate: "2022-09-01",
+      endDate: "2022-12-20",
+      relevantCourses: [],
+    },
+    {
+      id: 3,
+      company: "Cloud Services Ltd.",
+      title: "DevOps Intern",
+      completedDate: null,
+      status: "current",
+      hasEvaluation: false,
+      hasReport: false,
+      position: "DevOps Intern",
+      duration: "January 2023 - Present",
+      responsibilities: ["Assisted with CI/CD pipelines", "Cloud infrastructure monitoring"],
+      skillsGained: ["AWS", "Docker", "Kubernetes"],
+      reportStatus: null,
+      reportComments: "",
+      startDate: "2023-01-10",
+      endDate: null,
+      relevantCourses: [],
+    },
+  ])
+
+  const [reports, setReports] = useState([
+    {
+      id: 1,
+      title: "Summer Internship Technical Report",
+      internshipId: 1,
+      introduction: "This report documents my summer internship experience...",
+      body: "Detailed description of my work and learnings...",
+      isFinalized: false,
+      createdAt: "2023-08-20",
+      status: "approved",
+      relevantCourses: [1, 2, 4],
+    },
+    {
+      id: 2,
+      title: "Data Science Internship Preliminary Report",
+      internshipId: 2,
+      introduction: "Initial report on my data science internship...",
+      body: "First month focused on data cleaning and analysis...",
+      isFinalized: false,
+      createdAt: "2023-10-15",
+      status: "flagged",
+      adminComments: "Please provide more details about your modeling approach",
+      relevantCourses: [2, 3, 5],
+    },
+  ])
+
+  const [evaluations, setEvaluations] = useState([
+    {
+      id: 1,
+      internshipId: 1,
+      company: "Tech Solutions Inc.",
+      wouldRecommend: true,
+      rating: 4,
+      comments: "Excellent learning environment with knowledgeable mentors.",
+      isFinalized: false,
+      createdAt: "2023-08-25",
+    },
+  ])
+
+  const [selectedInternship, setSelectedInternship] = useState(internships[0])
+  const [reportModalVisible, setReportModalVisible] = useState(false)
+  const [evaluationModalVisible, setEvaluationModalVisible] = useState(false)
+  const [appealModalVisible, setAppealModalVisible] = useState(false)
+  const [courseModalVisible, setCourseModalVisible] = useState(false)
+  const [currentReport, setCurrentReport] = useState(null)
+  const [currentEvaluation, setCurrentEvaluation] = useState(null)
+  const [reportForm] = Form.useForm()
+  const [evaluationForm] = Form.useForm()
+  const [appealForm] = Form.useForm()
+  const [searchText, setSearchText] = useState("")
+  const [statusFilter, setStatusFilter] = useState("all")
+  const [dateRange, setDateRange] = useState(null)
+  const [selectedCourses, setSelectedCourses] = useState([])
+
+  // Initialize selected courses when report is loaded
+  useEffect(() => {
+    if (currentReport) {
+      const selected = coursesInMajor.map((course) => ({
+        ...course,
+        selected: currentReport.relevantCourses.includes(course.id),
+      }))
+      setCoursesInMajor(selected)
+      setSelectedCourses(selected.filter((c) => c.selected))
+    } else {
+      setCoursesInMajor(coursesInMajor.map((c) => ({ ...c, selected: false })))
+      setSelectedCourses([])
+    }
+  }, [currentReport])
+
+  // Filter internships based on search, status, and date range
+  const filteredInternships = internships.filter((internship) => {
+    const matchesSearch =
+      internship.company.toLowerCase().includes(searchText.toLowerCase()) ||
+      internship.title.toLowerCase().includes(searchText.toLowerCase())
+    const matchesStatus =
+      statusFilter === "all" ||
+      (statusFilter === "current" && internship.status === "current") ||
+      (statusFilter === "completed" && internship.status === "completed")
+    const matchesDate =
+      !dateRange ||
+      (internship.startDate >= dateRange[0] && (!internship.endDate || internship.endDate <= dateRange[1]))
+
+    return matchesSearch && matchesStatus && matchesDate
   })
 
-  const majors = [
-    "Computer Science",
-    "Electrical Engineering",
-    "Mechanical Engineering",
-    "Business Administration",
-    "Biology",
-    "Psychology",
-  ]
-
-  const semesters = [1, 2, 3, 4, 5, 6, 7, 8]
-  const graduationYears = Array.from({ length: 10 }, (_, i) => new Date().getFullYear() + i)
-
-  const jobInterestOptions = [
-    "Web Development",
-    "Mobile Development",
-    "Data Science",
-    "Machine Learning",
-    "UI/UX Design",
-    "Cloud Computing",
-    "Cybersecurity",
-    "DevOps",
-    "Product Management",
-  ]
-
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
+  // Toggle course selection
+  const toggleCourseSelection = (courseId) => {
+    setCoursesInMajor(
+      coursesInMajor.map((course) => (course.id === courseId ? { ...course, selected: !course.selected } : course)),
+    )
   }
 
-  const handleArrayChange = (field, value) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
+  // Save selected courses to report
+  const saveSelectedCourses = () => {
+    const selected = coursesInMajor.filter((course) => course.selected)
+    setSelectedCourses(selected)
+    setCourseModalVisible(false)
+    message.success("Selected courses saved")
   }
 
-  const handleInternshipChange = (id, field, value) => {
-    setFormData((prev) => ({
-      ...prev,
-      internships: prev.internships.map((item) => (item.id === id ? { ...item, [field]: value } : item)),
-    }))
+  const handleCreateReport = () => {
+    reportForm.resetFields()
+    setCurrentReport(null)
+    setSelectedCourses([])
+    setReportModalVisible(true)
   }
 
-  const handleAddInternship = () => {
-    setFormData((prev) => ({
-      ...prev,
-      internships: [
-        ...prev.internships,
-        {
+  const handleEditReport = (report) => {
+    setCurrentReport(report)
+    reportForm.setFieldsValue(report)
+    setReportModalVisible(true)
+  }
+
+  const handleDeleteReport = async (id) => {
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 500))
+      setReports(reports.filter((report) => report.id !== id))
+      message.success("Report deleted successfully")
+    } catch (error) {
+      message.error("Error deleting report")
+    }
+  }
+
+  const handleSubmitReport = async () => {
+    try {
+      const values = await reportForm.validateFields()
+      const courseIds = selectedCourses.map((c) => c.id)
+
+      if (currentReport) {
+        const updatedReport = {
+          ...currentReport,
+          ...values,
+          relevantCourses: courseIds,
+        }
+        await new Promise((resolve) => setTimeout(resolve, 500))
+        setReports(reports.map((r) => (r.id === currentReport.id ? updatedReport : r)))
+        message.success("Report updated successfully")
+      } else {
+        const newReport = {
           id: Date.now(),
-          company: "",
-          position: "",
-          duration: "",
-          status: "current",
-          location: "",
-          skillsGained: [],
-          responsibilities: [""],
-          recommendationLetter: false,
-          supervisorContact: "",
-        },
-      ],
-    }))
+          ...values,
+          internshipId: selectedInternship.id,
+          isFinalized: false,
+          createdAt: new Date().toISOString().split("T")[0],
+          status: "pending",
+          relevantCourses: courseIds,
+        }
+        setReports([...reports, newReport])
+        message.success("Report created successfully")
+      }
+
+      setReportModalVisible(false)
+    } catch (error) {
+      message.error("Error submitting report")
+    }
   }
 
-  const handleRemoveInternship = (id) => {
-    setFormData((prev) => ({
-      ...prev,
-      internships: prev.internships.filter((item) => item.id !== id),
-    }))
+  const handleCreateEvaluation = () => {
+    evaluationForm.resetFields()
+    setCurrentEvaluation(null)
+    setEvaluationModalVisible(true)
   }
 
-  const handlePartTimeJobChange = (id, field, value) => {
-    setFormData((prev) => ({
-      ...prev,
-      partTimeJobs: prev.partTimeJobs.map((job) => (job.id === id ? { ...job, [field]: value } : job)),
-    }))
+  const handleEditEvaluation = (evaluation) => {
+    setCurrentEvaluation(evaluation)
+    evaluationForm.setFieldsValue(evaluation)
+    setEvaluationModalVisible(true)
   }
 
-  const handleAddPartTimeJob = () => {
-    setFormData((prev) => ({
-      ...prev,
-      partTimeJobs: [
-        ...prev.partTimeJobs,
-        {
+  const handleDeleteEvaluation = async (id) => {
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 500))
+      setEvaluations(evaluations.filter((evaluation) => evaluation.id !== id))
+      message.success("Evaluation deleted successfully")
+    } catch (error) {
+      message.error("Error deleting evaluation")
+    }
+  }
+
+  const handleSubmitEvaluation = async () => {
+    try {
+      const values = await evaluationForm.validateFields()
+
+      if (currentEvaluation) {
+        await new Promise((resolve) => setTimeout(resolve, 500))
+        setEvaluations(evaluations.map((e) => (e.id === currentEvaluation.id ? { ...e, ...values } : e)))
+        message.success("Evaluation updated successfully")
+      } else {
+        const newEvaluation = {
           id: Date.now(),
-          company: "",
-          position: "",
-          duration: "",
-          responsibilities: [""],
-        },
-      ],
-    }))
+          ...values,
+          internshipId: selectedInternship.id,
+          company: selectedInternship.company,
+          createdAt: new Date().toISOString().split("T")[0],
+        }
+        setEvaluations([...evaluations, newEvaluation])
+        message.success("Evaluation created successfully")
+      }
+
+      setEvaluationModalVisible(false)
+    } catch (error) {
+      message.error("Error submitting evaluation")
+    }
   }
 
-  const handleRemovePartTimeJob = (id) => {
-    setFormData((prev) => ({
-      ...prev,
-      partTimeJobs: prev.partTimeJobs.filter((job) => job.id !== id),
-    }))
+  const handleDownloadReport = (id) => {
+    message.success("Downloading report as PDF...")
+    // In a real implementation, this would generate and download a PDF
   }
 
-  const handleActivityChange = (id, field, value) => {
-    setFormData((prev) => ({
-      ...prev,
-      activities: prev.activities.map((activity) => (activity.id === id ? { ...activity, [field]: value } : activity)),
-    }))
+  const handleFinalizeReport = async (id) => {
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 500))
+      setReports(reports.map((r) => (r.id === id ? { ...r, isFinalized: true } : r)))
+      message.success("Report finalized successfully")
+    } catch (error) {
+      message.error("Error finalizing report")
+    }
   }
 
-  const handleAddActivity = () => {
-    setFormData((prev) => ({
-      ...prev,
-      activities: [
-        ...prev.activities,
-        {
-          id: Date.now(),
-          organization: "",
-          role: "",
-          duration: "",
-          description: "",
-        },
-      ],
-    }))
+  const handleFinalizeEvaluation = async (id) => {
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 500))
+      setEvaluations(evaluations.map((e) => (e.id === id ? { ...e, isFinalized: true } : e)))
+      message.success("Evaluation finalized successfully")
+    } catch (error) {
+      message.error("Error finalizing evaluation")
+    }
   }
 
-  const handleRemoveActivity = (id) => {
-    setFormData((prev) => ({
-      ...prev,
-      activities: prev.activities.filter((activity) => activity.id !== id),
-    }))
+  const handleAppealReport = (report) => {
+    setCurrentReport(report)
+    appealForm.resetFields()
+    setAppealModalVisible(true)
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log("Profile updated:", formData)
-    setEditMode(false)
-    message.success("Profile updated successfully")
+  const handleSubmitAppeal = async () => {
+    try {
+      const values = await appealForm.validateFields()
+      await new Promise((resolve) => setTimeout(resolve, 500))
+
+      setReports(
+        reports.map((r) =>
+          r.id === currentReport.id ? { ...r, appealMessage: values.message, status: "appealed" } : r,
+        ),
+      )
+
+      message.success("Appeal submitted successfully")
+      setAppealModalVisible(false)
+    } catch (error) {
+      message.error("Error submitting appeal")
+    }
+  }
+
+  // Enhanced expanded row content with courses
+  const expandedRowRender = (record) => {
+    const report = reports.find((r) => r.internshipId === record.id)
+    const evaluation = evaluations.find((e) => e.internshipId === record.id)
+    const relevantCourses = report?.relevantCourses
+      ?.map((id) => coursesInMajor.find((c) => c.id === id))
+      .filter(Boolean)
+
+    return (
+      <div className="expanded-content">
+        <Collapse defaultActiveKey={["responsibilities", "skills"]}>
+          <Panel header="Responsibilities" key="responsibilities">
+            <ul>
+              {record.responsibilities.map((item, index) => (
+                <li key={index}>{item}</li>
+              ))}
+            </ul>
+          </Panel>
+
+          <Panel header="Skills Gained" key="skills">
+            <div className="skills-tags">
+              {record.skillsGained.map((skill) => (
+                <Tag key={skill}>{skill}</Tag>
+              ))}
+            </div>
+          </Panel>
+
+          {report && (
+            <Panel header="Report Details" key="report">
+              <p>
+                <strong>Title:</strong> {report.title}
+              </p>
+              <p>
+                <strong>Status:</strong>
+                <Tag
+                  color={
+                    report.status === "approved"
+                      ? "green"
+                      : report.status === "flagged"
+                        ? "orange"
+                        : report.status === "rejected"
+                          ? "red"
+                          : "blue"
+                  }
+                >
+                  {report.status?.toUpperCase() || "DRAFT"}
+                </Tag>
+              </p>
+
+              {report.adminComments && (
+                <>
+                  <p>
+                    <strong>Supervisor Comments:</strong>
+                  </p>
+                  <Alert message={report.adminComments} type="warning" showIcon />
+                </>
+              )}
+
+              {relevantCourses?.length > 0 && (
+                <>
+                  <Divider />
+                  <p>
+                    <strong>Relevant Courses That Helped:</strong>
+                  </p>
+                  <List
+                    size="small"
+                    dataSource={relevantCourses}
+                    renderItem={(course) => (
+                      <List.Item>
+                        <Tag color="blue">{course.code}</Tag> {course.name}
+                      </List.Item>
+                    )}
+                  />
+                </>
+              )}
+            </Panel>
+          )}
+
+          {evaluation && (
+            <Panel header="Evaluation Details" key="evaluation">
+              <p>
+                <strong>Rating:</strong> <Rate disabled defaultValue={evaluation.rating} />
+              </p>
+              <p>
+                <strong>Recommend:</strong>
+                <Tag color={evaluation.wouldRecommend ? "green" : "red"}>
+                  {evaluation.wouldRecommend ? "Yes" : "No"}
+                </Tag>
+              </p>
+              <p>
+                <strong>Status:</strong>
+                <Tag color={evaluation.isFinalized ? "green" : "orange"}>
+                  {evaluation.isFinalized ? "FINALIZED" : "DRAFT"}
+                </Tag>
+              </p>
+              <p>
+                <strong>Comments:</strong> {evaluation.comments}
+              </p>
+            </Panel>
+          )}
+        </Collapse>
+      </div>
+    )
   }
 
   return (
-    <div className="profile-content">
-      <div className="profile-header">
-        <Title level={2}>
-          <UserOutlined /> My Profile
-        </Title>
-        <Button
-          onClick={() => setEditMode(!editMode)}
-          type={editMode ? "default" : "primary"}
-          icon={editMode ? <DeleteOutlined /> : <EditOutlined />}
-        >
-          {editMode ? "Cancel Editing" : "Edit Profile"}
-        </Button>
-      </div>
+    <div className="reports-container">
+      {/* Internships Section */}
+      <Card
+        title="My Internships"
+        className="section-card"
+        extra={
+          <Space>
+            <Input.Search
+              placeholder="Search by company or title"
+              allowClear
+              onSearch={setSearchText}
+              style={{ width: 250 }}
+            />
+            <Select defaultValue="all" style={{ width: 150 }} onChange={setStatusFilter}>
+              <Option value="all">All Statuses</Option>
+              <Option value="current">Current</Option>
+              <Option value="completed">Completed</Option>
+            </Select>
+            <DatePicker.RangePicker onChange={setDateRange} style={{ width: 250 }} />
+          </Space>
+        }
+      >
+        <Table
+          columns={[
+            {
+              title: "Company",
+              dataIndex: "company",
+              key: "company",
+            },
+            {
+              title: "Position",
+              dataIndex: "title",
+              key: "title",
+            },
+            {
+              title: "Duration",
+              dataIndex: "duration",
+              key: "duration",
+            },
+            {
+              title: "Status",
+              dataIndex: "status",
+              key: "status",
+              render: (status) => <Tag color={status === "completed" ? "green" : "orange"}>{status.toUpperCase()}</Tag>,
+            },
+            {
+              title: "Report Status",
+              key: "reportStatus",
+              render: (_, record) => {
+                const report = reports.find((r) => r.internshipId === record.id)
+                if (!report) return "-"
 
-      {editMode ? (
-        <Form onSubmit={handleSubmit} className="profile-form">
-          {/* Basic Information Section */}
-          <Card title="Basic Information" className="form-section">
-            <Row gutter={16}>
-              <Col span={12}>
-                <Form.Item label="First Name">
-                  <Input
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleChange}
-                    prefix={<UserOutlined />}
-                  />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item label="Last Name">
-                  <Input name="lastName" value={formData.lastName} onChange={handleChange} />
-                </Form.Item>
-              </Col>
-            </Row>
+                let color = "default"
+                if (report.status === "approved") color = "green"
+                if (report.status === "flagged") color = "orange"
+                if (report.status === "rejected") color = "red"
 
-            <Row gutter={16}>
-              <Col span={12}>
-                <Form.Item label="Email">
-                  <Input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    prefix={<MailOutlined />}
-                  />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item label="Phone">
-                  <Input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    prefix={<PhoneOutlined />}
-                  />
-                </Form.Item>
-              </Col>
-            </Row>
-
-            <Form.Item label="Bio">
-              <TextArea name="bio" value={formData.bio} onChange={handleChange} rows={3} />
-            </Form.Item>
-          </Card>
-
-          {/* Academic Information Section */}
-          <Card
-            title={
-              <span>
-                <BookOutlined /> Academic Information
-              </span>
-            }
-            className="form-section"
-          >
-            <Row gutter={16}>
-              <Col span={8}>
-                <Form.Item label="Major">
-                  <Select
-                    name="major"
-                    value={formData.major}
-                    onChange={(value) => handleChange({ target: { name: "major", value } })}
-                    style={{ width: "100%" }}
-                  >
-                    {majors.map((major) => (
-                      <Option key={major} value={major}>
-                        {major}
-                      </Option>
-                    ))}
-                  </Select>
-                </Form.Item>
-              </Col>
-              <Col span={8}>
-                <Form.Item label="Current Semester">
-                  <Select
-                    name="semester"
-                    value={formData.semester}
-                    onChange={(value) => handleChange({ target: { name: "semester", value } })}
-                    style={{ width: "100%" }}
-                  >
-                    {semesters.map((sem) => (
-                      <Option key={sem} value={sem}>
-                        Semester {sem}
-                      </Option>
-                    ))}
-                  </Select>
-                </Form.Item>
-              </Col>
-              <Col span={8}>
-                <Form.Item label="Graduation Year">
-                  <Select
-                    name="graduationYear"
-                    value={formData.graduationYear}
-                    onChange={(value) => handleChange({ target: { name: "graduationYear", value } })}
-                    style={{ width: "100%" }}
-                  >
-                    {graduationYears.map((year) => (
-                      <Option key={year} value={year}>
-                        {year}
-                      </Option>
-                    ))}
-                  </Select>
-                </Form.Item>
-              </Col>
-            </Row>
-            <Form.Item label="GPA">
-              <InputNumber
-                min={0}
-                max={4}
-                step={0.1}
-                name="gpa"
-                value={formData.gpa}
-                onChange={(value) => handleChange({ target: { name: "gpa", value } })}
-                style={{ width: "100%" }}
-              />
-            </Form.Item>
-          </Card>
-
-          {/* Job Interests Section */}
-          <Card
-            title={
-              <span>
-                <SolutionOutlined /> Job Interests
-              </span>
-            }
-            className="form-section"
-          >
-            <Form.Item label="Select your job interests">
-              <Checkbox.Group
-                options={jobInterestOptions}
-                value={formData.jobInterests}
-                onChange={(values) => handleArrayChange("jobInterests", values)}
-              />
-            </Form.Item>
-          </Card>
-
-          {/* Skills Section */}
-          <Card
-            title={
-              <span>
-                <TrophyOutlined /> Skills
-              </span>
-            }
-            className="form-section"
-          >
-            <Form.Item label="Add your skills (comma separated)">
-              <Input
-                value={formData.skills.join(", ")}
-                onChange={(e) => {
-                  const skills = e.target.value.split(",").map((s) => s.trim())
-                  handleArrayChange("skills", skills)
-                }}
-              />
-              <div className="skills-display">
-                {formData.skills.map((skill, index) => (
-                  <Tag key={index}>{skill}</Tag>
-                ))}
-              </div>
-            </Form.Item>
-          </Card>
-
-          {/* Internships Section */}
-          <Card
-            title={
-              <span>
-                <SolutionOutlined /> Internships
-              </span>
-            }
-            className="form-section"
-            extra={
-              <Button type="primary" onClick={handleAddInternship} icon={<PlusOutlined />}>
-                Add Internship
-              </Button>
-            }
-          >
-            {formData.internships.length > 0 ? (
-              formData.internships.map((internship) => (
-                <Card
-                  key={internship.id}
-                  className={`internship-card ${internship.status}`}
-                  title={
-                    <div className="internship-header">
-                      <h4>
-                        {internship.position} at {internship.company}
-                      </h4>
-                      <Tag color={internship.status === "current" ? "green" : "blue"}>
-                        {internship.status === "current" ? "Current" : "Completed"}
-                      </Tag>
-                    </div>
-                  }
-                  extra={
-                    <Button danger icon={<DeleteOutlined />} onClick={() => handleRemoveInternship(internship.id)} />
-                  }
-                >
-                  <div className="internship-edit-form">
-                    <Row gutter={16}>
-                      <Col span={12}>
-                        <Form.Item label="Company">
-                          <Input
-                            value={internship.company}
-                            onChange={(e) => handleInternshipChange(internship.id, "company", e.target.value)}
-                          />
-                        </Form.Item>
-                      </Col>
-                      <Col span={12}>
-                        <Form.Item label="Position">
-                          <Input
-                            value={internship.position}
-                            onChange={(e) => handleInternshipChange(internship.id, "position", e.target.value)}
-                          />
-                        </Form.Item>
-                      </Col>
-                    </Row>
-
-                    <Row gutter={16}>
-                      <Col span={12}>
-                        <Form.Item label="Duration">
-                          <Input
-                            value={internship.duration}
-                            onChange={(e) => handleInternshipChange(internship.id, "duration", e.target.value)}
-                          />
-                        </Form.Item>
-                      </Col>
-                      <Col span={12}>
-                        <Form.Item label="Status">
-                          <Select
-                            value={internship.status}
-                            onChange={(value) => handleInternshipChange(internship.id, "status", value)}
-                            style={{ width: "100%" }}
-                          >
-                            <Option value="current">Current</Option>
-                            <Option value="completed">Completed</Option>
-                          </Select>
-                        </Form.Item>
-                      </Col>
-                    </Row>
-
-                    <Form.Item label="Location">
-                      <Input
-                        value={internship.location}
-                        onChange={(e) => handleInternshipChange(internship.id, "location", e.target.value)}
-                        prefix={<EnvironmentOutlined />}
-                      />
-                    </Form.Item>
-
-                    <Form.Item label="Skills Gained (comma separated)">
-                      <Input
-                        value={internship.skillsGained.join(", ")}
-                        onChange={(e) => {
-                          const skills = e.target.value.split(",").map((s) => s.trim())
-                          handleInternshipChange(internship.id, "skillsGained", skills)
-                        }}
-                      />
-                    </Form.Item>
-
-                    <Form.Item label="Supervisor Contact">
-                      <Input
-                        value={internship.supervisorContact}
-                        onChange={(e) => handleInternshipChange(internship.id, "supervisorContact", e.target.value)}
-                      />
-                    </Form.Item>
-
-                    <Form.Item>
-                      <Checkbox
-                        checked={internship.recommendationLetter}
-                        onChange={(e) =>
-                          handleInternshipChange(internship.id, "recommendationLetter", e.target.checked)
-                        }
-                      >
-                        Received recommendation letter
-                      </Checkbox>
-                    </Form.Item>
-
-                    <Form.Item label="Responsibilities">
-                      {internship.responsibilities.map((resp, idx) => (
-                        <div key={idx} className="responsibility-item">
-                          <Input
-                            value={resp}
-                            onChange={(e) => {
-                              const newResponsibilities = [...internship.responsibilities]
-                              newResponsibilities[idx] = e.target.value
-                              handleInternshipChange(internship.id, "responsibilities", newResponsibilities)
-                            }}
-                          />
-                          {idx === internship.responsibilities.length - 1 && (
-                            <Button
-                              type="dashed"
-                              onClick={() => {
-                                const newResponsibilities = [...internship.responsibilities, ""]
-                                handleInternshipChange(internship.id, "responsibilities", newResponsibilities)
-                              }}
-                              icon={<PlusOutlined />}
-                            />
-                          )}
-                          {internship.responsibilities.length > 1 && (
-                            <Button
-                              danger
-                              onClick={() => {
-                                const newResponsibilities = internship.responsibilities.filter((_, i) => i !== idx)
-                                handleInternshipChange(internship.id, "responsibilities", newResponsibilities)
-                              }}
-                              icon={<DeleteOutlined />}
-                            />
-                          )}
-                        </div>
-                      ))}
-                    </Form.Item>
-                  </div>
-                </Card>
-              ))
-            ) : (
-              <div className="empty-state">
-                <p>No internships added yet.</p>
-                <Button type="primary" onClick={handleAddInternship}>
-                  Add Your First Internship
-                </Button>
-              </div>
-            )}
-          </Card>
-
-          {/* Part-Time Jobs Section */}
-          <Card
-            title={
-              <span>
-                <TeamOutlined /> Part-Time Jobs
-              </span>
-            }
-            className="form-section"
-            extra={
-              <Button type="primary" onClick={handleAddPartTimeJob} icon={<PlusOutlined />}>
-                Add Job
-              </Button>
-            }
-          >
-            {formData.partTimeJobs.length > 0 ? (
-              formData.partTimeJobs.map((job) => (
-                <Card
-                  key={job.id}
-                  className="job-card"
-                  title={
-                    <div className="job-header">
-                      <h4>
-                        {job.position} at {job.company}
-                      </h4>
-                    </div>
-                  }
-                  extra={<Button danger icon={<DeleteOutlined />} onClick={() => handleRemovePartTimeJob(job.id)} />}
-                >
-                  <div className="job-edit-form">
-                    <Row gutter={16}>
-                      <Col span={12}>
-                        <Form.Item label="Company">
-                          <Input
-                            value={job.company}
-                            onChange={(e) => handlePartTimeJobChange(job.id, "company", e.target.value)}
-                          />
-                        </Form.Item>
-                      </Col>
-                      <Col span={12}>
-                        <Form.Item label="Position">
-                          <Input
-                            value={job.position}
-                            onChange={(e) => handlePartTimeJobChange(job.id, "position", e.target.value)}
-                          />
-                        </Form.Item>
-                      </Col>
-                    </Row>
-
-                    <Form.Item label="Duration">
-                      <Input
-                        value={job.duration}
-                        onChange={(e) => handlePartTimeJobChange(job.id, "duration", e.target.value)}
-                      />
-                    </Form.Item>
-
-                    <Form.Item label="Responsibilities">
-                      {job.responsibilities.map((resp, idx) => (
-                        <div key={idx} className="responsibility-item">
-                          <Input
-                            value={resp}
-                            onChange={(e) => {
-                              const newResponsibilities = [...job.responsibilities]
-                              newResponsibilities[idx] = e.target.value
-                              handlePartTimeJobChange(job.id, "responsibilities", newResponsibilities)
-                            }}
-                          />
-                          {idx === job.responsibilities.length - 1 && (
-                            <Button
-                              type="dashed"
-                              onClick={() => {
-                                const newResponsibilities = [...job.responsibilities, ""]
-                                handlePartTimeJobChange(job.id, "responsibilities", newResponsibilities)
-                              }}
-                              icon={<PlusOutlined />}
-                            />
-                          )}
-                          {job.responsibilities.length > 1 && (
-                            <Button
-                              danger
-                              onClick={() => {
-                                const newResponsibilities = job.responsibilities.filter((_, i) => i !== idx)
-                                handlePartTimeJobChange(job.id, "responsibilities", newResponsibilities)
-                              }}
-                              icon={<DeleteOutlined />}
-                            />
-                          )}
-                        </div>
-                      ))}
-                    </Form.Item>
-                  </div>
-                </Card>
-              ))
-            ) : (
-              <div className="empty-state">
-                <p>No part-time jobs added yet.</p>
-              </div>
-            )}
-          </Card>
-
-          {/* College Activities Section */}
-          <Card
-            title={
-              <span>
-                <TrophyOutlined /> College Activities
-              </span>
-            }
-            className="form-section"
-            extra={
-              <Button type="primary" onClick={handleAddActivity} icon={<PlusOutlined />}>
-                Add Activity
-              </Button>
-            }
-          >
-            {formData.activities.length > 0 ? (
-              formData.activities.map((activity) => (
-                <Card
-                  key={activity.id}
-                  className="activity-card"
-                  title={
-                    <div className="activity-header">
-                      <h4>
-                        {activity.role} at {activity.organization}
-                      </h4>
-                    </div>
-                  }
-                  extra={<Button danger icon={<DeleteOutlined />} onClick={() => handleRemoveActivity(activity.id)} />}
-                >
-                  <div className="activity-edit-form">
-                    <Row gutter={16}>
-                      <Col span={12}>
-                        <Form.Item label="Organization">
-                          <Input
-                            value={activity.organization}
-                            onChange={(e) => handleActivityChange(activity.id, "organization", e.target.value)}
-                          />
-                        </Form.Item>
-                      </Col>
-                      <Col span={12}>
-                        <Form.Item label="Role">
-                          <Input
-                            value={activity.role}
-                            onChange={(e) => handleActivityChange(activity.id, "role", e.target.value)}
-                          />
-                        </Form.Item>
-                      </Col>
-                    </Row>
-
-                    <Form.Item label="Duration">
-                      <Input
-                        value={activity.duration}
-                        onChange={(e) => handleActivityChange(activity.id, "duration", e.target.value)}
-                      />
-                    </Form.Item>
-
-                    <Form.Item label="Description">
-                      <TextArea
-                        rows={3}
-                        value={activity.description}
-                        onChange={(e) => handleActivityChange(activity.id, "description", e.target.value)}
-                      />
-                    </Form.Item>
-                  </div>
-                </Card>
-              ))
-            ) : (
-              <div className="empty-state">
-                <p>No activities added yet.</p>
-              </div>
-            )}
-          </Card>
-
-          <div className="form-actions">
-            <Button type="primary" htmlType="submit">
-              Save Changes
-            </Button>
-            <Button onClick={() => setEditMode(false)}>Cancel</Button>
-          </div>
-        </Form>
-      ) : (
-        <div className="profile-view">
-          {/* View Mode - Basic Information */}
-          <Card
-            title={
-              <span>
-                <UserOutlined /> Basic Information
-              </span>
-            }
-            className="profile-section"
-          >
-            <Descriptions column={2}>
-              <Descriptions.Item label="Name">
-                {formData.firstName} {formData.lastName}
-              </Descriptions.Item>
-              <Descriptions.Item label="Email">{formData.email}</Descriptions.Item>
-              <Descriptions.Item label="Phone">{formData.phone}</Descriptions.Item>
-              <Descriptions.Item label="Bio">{formData.bio}</Descriptions.Item>
-            </Descriptions>
-          </Card>
-
-          {/* View Mode - Academic Information */}
-          <Card
-            title={
-              <span>
-                <BookOutlined /> Academic Information
-              </span>
-            }
-            className="profile-section"
-          >
-            <Descriptions column={2}>
-              <Descriptions.Item label="Major">{formData.major}</Descriptions.Item>
-              <Descriptions.Item label="Current Semester">Semester {formData.semester}</Descriptions.Item>
-              <Descriptions.Item label="Graduation Year">{formData.graduationYear}</Descriptions.Item>
-              <Descriptions.Item label="GPA">{formData.gpa}</Descriptions.Item>
-            </Descriptions>
-          </Card>
-
-          {/* View Mode - Job Interests */}
-          <Card
-            title={
-              <span>
-                <SolutionOutlined /> Job Interests
-              </span>
-            }
-            className="profile-section"
-          >
-            <div className="tags-container">
-              {formData.jobInterests.map((interest, index) => (
-                <Tag key={index} color="blue">
-                  {interest}
-                </Tag>
-              ))}
-            </div>
-          </Card>
-
-          {/* View Mode - Skills */}
-          <Card
-            title={
-              <span>
-                <TrophyOutlined /> Skills
-              </span>
-            }
-            className="profile-section"
-          >
-            <div className="tags-container">
-              {formData.skills.map((skill, index) => (
-                <Tag key={index} color="green">
-                  {skill}
-                </Tag>
-              ))}
-            </div>
-          </Card>
-
-          {/* View Mode - Internships */}
-          <Card
-            title={
-              <span>
-                <SolutionOutlined /> Internships
-              </span>
-            }
-            className="profile-section"
-          >
-            {formData.internships.length > 0 ? (
-              formData.internships.map((internship, index) => (
-                <Card
-                  key={index}
-                  className={`internship-card ${internship.status}`}
-                  title={
-                    <div className="internship-header">
-                      <h4>
-                        {internship.position} at {internship.company}
-                      </h4>
-                      <Tag color={internship.status === "current" ? "green" : "blue"}>
-                        {internship.status === "current" ? "Current" : "Completed"}
-                      </Tag>
-                    </div>
-                  }
-                >
-                  <div className="internship-view">
-                    <div className="internship-meta">
-                      <p>
-                        <CalendarOutlined /> {internship.duration}
-                      </p>
-                      <p>
-                        <EnvironmentOutlined /> {internship.location}
-                      </p>
-                      {internship.recommendationLetter && (
-                        <p>
-                          <StarOutlined /> Recommendation letter available
-                        </p>
-                      )}
-                    </div>
-
-                    <Divider orientation="left">Skills Gained</Divider>
-                    <div className="skills-container">
-                      {internship.skillsGained.map((skill, idx) => (
-                        <Tag key={idx} color="geekblue">
-                          {skill}
-                        </Tag>
-                      ))}
-                    </div>
-
-                    <Divider orientation="left">Responsibilities</Divider>
-                    <List
-                      dataSource={internship.responsibilities}
-                      renderItem={(item) => <List.Item>{item}</List.Item>}
-                    />
-
-                    {internship.supervisorContact && (
-                      <>
-                        <Divider orientation="left">Supervisor Contact</Divider>
-                        <p>
-                          <MailOutlined /> {internship.supervisorContact}
-                        </p>
-                      </>
+                return <Tag color={color}>{report.status ? report.status.toUpperCase() : "PENDING"}</Tag>
+              },
+            },
+            {
+              title: "Actions",
+              key: "actions",
+              render: (_, record) => {
+                const report = reports.find((r) => r.internshipId === record.id)
+                return (
+                  <Space size="middle">
+                    <Button
+                      type="link"
+                      onClick={() => {
+                        setSelectedInternship(record)
+                        report ? handleEditReport(report) : handleCreateReport()
+                      }}
+                    >
+                      {report ? "View Report" : "Create Report"}
+                    </Button>
+                    {report && ["flagged", "rejected"].includes(report.status) && (
+                      <Button type="link" onClick={() => handleAppealReport(report)}>
+                        Appeal
+                      </Button>
                     )}
-                  </div>
-                </Card>
-              ))
-            ) : (
-              <div className="empty-state">
-                <p>No internships added yet.</p>
-              </div>
-            )}
-          </Card>
+                  </Space>
+                )
+              },
+            },
+          ]}
+          dataSource={filteredInternships}
+          rowKey="id"
+          pagination={false}
+          expandable={{
+            expandedRowRender,
+            rowExpandable: (record) => true,
+          }}
+        />
+      </Card>
 
-          {/* View Mode - Part-Time Jobs */}
-          <Card
-            title={
-              <span>
-                <TeamOutlined /> Part-Time Jobs
-              </span>
-            }
-            className="profile-section"
+      {/* Reports Section */}
+      <Card title="My Reports" className="section-card">
+        <Button type="primary" icon={<PlusOutlined />} onClick={handleCreateReport} className="mb-16">
+          New Report
+        </Button>
+        <Table
+          columns={[
+            {
+              title: "Title",
+              dataIndex: "title",
+              key: "title",
+            },
+            {
+              title: "Company",
+              key: "company",
+              render: (_, record) => {
+                const internship = internships.find((i) => i.id === record.internshipId)
+                return internship ? internship.company : "N/A"
+              },
+            },
+            {
+              title: "Created Date",
+              dataIndex: "createdAt",
+              key: "createdAt",
+            },
+            {
+              title: "Status",
+              dataIndex: "status",
+              key: "status",
+              render: (status) => {
+                let color = "default"
+                if (status === "approved") color = "green"
+                if (status === "flagged") color = "orange"
+                if (status === "rejected") color = "red"
+                if (status === "appealed") color = "blue"
+
+                return <Tag color={color}>{status ? status.toUpperCase() : "PENDING"}</Tag>
+              },
+            },
+            {
+              title: "Finalized",
+              dataIndex: "isFinalized",
+              key: "isFinalized",
+              render: (isFinalized) => <Tag color={isFinalized ? "green" : "orange"}>{isFinalized ? "YES" : "NO"}</Tag>,
+            },
+            {
+              title: "Actions",
+              key: "actions",
+              render: (_, record) => (
+                <Space size="middle">
+                  <Button type="link" icon={<EyeOutlined />} onClick={() => handleEditReport(record)}>
+                    View
+                  </Button>
+                  {!record.isFinalized && (
+                    <>
+                      <Button type="link" icon={<EditOutlined />} onClick={() => handleEditReport(record)}>
+                        Edit
+                      </Button>
+                      <Popconfirm
+                        title="Are you sure to delete this report?"
+                        onConfirm={() => handleDeleteReport(record.id)}
+                        okText="Yes"
+                        cancelText="No"
+                      >
+                        <Button type="link" danger icon={<DeleteOutlined />}>
+                          Delete
+                        </Button>
+                      </Popconfirm>
+                    </>
+                  )}
+                  <Button type="link" icon={<DownloadOutlined />} onClick={() => handleDownloadReport(record.id)}>
+                    PDF
+                  </Button>
+                  {!record.isFinalized && (
+                    <Button type="link" icon={<CheckCircleOutlined />} onClick={() => handleFinalizeReport(record.id)}>
+                      Finalize
+                    </Button>
+                  )}
+                  {["flagged", "rejected"].includes(record.status) && (
+                    <Button type="link" onClick={() => handleAppealReport(record)}>
+                      Appeal
+                    </Button>
+                  )}
+                </Space>
+              ),
+            },
+          ]}
+          dataSource={reports}
+          rowKey="id"
+        />
+      </Card>
+
+      {/* Evaluations Section */}
+      <Card title="My Evaluations" className="section-card">
+        <Button type="primary" icon={<PlusOutlined />} onClick={handleCreateEvaluation} className="mb-16">
+          New Evaluation
+        </Button>
+        <Table
+          columns={[
+            {
+              title: "Company",
+              dataIndex: "company",
+              key: "company",
+            },
+            {
+              title: "Recommend",
+              dataIndex: "wouldRecommend",
+              key: "wouldRecommend",
+              render: (recommend) => (
+                <Tag color={recommend ? "green" : "red"}>{recommend ? "Recommended" : "Not Recommended"}</Tag>
+              ),
+            },
+            {
+              title: "Rating",
+              dataIndex: "rating",
+              key: "rating",
+              render: (rating) => `${rating}/5`,
+            },
+            {
+              title: "Status",
+              dataIndex: "isFinalized",
+              key: "status",
+              render: (isFinalized) => (
+                <Tag color={isFinalized ? "green" : "orange"}>{isFinalized ? "Finalized" : "Draft"}</Tag>
+              ),
+            },
+            {
+              title: "Actions",
+              key: "actions",
+              render: (_, record) => (
+                <Space size="middle">
+                  <Button type="link" icon={<EyeOutlined />} onClick={() => handleEditEvaluation(record)}>
+                    View
+                  </Button>
+                  {!record.isFinalized && (
+                    <>
+                      <Button type="link" icon={<EditOutlined />} onClick={() => handleEditEvaluation(record)}>
+                        Edit
+                      </Button>
+                      <Popconfirm
+                        title="Are you sure to delete this evaluation?"
+                        onConfirm={() => handleDeleteEvaluation(record.id)}
+                        okText="Yes"
+                        cancelText="No"
+                      >
+                        <Button type="link" danger icon={<DeleteOutlined />}>
+                          Delete
+                        </Button>
+                      </Popconfirm>
+                    </>
+                  )}
+                  <Button
+                    type="link"
+                    icon={<DownloadOutlined />}
+                    onClick={() => message.info("Download functionality would be implemented here")}
+                  >
+                    PDF
+                  </Button>
+                  {!record.isFinalized && (
+                    <Button
+                      type="link"
+                      icon={<CheckCircleOutlined />}
+                      onClick={() => handleFinalizeEvaluation(record.id)}
+                    >
+                      Finalize
+                    </Button>
+                  )}
+                </Space>
+              ),
+            },
+          ]}
+          dataSource={evaluations}
+          rowKey="id"
+        />
+      </Card>
+
+      {/* Report Modal with Course Selection */}
+      <Modal
+        title={currentReport ? "Edit Report" : "Create Report"}
+        open={reportModalVisible}
+        onCancel={() => setReportModalVisible(false)}
+        onOk={handleSubmitReport}
+        width={800}
+      >
+        <Form form={reportForm} layout="vertical">
+          <Form.Item name="title" label="Report Title" rules={[{ required: true, message: "Please enter a title" }]}>
+            <Input placeholder="Enter report title" />
+          </Form.Item>
+          <Form.Item
+            name="introduction"
+            label="Introduction"
+            rules={[{ required: true, message: "Please write an introduction" }]}
           >
-            {formData.partTimeJobs.length > 0 ? (
-              formData.partTimeJobs.map((job, index) => (
-                <Card
-                  key={index}
-                  className="job-card"
-                  title={
-                    <div className="job-header">
-                      <h4>
-                        {job.position} at {job.company}
-                      </h4>
-                    </div>
-                  }
-                >
-                  <div className="job-view">
-                    <div className="job-meta">
-                      <p>
-                        <CalendarOutlined /> {job.duration}
-                      </p>
-                    </div>
-
-                    <Divider orientation="left">Responsibilities</Divider>
-                    <List dataSource={job.responsibilities} renderItem={(item) => <List.Item>{item}</List.Item>} />
-                  </div>
-                </Card>
-              ))
-            ) : (
-              <div className="empty-state">
-                <p>No part-time jobs added yet.</p>
-              </div>
-            )}
-          </Card>
-
-          {/* View Mode - College Activities */}
-          <Card
-            title={
-              <span>
-                <TrophyOutlined /> College Activities
-              </span>
-            }
-            className="profile-section"
+            <TextArea rows={4} placeholder="Write your introduction here..." />
+          </Form.Item>
+          <Form.Item
+            name="body"
+            label="Report Body"
+            rules={[{ required: true, message: "Please write the report body" }]}
           >
-            {formData.activities.length > 0 ? (
-              formData.activities.map((activity, index) => (
-                <Card
-                  key={index}
-                  className="activity-card"
-                  title={
-                    <div className="activity-header">
-                      <h4>
-                        {activity.role} at {activity.organization}
-                      </h4>
-                    </div>
-                  }
-                >
-                  <div className="activity-view">
-                    <div className="activity-meta">
-                      <p>
-                        <CalendarOutlined /> {activity.duration}
-                      </p>
-                    </div>
+            <TextArea rows={8} placeholder="Write your report here..." />
+          </Form.Item>
 
-                    <Divider orientation="left">Description</Divider>
-                    <p>{activity.description}</p>
-                  </div>
-                </Card>
-              ))
-            ) : (
-              <div className="empty-state">
-                <p>No activities added yet.</p>
+          {/* Course Selection Section */}
+          <Form.Item label="Relevant Courses">
+            <Button type="primary" onClick={() => setCourseModalVisible(true)} icon={<PlusOutlined />}>
+              Select Courses
+            </Button>
+            {selectedCourses.length > 0 && (
+              <div style={{ marginTop: 16 }}>
+                <h4>Selected Courses:</h4>
+                <List
+                  size="small"
+                  dataSource={selectedCourses}
+                  renderItem={(course) => (
+                    <List.Item>
+                      <Tag color="blue">{course.code}</Tag> {course.name}
+                    </List.Item>
+                  )}
+                />
               </div>
             )}
-          </Card>
+          </Form.Item>
+        </Form>
+      </Modal>
+
+      {/* Course Selection Modal */}
+      <Modal
+        title="Select Relevant Courses"
+        open={courseModalVisible}
+        onOk={saveSelectedCourses}
+        onCancel={() => setCourseModalVisible(false)}
+        width={600}
+      >
+        <div style={{ maxHeight: 400, overflowY: "auto" }}>
+          <List
+            dataSource={coursesInMajor}
+            renderItem={(course) => (
+              <List.Item>
+                <Checkbox checked={course.selected} onChange={() => toggleCourseSelection(course.id)}>
+                  {course.code} - {course.name}
+                </Checkbox>
+              </List.Item>
+            )}
+          />
         </div>
-      )}
+      </Modal>
+
+      {/* Evaluation Modal */}
+      <Modal
+        title={currentEvaluation ? "Edit Evaluation" : "Create Evaluation"}
+        open={evaluationModalVisible}
+        onCancel={() => setEvaluationModalVisible(false)}
+        onOk={handleSubmitEvaluation}
+        width={600}
+        footer={[
+          <Button key="back" onClick={() => setEvaluationModalVisible(false)}>
+            Cancel
+          </Button>,
+          currentEvaluation?.isFinalized ? null : (
+            <Button key="submit" type="primary" onClick={() => evaluationForm.submit()}>
+              {currentEvaluation ? "Update" : "Submit"}
+            </Button>
+          ),
+          currentEvaluation && !currentEvaluation.isFinalized && (
+            <Button
+              key="finalize"
+              type="primary"
+              onClick={() => {
+                evaluationForm.submit().then(() => {
+                  handleFinalizeEvaluation(currentEvaluation.id)
+                  setEvaluationModalVisible(false)
+                })
+              }}
+            >
+              Finalize
+            </Button>
+          ),
+        ]}
+      >
+        <Form form={evaluationForm} layout="vertical">
+          <Form.Item
+            name="wouldRecommend"
+            label="Would you recommend this internship to other students?"
+            rules={[{ required: true, message: "Please answer this question" }]}
+          >
+            <Select>
+              <Option value={true}>Yes</Option>
+              <Option value={false}>No</Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="rating"
+            label="Overall Rating (1-5)"
+            rules={[{ required: true, message: "Please provide a rating" }]}
+          >
+            <Rate allowHalf />
+          </Form.Item>
+          <Form.Item name="comments" label="Additional Comments">
+            <TextArea rows={4} placeholder="Share your thoughts about the internship..." />
+          </Form.Item>
+        </Form>
+      </Modal>
+
+      {/* Appeal Modal */}
+      <Modal
+        title="Appeal Report"
+        open={appealModalVisible}
+        onCancel={() => setAppealModalVisible(false)}
+        onOk={handleSubmitAppeal}
+        width={600}
+      >
+        <Form form={appealForm} layout="vertical">
+          <Form.Item
+            name="message"
+            label="Appeal Message"
+            rules={[{ required: true, message: "Please enter your appeal message" }]}
+          >
+            <TextArea rows={4} placeholder="Explain why you are appealing this report..." />
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   )
 }
 
-export default ProfileContent
+export default Reports
