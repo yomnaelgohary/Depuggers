@@ -562,18 +562,18 @@ body {
   font-size: 20px;
 }
 
-/* Filter popup styles - centered modal style */
 .filter-popup-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.55); /* Or your desired dimming color/opacity */
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 2000;
+ backdrop-filter: blur(0px);        /* THIS LINE MUST BE COMMENTED OUT OR DELETED */
 }
 
 /* Filter popup styles */
@@ -615,28 +615,33 @@ body {
 }
 
 .filter-options {
-  max-height: 250px;
-  overflow-y: auto;
-  padding: 10px 0;
-}
-
-.filter-option {
-  padding: 10px 15px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  font-size: 14px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
 }
-
+.filter-option {
+  padding: 8px 14px;
+  /* border-radius: 16px; */ /* REMOVE OR REDUCE THIS - This creates the pill shape */
+  border-radius: 6px;      /* NEW - For a slightly rounded rectangle, consistent with other buttons */
+                            /* Or use 4px for sharper, or 0px for perfect rectangle */
+  background-color: #f3f4f6;
+  color: #4b5563;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; /* Added border-color */
+  border: 1px solid transparent;
+}
 .filter-option:hover {
-  background-color: #f5f5f5;
+  background-color: #e5e7eb;
+  color: #1f2937;
 }
-
 .filter-option.selected {
-  background-color: #f0f0f0;
+  background-color: #5f2878; /* Theme purple */
+  color: white;
   font-weight: 500;
+  border-color: #4a2060; /* No change needed here unless you want different selected border */
+  box-shadow: 0 2px 4px rgba(95, 40, 120, 0.2);
+  /* The border-radius from the base .filter-option will apply here too, ensuring consistency */
 }
 
 .filter-popup-footer {
@@ -2071,38 +2076,27 @@ s
 
 /* Internships Section Styles */
 .internships-section {
-  background-color: #fff;
+  background-color: #f7f8fa;
   border-radius: 8px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   padding: 20px;
   z-index: 1000;
   width: 100%;
-}
-
-.internships-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #e0e0e0;
+  min-height: 100vh;
 }
 
 .internships-header h2 {
-  font-size: 20px;
-  font-weight: 600;
-  color: #333;
+  font-size: 28px;
+  font-weight: 700;
+  color: #1c1c1e;
   margin: 0;
 }
 
-/* New Search and Filter Container */
 .search-filter-container {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: 12px;
+  margin-bottom: 25px;
   padding-bottom: 15px;
-  border-bottom: 1px solid #e0e0e0;
 }
 
 .search-input-wrapper {
@@ -2112,44 +2106,48 @@ s
 
 .search-input {
   width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 10px 15px;
+  border: 1px solid #d1d1d6;
+  border-radius: 6px;
   font-size: 14px;
   color: #333;
   outline: none;
+  background-color: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
-
+.search-input:focus {
+  border-color: #5f2878; /* Theme purple focus */
+  box-shadow: 0 0 0 2px rgba(95, 40, 120, 0.2);
+}
 .search-input::placeholder {
-  color: #999;
+  color: #8e8e93;
 }
 
-/* Filter Button Styles */
 .filters-button {
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 10px 15px;
+  border: 1px solid #d1d1d6;
+  border-radius: 6px;
   background-color: #fff;
   font-size: 14px;
   color: #333;
   cursor: pointer;
-  height: 36px; /* Match the height of the search input */
+  height: auto;
   white-space: nowrap;
+  transition: background-color 0.2s, border-color 0.2s;
 }
-
-.hamburger-icon {
-  font-size: 16px;
-  line-height: 1;
+.filters-button:hover {
+  background-color: #f8f8f8;
+  border-color: #b0b0b9;
 }
-
+/* Filter badge on main page */
 .filter-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: #5f2878;
+  background-color: #5f2878; /* THEME PURPLE */
   color: white;
   border-radius: 50%;
   width: 18px;
@@ -2158,6 +2156,7 @@ s
   margin-left: 5px;
 }
 
+
 /* Filter Popup Styles */
 .filter-popup-overlay {
   position: fixed;
@@ -2165,19 +2164,20 @@ s
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.55);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 2000;
+  backdrop-filter: blur(2px);
 }
 
 .filter-popup {
   background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
   width: 90%;
-  max-width: 450px;
+  max-width: 480px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -2187,18 +2187,18 @@ s
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 20px;
-  border-bottom: 1px solid #e0e0e0;
+  padding: 18px 22px;
+  border-bottom: 1px solid #eef0f2;
 }
 
 .filter-popup-header h3 {
-  font-size: 18px;
+  font-size: 19px;
   margin: 0;
   font-weight: 600;
-  color: #333;
+  color: #2c2c2e;
 }
 
-.filter-popup-header button {
+.filter-close-btn {
   background: none;
   border: none;
   cursor: pointer;
@@ -2206,891 +2206,621 @@ s
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0;
+  padding: 4px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+.filter-close-btn:hover {
+  background-color: #f0f0f0;
 }
 
+
 .filter-popup-content {
-  max-height: 60vh;
+  max-height: 65vh;
   overflow-y: auto;
-  padding: 0;
+  padding: 8px 0;
 }
 
 .filter-section {
-  padding: 15px 20px;
-  border-bottom: 1px solid #f0f0f0;
+  padding: 12px 22px;
+  border-bottom: 1px solid #f5f5f5;
 }
-
+.filter-section:last-child {
+  border-bottom: none;
+}
 .filter-section h4 {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 500;
   color: #333;
-  margin: 0 0 10px 0;
+  margin: 0 0 12px 0;
 }
-
 .filter-options {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 6px;
 }
-
 .filter-option {
-  padding: 10px 15px;
+  padding: 10px 12px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
   font-size: 14px;
-  border-radius: 4px;
+  border-radius: 5px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
 .filter-option:hover {
-  background-color: #f5f5f5;
+  background-color: #f5f0f7; /* Lighter shade of theme purple for hover */
 }
-
 .filter-option.selected {
-  background-color: #f0f0f0;
+  background-color: #5f2878; /* THEME PURPLE */
+  color: #ffffff; /* White text on purple background */
   font-weight: 500;
 }
-
-.check-icon {
-  color: #5f2878;
+.filter-option.selected .check-icon {
+  color: #ffffff; /* White check icon on purple background */
 }
+.check-icon { /* Default (unselected) check icon */
+  color: #5f2878; /* THEME PURPLE */
+}
+
 
 .filter-popup-footer {
   display: flex;
-  justify-content: flex-end;
-  padding: 15px 20px;
-  border-top: 1px solid #e0e0e0;
-  gap: 10px;
+  justify-content: space-between;
+  padding: 18px 22px;
+  border-top: 1px solid #eef0f2;
+  gap: 12px;
 }
-
 .filter-popup-footer button {
-  padding: 8px 16px;
-  border-radius: 4px;
+  padding: 10px 18px;
+  border-radius: 6px;
   font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  flex-grow: 1;
 }
-
 .filter-popup-footer .apply-button {
-  background-color: #5f2878;
+  background-color: #5f2878; /* THEME PURPLE */
   border: none;
   color: white;
 }
-
 .filter-popup-footer .reset-button {
   background-color: #f5f5f5;
   border: 1px solid #ccc;
   color: #333;
 }
-
 .filter-popup-footer .apply-button:hover {
-  background-color: #4a2060;
+  background-color: #4a2060; /* Darker shade of THEME PURPLE */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
-
 .filter-popup-footer .reset-button:hover {
-  background-color: #e0e0e0;
+  background-color: #e8e8e8;
+  border-color: #bbb;
 }
 
+/* --- Internship List and Card Styles --- */
 .internships-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 15px;
-}
-
-.internship-card {
-  background-color: #f9f9f9;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 15px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.internship-card:hover {
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transform: translateY(-3px);
-  border-color: #c31432;
-}
-
-.internship-header {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.internship-display-card {
+  display: flex;
+  background-color: #fff;
+  border: 1px solid #e4e4e7;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+  min-height: 160px;
+}
+.internship-display-card:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.07);
+  border-color: #a0a0a9;
+  transform: translateY(-2px);
+}
+
+.internship-display-card-left {
+  padding: 16px 0px 16px 16px;
+  display: flex;
+  align-items: center;
+  min-width: 100px;
+  flex-shrink: 0;
+  position: relative;
+}
+.price-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: flex-start;
-  margin-bottom: 10px;
 }
-
-.internship-header h3 {
-  font-size: 16px;
+.salary-total {
+  font-size: 18px;
   font-weight: 600;
-  color: #333;
-  margin: 0;
-  flex: 1;
+  color: #1c1c1e;
+  margin-bottom: 2px;
+}
+.hourly-rate {
+  font-size: 13px;
+  color: #6c6c70;
+}
+.price-separator-line {
+  width: 1.5px;
+  background-color: #dcdce0;
+  height: 60%;
+  margin-left: 16px;
+  align-self: center;
+  border-radius: 1px;
+}
+.internship-display-card-left:empty {
+  min-width: 100px;
+  padding: 16px;
 }
 
-.payment-badge {
-  font-size: 12px;
+
+.internship-display-card-center {
+  flex-grow: 1;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.company-name-list {
+  font-size: 13px;
+  color: #7a7a80;
+  margin-bottom: -2px;
+}
+.job-title-list {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111;
+  margin: 0 0 4px 0;
+  line-height: 1.3;
+}
+.learning-opportunity-badge-list {
+  font-size: 10px;
+  font-weight: 500;
+  color: #5856d6; /* Original learning opportunity badge color */
+  background-color: #edeafd;
   padding: 3px 8px;
   border-radius: 12px;
+  align-self: flex-start;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+.skills-required-list {
+  font-size: 12px;
+  color: #4c4c53;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+.skills-required-list > span:first-child {
   font-weight: 500;
+  margin-right: 2px;
 }
-
-.payment-badge.paid {
-  background-color: #e6f7e6;
-  color: #2e7d32;
+.skill-tag-list-item {
+  background-color: #f0f0f4;
+  color: #525259;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
 }
-
-.payment-badge.unpaid {
-  background-color: #ffebee;
-  color: #c62828;
-}
-
-.internship-company,
-.internship-duration {
+.detail-item-list {
+  font-size: 13px;
+  color: #5c5c63;
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-top: 8px;
-  font-size: 14px;
-  color: #666;
 }
-
-.no-results {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 30px;
-  color: #777;
-  font-size: 16px;
+.detail-item-list .detail-icon {
+  color: #808085;
 }
-
-/* Internship Details Styles */
-.internship-details {
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  width: 90%;
-  max-width: 700px;
-  max-height: 85vh;
-  overflow-y: auto;
-  z-index: 1001;
+.dates-list, .duration-list {
+ padding-left: 20px;
 }
-
-.internship-details-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.internship-details-header h2 {
-  font-size: 22px;
-  font-weight: 600;
-  color: #333;
-  margin: 0;
-}
-
-.internship-details-content {
-  padding: 20px;
-}
-
-.internship-company-info {
-  margin-bottom: 20px;
-}
-
-.internship-company-info h3 {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 18px;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 5px;
-}
-
-.industry-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 14px;
-  color: #666;
-}
-
-.internship-info-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-  margin-bottom: 25px;
-  padding: 15px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-}
-
-.info-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-}
-
-.info-item svg {
-  color: #c31432;
-  margin-top: 3px;
-}
-
-.info-item h4 {
-  font-size: 14px;
-  font-weight: 600;
-  color: #555;
-  margin: 0 0 5px 0;
-}
-
-.info-item p {
-  font-size: 14px;
-  color: #333;
-  margin: 0;
-}
-
-.info-item .salary {
-  font-weight: 600;
-  color: #2e7d32;
-  margin-top: 3px;
-}
-
-.internship-description,
-.internship-skills {
-  margin-bottom: 25px;
-}
-
-.internship-description h3,
-.internship-skills h3 {
-  font-size: 18px;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 10px;
-}
-
-.internship-description p {
-  font-size: 15px;
-  line-height: 1.6;
-  color: #555;
-}
-
-.skills-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.skill-tag {
-  background-color: #f0f2f5;
-  color: #333;
-  padding: 5px 10px;
-  border-radius: 4px;
-  font-size: 14px;
-}
-
-/* Responsive styles */
-@media (max-width: 768px) {
-  .actions-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .internships-list {
-    grid-template-columns: 1fr;
-  }
-
-  .internship-info-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 480px) {
-  .actions-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .stats-section {
-    grid-template-columns: 1fr;
-  }
-}
-
-
-/* Evaluations & Reports Styles */
-.container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #fff;
-}
-
-.evaluations-section-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
-  z-index: 999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.evaluations-section {
-  background-color: #fff;
-  border-radius: 8px;
-  padding: 20px;
-  z-index: 1000;
-  width: 100%;
-}
-
-.evaluations-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.evaluations-header h2 {
-  font-size: 20px;
-  font-weight: 600;
-  color: #333;
-  margin: 0;
-}
-
-/* New search and filter styles */
-.search-filter-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  gap: 15px;
-}
-
-.search-container {
-  flex: 1;
-  max-width: 100%;
-}
-
-
-
-.search-input::placeholder {
-  color: #aaa;
-}
-
-.search-input:focus {
-  border-color: #6b46c1;
-}
-
-.filter-container {
-  position: relative;
-}
-
-/* Update the filter button style to match the reference image */
-.filter-button {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 15px;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #333;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.filter-button:hover {
-  background-color: #f9f9f9;
-  border-color: #ccc;
-}
-
-/* Update the filter popup styles to match the reference image */
-.filter-popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 500px; /* Increased width */
-  max-width: 90vw; /* Responsive width */
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-  z-index: 1001;
+.description-preview-list {
+  font-size: 13px;
+  color: #4a4a50;
+  line-height: 1.5;
+  margin-top: 4px;
+  margin-bottom: 6px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
-
-/* Add an overlay when the filter popup is open */
-.filter-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.filter-popup-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 20px;
-  border-bottom: 1px solid #eee;
-}
-
-.filter-popup-header h3 {
-  font-size: 16px;
-  font-weight: 600;
-  color: #333;
-  margin: 0;
-}
-
-.close-popup-button {
-  background: none;
-  border: none;
-  color: #777;
-  cursor: pointer;
-  padding: 5px;
-}
-
-.close-popup-button:hover {
-  color: #333;
-}
-
-.filter-content {
-  max-height: 60vh;
-  overflow-y: auto;
-  padding: 0 20px;
-}
-
-.filter-section {
-  padding: 15px 0;
-  border-bottom: 1px solid #eee;
-}
-
-.filter-section:last-child {
-  border-bottom: none;
-}
-
-.filter-section h4 {
-  font-size: 14px;
-  font-weight: 600;
-  color: #555;
-  margin: 0 0 15px 0;
-}
-
-.filter-options {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.filter-option {
-  padding: 10px 15px;
-  border-radius: 25px;
-  background-color: #f5f5f5;
-  color: #555;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  margin-bottom: 5px;
-}
-
-.filter-option:hover {
-  background-color: #eee;
-}
-
-.filter-option.selected {
-  background-color: #6b46c1;
-  color: white;
-}
-
-.filter-actions {
-  display: flex;
-  justify-content: space-between;
-  padding: 15px 20px;
-  border-top: 1px solid #eee;
-}
-
-.reset-button,
-.apply-button {
-  padding: 10px 15px;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  width: 48%;
-  text-align: center;
-}
-
-.reset-button {
-  background-color: #fff;
-  color: #555;
-  border: 1px solid #ddd;
-}
-
-.reset-button:hover {
-  background-color: #f5f5f5;
-}
-
-.apply-button {
-  background-color: #6b46c1;
-  color: white;
-  border: none;
-}
-
-.apply-button:hover {
-  background-color: #5a3aa9;
-}
-
-.reports-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 15px;
-}
-
-.report-card {
-  background-color: #f9f9f9;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 15px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.report-card:hover {
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transform: translateY(-3px);
-  border-color: #c31432;
-}
-
-.report-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 10px;
-}
-
-.report-card-header h3 {
-  font-size: 16px;
-  font-weight: 600;
-  color: #333;
-  margin: 0;
-  flex: 1;
-}
-
-.status-badge {
+.applications-count-list {
   font-size: 12px;
-  padding: 3px 8px;
-  border-radius: 12px;
-  font-weight: 500;
-  text-align: center;
-  min-width: 70px;
-}
-
-.status-badge.pending {
-  background-color: #e3f2fd;
-  color: #1976d2;
-}
-
-.status-badge.flagged {
-  background-color: #fff8e1;
-  color: #f57f17;
-}
-
-.status-badge.rejected {
-  background-color: #ffebee;
-  color: #c62828;
-}
-
-.status-badge.accepted {
-  background-color: #e8f5e9;
-  color: #2e7d32;
-}
-
-.report-card-content {
-  font-size: 14px;
-  color: #666;
-}
-
-.report-card-content p {
-  margin: 5px 0;
-}
-
-.no-results {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 30px;
-  color: #777;
-  font-size: 16px;
-}
-
-/* Report Details Styles */
-.report-details {
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  width: 100%;
-  max-width: 800px;
-  max-height: 85vh;
-  overflow-y: auto;
-  z-index: 1001;
-  margin: 0 auto;
-}
-
-.report-details-header {
+  color: #6c6c70;
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 20px;
-  border-bottom: 1px solid #e0e0e0;
-  position: sticky;
-  top: 0;
-  background-color: #fff;
-  z-index: 2;
-  flex-wrap: wrap;
-  gap: 10px;
+  align-items: center;
+  gap: 6px;
+  margin-top: auto;
+}
+.applications-count-list .detail-icon {
+  color: #8a8a8e;
 }
 
-.report-details-header h2 {
-  font-size: 20px;
-  font-weight: 600;
-  color: #333;
-  margin: 0;
-  flex: 1;
-}
-
-.report-status-controls {
+.internship-display-card-right {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  gap: 10px;
-  margin-right: 15px;
+  /* align-items: center; */ /* Base alignment, will be overridden for unpaid */
+  padding: 16px 12px;
+  min-width: 100px;
+  /* text-align: center; */ /* Base alignment, will be overridden for unpaid */
+  flex-shrink: 0;
 }
-
-.status-actions {
-  display: flex;
-  gap: 5px;
+.internship-display-card-right.paid-bg {
+  background-color: #e7f3ff; /* Light blue for PAID */
+  justify-content: space-between; /* Time at top, PAID at bottom */
+  align-items: center; /* Center content horizontally */
+  text-align: center;
 }
-
-.status-button {
-  padding: 5px 10px;
-  border-radius: 4px;
-  border: none;
+.internship-display-card-right.unpaid-bg {
+  background-color: #f3e5f5ab; /* Softer Light purple for UNPAID */
+  justify-content: flex-start; /* Align UNPAID text to the top */
+  align-items: flex-start;   /* Align UNPAID text to the left */
+  text-align: left;
+}
+.work-time-info-list {
+  /* Styles for this container if needed */
+}
+.work-time-list {
   font-size: 12px;
   font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  color: #3c3c43;
+}
+.work-shift-list {
+  font-size: 10px;
+  color: #8a8a8e;
+  text-transform: uppercase;
+  margin-top: 1px;
+}
+.payment-status-text-list {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.internship-display-card-right.paid-bg .payment-status-text-list {
+  color: #007aff;
+  font-size: 11px;
+}
+.internship-display-card-right.unpaid-bg .payment-status-text-list {
+  color: #9c27b0; /* Deeper purple for UNPAID text */
+  font-size: 12px; /* Adjusted size to match image more closely for unpaid */
+  /* For unpaid, the text itself is already at the top-left due to parent's align/justify */
 }
 
-.status-button.flagged {
-  background-color: #fff8e1;
-  color: #f57f17;
-}
-
-.status-button.rejected {
-  background-color: #ffebee;
-  color: #c62828;
-}
-
-.status-button.accepted {
-  background-color: #e8f5e9;
-  color: #2e7d32;
-}
-
-.status-button:hover {
-  opacity: 0.9;
-}
-
-.status-button.active {
-  box-shadow: 0 0 0 2px currentColor;
-}
-
-.report-details-content {
-  padding: 20px;
-}
-
-.report-meta {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 15px;
-  margin-bottom: 20px;
-  padding: 15px;
-  background-color: #f9f9f9;
+.no-results {
+  text-align: center;
+  padding: 40px 20px;
+  color: #555;
+  font-size: 16px;
+  background-color: #fff;
   border-radius: 8px;
+  border: 1px solid #e4e4e7;
+  margin-top: 20px;
 }
-
-.meta-item h4 {
-  font-size: 14px;
-  font-weight: 600;
-  color: #555;
-  margin: 0 0 5px 0;
-}
-
-.meta-item p {
-  font-size: 14px;
+.no-results h3 {
+  font-size: 20px;
   color: #333;
-  margin: 0;
-}
-
-.internship-period {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
-  margin-bottom: 20px;
-  padding: 15px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-}
-
-.period-item h4 {
-  font-size: 14px;
-  font-weight: 600;
-  color: #555;
-  margin: 0 0 5px 0;
-}
-
-.period-item p {
-  font-size: 14px;
-  color: #333;
-  margin: 0;
-}
-
-.report-section {
-  margin-bottom: 25px;
-}
-
-.report-section h3 {
-  font-size: 18px;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 10px;
-  padding-bottom: 5px;
-  border-bottom: 1px solid #eee;
-}
-
-.report-section p {
-  font-size: 15px;
-  line-height: 1.6;
-  color: #555;
-}
-
-.tasks-list {
-  padding-left: 20px;
-}
-
-.tasks-list li {
   margin-bottom: 8px;
-  font-size: 15px;
-  color: #555;
 }
 
-.skills-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
 
-.skill-tag {
-  background-color: #e3f2fd;
-  color: #1976d2;
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 500;
-}
-
-.performance-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 15px;
-  margin-top: 10px;
-}
-
-.performance-item {
-  padding: 10px;
-  background-color: #f9f9f9;
-  border-radius: 6px;
-}
-
-.performance-item h4 {
-  font-size: 14px;
-  font-weight: 600;
-  color: #555;
-  margin: 0 0 8px 0;
-}
-
-.performance-item.overall {
-  grid-column: 1 / -1;
-  background-color: #f0f2f5;
-}
-
-.rating-stars {
+/* --- Styles for Enhanced Internship Details Modal --- */
+.internship-details-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(20, 20, 25, 0.65); /* Or your desired dimming color/opacity */
   display: flex;
   align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 20px;
+  /* backdrop-filter: blur(4px); */              /* THIS LINE MUST BE COMMENTED OUT OR DELETED */
 }
 
-.star {
-  color: #ffca28;
-  font-size: 18px;
-  margin-right: 2px;
-}
-
-.star.empty {
-  color: #e0e0e0;
-}
-
-.star.half {
-  position: relative;
-  color: #e0e0e0;
-}
-
-.star.half::before {
-  content: "★";
-  position: absolute;
-  color: #ffca28;
-  width: 50%;
+.internship-details-modal-content {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 780px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
 }
 
-.rating-value {
-  margin-left: 5px;
-  font-size: 14px;
-  color: #666;
+.internship-details-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 28px;
+  border-bottom: 1px solid #eef0f2;
+  background-color: #fcfcfd;
+}
+.internship-details-modal-header h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+  line-height: 1.3;
+}
+.modal-close-button-enhanced {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+  padding: 6px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, color 0.2s;
+}
+.modal-close-button-enhanced:hover {
+  background-color: #f3f4f6;
+  color: #111827;
 }
 
-/* Responsive styles */
+.internship-details-modal-body {
+  padding: 28px;
+  overflow-y: auto;
+  flex-grow: 1;
+  scrollbar-width: thin;
+  scrollbar-color: #c5c5c5 #f0f0f0;
+}
+.internship-details-modal-body::-webkit-scrollbar {
+  width: 8px;
+}
+.internship-details-modal-body::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-radius: 4px;
+}
+.internship-details-modal-body::-webkit-scrollbar-thumb {
+  background-color: #c5c5c5;
+  border-radius: 4px;
+  border: 2px solid #f0f0f0;
+}
+
+
+.modal-company-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px dashed #dde1e6;
+}
+.modal-company-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.modal-icon {
+  color: #4b5563;
+}
+.modal-company-name {
+  font-size: 19px;
+  font-weight: 500;
+  color: #1f2937;
+}
+.modal-industry-tag {
+  font-size: 13px;
+  color: #5f6b7a;
+  background-color: #f0f2f5;
+  padding: 5px 12px;
+  border-radius: 16px;
+}
+
+.modal-learning-opportunity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #e6f7ff;
+  color: #026aa2;
+  padding: 12px 14px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  font-size: 14px;
+  border: 1px solid #b3d9ff;
+}
+.modal-icon-success {
+  color: #007bff;
+}
+
+.modal-key-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  margin-bottom: 28px;
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #e9ecef;
+}
+.modal-info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.modal-info-item .modal-icon {
+  margin-top: 3px;
+  color: #5f2878; /* Theme purple for modal icons */
+}
+.modal-icon-paid { color: #16a34a !important; }
+.modal-icon-unpaid { color: #dc2626 !important; }
+
+.modal-info-label {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0 0 4px 0;
+  font-weight: 500;
+}
+.modal-info-value {
+  font-size: 15px;
+  color: #1f2937;
+  margin: 0;
+  font-weight: 500;
+}
+.modal-info-value.paid-text { color: #16a34a; font-weight: 600; }
+.modal-info-value.unpaid-text { color: #dc2626; font-weight: 600;}
+.modal-salary-detail, .modal-info-detail {
+  font-size: 13px;
+  color: #4b5563;
+  margin-top: 3px;
+  line-height: 1.4;
+}
+
+.modal-section {
+  margin-bottom: 28px;
+}
+.modal-section:last-child {
+  margin-bottom: 0;
+}
+.modal-section-title {
+  font-size: 19px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #5f2878; /* Theme purple for modal section titles */
+  display: inline-block;
+}
+.modal-description-text {
+  font-size: 15px;
+  line-height: 1.75;
+  color: #374151;
+  white-space: pre-wrap;
+}
+.modal-description-text p {
+    margin-bottom: 1em;
+}
+.modal-description-text p:last-child {
+    margin-bottom: 0;
+}
+
+.modal-skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.modal-skill-tag {
+  background-color: #f3e8fd;
+  color: #5f2878; /* Theme purple for modal skill tags */
+  padding: 7px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  border: 1px solid #e0c4f5;
+}
+
+.modal-applications-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: #fffbeb;
+  padding: 14px;
+  border-radius: 8px;
+  color: #78350f;
+  border: 1px solid #fde68a;
+}
+.modal-applications-info .modal-icon{
+    color: #b45309;
+}
+.modal-applications-info .modal-info-value {
+    color: #78350f;
+}
+
+
+.internship-details-modal-footer {
+  padding: 10px 28px; /* Reduced padding as it's empty now */
+  border-top: 1px solid #eef0f2;
+  min-height: 20px; /* Give it some minimal height or remove if completely empty styling is preferred */
+  background-color: #fcfcfd;
+}
+
+
+/* Responsive adjustments */
 @media (max-width: 768px) {
-  .reports-list {
-    grid-template-columns: 1fr;
-  }
-
-  .report-meta,
-  .internship-period,
-  .performance-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .report-status-controls {
+  .internship-display-card {
     flex-direction: column;
-    align-items: flex-end;
+  }
+  .internship-display-card-left {
+    border-right: none;
+    border-bottom: 1px solid #f0f0f0;
+    align-items: center;
+    min-width: auto;
+    padding: 12px 16px;
+    flex-direction: row;
+    justify-content: center;
+  }
+  .price-separator-line {
+    height: 24px;
+    margin-left: 12px;
+    margin-right: 12px;
+  }
+  .internship-display-card-right {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    flex-direction: row;
+    min-height: 50px;
+  }
+  /* For paid cards on mobile, ensure time/shift and PAID text are spaced out */
+  .internship-display-card-right.paid-bg {
+      justify-content: space-around;
+      align-items: center;
+  }
+  /* For unpaid cards on mobile, ensure UNPAID is at the start */
+  .internship-display-card-right.unpaid-bg {
+      justify-content: flex-start;
+      align-items: center; /* Vertically center UNPAID text in its row */
+      padding-left: 16px; /* Ensure some padding from left edge */
+  }
+  .internship-display-card-right.unpaid-bg .payment-status-text-list {
+      font-size: 12px;
   }
 
-  .status-actions {
-    margin-top: 5px;
+  .dates-list, .duration-list {
+    padding-left: 0;
   }
+}
 
+@media (max-width: 600px) {
+  .internship-details-modal-header h2 {
+    font-size: 20px;
+  }
+  .internship-details-modal-body,
+  .internship-details-modal-header,
+  .internship-details-modal-footer {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .modal-company-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .modal-key-info-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  /* Footer buttons already removed, so responsive changes to them are not needed here */
   .search-filter-container {
     flex-direction: column;
     align-items: stretch;
@@ -3098,142 +2828,721 @@ s
 }
 
 @media (max-width: 480px) {
-  .report-details-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
+  .internships-header h2 {
+    font-size: 24px;
   }
-
-  .report-status-controls {
-    align-items: flex-start;
-    width: 100%;
+  .internship-display-card-center {
+    padding: 12px;
+  }
+   .salary-total {
+    font-size: 16px;
+  }
+  .job-title-list {
+    font-size: 17px;
+  }
+  .filter-popup {
+    max-width: 95%;
+    border-radius: 8px;
+  }
+  .filter-popup-footer {
+    flex-direction: column;
   }
 }
 
-/* Add styles for the download PDF button and report actions */
-.report-actions {
+
+/* Evaluations & Reports Styles */
+.container {
+  width: 100%;
+  /* max-width: 1200px; */ /* Allow it to be full width if desired, or set a max-width */
+  margin: 0 auto;
+  padding: 24px; /* Consistent padding */
+  background-color: #f9fafb; /* Light background for the whole page */
+  min-height: calc(100vh - 80px); /* Assuming header height is 80px */
+}
+
+.evaluations-section {
+  background-color: #fff;
+  border-radius: 10px; /* Slightly more rounded */
+  padding: 24px; /* Consistent padding */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Softer shadow */
+  width: 100%;
+}
+
+.evaluations-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px; /* Increased margin */
+  padding-bottom: 16px; /* Increased padding */
+  border-bottom: 1px solid #e5e7eb; /* Softer border */
+}
+
+.evaluations-header h2 {
+  font-size: 22px; /* Slightly larger */
+  font-weight: 600;
+  color: #1f2937; /* Darker text */
+  margin: 0;
+}
+
+.search-filter-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  gap: 16px;
+}
+
+.search-container {
+  flex-grow: 1; /* Allow search to take more space */
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #d1d5db; /* Softer border */
+  border-radius: 6px;
+  font-size: 14px;
+  color: #374151;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.search-input::placeholder {
+  color: #9ca3af;
+}
+.search-input:focus {
+  border-color: #5f2878; /* Theme purple */
+  box-shadow: 0 0 0 2px rgba(95, 40, 120, 0.2);
+  outline: none;
+}
+
+
+.filter-container {
+  position: relative; /* For positioning the popup */
+  flex-shrink: 0; /* Prevent filter button from shrinking too much */
+}
+
+.filter-button {
   display: flex;
   align-items: center;
+  gap: 8px;
+  padding: 10px 16px; /* Slightly more padding */
+  background-color: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.filter-button:hover {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+}
+.filter-button svg { /* Style for the Menu icon */
+    color: #6b7280;
+}
+
+
+.filter-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4); /* Standard overlay dim */
+  z-index: 1000; /* Below the popup itself */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* backdrop-filter: blur(2px); */ /* Remove if not desired, or keep if you prefer the blur */
+}
+
+.filter-popup {
+  width: 480px; /* Good width for filters */
+  max-width: 90vw;
+  background-color: #fff;
+  border-radius: 10px; /* More rounded */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  z-index: 1001; /* Above overlay */
+  display: flex;
+  flex-direction: column;
+  max-height: 80vh;
+}
+
+.filter-popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+.filter-popup-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+.close-popup-button {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  display: flex;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.close-popup-button:hover {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.filter-content {
+  overflow-y: auto;
+  padding: 8px 20px 16px 20px;
+  flex-grow: 1;
+}
+
+.filter-section {
+  padding: 12px 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+.filter-section:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.filter-section h4 {
+  font-size: 14px;
+  font-weight: 500;
+  color: #4b5563;
+  margin: 0 0 12px 0;
+}
+
+.filter-options {
+  display: flex;
+  flex-wrap: wrap;
   gap: 10px;
 }
+.filter-option {
+  padding: 8px 14px;
+  border-radius: 16px;
+  background-color: #f3f4f6;
+  color: #4b5563;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid transparent;
+}
+.filter-option:hover {
+  background-color: #e5e7eb;
+  color: #1f2937;
+}
+.filter-option.selected {
+  background-color: #5f2878; /* Theme purple */
+  color: white;
+  font-weight: 500;
+  border-color: #4a2060;
+  box-shadow: 0 2px 4px rgba(95, 40, 120, 0.2);
+}
 
-.download-pdf-button {
+.filter-actions {
   display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 12px;
-  background-color: #f0f0f0;
-  color: #333;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 20px;
+  border-top: 1px solid #e5e7eb;
+  background-color: #f9fafb;
+}
+.reset-button,
+.apply-button {
+  padding: 10px 20px;
+  border-radius: 6px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  min-width: 100px;
+  text-align: center;
+}
+.reset-button {
+  background-color: #fff;
+  color: #4b5563;
+  border: 1px solid #d1d5db;
+}
+.reset-button:hover {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+}
+.apply-button {
+  background-color: #5f2878; /* Theme purple */
+  color: white;
+  border: 1px solid #5f2878;
+}
+.apply-button:hover {
+  background-color: #4a2060; /* Darker theme purple */
+  border-color: #4a2060;
 }
 
-.download-pdf-button:hover {
-  background-color: #e0e0e0;
+
+.reports-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
 }
 
+.report-card {
+  background-color: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 20px;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+.report-card:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.07);
+  border-color: #5f2878;
+  transform: translateY(-3px);
+}
+
+.report-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+.report-card-header h3 {
+  font-size: 17px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+  flex-grow: 1;
+  margin-right: 10px;
+  line-height: 1.4;
+}
+
+.status-badge {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-weight: 500;
+  text-align: center;
+  min-width: 75px;
+  flex-shrink: 0;
+  line-height: 1.2;
+  text-transform: capitalize;
+}
+.status-badge.pending { background-color: #ffedd5; color: #c2410c; }
+.status-badge.flagged { background-color: #fef9c3; color: #a16207; }
+.status-badge.rejected { background-color: #fee2e2; color: #dc2626; }
+.status-badge.accepted { background-color: #dcfce7; color: #16a34a; }
+
+
+.report-card-content {
+  font-size: 13px;
+  color: #4b5563;
+  flex-grow: 1;
+}
+.report-card-content p {
+  margin: 6px 0;
+  line-height: 1.5;
+}
+.report-card-content p strong {
+  color: #374151;
+}
+.report-clarification-preview {
+  margin-top: 8px;
+  font-style: italic;
+  color: #dd6b20;
+  font-size: 12px;
+  padding-left: 10px;
+  border-left: 2px solid #fed7aa;
+}
+
+
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px 20px;
+  color: #6b7280;
+  font-size: 16px;
+  background-color: #fff;
+  border-radius: 8px;
+  border: 1px dashed #d1d5db;
+  margin-top: 20px;
+}
+
+
+/* Report Details Styles */
+.report-details {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 850px;
+  max-height: calc(100vh - 120px); /* Max height considering header and some viewport padding */
+  overflow-y: auto; /* This makes the content scrollable, not the whole modal */
+  z-index: 1001; /* Ensure it's above page content, but can be below true modals if needed */
+  margin: 20px auto; /* Centered with some margin from top/bottom */
+  display: flex;
+  flex-direction: column; /* Header, content, footer stack */
+}
+
+.report-details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px 24px;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky; /* Make header sticky within the .report-details scroll container */
+  top: 0;          /* Stick to the top of its scrollable parent */
+  background-color: #fff; /* Must have a background to cover scrolling content */
+  z-index: 2; /* Above content but below true modals if any */
+  gap: 16px;
+}
+.report-details-header h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+  line-height: 1.3;
+  flex-grow: 1;
+}
+
+.report-status-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.status-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+.status-button {
+  padding: 6px 12px;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 70px;
+  text-align: center;
+}
+.status-button.pending { background-color: #ffedd5; color: #c2410c; border-color: #fed7aa;}
+.status-button.flagged { background-color: #fef9c3; color: #a16207; border-color: #fde68a;}
+.status-button.rejected { background-color: #fee2e2; color: #dc2626; border-color: #fecaca;}
+.status-button.accepted { background-color: #dcfce7; color: #16a34a; border-color: #bbf7d0;}
+.status-button:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+.status-button.active {
+  box-shadow: 0 0 0 2px currentColor, inset 0 1px 2px rgba(0,0,0,0.1);
+  font-weight: 600;
+  transform: translateY(0);
+}
+
+
+.report-actions {
+  display: flex;
+  align-items: flex-start;
+  padding-top: 2px;
+}
 .modal-close-button {
   background: none;
   border: none;
   cursor: pointer;
-  color: #777;
-  padding: 5px;
+  color: #9ca3af;
+  padding: 8px;
+  border-radius: 50%;
+  display:flex;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
-
 .modal-close-button:hover {
-  color: #c31432;
+  background-color: #f3f4f6;
+  color: #dc2626;
 }
 
-/* Clarification section styles */
-.clarification-section {
-  background-color: #fff8e1;
+
+.report-details-content {
+  padding: 24px;
+  flex-grow: 1; /* This is important for the footer positioning */
+}
+
+.report-meta, .internship-period {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 24px;
+  padding: 20px;
+  background-color: #f9fafb;
   border-radius: 8px;
-  padding: 15px;
-  margin-bottom: 20px;
-  border-left: 4px solid #f57f17;
+  border: 1px solid #f3f4f6;
+}
+.meta-item h4, .period-item h4 {
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
+  margin: 0 0 6px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.meta-item p, .period-item p {
+  font-size: 15px;
+  color: #374151;
+  margin: 0;
+  line-height: 1.5;
 }
 
+.report-section {
+  margin-bottom: 28px;
+}
+.report-section h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e5e7eb;
+}
+.report-section p, .tasks-list li {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #4b5563;
+}
+.tasks-list {
+  padding-left: 20px;
+  list-style-type: disc;
+}
+.tasks-list li {
+  margin-bottom: 8px;
+}
+
+.skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.skill-tag {
+  background-color: #eef2ff;
+  color: #4338ca;
+  padding: 5px 12px;
+  border-radius: 16px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.performance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 12px;
+}
+.performance-item {
+  padding: 16px;
+  background-color: #f9fafb;
+  border-radius: 8px;
+  border: 1px solid #f3f4f6;
+}
+.performance-item h4 {
+  font-size: 14px;
+  font-weight: 500;
+  color: #6b7280;
+  margin: 0 0 10px 0;
+}
+.performance-item.overall {
+  grid-column: 1 / -1;
+  background-color: #f0f9ff;
+  border-color: #e0f2fe;
+}
+.performance-item.overall h4 {
+    color: #0c4a6e;
+}
+
+
+.rating-stars {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+.star {
+  color: #facc15;
+  font-size: 20px;
+  margin-right: 3px;
+}
+.star.empty { color: #e5e7eb; }
+.star.half {
+  position: relative;
+  display: inline-block;
+  color: #e5e7eb;
+}
+.star.half::before {
+  content: '★';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 50%;
+  overflow: hidden;
+  color: #facc15;
+}
+.rating-value {
+  margin-left: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #4b5563;
+}
+
+
+.clarification-section {
+  background-color: #fffbeb;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 24px;
+  border-left: 5px solid #f59e0b;
+}
 .clarification-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
-
 .clarification-header h3 {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 16px;
+  gap: 10px;
+  font-size: 17px;
   font-weight: 600;
-  color: #333;
+  color: #78350f;
   margin: 0;
+  border-bottom: none;
+  padding-bottom: 0;
 }
-
 .clarification-icon {
-  color: #f57f17;
+  color: #f59e0b;
 }
 
 .edit-clarification-button,
 .save-clarification-button {
   display: flex;
   align-items: center;
-  gap: 5px;
-  padding: 6px 10px;
-  border-radius: 4px;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 6px;
   border: none;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
-
 .edit-clarification-button {
-  background-color: #e0e0e0;
-  color: #333;
+  background-color: #f3f4f6;
+  color: #374151;
+  border: 1px solid #e5e7eb;
 }
-
 .edit-clarification-button:hover {
-  background-color: #d0d0d0;
+  background-color: #e5e7eb;
 }
-
 .save-clarification-button {
-  background-color: #4caf50;
+  background-color: #16a34a;
   color: white;
 }
-
 .save-clarification-button:hover {
-  background-color: #3d9140;
+  background-color: #15803d;
 }
-
 .clarification-text {
   font-size: 14px;
   line-height: 1.6;
-  color: #555;
-  padding: 10px;
-  background-color: rgba(255, 255, 255, 0.7);
-  border-radius: 4px;
+  color: #78350f;
+  padding: 12px;
+  background-color: #fefce8;
+  border-radius: 6px;
+  border: 1px solid #fef08a;
+  white-space: pre-wrap;
 }
-
 .clarification-textarea {
   width: 100%;
-  min-height: 100px;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  min-height: 120px;
+  padding: 12px;
+  border: 1px solid #fcd34d;
+  border-radius: 6px;
   font-size: 14px;
   line-height: 1.6;
   resize: vertical;
+  background-color: #fff;
+}
+.clarification-textarea:focus {
+  outline: none;
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
 }
 
-.report-clarification-preview {
-  margin-top: 8px;
-  font-style: italic;
-  color: #f57f17;
+
+.report-details-footer {
+  padding: 16px 24px;
+  border-top: 1px solid #e5e7eb;
+  background-color: #f9fafb; /* Slight background for visual separation */
+  display: flex;
+  justify-content: center; /* CENTER THE BUTTON HORIZONTALLY */
+  margin-top: auto;
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+}
+.download-pdf-button-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background-color: #f0f0f0; /* Light grey background */
+  color: #333;             /* Dark grey text */
+  border: 1px solid #ddd;   /* Light grey border */
+  border-radius: 6px;       /* Keep it slightly rounded, or 4px for more rectangular */
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease, border-color 0.2s ease; /* Added border-color */
+}
+.download-pdf-button-footer:hover {
+  background-color: #e0e0e0; /* Slightly darker grey background on hover */
+  border-color: #ccc;       /* Slightly darker border on hover (optional) */
+}
+.download-pdf-button-footer:active {
+  transform: scale(0.98);
+}
+
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .container { padding: 16px; }
+  .evaluations-section { padding: 16px; }
+  .evaluations-header h2 { font-size: 20px; }
+  .reports-list { grid-template-columns: 1fr; gap: 16px; }
+  .report-card { padding: 16px; }
+  .report-details { max-height: calc(100vh - 100px); margin: 10px auto;}
+  .report-details-header { padding: 16px; flex-direction: column; align-items: flex-start; }
+  .report-status-controls { width: 100%; align-items: flex-start; }
+  .status-actions { justify-content: flex-start; }
+  .report-actions { width: 100%; justify-content: flex-end; padding-top: 10px;}
+  .report-meta, .internship-period, .performance-grid { grid-template-columns: 1fr; gap: 16px; padding: 16px; }
+  .report-details-content { padding: 16px; }
+  .clarification-section { padding: 16px; }
+  .report-details-footer { padding: 12px 16px; }
+  .search-filter-container { flex-direction: column; align-items: stretch; }
+  .filter-popup { width: 90vw; max-width: 400px; }
+}
+
+@media (max-width: 480px) {
+  .evaluations-header h2 { font-size: 18px; }
+  .filter-actions { flex-direction: column; gap: 10px; }
+  .filter-actions button { width: 100%; }
+  .status-actions button { padding: 5px 8px; font-size: 11px; min-width: 60px;}
+  .download-pdf-button-footer { width: 100%; justify-content: center;}
 }
 
 /* Statistics Section Styles */
@@ -3781,7 +4090,7 @@ html body .appointment-modal-overlay > .appointment-modal {
 
 /* --- Submit Button --- */
 .submit-appointment-button {
-  background-color: #5f2878;
+  background-color: #10b410;
   color: white;
   border: none;
   padding: 12px 20px;
@@ -3798,7 +4107,7 @@ html body .appointment-modal-overlay > .appointment-modal {
   width: 100%;
 }
 .submit-appointment-button:hover:not(:disabled) {
-  background-color: #5f2878;
+  background-color: #17b31f;
 }
 .submit-appointment-button:active:not(:disabled) {
   transform: translateY(1px);
@@ -3908,11 +4217,11 @@ html body .appointment-modal-overlay > .appointment-confirmation-dialog {
 .request-appointment-cta-box:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-  border-color: #5f2878;
+  border-color: #287849;
 }
 
 .request-appointment-cta-box .cta-icon {
-  color: #5f2878;
+  color: #287849;
   margin-bottom: 15px;
 }
 
@@ -3931,7 +4240,7 @@ html body .appointment-modal-overlay > .appointment-confirmation-dialog {
 }
 
 .request-appointment-cta-box .cta-button {
-  background-color: #5f2878;
+  background-color: #287849;
   color: white;
   border: none;
   padding: 12px 25px;
@@ -3943,7 +4252,7 @@ html body .appointment-modal-overlay > .appointment-confirmation-dialog {
 }
 
 .request-appointment-cta-box .cta-button:hover {
-  background-color: #5f2878;
+  background-color: #287849;
 }
 
 /* Remove the debug borders that were added for testing */
@@ -4099,7 +4408,7 @@ html body .appointment-modal-overlay > .appointment-confirmation-dialog {
 
 /* Add a subtle hover effect to the submit button */
 .submit-appointment-button:hover:not(:disabled) {
-  background-color: #5f2878;
+  background-color: #28782c;
   transform: translateY(-1px);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }

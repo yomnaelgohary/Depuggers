@@ -4,432 +4,411 @@
   justify-content: space-between;
   align-items: center;
   padding: 0 24px;
-  height: 70px;
+  height: 80px;
   background-color: #ffffff;
   border-bottom: 1px solid #e9ecef;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   position: sticky;
   top: 0;
-  z-index: 100;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1020;
+  box-sizing: border-box;
 }
 
-/* Header Left Section */
 .header-left {
   display: flex;
   align-items: center;
-  width: 200px; /* Reserve space for balance */
 }
 
-/* Header Center Section - Hidden */
-.header-center {
-  display: none; /* Hide the center section completely */
+/* REVERTED NAVIGATION CONTROLS STYLES to match your earlier working version */
+.navigation-controls {
+  display: flex;
+  gap: 8px; /* This was your original gap */
+  margin-left: calc(260px + 20px); /* This was your original margin */
 }
 
-/* Header Right Section */
+.nav-control-btn {
+  width: 30px; /* Your original width */
+  height: 30px; /* Your original height */
+  border-radius: 50%;
+  background-color: white; /* Your original background */
+  border: 2px solid #5f2878; /* Your original border */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease; /* Your original transition */
+}
+
+.nav-arrow-icon { /* Style the span containing the icon if needed */
+  color: #5f2878; /* Your original icon color */
+  /* width: 14px; */ /* Size is now set by Lucide icon's size prop in JSX */
+  /* height: 14px; */
+  display: flex; /* Added to help center the SVG if it's inside the span */
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-control-btn:hover:not(.disabled) {
+  background-color: #5f2878; /* Your original hover background */
+}
+
+.nav-control-btn:hover:not(.disabled) .nav-arrow-icon {
+  color: white; /* Your original hover icon color */
+}
+/* If the SVG itself needs its color changed on hover, and it's inside the span: */
+.nav-control-btn:hover:not(.disabled) .nav-arrow-icon svg {
+  /* stroke: white; */ /* Or fill: white; depending on the SVG */
+  /* This might not be needed if the parent span's color change is sufficient */
+}
+
+
+.nav-control-btn:active:not(.disabled) {
+  transform: scale(0.95); /* Your original active transform */
+}
+
+.nav-control-btn.disabled {
+  opacity: 0.4; /* Your original disabled opacity */
+  border-color: #adb5bd; /* Your original disabled border */
+  cursor: default; /* Consistent with previous */
+}
+
+.nav-control-btn.disabled .nav-arrow-icon {
+  color: #adb5bd; /* Your original disabled icon color */
+}
+/* If the SVG itself needs its color changed when disabled: */
+.nav-control-btn.disabled .nav-arrow-icon svg {
+ /* stroke: #adb5bd; */ /* Or fill, if needed */
+}
+
+
+/* --- Enhanced Header Icon Buttons (Notification & Avatar) - REMAINS THE SAME --- */
 .header-right {
   display: flex;
   align-items: center;
   gap: 16px;
 }
-
-/* Add these styles to match the bell icon with the user icon */
-.notification-icon {
-  width: 38px;
-  height: 38px;
+.header-icon-button {
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background-color: #f5f3ff; /* Light purple background */
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #5f2878; /* Dark purple icon */
-  transition: background-color 0.2s ease, color 0.2s ease;
-  padding: 6px;
-}
-
-.notification-icon:hover {
-  background-color: #e9e9fe;
-  color: #5f2878; /* Dark purple */
-}
-
-.notification-button {
-  background: none;
-  border: none;
-  padding: 0;
+  color: #495057;
   cursor: pointer;
   position: relative;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+  padding:0;
 }
-
-/* Fix for notification button focus outline */
-.notification-button:focus {
+.header-icon-button:hover {
+  background-color: #e9ecef;
+  border-color: #ced4da;
+  color: #212529;
+}
+.header-icon-button:active {
+  transform: scale(0.92);
+}
+.header-icon-button:focus-visible {
+  outline: 2px solid #5f2878;
+  outline-offset: 2px;
+}
+.header-icon-button:focus {
   outline: none;
 }
-
-.notification-button:focus .notification-icon {
-  outline: 2px solid #5f2878; /* Dark purple outline */
-  outline-offset: 2px;
-  border-radius: 50%;
+.avatar-button-override {
+  /* Styles if needed */
 }
-
-/* Remove the old notification button styles that conflict */
-.notification-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: auto;
-  height: auto;
-  border-radius: 0;
-  color: inherit;
-  transition: none;
-}
-
-.notification-button:hover {
-  background-color: transparent;
-}
-
-.notification-container {
-  position: relative;
-}
-
-/* Update notification count position for the new structure */
-.notification-count {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background-color: #5f2878; /* Dark purple background */
-  color: white;
-  font-size: 10px;
-  font-weight: 600;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Fix for bell icon color - not needed anymore since we're using the same structure */
-.notification-button svg {
-  color: inherit;
-}
-
-/* Avatar */
+.notification-container,
 .avatar-container {
   position: relative;
 }
-
-.avatar-button {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-}
-
-/* Fix for avatar button outline */
-.avatar-button:focus {
-  outline: none;
-}
-
-.avatar-button:focus .avatar {
-  outline: 2px solid #5f2878; /* Dark purple outline */
-  outline-offset: 2px;
-  border-radius: 50%;
-}
-
-.avatar {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background-color: #f5f3ff; /* Light purple background */
+.notification-count {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  background-color: #e53e3e;
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #5f2878; /* Dark purple text */
-  transition: background-color 0.2s ease, color 0.2s ease;
+  line-height: 1;
+  border: 2px solid white;
+  transform: translate(30%, -30%);
 }
 
-.avatar:hover {
-  background-color: #e9e9fe;
-  color: #5f2878; /* Dark purple on hover */
-}
-
-/* User dropdown styles */
+/* --- ENHANCED USER DROPDOWN - REMAINS THE SAME --- */
 .user-dropdown {
   position: absolute;
-  top: 50px;
+  top: calc(40px + 12px);
   right: 0;
-  width: 220px;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 280px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   padding: 12px;
-  z-index: 200;
+  z-index: 1050;
+  border: 1px solid #f0f0f0;
+  opacity: 0;
+  transform: translateY(8px) scale(0.98);
+  visibility: hidden;
+  transition: opacity 0.15s ease-out, transform 0.15s ease-out, visibility 0s 0.15s linear;
 }
-
-.user-info {
-  padding: 8px 0;
+.user-dropdown.open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  visibility: visible;
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out, visibility 0s linear;
 }
-
-.user-name {
-  font-weight: 600;
-  font-size: 14px;
-  color: #333;
-  margin: 0 0 4px 0;
-}
-
-.user-email {
-  font-size: 12px;
-  color: #666;
-  margin: 0;
-  word-break: break-all;
-}
-
-.dropdown-divider {
-  height: 1px;
-  background-color: #e9ecef;
-  margin: 8px 0;
-}
-
-.logout-button {
+/* ... (rest of user dropdown and notification panel styles remain as per the previous enhanced version) ... */
+.user-dropdown-info {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 14px;
+  padding: 12px 16px;
+}
+.dropdown-avatar-placeholder {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: #f0eaff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #5f2878;
+    font-size: 18px;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+.user-details {
+  overflow: hidden;
+}
+.user-name {
+  font-weight: 600;
+  font-size: 16px;
+  color: #1a202c;
+  margin: 0 0 4px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.user-email {
+  font-size: 13px;
+  color: #718096;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dropdown-divider {
+  height: 1px;
+  background-color: #e2e8f0;
+  margin: 10px 0;
+}
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   width: 100%;
-  padding: 8px;
+  padding: 12px 16px;
   border: none;
   background: none;
-  color: #dc3545;
+  color: #4a5568;
   font-size: 14px;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.15s ease, color 0.15s ease;
   text-align: left;
 }
-
-.logout-button:hover {
-  background-color: #f8f9fa;
+.dropdown-item:hover {
+  background-color: #f7fafc;
+  color: #2d3748;
+}
+.dropdown-item svg {
+  width: 18px;
+  height: 18px;
+  color: #718096;
+  transition: color 0.15s ease;
+}
+.dropdown-item:hover svg {
+  color: #5f2878;
+}
+.logout-button-item {
+  color: #e53e3e;
+  font-weight: 500;
+}
+.logout-button-item:hover {
+  background-color: #fff5f5;
+  color: #c53030;
+}
+.logout-button-item svg {
+  color: #e53e3e;
+}
+.logout-button-item:hover svg {
+  color: #c53030;
 }
 
-/* Notifications Panel Styles - COMPLETELY REMOVED PURPLE */
+/* --- ENHANCED NOTIFICATIONS PANEL - REMAINS THE SAME --- */
 .notifications-panel {
   position: absolute;
-  top: 50px;
+  top: calc(40px + 12px);
   right: 0;
-  width: 320px;
-  max-height: 400px;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 360px;
+  max-height: 450px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  z-index: 200;
-  overflow: hidden;
-  border: 1px solid #e9ecef;
+  z-index: 1050;
+  border: 1px solid #f0f0f0;
+  opacity: 0;
+  transform: translateY(8px) scale(0.98);
+  visibility: hidden;
+  transition: opacity 0.15s ease-out, transform 0.15s ease-out, visibility 0s 0.15s linear;
 }
-
+.notifications-panel.open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  visibility: visible;
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out, visibility 0s linear;
+}
 .notifications-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 16px;
+  padding: 16px 20px;
   border-bottom: 1px solid #e9ecef;
-  background-color: #f8f9fa; /* Light gray background */
+  background-color: #fdfdff;
 }
-
 .notifications-header h3 {
   margin: 0;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 600;
-  color: #333;
+  color: #2d3748;
 }
-
-.close-button {
+.panel-close-button {
   background: none;
   border: none;
   cursor: pointer;
-  color: #6c757d;
+  color: #718096;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px;
-  border-radius: 4px;
+  padding: 6px;
+  border-radius: 50%;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
-
-.close-button:hover {
-  background-color: #e9ecef; /* Light gray */
-  color: #343a40; /* Dark gray */
+.panel-close-button:hover {
+  background-color: #f0f2f5;
+  color: #2d3748;
 }
-
-.notifications-content {
-  flex: 1;
+.notifications-list-content {
+  flex-grow: 1;
   overflow-y: auto;
   padding: 8px 0;
-  max-height: 300px;
+  max-height: calc(450px - 60px - 50px);
 }
-
 .no-notifications {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 32px 16px;
-  color: #6c757d;
+  padding: 40px 20px;
+  color: #a0aec0;
   text-align: center;
+  height: 100%;
 }
-
+.no-notifications svg {
+  margin-bottom: 16px;
+  color: #cbd5e0;
+}
 .no-notifications p {
-  margin-top: 8px;
-  font-size: 14px;
+  font-size: 15px;
+  color: #718096;
 }
-
 .notification-item {
   display: flex;
   align-items: flex-start;
-  padding: 12px 16px;
+  padding: 14px 20px;
   border-bottom: 1px solid #f1f3f5;
-  position: relative;
-  transition: background-color 0.2s ease;
-  background-color: white; /* Explicitly white background */
+  transition: background-color 0.15s ease;
+  cursor: default;
 }
-
 .notification-item:last-child {
   border-bottom: none;
 }
-
 .notification-item:hover {
-  background-color: #f8f9fa; /* Light gray on hover - NO PURPLE */
+  background-color: #f8f9fc;
 }
-
-/* Notification icons - keep their colors */
-.notification-icon.success {
-  color: #28a745;
+.notification-item-icon-wrapper {
+  margin-right: 14px;
+  flex-shrink: 0;
+  padding-top: 2px;
 }
-
-.notification-icon.warning {
-  color: #ffc107;
+.notification-icon-type {
+  /* Size is set in JSX */
 }
-
-.notification-icon.error {
-  color: #dc3545;
+.notification-icon-type.success { color: #38a169; }
+.notification-icon-type.warning { color: #dd6b20; }
+.notification-icon-type.error   { color: #e53e3e; }
+.notification-icon-type.info    { color: #3182ce; }
+.notification-icon-type.call    { color: #38a169; }
+.notification-item-content {
+  flex-grow: 1;
 }
-
-.notification-icon.info {
-  color: #0d6efd; /* Blue */
-}
-
-.notification-icon.call {
-  color: #28a745; /* Green for call notifications */
-}
-
-.notification-content {
-  flex: 1;
-  margin-left: 12px;
-}
-
 .notification-message {
-  margin: 0 0 4px 0;
+  margin: 0 0 5px 0;
   font-size: 14px;
-  color: #212529;
-  line-height: 1.4;
+  color: #2d3748;
+  line-height: 1.5;
 }
-
 .notification-time {
   font-size: 12px;
-  color: #6c757d;
+  color: #a0aec0;
 }
-
 .notification-dismiss {
   background: none;
   border: none;
   cursor: pointer;
-  color: #adb5bd;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px;
-  border-radius: 4px;
-  margin-left: 8px;
+  color: #cbd5e0;
+  padding: 6px;
+  border-radius: 50%;
+  margin-left: 12px;
+  align-self: center;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
-
 .notification-dismiss:hover {
-  background-color: #e9ecef; /* Light gray */
-  color: #495057; /* Dark gray */
+  background-color: #edf2f7;
+  color: #718096;
 }
-
 .notifications-footer {
-  padding: 12px 16px;
+  padding: 12px 20px;
   border-top: 1px solid #e9ecef;
   display: flex;
   justify-content: flex-end;
-  background-color: #f8f9fa; /* Light gray background */
+  background-color: #fdfdff;
 }
-
 .clear-all-button {
   background: none;
-  border: none;
-  color: #0d6efd; /* Blue */
-  font-size: 14px;
+  border: 1px solid transparent;
+  color: #5f2878;
+  font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  padding: 6px 12px;
-  border-radius: 4px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
-
 .clear-all-button:hover {
-  background-color: #e9ecef; /* Light gray */
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .app-header {
-    padding: 0 16px;
-  }
-}
-
-/* COMPLETELY REDESIGNED NAVIGATION CONTROLS */
-.navigation-controls {
-  display: flex;
-  gap: 8px;
-}
-
-/* Simple, direct approach to ensure arrows are visible */
-.nav-control-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background-color: white;
-  border: 2px solid #5f2878; /* Dark purple border */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-/* Explicitly style the arrow icons */
-.nav-arrow-icon {
-  color: #5f2878; /* Dark purple */
-  width: 18px;
-  height: 18px;
-}
-
-.nav-control-btn:hover:not(.disabled) {
-  background-color: #5f2878; /* Dark purple background on hover */
-}
-
-.nav-control-btn:hover:not(.disabled) .nav-arrow-icon {
-  color: white; /* White icon on hover */
-}
-
-.nav-control-btn:active:not(.disabled) {
-  transform: scale(0.95);
-}
-
-.nav-control-btn.disabled {
-  opacity: 0.4;
-  border-color: #adb5bd; /* Gray border for disabled */
-  cursor: default;
-}
-
-.nav-control-btn.disabled .nav-arrow-icon {
-  color: #adb5bd; /* Gray icon for disabled */
+  background-color: #f0eaff;
+  color: #5f2878;
 }

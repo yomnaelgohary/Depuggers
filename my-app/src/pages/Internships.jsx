@@ -1,90 +1,166 @@
 "use client"
 
 import { useState } from "react"
-import { Building, Clock, X, CheckCircle } from "lucide-react"
+// CheckCircle is still imported, but we won't render it for the filter options
+import { Building, Clock, X, CheckCircle, MapPin, Users } from "lucide-react"
 
 function Internships() {
+  // ... (rest of your existing state and functions) ...
+
   const [searchQuery, setSearchQuery] = useState("")
   const [showFilters, setShowFilters] = useState(false)
 
-  // Temporary states for the filter popup
   const [tempIndustry, setTempIndustry] = useState("All")
   const [tempDuration, setTempDuration] = useState("All")
   const [tempPayStatus, setTempPayStatus] = useState("All")
 
-  // Actual filter states
   const [selectedIndustry, setSelectedIndustry] = useState("All")
   const [selectedDuration, setSelectedDuration] = useState("All")
   const [selectedPayStatus, setSelectedPayStatus] = useState("All")
   const [selectedInternship, setSelectedInternship] = useState(null)
 
+  // ... (companies and internships data) ...
   const companies = [
     { id: 1, name: "Dell Technologies", industry: "Technology" },
-    { id: 2, name: "IBM", industry: "Technology" },
-    { id: 3, name: "PwC", industry: "Consulting" },
+    { id: 2, name: "Vodafone", industry: "Telecommunications" },
+    { id: 3, name: "Orange", industry: "Telecommunications" },
     { id: 4, name: "Microsoft", industry: "Technology" },
-    { id: 5, name: "Amazon", industry: "E-commerce" },
-  ]
+    { id: 5, name: "PwC", industry: "Professional Services" },
+  ];
+
+  // In internships.jsx
+
+  // ... (other state and company definitions) ...
 
   const internships = [
     {
       id: 1,
-      companyId: 1,
-      jobTitle: "Software Engineering Intern",
-      duration: "3 months",
+      companyId: 1, // Dell Technologies
+      jobTitle: "Backend Developer Intern",
+      duration: "1 MONTH",
       isPaid: true,
-      salary: 1500,
-      startDate: "June 1, 2024",
-      description: "Join Dell Technologies as a Software Engineering Intern to work on cutting-edge projects.",
-      skills: ["Java", "Python", "Git", "Agile"],
+      salary: "$89.10",
+      hourlyRate: "$14.85/h",
+      startDate: "May 09, 2025 - Jun 09, 2025",
+      workHours: "9:00 - 17:00",
+      workShift: "MORNING",
+      hoursPerWeek: "20-30 hours/week",
+      location: "N Teseen, New Cairo",
+      description: "Work on backend systems and APIs for our enterprise applications, contributing to scalable solutions. This role involves collaborating with senior developers, participating in code reviews, and learning about microservices architecture.",
+      skills: ["CODING SKILLS", "JAVA", "SPRING", "API DESIGN"],
+      companyName: "Dell Technologies",
+      applications: 32
     },
     {
       id: 2,
-      companyId: 2,
-      jobTitle: "Data Science Intern",
-      duration: "6 months",
-      isPaid: true,
-      salary: 2000,
-      startDate: "July 15, 2024",
-      description: "IBM is looking for a Data Science Intern to join our AI research team.",
-      skills: ["Python", "Machine Learning", "Statistics", "SQL"],
+      companyId: 4, // Microsoft
+      jobTitle: "UI/UX Design Intern",
+      duration: "3 MONTHS",
+      isPaid: false,
+      startDate: "May 15, 2025 - Aug 15, 2025",
+      hoursPerWeek: "15-25 hours/week",
+      location: "Smart Village, Giza",
+      description: "Gain valuable experience working with our design team on real-world projects. Focus on user research, wireframing, prototyping, and usability testing for new product features.",
+      skills: ["JAVASCRIPT", "REACT", "FIGMA", "ADOBE XD", "USER RESEARCH"],
+      companyName: "Microsoft",
+      learningOpportunity: true,
+      applications: 47
     },
     {
       id: 3,
-      companyId: 3,
-      jobTitle: "Business Analyst Intern",
-      duration: "3 months",
+      companyId: 2, // Vodafone
+      jobTitle: "Network Engineering Intern",
+      duration: "6 MONTHS",
       isPaid: true,
-      salary: 1200,
-      startDate: "June 15, 2024",
-      description: "PwC is seeking a Business Analyst Intern to support our consulting team.",
-      skills: ["Excel", "Data Analysis", "Business Process Modeling", "Communication"],
+      salary: "$120.00",
+      hourlyRate: "$20.00/h",
+      startDate: "Jun 01, 2025 - Dec 01, 2025",
+      workHours: "9:30 - 17:30",
+      workShift: "FULL-DAY",
+      hoursPerWeek: "Full-time (40 hours/week)",
+      location: "Maadi Technology Park, Cairo",
+      description: "Assist in the design, implementation, and maintenance of Vodafone's core network infrastructure. Troubleshoot network issues and learn about cutting-edge telecom technologies.",
+      skills: ["CISCO", "TCP/IP", "NETWORKING", "PYTHON", "FIREWALLS"],
+      companyName: "Vodafone",
+      applications: 25
     },
     {
       id: 4,
-      companyId: 4,
-      jobTitle: "UX Design Intern",
-      duration: "4 months",
+      companyId: 3, // Orange
+      jobTitle: "Digital Marketing Intern",
+      duration: "2 MONTHS",
       isPaid: true,
-      salary: 1800,
-      startDate: "August 1, 2024",
-      description: "Microsoft is looking for a UX Design Intern to join our product team.",
-      skills: ["Figma", "UI/UX", "Prototyping", "User Research"],
+      salary: "$75.50",
+      hourlyRate: "$12.58/h",
+      startDate: "Jul 01, 2025 - Aug 31, 2025",
+      workHours: "10:00 - 18:00",
+      workShift: "MORNING",
+      hoursPerWeek: "25-35 hours/week",
+      location: "Zamalek, Cairo",
+      description: "Support the Orange digital marketing team in campaign execution, social media management, content creation, and performance analysis. A great opportunity to learn about digital strategy in a fast-paced environment.",
+      skills: ["SEO", "SEM", "SOCIAL MEDIA", "CONTENT WRITING", "GOOGLE ANALYTICS"],
+      companyName: "Orange",
+      applications: 58
     },
     {
       id: 5,
-      companyId: 5,
-      jobTitle: "Operations Intern",
-      duration: "3 months",
+      companyId: 5, // PwC
+      jobTitle: "Consulting Intern - Deals Advisory",
+      duration: "3 MONTHS",
       isPaid: false,
-      startDate: "July 1, 2024",
-      description: "Amazon is seeking an Operations Intern to support our logistics team.",
-      skills: ["Supply Chain", "Logistics", "Process Improvement", "Analytics"],
+      startDate: "Sep 01, 2025 - Nov 30, 2025",
+      hoursPerWeek: "10-20 hours/week",
+      location: "New Cairo Financial Hub",
+      description: "Gain exposure to financial due diligence, market analysis, and M&A processes. Assist senior consultants with research, data analysis, and presentation preparation for client engagements at a leading professional services firm.",
+      skills: ["FINANCIAL ANALYSIS", "ANALYTICAL SKILLS", "EXCEL", "POWERPOINT"],
+      companyName: "PwC",
+      learningOpportunity: true,
+      applications: 30
     },
-  ]
+    {
+      id: 6,
+      companyId: 1, // Dell Technologies (another one)
+      jobTitle: "Software QA Intern",
+      duration: "4 MONTHS",
+      isPaid: true,
+      salary: "$95.00",
+      hourlyRate: "$15.83/h",
+      startDate: "Aug 01, 2025 - Nov 30, 2025",
+      workHours: "09:00 - 17:00",
+      workShift: "MORNING",
+      hoursPerWeek: "30 hours/week",
+      location: "N Teseen, New Cairo",
+      description: "Participate in software testing cycles for Dell's enterprise solutions. Responsibilities include writing test cases, executing manual and automated tests, and reporting bugs using JIRA.",
+      skills: ["QA", "TESTING", "JIRA", "SELENIUM BASICS"],
+      companyName: "Dell Technologies",
+      applications: 18
+    },
+    {
+      id: 7,
+      companyId: 2, // Vodafone (another one)
+      jobTitle: "HR Operations Intern",
+      duration: "3 MONTHS",
+      isPaid: true,
+      salary: "$70.00",
+      hourlyRate: "$11.67/h",
+      startDate: "Jun 15, 2025 - Sep 15, 2025",
+      workHours: "10:00 - 16:00",
+      workShift: "MORNING",
+      hoursPerWeek: "20 hours/week",
+      location: "Smart Village, Giza",
+      description: "Support the HR team with daily operations, including recruitment assistance, employee onboarding, and maintaining HR records. Learn about HR best practices in a large organization.",
+      skills: ["HRIS", "COMMUNICATION", "MS OFFICE", "ORGANIZATION"],
+      companyName: "Vodafone",
+      applications: 41
+    }
+  ];
+
+  // ... (rest of your component)
+
 
   const filteredInternships = internships.filter((internship) => {
     const company = companies.find((c) => c.id === internship.companyId)
+    if (!company) return false;
     if (searchQuery) {
       const query = searchQuery.toLowerCase()
       const matchesTitle = internship.jobTitle.toLowerCase().includes(query)
@@ -107,7 +183,6 @@ function Internships() {
   const closeInternshipDetails = () => setSelectedInternship(null)
 
   const openFilterModal = () => {
-    // Initialize temp states with current filter values
     setTempIndustry(selectedIndustry)
     setTempDuration(selectedDuration)
     setTempPayStatus(selectedPayStatus)
@@ -135,7 +210,6 @@ function Internships() {
     setShowFilters(false)
   }
 
-  // Get active filter count for display
   const getActiveFilterCount = () => {
     let count = 0
     if (selectedIndustry !== "All") count++
@@ -146,40 +220,83 @@ function Internships() {
 
   const activeFilterCount = getActiveFilterCount()
 
-  function InternshipCard({ internship, company, onClick }) {
+  // ... (InternshipCard component remains the same) ...
+  function InternshipCard({ internship, onClick }) {
     return (
-      <div className="internship-card" onClick={onClick}>
-        <div className="internship-header">
-          <h3>{internship.jobTitle}</h3>
-          <span className={`payment-badge ${internship.isPaid ? "paid" : "unpaid"}`}>
-            {internship.isPaid ? "Paid" : "Unpaid"}
-          </span>
+      <div className="internship-display-card" onClick={onClick}>
+        <div className="internship-display-card-left">
+          {(internship.salary || internship.hourlyRate) && (
+            <>
+              <div className="price-info">
+                {internship.salary && <div className="salary-total">{internship.salary}</div>}
+                {internship.hourlyRate && <div className="hourly-rate">{internship.hourlyRate}</div>}
+              </div>
+              <div className="price-separator-line"></div>
+            </>
+          )}
         </div>
-        <div className="internship-company">
-          <Building size={16} />
-          <span>{company.name}</span>
+  
+        <div className="internship-display-card-center">
+          <div className="company-name-list">{internship.companyName}</div>
+          <h3 className="job-title-list">{internship.jobTitle}</h3>
+          {internship.learningOpportunity && (
+            <span className="learning-opportunity-badge-list">LEARNING OPPORTUNITY</span>
+          )}
+          <div className="skills-required-list">
+            <span>REQUIRES:</span>
+            {internship.skills.map((skill, index) => (
+              <span key={index} className="skill-tag-list-item">{skill}</span>
+            ))}
+          </div>
+          <div className="detail-item-list location-list">
+            <MapPin size={14} className="detail-icon" />
+            <span>{internship.location}</span>
+          </div>
+          <div className="detail-item-list dates-list">{internship.startDate}</div>
+          <div className="detail-item-list duration-list">{internship.duration}</div>
+          <div className="detail-item-list hours-per-week-list">
+            <Clock size={14} className="detail-icon" />
+            <span>{internship.hoursPerWeek}</span>
+          </div>
+          <p className="description-preview-list">{internship.description}</p>
+          {internship.applications !== undefined && (
+             <div className="applications-count-list">
+                <Users size={14} className="detail-icon" />
+                <span>{internship.applications} applications</span>
+            </div>
+          )}
         </div>
-        <div className="internship-duration">
-          <Clock size={16} />
-          <span>{internship.duration}</span>
+  
+        <div className={`internship-display-card-right ${internship.isPaid ? 'paid-bg' : 'unpaid-bg'}`}>
+          {internship.isPaid && ( 
+            <div className="work-time-info-list">
+              {internship.workHours && <div className="work-time-list">{internship.workHours}</div>}
+              {internship.workShift && <div className="work-shift-list">{internship.workShift}</div>}
+            </div>
+          )}
+          <div className="payment-status-text-list">
+            {internship.isPaid ? "PAID" : "UNPAID"}
+          </div>
         </div>
       </div>
-    )
+    );
   }
+
 
   return (
     <>
       {!selectedInternship ? (
         <div className="internships-section">
+          {/* ... (header, search, filter button) ... */}
           <div className="internships-header">
-            <h2>Available Internships</h2>
+            <h2>Internships</h2>
           </div>
           <div className="search-filter-container">
             <div className="search-input-wrapper">
               <input
                 type="text"
                 className="search-input"
-                placeholder="Search internship"
+                placeholder="Search internship by title or company"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -191,33 +308,31 @@ function Internships() {
           </div>
           <div className="internships-list">
             {filteredInternships.length > 0 ? (
-              filteredInternships.map((internship) => {
-                const company = companies.find((c) => c.id === internship.companyId)
-                return (
-                  <InternshipCard
-                    key={internship.id}
-                    internship={internship}
-                    company={company}
-                    onClick={() => handleInternshipClick(internship)}
-                  />
-                )
-              })
+              filteredInternships.map((internship) => (
+                <InternshipCard
+                  key={internship.id}
+                  internship={internship}
+                  onClick={() => handleInternshipClick(internship)}
+                />
+              ))
             ) : (
-              <div className="no-results">No internships found matching your criteria.</div>
+              <div className="no-results">
+                <h3>No Internships Found</h3>
+                <p>Try adjusting your search query or filters.</p>
+              </div>
             )}
           </div>
 
-          {/* Filter Modal */}
+
           {showFilters && (
             <div className="filter-popup-overlay" onClick={closeFilterModal}>
               <div className="filter-popup" onClick={(e) => e.stopPropagation()}>
                 <div className="filter-popup-header">
                   <h3>Filter Internships</h3>
-                  <button onClick={closeFilterModal}>
+                  <button onClick={closeFilterModal} className="filter-close-btn">
                     <X size={18} />
                   </button>
                 </div>
-
                 <div className="filter-popup-content">
                   {/* Industry Filter Section */}
                   <div className="filter-section">
@@ -230,7 +345,7 @@ function Internships() {
                           onClick={() => setTempIndustry(industry)}
                         >
                           {industry}
-                          {tempIndustry === industry && <CheckCircle size={16} className="check-icon" />}
+                          {/* {tempIndustry === industry && <CheckCircle size={16} className="check-icon" />} */} {/* REMOVE OR COMMENT OUT THIS LINE */}
                         </div>
                       ))}
                     </div>
@@ -247,7 +362,7 @@ function Internships() {
                           onClick={() => setTempDuration(duration)}
                         >
                           {duration}
-                          {tempDuration === duration && <CheckCircle size={16} className="check-icon" />}
+                          {/* {tempDuration === duration && <CheckCircle size={16} className="check-icon" />} */} {/* REMOVE OR COMMENT OUT THIS LINE */}
                         </div>
                       ))}
                     </div>
@@ -264,7 +379,7 @@ function Internships() {
                           onClick={() => setTempPayStatus(payStatus)}
                         >
                           {payStatus}
-                          {tempPayStatus === payStatus && <CheckCircle size={16} className="check-icon" />}
+                          {/* {tempPayStatus === payStatus && <CheckCircle size={16} className="check-icon" />} */} {/* REMOVE OR COMMENT OUT THIS LINE */}
                         </div>
                       ))}
                     </div>
@@ -273,10 +388,10 @@ function Internships() {
 
                 <div className="filter-popup-footer">
                   <button className="reset-button" onClick={resetFilters}>
-                    Reset
+                    Reset All
                   </button>
                   <button className="apply-button" onClick={applyFilters}>
-                    Apply
+                    Apply Filters
                   </button>
                 </div>
               </div>
@@ -284,58 +399,95 @@ function Internships() {
           )}
         </div>
       ) : (
-        <div className="internship-details">
-          <div className="internship-details-header">
-            <h2>{selectedInternship.jobTitle}</h2>
-            <button className="modal-close-button" onClick={closeInternshipDetails}>
-              <X size={20} />
-            </button>
-          </div>
-          <div className="internship-details-content">
-            <div className="internship-company-info">
-              <h3>
-                <Building size={18} />
-                {companies.find((c) => c.id === selectedInternship.companyId).name}
-              </h3>
-              <p className="industry-tag">{companies.find((c) => c.id === selectedInternship.companyId).industry}</p>
+        // ... (Internship Details Modal JSX remains the same) ...
+        <div className="internship-details-modal-overlay" onClick={closeInternshipDetails}>
+          <div className="internship-details-modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="internship-details-modal-header">
+              <h2>{selectedInternship.jobTitle}</h2>
+              <button className="modal-close-button-enhanced" onClick={closeInternshipDetails}>
+                <X size={24} />
+              </button>
             </div>
-            <div className="internship-info-grid">
-              <div className="info-item">
-                <Clock size={18} />
-                <div>
-                  <h4>Duration</h4>
-                  <p>{selectedInternship.duration}</p>
+
+            <div className="internship-details-modal-body">
+              <div className="modal-company-section">
+                <div className="modal-company-info">
+                  <Building size={20} className="modal-icon" />
+                  <span className="modal-company-name">{companies.find((c) => c.id === selectedInternship.companyId).name}</span>
+                </div>
+                <span className="modal-industry-tag">{companies.find((c) => c.id === selectedInternship.companyId).industry}</span>
+              </div>
+
+              {selectedInternship.learningOpportunity && (
+                <div className="modal-learning-opportunity">
+                  <CheckCircle size={16} className="modal-icon modal-icon-success" />
+                  <span>This is a valuable learning opportunity.</span>
+                </div>
+              )}
+
+              <div className="modal-key-info-grid">
+                <div className="modal-info-item">
+                  <Clock size={18} className="modal-icon" />
+                  <div>
+                    <p className="modal-info-label">Duration</p>
+                    <p className="modal-info-value">{selectedInternship.duration}</p>
+                  </div>
+                </div>
+                <div className="modal-info-item">
+                  <CheckCircle size={18} className={`modal-icon ${selectedInternship.isPaid ? 'modal-icon-paid' : 'modal-icon-unpaid'}`} />
+                  <div>
+                    <p className="modal-info-label">Payment</p>
+                    <p className={`modal-info-value ${selectedInternship.isPaid ? 'paid-text' : 'unpaid-text'}`}>
+                      {selectedInternship.isPaid ? "Paid" : "Unpaid"}
+                    </p>
+                    {selectedInternship.isPaid && selectedInternship.salary && (
+                      <p className="modal-salary-detail">{selectedInternship.salary} ({selectedInternship.hourlyRate})</p>
+                    )}
+                  </div>
+                </div>
+                <div className="modal-info-item">
+                  <MapPin size={18} className="modal-icon" />
+                  <div>
+                    <p className="modal-info-label">Location</p>
+                    <p className="modal-info-value">{selectedInternship.location}</p>
+                  </div>
+                </div>
+                <div className="modal-info-item">
+                  <Clock size={18} className="modal-icon" />
+                  <div>
+                    <p className="modal-info-label">Schedule</p>
+                    <p className="modal-info-value">{selectedInternship.startDate}</p>
+                    {selectedInternship.workHours && selectedInternship.isPaid && <p className="modal-info-detail">{selectedInternship.workHours} ({selectedInternship.workShift})</p>}
+                    {selectedInternship.hoursPerWeek && <p className="modal-info-detail">{selectedInternship.hoursPerWeek}</p>}
+                  </div>
                 </div>
               </div>
-              <div className="info-item">
-                <div>
-                  <h4>Payment</h4>
-                  <p>{selectedInternship.isPaid ? "Paid" : "Unpaid"}</p>
-                  {selectedInternship.isPaid && selectedInternship.salary && (
-                    <p className="salary">${selectedInternship.salary}/month</p>
-                  )}
+
+              <div className="modal-section">
+                <h3 className="modal-section-title">Job Description</h3>
+                <p className="modal-description-text">{selectedInternship.description}</p>
+              </div>
+
+              <div className="modal-section">
+                <h3 className="modal-section-title">Required Skills</h3>
+                <div className="modal-skills-list">
+                  {selectedInternship.skills.map((skill, index) => (
+                    <span key={index} className="modal-skill-tag">
+                      {skill}
+                    </span>
+                  ))}
                 </div>
               </div>
-              <div className="info-item">
-                <div>
-                  <h4>Start Date</h4>
-                  <p>{selectedInternship.startDate || "Flexible"}</p>
+
+              {selectedInternship.applications !== undefined && (
+                <div className="modal-section modal-applications-info">
+                    <Users size={18} className="modal-icon"/>
+                    <p className="modal-info-value">{selectedInternship.applications} people have applied for this opportunity.</p>
                 </div>
-              </div>
+              )}
+
             </div>
-            <div className="internship-description">
-              <h3>Job Description</h3>
-              <p>{selectedInternship.description}</p>
-            </div>
-            <div className="internship-skills">
-              <h3>Required Skills</h3>
-              <div className="skills-list">
-                {selectedInternship.skills.map((skill, index) => (
-                  <span key={index} className="skill-tag">
-                    {skill}
-                  </span>
-                ))}
-              </div>
+            <div className="internship-details-modal-footer">
             </div>
           </div>
         </div>
