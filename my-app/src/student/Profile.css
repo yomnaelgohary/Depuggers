@@ -454,3 +454,16 @@
 .ant-btn-link:focus {
   color: #4a1d5e;
 }
+
+/* All profile buttons: white by default, purple on hover/active */
+.profile-btn-white {
+  background: #fff !important;
+  color: #5f2878 !important;
+  border: 2px solid #5f2878 !important;
+  transition: background 0.2s, color 0.2s;
+}
+.profile-btn-white:hover, .profile-btn-white:active, .profile-btn-white:focus {
+  background: #5f2878 !important;
+  color: #fff !important;
+  border-color: #5f2878 !important;
+}

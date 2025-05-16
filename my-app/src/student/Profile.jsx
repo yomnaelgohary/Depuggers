@@ -328,7 +328,6 @@ const ProfileContent = () => {
     <div className="profile-content-custom">
       <div className="profile-header-custom">
         <div className="profile-title-custom">
-          <UserOutlined className="profile-icon-custom" />
           <Title level={2}>My Profile</Title>
         </div>
         <Button
@@ -336,6 +335,7 @@ const ProfileContent = () => {
           type={editMode ? "default" : "primary"}
           icon={editMode ? <DeleteOutlined /> : <EditOutlined />}
           size="large"
+          className="profile-btn-white"
         >
           {editMode ? "Cancel Editing" : "Edit Profile"}
         </Button>
@@ -517,7 +517,7 @@ const ProfileContent = () => {
             }
             className="profile-form-section"
             extra={
-              <Button type="primary" onClick={handleAddInternship} icon={<PlusOutlined />}>
+              <Button type="primary" onClick={handleAddInternship} icon={<PlusOutlined />} className="profile-btn-white">
                 Add Internship
               </Button>
             }
@@ -660,7 +660,7 @@ const ProfileContent = () => {
             ) : (
               <div className="profile-empty-state">
                 <p>No internships added yet.</p>
-                <Button type="primary" onClick={handleAddInternship}>
+                <Button type="primary" onClick={handleAddInternship} className="profile-btn-white">
                   Add Your First Internship
                 </Button>
               </div>
@@ -676,7 +676,7 @@ const ProfileContent = () => {
             }
             className="profile-form-section"
             extra={
-              <Button type="primary" onClick={handleAddPartTimeJob} icon={<PlusOutlined />}>
+              <Button type="primary" onClick={handleAddPartTimeJob} icon={<PlusOutlined />} className="profile-btn-white">
                 Add Job
               </Button>
             }
@@ -775,7 +775,7 @@ const ProfileContent = () => {
             }
             className="profile-form-section"
             extra={
-              <Button type="primary" onClick={handleAddActivity} icon={<PlusOutlined />}>
+              <Button type="primary" onClick={handleAddActivity} icon={<PlusOutlined />} className="profile-btn-white">
                 Add Activity
               </Button>
             }
