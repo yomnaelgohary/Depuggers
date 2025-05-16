@@ -26,6 +26,9 @@ export default function CompanySidebar({ activePage, onPageChange }) {
   return (
     <aside className="csb-company-sidebar">
       <div className="csb-sidebar-header">
+        <div className="csb-company-logo">
+          <GraduationCap size={24} color="white" />
+        </div>
         <h1 className="csb-company-title">Dell Technologies</h1>
       </div>
 

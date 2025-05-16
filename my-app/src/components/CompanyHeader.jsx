@@ -59,8 +59,7 @@ function CompanyHeader({
 
   // Placeholder user data - in a real app, this would come from context, props, or a store
   const userData = {
-    name: "Dell Technologies", // Example
-    email: "company@dell.com"   // Example
+    name: "Dell Technologies" // Example
   };
 
 
@@ -78,7 +77,7 @@ function CompanyHeader({
             disabled={!canGoBack}
             aria-label="Go back"
           >
-            <ChevronLeft size={24} />
+            <ChevronLeft size={24} strokeWidth={1.5} />
           </button>
           <button
             className={`ch-nav-button ${!canGoForward ? "ch-disabled" : ""}`}
@@ -86,7 +85,7 @@ function CompanyHeader({
             disabled={!canGoForward}
             aria-label="Go forward"
           >
-            <ChevronRight size={24} />
+            <ChevronRight size={24} strokeWidth={1.5} />
           </button>
         </div>
       </div>
@@ -131,7 +130,7 @@ function CompanyHeader({
         <div className="ch-avatar-container" ref={userDropdownRef}>
           <button className="ch-avatar-button" onClick={toggleUserDropdown} aria-label="Toggle user menu">
             <div className="ch-avatar">
-              <User size={20} /> {/* Adjusted size slightly for better fit */}
+              <User size={20} />
             </div>
           </button>
 
@@ -139,9 +138,7 @@ function CompanyHeader({
             <div className="ch-user-dropdown">
               <div className="ch-user-info">
                 <p className="ch-user-name">{userData.name}</p>
-                <p className="ch-user-email">{userData.email}</p>
               </div>
-              {/* <div className="ch-dropdown-divider" /> You can add other items here if needed */}
               <button className="ch-logout-button" onClick={handleLogout}>
                 <LogOut size={16} />
                 <span>Logout</span>

@@ -28,35 +28,48 @@
   color: #5f2878;
 }
 
-.ch-navigation-buttons { /* Renamed from .navigation-buttons */
+.ch-navigation-buttons {
   display: flex;
   gap: 8px;
 }
 
-.ch-nav-button { /* Renamed from .nav-button */
+.ch-nav-button {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: none;
-  background-color: #f5f3ff;
-  color: #5f2878;
+  border: 2px solid #E5E7EB;
+  background-color: transparent;
+  color: #E5E7EB;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
+  padding: 0;
 }
 
-.ch-nav-button:hover:not(.ch-disabled) { /* Updated compound selector */
+.ch-nav-button svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 1.5;
+}
+
+.ch-nav-button:hover:not(.ch-disabled) {
+  border-color: #5f2878;
+  color: #5f2878;
+}
+
+.ch-nav-button:active:not(.ch-disabled) {
   background-color: #5f2878;
+  border-color: #5f2878;
   color: white;
 }
 
-.ch-nav-button.ch-disabled { /* Renamed from .nav-button.disabled */
+.ch-nav-button.ch-disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  background-color: #f3f4f6;
-  color: #9ca3af;
+  border-color: #E5E7EB;
+  color: #E5E7EB;
 }
 
 .ch-header-right { /* Renamed from .header-right */

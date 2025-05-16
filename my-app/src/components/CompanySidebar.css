@@ -17,18 +17,33 @@
 }
 
 /* Sidebar Header */
-.csb-sidebar-header { /* Renamed from .sidebar-header */
-  padding: 24px;
-  border-bottom: 1px solid #f0f0f0;
-  text-align: center;
+.csb-sidebar-header {
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid #E5E7EB;
+  margin-bottom: 8px;
 }
 
-.csb-company-title { /* Renamed from .company-title */
+.csb-company-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: #5f2878;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.csb-company-title {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 24px;
-  font-weight: 700;
-  color: #333;
+  font-weight: 600;
+  color: #2D2D2D;
+  letter-spacing: -0.02em;
   margin: 0;
-  letter-spacing: 0.5px;
   line-height: 1.2;
 }
 
@@ -126,7 +141,20 @@
     min-width: 80px;
   }
 
-  .csb-company-title, /* Updated */
+  .csb-company-title {
+    display: none;
+  }
+
+  .csb-company-logo {
+    width: 36px;
+    height: 36px;
+  }
+
+  .csb-sidebar-header {
+    justify-content: center;
+    padding: 16px;
+  }
+
   .csb-sidebar-section-title, /* Updated */
   .csb-sidebar-label { /* Updated */
     display: none;
