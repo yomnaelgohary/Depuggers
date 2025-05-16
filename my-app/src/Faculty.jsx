@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { User, LogOut, Bell, ChevronLeft, ChevronRight, Users, BarChart2, AlignLeft } from 'lucide-react'
+import { User, LogOut, Bell, ChevronLeft, ChevronRight, Users, BarChart2, AlignLeft, GraduationCap } from 'lucide-react'
 import "./Faculty.css"
 
 function Faculty() {
@@ -291,66 +291,101 @@ function Faculty() {
 
   return (
     <div className="app-container-unique13">
-      {/* Sidebar */}
-      <aside className="sidebar-unique13">
+      <div className="sidebar-unique13">
         <div className="sidebar-header-unique13">
-          <h2 className="logo-text-unique13">Hello Dr. Milad</h2>
+          <div className="logo-container-unique13">
+            <div className="logo-unique13">
+              <div className="logo-icon-unique13">
+                <GraduationCap size={24} color="white" />
+              </div>
+              <span className="logo-text-unique13">Dr. Milad</span>
+            </div>
+            <div className="header-underline-unique13"></div>
+            <div className="main-label-unique13">MAIN</div>
+          </div>
         </div>
 
         <div className="sidebar-content-unique13">
-          <ul className="sidebar-nav-unique13">
-            <li className={`sidebar-nav-item-unique13 ${activeTab === "students" ? "active" : ""}`}>
-              <a href="#" className="sidebar-nav-link-unique13" onClick={() => setActiveTab("students")}>
-                <Users size={20} />
-                <span>Students</span>
-              </a>
-            </li>
-            <li className={`sidebar-nav-item-unique13 ${activeTab === "statistics" ? "active" : ""}`}>
-              <a href="#" className="sidebar-nav-link-unique13" onClick={() => setActiveTab("statistics")}>
-                <BarChart2 size={20} />
-                <span>Statistics</span>
-              </a>
-            </li>
-          </ul>
+          <nav className="sidebar-nav-unique13">
+            <button
+              className={`sidebar-nav-item-unique13 ${activeTab === "students" ? "active" : ""}`}
+              onClick={() => setActiveTab("students")}
+            >
+              <Users size={20} />
+              <span>Applicants</span>
+              {activeTab === "students" && <span className="active-indicator-unique13"></span>}
+            </button>
+            <button
+              className={`sidebar-nav-item-unique13 ${activeTab === "statistics" ? "active" : ""}`}
+              onClick={() => setActiveTab("statistics")}
+            >
+              <BarChart2 size={20} />
+              <span>Statistics</span>
+              {activeTab === "statistics" && <span className="active-indicator-unique13"></span>}
+            </button>
+          </nav>
         </div>
-      </aside>
+      </div>
 
       <div className="main-content-unique13">
-        {/* Header */}
         <header className="main-header-unique13">
           <div className="header-left-unique13">
             <div className="nav-buttons-unique13">
-              <button className="nav-button-unique13" onClick={handleBack}>
-                <ChevronLeft size={20} />
+              <button
+                className={`nav-button-unique13 ${!window.history.length ? "disabled" : ""}`}
+                onClick={handleBack}
+                disabled={!window.history.length}
+              >
+                <ChevronLeft size={24} strokeWidth={1.5} />
               </button>
-              <button className="nav-button-unique13" onClick={handleNext}>
-                <ChevronRight size={20} />
+              <button
+                className={`nav-button-unique13 ${!window.history.length ? "disabled" : ""}`}
+                onClick={handleNext}
+                disabled={!window.history.length}
+              >
+                <ChevronRight size={24} strokeWidth={1.5} />
               </button>
             </div>
           </div>
 
           <div className="header-right-unique13">
             <div className="notification-container-unique13">
-              <button className="notification-button-unique13" onClick={() => setShowNotifications(!showNotifications)}>
-                <Bell size={20} />
+              <button 
+                className="notification-button-unique13" 
+                onClick={() => setShowNotifications(!showNotifications)}
+              >
+                <Bell size={24} />
               </button>
               {showNotifications && (
-                <div className="notification-dropdown-unique13">
-                  <div className="notification-item-unique13">
-                    <p>No new notifications</p>
+                <div className="notifications-panel-unique13">
+                  <div className="notifications-header-unique13">
+                    <h3>Notifications</h3>
+                  </div>
+                  <div className="notifications-list-unique13">
+                    <div className="no-notifications-unique13">
+                      <p>No new notifications</p>
+                    </div>
                   </div>
                 </div>
               )}
             </div>
 
             <div className="profile-container-unique13">
-              <div className="profile-image-unique13" onClick={() => setShowProfileMenu(!showProfileMenu)}>
-                <User size={20} />
-              </div>
+              <button 
+                className="profile-button-unique13" 
+                onClick={() => setShowProfileMenu(!showProfileMenu)}
+              >
+                <div className="profile-avatar-unique13">
+                  <User size={20} />
+                </div>
+              </button>
 
               {showProfileMenu && (
                 <div className="profile-menu-unique13">
-                  <button className="profile-menu-item-unique13" onClick={handleLogout}>
+                  <div className="profile-info-unique13">
+                    <p className="profile-name-unique13">Dr. Milad</p>
+                  </div>
+                  <button className="logout-button-unique13" onClick={handleLogout}>
                     <LogOut size={16} />
                     <span>Logout</span>
                   </button>
@@ -360,43 +395,36 @@ function Faculty() {
           </div>
         </header>
 
-        {/* Main content area */}
         <main className="content-area-unique13">
           <div className="content-header-unique13">
-            <h2 className="content-title-unique13">{activeTab === "statistics" ? "Real-time Statistics" : "Students"}</h2>
+            {/* <h2 className="content-title-unique13">{activeTab === "statistics" ? "Real-time Statistics" : "Applicants"}</h2> */}
           </div>
 
           {activeTab === "students" ? (
             <>
-              <div className="filters-section-unique13">
-                <button
-                  className={`filter-button-main-unique13 ${showFilterModal ? 'active' : ''}`}
-                  onClick={() => setShowFilterModal(!showFilterModal)}
-                >
-                  <AlignLeft size={18} />
-                  <span>Filters</span>
+              <div className="cs-filters">
+                <button className="cs-filter-button" onClick={() => setShowFilterModal(!showFilterModal)}>
+                  <span className="cs-filter-icon">≡</span> Filters
                 </button>
-                <div className="students-count-unique13">
-                  Showing {filteredStudents.length} of {students.length} students
-                </div>
               </div>
 
               {showFilterModal && (
-                <div className="filter-modal-overlay-unique13">
-                  <div className="filter-modal-unique13">
-                    <div className="filter-modal-header-unique13">
-                      <h3>Filters</h3>
-                      <button className="close-modal-button-unique13" onClick={() => setShowFilterModal(false)}>×</button>
+                <div className="cs-filter-modal-overlay">
+                  <div className="cs-filter-modal">
+                    <div className="cs-filter-modal-header">
+                      <h2>Filters</h2>
+                      <button className="cs-close-button" onClick={() => setShowFilterModal(false)}>
+                        ×
+                      </button>
                     </div>
-
-                    <div className="filter-modal-content-unique13">
-                      <div className="filter-section-unique13">
-                        <h4>MAJOR</h4>
-                        <div className="filter-options-unique13">
+                    <div className="cs-filter-modal-content">
+                      <div className="cs-filter-section">
+                        <h3>MAJOR</h3>
+                        <div className="cs-filter-options">
                           {uniqueMajors.map((major) => (
                             <button
                               key={major}
-                              className={`filter-option-unique13 ${selectedFilters.major === major ? 'active' : ''}`}
+                              className={`cs-filter-option ${selectedFilters.major === major ? "cs-selected" : ""}`}
                               onClick={() => setSelectedFilters({ ...selectedFilters, major })}
                             >
                               {major}
@@ -404,14 +432,13 @@ function Faculty() {
                           ))}
                         </div>
                       </div>
-
-                      <div className="filter-section-unique13">
-                        <h4>STATUS</h4>
-                        <div className="filter-options-unique13">
+                      <div className="cs-filter-section">
+                        <h3>STATUS</h3>
+                        <div className="cs-filter-options">
                           {uniqueStatuses.map((status) => (
                             <button
                               key={status}
-                              className={`filter-option-unique13 ${selectedFilters.status === status ? 'active' : ''}`}
+                              className={`cs-filter-option ${selectedFilters.status === status ? "cs-selected" : ""}`}
                               onClick={() => setSelectedFilters({ ...selectedFilters, status })}
                             >
                               {status}
@@ -420,27 +447,17 @@ function Faculty() {
                         </div>
                       </div>
                     </div>
-
-                    <div className="filter-modal-footer-unique13">
-                      <button
-                        className="reset-button-unique13"
-                        onClick={() => {
-                          setSelectedFilters({
-                            major: "All Majors",
-                            status: "All Statuses"
-                          });
-                        }}
-                      >
+                    <div className="cs-filter-actions">
+                      <button className="cs-reset-button" onClick={() => {
+                        setSelectedFilters({ major: "All Majors", status: "All Statuses" });
+                      }}>
                         Reset
                       </button>
-                      <button
-                        className="apply-button-unique13"
-                        onClick={() => {
-                          setSelectedMajor(selectedFilters.major);
-                          setSelectedStatus(selectedFilters.status);
-                          setShowFilterModal(false);
-                        }}
-                      >
+                      <button className="cs-apply-button" onClick={() => {
+                        setSelectedMajor(selectedFilters.major);
+                        setSelectedStatus(selectedFilters.status);
+                        setShowFilterModal(false);
+                      }}>
                         Show {filteredStudents.length} students
                       </button>
                     </div>
