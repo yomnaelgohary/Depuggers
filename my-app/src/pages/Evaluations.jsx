@@ -9,12 +9,12 @@ function Evaluations() {
   const [selectedMajor, setSelectedMajor] = useState("All")
   const [selectedStatus, setSelectedStatus] = useState("All")
   const [selectedReport, setSelectedReport] = useState(null)
-  const [reportType, setReportType] = useState(null)
+  const [reportType, setReportType] = useState(null) // To store 'internship' or 'evaluation'
   const [editingClarification, setEditingClarification] = useState(false)
   const [clarificationText, setClarificationText] = useState("")
   const [showFilterPopup, setShowFilterPopup] = useState(false)
   const filterPopupRef = useRef(null)
-  const clarificationTextareaRef = useRef(null)
+  const clarificationTextareaRef = useRef(null); // Ref for the textarea
 
   const [reports, setReports] = useState([
     {
@@ -183,57 +183,47 @@ function Evaluations() {
   ])
 
   useEffect(() => {
-    // Add clarification to flagged/rejected reports that don't have one
     const updatedReports = reports.map((report) => {
       const updatedReport = { ...report }
-
       if ((report.status === "flagged" || report.status === "rejected") && !report.clarification) {
-        updatedReport.clarification =
-          "Additional information or corrections are needed for this report. Please review and resubmit."
+        updatedReport.clarification = "Additional information or corrections are needed for this report. Please review and resubmit."
       }
-
       return updatedReport
-    })
+    });
+    if (JSON.stringify(reports) !== JSON.stringify(updatedReports)) { // Prevent infinite loop
+        setReports(updatedReports);
+    }
 
-    setReports(updatedReports)
-
-    // Load jsPDF script
     const script = document.createElement("script")
     script.src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
     script.async = true
-    script.onload = () => {
-      setJspdfLoaded(true)
-    }
+    script.onload = () => setJspdfLoaded(true)
     document.body.appendChild(script)
 
-    // Add click event listener to close filter popup when clicking outside
     const handleClickOutside = (event) => {
-      if (filterPopupRef.current && !filterPopupRef.current.contains(event.target)) {
+      if (showFilterPopup && filterPopupRef.current && !filterPopupRef.current.contains(event.target)) {
+        // Check if the click is on the filter button itself to prevent immediate closing
+        const filterButton = document.querySelector(".filter-button"); // Be more specific if needed
+        if (filterButton && filterButton.contains(event.target)) {
+            return;
+        }
         setShowFilterPopup(false)
       }
     }
-
-    // Add keyboard event listener to close filter popup when Escape key is pressed
     const handleKeyDown = (event) => {
-      if (event.key === "Escape" && showFilterPopup) {
-        setShowFilterPopup(false)
-      }
-      if (event.key === "Enter" && showFilterPopup) {
-        handleApplyFilters()
-      }
+      if (event.key === "Escape" && showFilterPopup) setShowFilterPopup(false)
+      if (event.key === "Enter" && showFilterPopup) handleApplyFilters()
     }
 
     document.addEventListener("mousedown", handleClickOutside)
     document.addEventListener("keydown", handleKeyDown)
 
     return () => {
-      if (document.body.contains(script)) {
-        document.body.removeChild(script)
-      }
+      if (document.body.contains(script)) document.body.removeChild(script)
       document.removeEventListener("mousedown", handleClickOutside)
       document.removeEventListener("keydown", handleKeyDown)
     }
-  }, [showFilterPopup])
+  }, [reports, showFilterPopup]) // Added reports to dependency array for initial clarification update
 
   const filteredReports = reports.filter((report) => {
     if (searchQuery) {
@@ -253,7 +243,7 @@ function Evaluations() {
 
   const handleReportClick = (report) => {
     setSelectedReport(report)
-    setReportType(report.type)
+    setReportType(report.type) // Set the report type
     setClarificationText(report.clarification || "")
     setEditingClarification(false)
   }
@@ -292,16 +282,11 @@ function Evaluations() {
 
   const getStatusBadgeClass = (status) => {
     switch (status.toLowerCase()) {
-      case "pending":
-        return "status-badge pending"
-      case "flagged":
-        return "status-badge flagged"
-      case "rejected":
-        return "status-badge rejected"
-      case "accepted":
-        return "status-badge accepted"
-      default:
-        return "status-badge"
+      case "pending": return "status-badge pending"
+      case "flagged": return "status-badge flagged"
+      case "rejected": return "status-badge rejected"
+      case "accepted": return "status-badge accepted"
+      default: return "status-badge"
     }
   }
 
@@ -310,24 +295,9 @@ function Evaluations() {
     const hasHalfStar = rating % 1 >= 0.5
     const stars = []
     for (let i = 0; i < 5; i++) {
-      if (i < fullStars)
-        stars.push(
-          <span key={i} className="star full">
-            ★
-          </span>,
-        )
-      else if (i === fullStars && hasHalfStar)
-        stars.push(
-          <span key={i} className="star half">
-            ★
-          </span>,
-        )
-      else
-        stars.push(
-          <span key={i} className="star empty">
-            ☆
-          </span>,
-        )
+      if (i < fullStars) stars.push(<span key={i} className="star full">★</span>)
+      else if (i === fullStars && hasHalfStar) stars.push(<span key={i} className="star half">★</span>)
+      else stars.push(<span key={i} className="star empty">☆</span>)
     }
     return (
       <div className="rating-stars">
@@ -339,6 +309,7 @@ function Evaluations() {
   const generateReportPDF = (report) => {
     if (!jspdfLoaded || !window.jspdf) {
       console.error("jsPDF library is not loaded.")
+      alert("PDF generation library is not yet loaded. Please try again in a moment.");
       return
     }
     const { jsPDF } = window.jspdf
@@ -346,56 +317,95 @@ function Evaluations() {
     doc.setFont("helvetica", "bold")
     doc.setFontSize(20)
     doc.text(`${report.title}`, 105, 20, { align: "center" })
-    doc.setFillColor(195, 20, 50)
-    doc.rect(20, 30, 15, 15, "F")
-    doc.setTextColor(255, 255, 255)
-    doc.setFontSize(12)
-    doc.text("SC", 27.5, 39, { align: "center" })
-    doc.setTextColor(0, 0, 0)
 
-    doc.setFont("helvetica", "bold")
-    doc.setFontSize(14)
-    doc.text("Report Information", 20, 60)
-    doc.setFont("helvetica", "normal")
-    doc.setFontSize(12)
-    doc.text(`Student: ${report.studentName} (ID: ${report.studentId})`, 20, 70)
-    doc.text(`Major: ${report.major}`, 20, 80)
-    doc.text(`Company: ${report.company}`, 20, 90)
-    doc.text(`Status: ${report.status.charAt(0).toUpperCase() + report.status.slice(1)}`, 20, 100)
-    doc.text(`Submission Date: ${report.submissionDate}`, 20, 110)
+    // SCAD Logo Placeholder
+    doc.setFillColor(95, 40, 120); // SCAD Purple
+    doc.rect(15, 25, 15, 15, "F"); // x, y, width, height
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(10);
+    doc.text("SCAD", 22.5, 34, { align: "center" }); // Adjust text position
+    doc.setTextColor(0, 0, 0); // Reset text color
 
-    let yPosition = 120
-    if (report.supervisor) {
-      doc.text(`Supervisor: ${report.supervisor} (${report.supervisorPosition})`, 20, yPosition)
-      yPosition += 10
-    }
+    let yPosition = 55; // Start Y position lower
+    const leftMargin = 20;
+    const contentWidth = 170;
+
+    const addSection = (title, content, isList = false) => {
+        if (yPosition > 260) { // Check for page break
+            doc.addPage();
+            yPosition = 20;
+        }
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(14);
+        doc.text(title, leftMargin, yPosition);
+        yPosition += 8;
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(12);
+        if (isList && Array.isArray(content)) {
+            content.forEach(item => {
+                if (yPosition > 270) { doc.addPage(); yPosition = 20; }
+                const itemLines = doc.splitTextToSize(`• ${item}`, contentWidth - 5);
+                doc.text(itemLines, leftMargin + 5, yPosition);
+                yPosition += itemLines.length * 7;
+            });
+        } else if (typeof content === 'string') {
+            const lines = doc.splitTextToSize(content, contentWidth);
+            if (yPosition + lines.length * 7 > 270) { doc.addPage(); yPosition = 20;}
+            doc.text(lines, leftMargin, yPosition);
+            yPosition += lines.length * 7;
+        }
+        yPosition += 5; // Spacing after section
+    };
+
+
+    addSection("Student Information", `Name: ${report.studentName} (ID: ${report.studentId})\nMajor: ${report.major}\nCompany: ${report.company}\nSupervisor: ${report.supervisor} (${report.supervisorPosition})\nInternship Period: ${report.startDate} to ${report.endDate}\nSubmission Date: ${report.submissionDate}\nStatus: ${report.status.charAt(0).toUpperCase() + report.status.slice(1)}`);
 
     if ((report.status === "flagged" || report.status === "rejected") && report.clarification) {
-      doc.setFont("helvetica", "bold")
-      doc.setFontSize(14)
-      doc.text("Clarification", 20, yPosition)
-      yPosition += 10
-      doc.setFont("helvetica", "normal")
-      doc.setFontSize(12)
-      const clarificationLines = doc.splitTextToSize(report.clarification, 170)
-      doc.text(clarificationLines, 20, yPosition)
-      yPosition += clarificationLines.length * 7 + 10
+        addSection("Clarification Needed", report.clarification);
     }
-    doc.setFontSize(10)
-    doc.setTextColor(100, 100, 100)
-    doc.text("Generated by SCAD Office", 105, 280, { align: "center" })
-    doc.text(new Date().toLocaleDateString(), 105, 285, { align: "center" })
+
+    if (report.type === "internship") {
+        addSection("Report Content Summary", report.content);
+        addSection("Tasks Performed", report.tasks, true);
+        addSection("Skills Developed/Used", report.skills.join(', '));
+        addSection("Challenges Faced", report.challenges);
+        addSection("Key Learnings", report.learnings);
+        addSection("Student Feedback", report.feedback);
+    } else if (report.type === "evaluation") {
+        let performanceDetails = `Technical Skills: ${report.performance.technical.toFixed(1)}/5.0
+Communication: ${report.performance.communication.toFixed(1)}/5.0
+Teamwork: ${report.performance.teamwork.toFixed(1)}/5.0
+Problem Solving: ${report.performance.problemSolving.toFixed(1)}/5.0
+Overall: ${report.performance.overall.toFixed(1)}/5.0`;
+        addSection("Performance Evaluation", performanceDetails);
+        addSection("Strengths", report.strengths);
+        addSection("Areas for Improvement", report.areasForImprovement);
+        addSection("Supervisor Comments", report.comments);
+    }
+
+
+    // Footer on each page
+    const pageCount = doc.internal.getNumberOfPages();
+    for (let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.setFontSize(9);
+        doc.setTextColor(128, 128, 128);
+        doc.text(`Page ${i} of ${pageCount}`, 105, 285, { align: "center" });
+        doc.text(`Generated: ${new Date().toLocaleString()}`, 105, 290, {align: "center"});
+    }
+
     const reportTypeString = report.type === "internship" ? "Internship_Report" : "Evaluation_Report"
-    doc.save(`${reportTypeString}_${report.studentName.replace(/\s+/g, "_")}.pdf`)
+    doc.save(`${reportTypeString}_${report.studentName.replace(/\s+/g, "_")}_${report.id}.pdf`)
   }
 
   const handleResetFilters = () => {
     setSelectedMajor("All")
     setSelectedStatus("All")
+    // setSearchQuery(""); // Optionally reset search query
   }
 
   const handleApplyFilters = () => {
-    setShowFilterPopup(false)
+    setShowFilterPopup(false) // Close popup when applying
   }
 
   const renderInternshipReport = (report) => {
@@ -408,48 +418,13 @@ function Evaluations() {
               {report.status.charAt(0).toUpperCase() + report.status.slice(1)}
             </span>
             <div className="status-actions">
-              <button
-                className={`status-button flagged ${report.status === "flagged" ? "active" : ""}`}
-                onClick={() => updateReportStatus(report.id, "flagged")}
-              >
-                Flag
-              </button>
-              <button
-                className={`status-button rejected ${report.status === "rejected" ? "active" : ""}`}
-                onClick={() => updateReportStatus(report.id, "rejected")}
-              >
-                Reject
-              </button>
-              <button
-                className={`status-button accepted ${report.status === "accepted" ? "active" : ""}`}
-                onClick={() => updateReportStatus(report.id, "accepted")}
-              >
-                Accept
-              </button>
+              <button className={`status-button pending ${report.status === "pending" ? "active" : ""}`} onClick={() => updateReportStatus(report.id, "pending")}>Pending</button>
+              <button className={`status-button flagged ${report.status === "flagged" ? "active" : ""}`} onClick={() => updateReportStatus(report.id, "flagged")}>Flag</button>
+              <button className={`status-button rejected ${report.status === "rejected" ? "active" : ""}`} onClick={() => updateReportStatus(report.id, "rejected")}>Reject</button>
+              <button className={`status-button accepted ${report.status === "accepted" ? "active" : ""}`} onClick={() => updateReportStatus(report.id, "accepted")}>Accept</button>
             </div>
           </div>
           <div className="report-actions">
-            <button
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "6px",
-                padding: "8px 12px",
-                backgroundColor: "#f0f0f0",
-                color: "#333",
-                border: "1px solid #ddd",
-                borderRadius: "4px",
-                fontSize: "14px",
-                fontWeight: "500",
-                cursor: "pointer",
-                transition: "background-color 0.2s ease",
-              }}
-              onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#e0e0e0")}
-              onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#f0f0f0")}
-              onClick={() => generateReportPDF(report)}
-            >
-              <Download size={16} /> Download PDF
-            </button>
             <button className="modal-close-button" onClick={closeReportDetails}>
               <X size={20} />
             </button>
@@ -459,89 +434,42 @@ function Evaluations() {
           {(report.status === "flagged" || report.status === "rejected") && (
             <div className="clarification-section">
               <div className="clarification-header">
-                <h3>
-                  <AlertTriangle size={18} className="clarification-icon" /> Clarification for{" "}
-                  {report.status === "flagged" ? "Flag" : "Rejection"}
-                </h3>
+                <h3><AlertTriangle size={18} className="clarification-icon" /> Clarification for {report.status === "flagged" ? "Flag" : "Rejection"}</h3>
                 {!editingClarification ? (
-                  <button className="edit-clarification-button" onClick={handleEditClarification}>
-                    <Edit size={16} /> Edit
-                  </button>
+                  <button className="edit-clarification-button" onClick={handleEditClarification}><Edit size={16} /> Edit</button>
                 ) : (
-                  <button className="save-clarification-button" onClick={() => handleSaveClarification(report.id)}>
-                    <Save size={16} /> Save Clarification
-                  </button>
+                  <button className="save-clarification-button" onClick={() => handleSaveClarification(report.id)}><Save size={16} /> Save Clarification</button>
                 )}
               </div>
               {!editingClarification ? (
                 <div className="clarification-text">{report.clarification || "No clarification provided."}</div>
               ) : (
-                <textarea
-                  ref={clarificationTextareaRef}
-                  className="clarification-textarea"
-                  value={clarificationText}
-                  onChange={(e) => setClarificationText(e.target.value)}
-                  placeholder="Enter clarification reason here..."
-                />
+                <textarea ref={clarificationTextareaRef} className="clarification-textarea" value={clarificationText} onChange={(e) => setClarificationText(e.target.value)} placeholder="Enter clarification reason here..." />
               )}
             </div>
           )}
           <div className="report-meta">
-            <div className="meta-item">
-              <h4>Student</h4>
-              <p>
-                {report.studentName} (ID: {report.studentId})
-              </p>
-            </div>
-            <div className="meta-item">
-              <h4>Major</h4>
-              <p>{report.major}</p>
-            </div>
-            <div className="meta-item">
-              <h4>Company</h4>
-              <p>{report.company}</p>
-            </div>
-            <div className="meta-item">
-              <h4>Supervisor</h4>
-              <p>
-                {report.supervisor} ({report.supervisorPosition})
-              </p>
-            </div>
+            <div className="meta-item"><h4>Student</h4><p>{report.studentName} (ID: {report.studentId})</p></div>
+            <div className="meta-item"><h4>Major</h4><p>{report.major}</p></div>
+            <div className="meta-item"><h4>Company</h4><p>{report.company}</p></div>
+            <div className="meta-item"><h4>Supervisor</h4><p>{report.supervisor} ({report.supervisorPosition})</p></div>
           </div>
-          <div className="report-section">
-            <h3>Report Content</h3>
-            <p>{report.content}</p>
+          <div className="internship-period">
+            <div className="period-item"><h4>Start Date</h4><p>{report.startDate}</p></div>
+            <div className="period-item"><h4>End Date</h4><p>{report.endDate}</p></div>
+            <div className="period-item"><h4>Submission Date</h4><p>{report.submissionDate}</p></div>
           </div>
-          <div className="report-section">
-            <h3>Tasks Performed</h3>
-            <ul className="tasks-list">
-              {report.tasks.map((task, index) => (
-                <li key={index}>{task}</li>
-              ))}
-            </ul>
-          </div>
-          <div className="report-section">
-            <h3>Skills Developed</h3>
-            <div className="skills-list">
-              {report.skills.map((skill, index) => (
-                <span key={index} className="skill-tag">
-                  {skill}
-                </span>
-              ))}
-            </div>
-          </div>
-          <div className="report-section">
-            <h3>Challenges</h3>
-            <p>{report.challenges}</p>
-          </div>
-          <div className="report-section">
-            <h3>Learnings</h3>
-            <p>{report.learnings}</p>
-          </div>
-          <div className="report-section">
-            <h3>Feedback</h3>
-            <p>{report.feedback}</p>
-          </div>
+          <div className="report-section"><h3>Report Content</h3><p>{report.content}</p></div>
+          <div className="report-section"><h3>Tasks Performed</h3><ul className="tasks-list">{report.tasks.map((task, index) => (<li key={index}>{task}</li>))}</ul></div>
+          <div className="report-section"><h3>Skills Developed</h3><div className="skills-list">{report.skills.map((skill, index) => (<span key={index} className="skill-tag">{skill}</span>))}</div></div>
+          <div className="report-section"><h3>Challenges</h3><p>{report.challenges}</p></div>
+          <div className="report-section"><h3>Learnings</h3><p>{report.learnings}</p></div>
+          <div className="report-section"><h3>Feedback</h3><p>{report.feedback}</p></div>
+        </div>
+        <div className="report-details-footer">
+            <button className="download-pdf-button-footer" onClick={() => generateReportPDF(report)}>
+                <Download size={16} /> Download PDF
+            </button>
         </div>
       </div>
     )
@@ -557,48 +485,13 @@ function Evaluations() {
               {report.status.charAt(0).toUpperCase() + report.status.slice(1)}
             </span>
             <div className="status-actions">
-              <button
-                className={`status-button flagged ${report.status === "flagged" ? "active" : ""}`}
-                onClick={() => updateReportStatus(report.id, "flagged")}
-              >
-                Flag
-              </button>
-              <button
-                className={`status-button rejected ${report.status === "rejected" ? "active" : ""}`}
-                onClick={() => updateReportStatus(report.id, "rejected")}
-              >
-                Reject
-              </button>
-              <button
-                className={`status-button accepted ${report.status === "accepted" ? "active" : ""}`}
-                onClick={() => updateReportStatus(report.id, "accepted")}
-              >
-                Accept
-              </button>
+                <button className={`status-button pending ${report.status === "pending" ? "active" : ""}`} onClick={() => updateReportStatus(report.id, "pending")}>Pending</button>
+                <button className={`status-button flagged ${report.status === "flagged" ? "active" : ""}`} onClick={() => updateReportStatus(report.id, "flagged")}>Flag</button>
+                <button className={`status-button rejected ${report.status === "rejected" ? "active" : ""}`} onClick={() => updateReportStatus(report.id, "rejected")}>Reject</button>
+                <button className={`status-button accepted ${report.status === "accepted" ? "active" : ""}`} onClick={() => updateReportStatus(report.id, "accepted")}>Accept</button>
             </div>
           </div>
           <div className="report-actions">
-            <button
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "6px",
-                padding: "8px 12px",
-                backgroundColor: "#f0f0f0",
-                color: "#333",
-                border: "1px solid #ddd",
-                borderRadius: "4px",
-                fontSize: "14px",
-                fontWeight: "500",
-                cursor: "pointer",
-                transition: "background-color 0.2s ease",
-              }}
-              onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#e0e0e0")}
-              onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#f0f0f0")}
-              onClick={() => generateReportPDF(report)}
-            >
-              <Download size={16} /> Download PDF
-            </button>
             <button className="modal-close-button" onClick={closeReportDetails}>
               <X size={20} />
             </button>
@@ -608,116 +501,59 @@ function Evaluations() {
           {(report.status === "flagged" || report.status === "rejected") && (
             <div className="clarification-section">
               <div className="clarification-header">
-                <h3>
-                  <AlertTriangle size={18} className="clarification-icon" /> Clarification for{" "}
-                  {report.status === "flagged" ? "Flag" : "Rejection"}
-                </h3>
+                <h3><AlertTriangle size={18} className="clarification-icon" /> Clarification for {report.status === "flagged" ? "Flag" : "Rejection"}</h3>
                 {!editingClarification ? (
-                  <button className="edit-clarification-button" onClick={handleEditClarification}>
-                    <Edit size={16} /> Edit
-                  </button>
+                  <button className="edit-clarification-button" onClick={handleEditClarification}><Edit size={16} /> Edit</button>
                 ) : (
-                  <button className="save-clarification-button" onClick={() => handleSaveClarification(report.id)}>
-                    <Save size={16} /> Save Clarification
-                  </button>
+                  <button className="save-clarification-button" onClick={() => handleSaveClarification(report.id)}><Save size={16} /> Save Clarification</button>
                 )}
               </div>
               {!editingClarification ? (
                 <div className="clarification-text">{report.clarification || "No clarification provided."}</div>
               ) : (
-                <textarea
-                  ref={clarificationTextareaRef}
-                  className="clarification-textarea"
-                  value={clarificationText}
-                  onChange={(e) => setClarificationText(e.target.value)}
-                  placeholder="Enter clarification reason here..."
-                />
+                <textarea ref={clarificationTextareaRef} className="clarification-textarea" value={clarificationText} onChange={(e) => setClarificationText(e.target.value)} placeholder="Enter clarification reason here..." />
               )}
             </div>
           )}
           <div className="report-meta">
-            <div className="meta-item">
-              <h4>Student</h4>
-              <p>
-                {report.studentName} (ID: {report.studentId})
-              </p>
-            </div>
-            <div className="meta-item">
-              <h4>Major</h4>
-              <p>{report.major}</p>
-            </div>
-            <div className="meta-item">
-              <h4>Company</h4>
-              <p>{report.company}</p>
-            </div>
-            <div className="meta-item">
-              <h4>Supervisor</h4>
-              <p>
-                {report.supervisor} ({report.supervisorPosition})
-              </p>
-            </div>
+            <div className="meta-item"><h4>Student</h4><p>{report.studentName} (ID: {report.studentId})</p></div>
+            <div className="meta-item"><h4>Major</h4><p>{report.major}</p></div>
+            <div className="meta-item"><h4>Company</h4><p>{report.company}</p></div>
+            <div className="meta-item"><h4>Supervisor</h4><p>{report.supervisor} ({report.supervisorPosition})</p></div>
           </div>
           <div className="internship-period">
-            <div className="period-item">
-              <h4>Start Date</h4>
-              <p>{report.startDate}</p>
-            </div>
-            <div className="period-item">
-              <h4>End Date</h4>
-              <p>{report.endDate}</p>
-            </div>
-            <div className="period-item">
-              <h4>Submission Date</h4>
-              <p>{report.submissionDate}</p>
-            </div>
+            <div className="period-item"><h4>Start Date</h4><p>{report.startDate}</p></div>
+            <div className="period-item"><h4>End Date</h4><p>{report.endDate}</p></div>
+            <div className="period-item"><h4>Submission Date</h4><p>{report.submissionDate}</p></div>
           </div>
-          <div className="report-section">
-            <h3>Performance Evaluation</h3>
+          <div className="report-section"><h3>Performance Evaluation</h3>
             <div className="performance-grid">
-              <div className="performance-item">
-                <h4>Technical Skills</h4>
-                {renderRatingStars(report.performance.technical)}
-              </div>
-              <div className="performance-item">
-                <h4>Communication</h4>
-                {renderRatingStars(report.performance.communication)}
-              </div>
-              <div className="performance-item">
-                <h4>Teamwork</h4>
-                {renderRatingStars(report.performance.teamwork)}
-              </div>
-              <div className="performance-item">
-                <h4>Problem Solving</h4>
-                {renderRatingStars(report.performance.problemSolving)}
-              </div>
-              <div className="performance-item overall">
-                <h4>Overall Performance</h4>
-                {renderRatingStars(report.performance.overall)}
-              </div>
+              <div className="performance-item"><h4>Technical Skills</h4>{renderRatingStars(report.performance.technical)}</div>
+              <div className="performance-item"><h4>Communication</h4>{renderRatingStars(report.performance.communication)}</div>
+              <div className="performance-item"><h4>Teamwork</h4>{renderRatingStars(report.performance.teamwork)}</div>
+              <div className="performance-item"><h4>Problem Solving</h4>{renderRatingStars(report.performance.problemSolving)}</div>
+              <div className="performance-item overall"><h4>Overall Performance</h4>{renderRatingStars(report.performance.overall)}</div>
             </div>
           </div>
-          <div className="report-section">
-            <h3>Strengths</h3>
-            <p>{report.strengths}</p>
-          </div>
-          <div className="report-section">
-            <h3>Areas for Improvement</h3>
-            <p>{report.areasForImprovement}</p>
-          </div>
-          <div className="report-section">
-            <h3>Supervisor Comments</h3>
-            <p>{report.comments}</p>
-          </div>
+          <div className="report-section"><h3>Strengths</h3><p>{report.strengths}</p></div>
+          <div className="report-section"><h3>Areas for Improvement</h3><p>{report.areasForImprovement}</p></div>
+          <div className="report-section"><h3>Supervisor Comments</h3><p>{report.comments}</p></div>
+        </div>
+        <div className="report-details-footer">
+            <button className="download-pdf-button-footer" onClick={() => generateReportPDF(report)}>
+                <Download size={16} /> Download PDF
+            </button>
         </div>
       </div>
     )
   }
 
-  const formatReportType = (type, reportType) => {
-    if (type === "internship") return "Internship Report"
-    if (type === "evaluation") return "Evaluation Report"
-    return reportType
-  }
+  const formatReportType = (type, reportType) => { // reportType seems to be the title here, rename for clarity
+    if (type === "internship") return "Internship Report";
+    if (type === "evaluation") return "Evaluation Report";
+    return reportType; // Fallback to title if type is unknown
+  };
+
 
   return (
     <div className="container">
@@ -741,8 +577,8 @@ function Evaluations() {
                 <Menu size={16} /> Filters
               </button>
               {showFilterPopup && (
-                <div className="filter-overlay">
-                  <div className="filter-popup" ref={filterPopupRef}>
+                <div className="filter-overlay" onClick={() => setShowFilterPopup(false)}> {/* Allow closing by clicking overlay */}
+                  <div className="filter-popup" ref={filterPopupRef} onClick={(e) => e.stopPropagation()}> {/* Prevent closing when clicking inside popup */}
                     <div className="filter-popup-header">
                       <h3>Filter Reports</h3>
                       <button className="close-popup-button" onClick={() => setShowFilterPopup(false)}>
@@ -780,12 +616,8 @@ function Evaluations() {
                       </div>
                     </div>
                     <div className="filter-actions">
-                      <button className="reset-button" onClick={handleResetFilters}>
-                        Reset
-                      </button>
-                      <button className="apply-button" onClick={handleApplyFilters}>
-                        Apply
-                      </button>
+                      <button className="reset-button" onClick={handleResetFilters}>Reset</button>
+                      <button className="apply-button" onClick={handleApplyFilters}>Apply</button>
                     </div>
                   </div>
                 </div>
@@ -803,21 +635,11 @@ function Evaluations() {
                     </span>
                   </div>
                   <div className="report-card-content">
-                    <p>
-                      <strong>Type:</strong> {formatReportType(report.type, report.title)}
-                    </p>
-                    <p>
-                      <strong>Student:</strong> {report.studentName}
-                    </p>
-                    <p>
-                      <strong>Company:</strong> {report.company}
-                    </p>
-                    <p>
-                      <strong>Supervisor:</strong> {report.supervisor}
-                    </p>
-                    <p>
-                      <strong>Submitted:</strong> {report.submissionDate}
-                    </p>
+                    <p><strong>Type:</strong> {formatReportType(report.type, report.title)}</p>
+                    <p><strong>Student:</strong> {report.studentName}</p>
+                    <p><strong>Company:</strong> {report.company}</p>
+                    <p><strong>Supervisor:</strong> {report.supervisor}</p>
+                    <p><strong>Submitted:</strong> {report.submissionDate}</p>
                     {(report.status === "flagged" || report.status === "rejected") && report.clarification && (
                       <p className="report-clarification-preview">
                         <strong>Clarification:</strong> {report.clarification.substring(0, 60)}
