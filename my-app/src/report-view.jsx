@@ -211,6 +211,10 @@ function ReportView() {
                 <div className="info-label unique16">Company</div>
                 <div className="info-value unique16">{studentData.company}</div>
               </div>
+              <div className="info-item unique16">
+                <div className="info-label unique16">Relevant Course</div>
+                <div className="info-value unique16">{studentData.relevantCourse}</div>
+              </div>
             </div>
 
             <div className="info-column unique16">
@@ -221,6 +225,10 @@ function ReportView() {
               <div className="info-item unique16">
                 <div className="info-label unique16">Internship Dates</div>
                 <div className="info-value unique16">{studentData.dates}</div>
+              </div>
+              <div className="info-item unique16">
+                <div className="info-label unique16">Student Introduction</div>
+                <div className="info-value unique16">{studentData.intro}</div>
               </div>
             </div>
           </div>
