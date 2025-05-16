@@ -1920,11 +1920,11 @@ export default function Company() {
                     <h4>Application Status</h4>
                     <div className="cs-status-buttons">
                       <button 
-                        className={`cs-status-button ${selectedApplication.status === 'pending' ? 'cs-active' : ''}`}
-                        onClick={() => updateApplicationStatus(selectedApplication.id, 'pending')}
-                        data-status="pending"
+                        className={`cs-status-button ${selectedApplication.status === 'finalized' ? 'cs-active' : ''}`}
+                        onClick={() => updateApplicationStatus(selectedApplication.id, 'finalized')}
+                        data-status="finalized"
                       >
-                        Pending
+                        Finalized
                       </button>
                       <button 
                         className={`cs-status-button ${selectedApplication.status === 'accepted' ? 'cs-active' : ''}`}
