@@ -1,0 +1,285 @@
+/* StudentHeader.css (adapted from CompanyHeader.css) */
+
+.sh-student-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  background-color: #fff;
+  border-bottom: 1px solid #eaeaea;
+  height: 64px;
+}
+
+.sh-header-left {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.sh-navigation-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.sh-nav-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #E5E7EB;
+  background-color: transparent;
+  color: #E5E7EB;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.sh-nav-button svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 1.5;
+}
+
+.sh-nav-button:hover:not(.sh-disabled) {
+  border-color: #5f2878;
+  color: #5f2878;
+}
+
+.sh-nav-button:active:not(.sh-disabled) {
+  background-color: #5f2878;
+  border-color: #5f2878;
+  color: white;
+}
+
+.sh-nav-button.sh-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border-color: #E5E7EB;
+  color: #E5E7EB;
+}
+
+.sh-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.sh-icon-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #f5f3ff;
+  border: 2px solid #5f2878;
+  color: #5f2878;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+  outline: none;
+}
+
+.sh-icon-button:hover {
+  background-color: #5f2878;
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(95, 40, 120, 0.2);
+}
+
+.sh-icon-button svg {
+  width: 20px;
+  height: 20px;
+  color: inherit;
+}
+
+.sh-notification-bell-container {
+  position: relative;
+}
+
+.sh-notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #dc2626;
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  border: 2px solid white;
+}
+
+.sh-notifications-panel {
+  position: absolute;
+  top: 45px;
+  right: -10px;
+  width: 320px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.sh-notifications-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.sh-notifications-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  color: #333;
+}
+
+.sh-clear-notifications {
+  background: none;
+  border: none;
+  color: #5f2878;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.sh-clear-notifications:hover {
+  background-color: #f5f3ff;
+}
+
+.sh-notifications-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.sh-notification-item {
+  padding: 16px;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.sh-notification-item:last-child {
+  border-bottom: none;
+}
+
+.sh-notification-content {
+  font-size: 14px;
+  color: #333;
+  margin: 0 0 4px 0;
+}
+
+.sh-notification-time {
+  font-size: 12px;
+  color: #666;
+}
+
+.sh-no-notifications {
+  padding: 24px 16px;
+  text-align: center;
+  color: #666;
+}
+
+.sh-avatar-container {
+  position: relative;
+}
+
+.sh-avatar-button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+}
+
+.sh-avatar-button:focus {
+  outline: none;
+}
+
+.sh-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #f5f3ff;
+  border: 2px solid #5f2878;
+  color: #5f2878;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+
+.sh-avatar:hover {
+  background-color: #5f2878;
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(95, 40, 120, 0.2);
+}
+
+.sh-avatar svg {
+  width: 20px;
+  height: 20px;
+  color: inherit;
+}
+
+.sh-user-dropdown {
+  position: absolute;
+  top: 45px;
+  right: -10px;
+  width: 250px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  overflow: hidden;
+  padding: 8px 0;
+}
+
+.sh-user-info {
+  padding: 16px;
+  background-color: white;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.sh-user-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  color: #333;
+}
+
+.sh-logout-button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 16px;
+  background: none;
+  border: none;
+  color: #dc2626;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sh-logout-button:hover {
+  background-color: #fef2f2;
+}
+
+.sh-logout-button svg {
+  width: 16px;
+  height: 16px;
+  color: #dc2626;
+} 

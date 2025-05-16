@@ -1,0 +1,163 @@
+/* StudentSidebar.css (adapted from CompanySidebar.css) */
+
+.ssb-student-sidebar {
+  width: 240px;
+  min-width: 240px;
+  height: 100vh;
+  background-color: #ffffff;
+  border-right: 1px solid #e9ecef;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  overflow-y: auto;
+}
+
+.ssb-sidebar-header {
+  padding: 16px 10px 16px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid #E5E7EB;
+  margin-bottom: 8px;
+}
+
+.ssb-student-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: #5f2878;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ssb-student-title {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #2D2D2D;
+  letter-spacing: -0.02em;
+  margin: 0;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.ssb-sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.ssb-sidebar-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ssb-sidebar-section-title {
+  padding: 0 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ssb-sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 12px;
+}
+
+.ssb-sidebar-menu-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  text-align: left;
+  color: #4b5563;
+  gap: 12px;
+  width: 100%;
+}
+
+.ssb-sidebar-menu-item:hover {
+  background-color: #f9fafb;
+  color: #5f2878;
+}
+
+.ssb-sidebar-menu-item.ssb-active {
+  background-color: #f5f3ff;
+  color: #5f2878;
+  font-weight: 500;
+}
+
+.ssb-sidebar-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: inherit;
+}
+
+.ssb-sidebar-label {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.ssb-active-indicator {
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 24px;
+  background-color: #5f2878;
+  border-radius: 0 4px 4px 0;
+}
+
+@media (max-width: 768px) {
+  .ssb-student-sidebar {
+    width: 80px;
+    min-width: 80px;
+  }
+  .ssb-student-title {
+    display: none;
+  }
+  .ssb-student-logo {
+    width: 36px;
+    height: 36px;
+  }
+  .ssb-sidebar-header {
+    justify-content: center;
+    padding: 16px;
+  }
+  .ssb-sidebar-section-title,
+  .ssb-sidebar-label {
+    display: none;
+  }
+  .ssb-sidebar-menu {
+    padding: 0 8px;
+  }
+  .ssb-sidebar-menu-item {
+    padding: 12px;
+    justify-content: center;
+  }
+  .ssb-active-indicator {
+    left: -8px;
+  }
+} 

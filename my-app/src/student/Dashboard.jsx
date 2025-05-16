@@ -104,12 +104,6 @@ const DashboardContent = () => {
 
   return (
     <div className="dashboard-container unique2">
-      {/* Welcome Section */}
-      <div className="welcome-section unique2">
-        <h1 className="dashboard-title unique2">Welcome, Student</h1>
-        <p className="dashboard-subtitle unique2">Here's an overview of your internship journey</p>
-      </div>
-
       {/* Stats Overview */}
       <div className="stats-overview unique2">
         {stats.map((stat, index) => (
