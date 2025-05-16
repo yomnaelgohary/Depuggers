@@ -1,12 +1,17 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import "./company.css"
 import CompanyHeader from "./components/CompanyHeader"
 import CompanySidebar from "./components/CompanySidebar"
 import { Users } from "lucide-react"
+import { useLocation } from "react-router-dom"
+import { useNotifications } from "./components/NotificationsContext"
 
 export default function Company() {
+  const location = useLocation();
+  const { addNotification } = useNotifications();
+  const [isDisabled, setIsDisabled] = useState(false);
   const [activePage, setActivePage] = useState("posts")
   const [navigationHistory, setNavigationHistory] = useState(["posts"])
   const [historyPosition, setHistoryPosition] = useState(0)
@@ -35,30 +40,6 @@ export default function Company() {
     ethicalBehavior: "",
     punctuality: ""
   })
-
-  const [notifications, setNotifications] = useState([
-    {
-      message: "Ahmed Hassan has applied to Backend Developer Intern",
-      time: "5 min ago",
-    },
-    {
-      message: "Your application for UI/UX Design Intern has been accepted",
-      time: "1 hour ago",
-    },
-    {
-      message: "New evaluation added for Fatima Ali",
-      time: "2 hours ago",
-    },
-  ])
-  // const [showNotifications, setShowNotifications] = useState(false) // showNotifications seems unused, used directly in CompanyHeader presumably
-
-  const addNotification = (message) => {
-    const newNotification = {
-      message,
-      time: "Just now",
-    }
-    setNotifications([newNotification, ...notifications])
-  }
 
   const locations = ["N Teseen, New Cairo", "Maadi, Cairo", "Smart Village, Giza", "Dokki, Giza", "Heliopolis, Cairo"]
 
@@ -905,6 +886,57 @@ export default function Company() {
     return job.industry || companyIndustryMap[job.companyName] || "Other";
   }
 
+  const hasProcessed = useRef(false);
+
+  useEffect(() => {
+    if (
+      location.state &&
+      location.state.justRegistered &&
+      !hasProcessed.current
+    ) {
+      setIsDisabled(true);
+      hasProcessed.current = true;
+      setTimeout(() => {
+        setIsDisabled(false);
+        addNotification(
+          `Company application for ${location.state.companyEmail || "your email"} has been accepted!`,
+          "success"
+        );
+        // Optionally, clear the justRegistered state so it doesn't trigger again on refresh
+        window.history.replaceState({}, document.title);
+      }, 5000);
+    }
+  }, [location.state, addNotification]);
+
+  if (isDisabled) {
+    return (
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        background: 'rgba(255,255,255,0.85)',
+        zIndex: 9999,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        pointerEvents: 'all',
+      }}>
+        <div className="spinner" style={{ marginBottom: 24 }}>
+          <svg width="60" height="60" viewBox="0 0 50 50">
+            <circle cx="25" cy="25" r="20" fill="none" stroke="#5f2878" strokeWidth="5" strokeDasharray="31.4 31.4" strokeLinecap="round">
+              <animateTransform attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="1s" repeatCount="indefinite" />
+            </circle>
+          </svg>
+        </div>
+        <h2 style={{ color: '#5f2878', marginBottom: 8 }}>Your company application is being processed...</h2>
+        <p style={{ color: '#333', fontSize: 18 }}>Please wait a moment. You will receive an acceptance email shortly.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="cs-company-container">
       <CompanySidebar activePage={activePage} onPageChange={handlePageChange} />
@@ -914,11 +946,6 @@ export default function Company() {
           onNavigateForward={handleNavigateForward}
           canGoBack={historyPosition > 0}
           canGoForward={historyPosition < navigationHistory.length - 1}
-          // Pass notifications related state and functions if CompanyHeader handles them
-          notifications={notifications}
-          // clearAllNotifications={clearAllNotifications} // If implemented in CompanyHeader
-          // showNotifications={showNotifications} // If implemented in CompanyHeader
-          // setShowNotifications={setShowNotifications} // If implemented in CompanyHeader
         />
         <main className="cs-company-main">
           {activePage === "posts" && (

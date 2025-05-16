@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './Companyregister.css';
+import { useNavigate } from 'react-router-dom';
+import { useNotifications } from './components/NotificationsContext';
 
 const Companyregister = () => {
   const [formData, setFormData] = useState({
@@ -20,6 +22,9 @@ const Companyregister = () => {
     logo: '',
     documents: '',
   });
+
+  const navigate = useNavigate();
+  const { addNotification } = useNotifications();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -116,6 +121,7 @@ const Companyregister = () => {
      setFormData({ companyName: '', companyEmail: '', industry: '', companySize: '' });
      setLogo(null);
      setDocuments([]);
+     navigate('/company', { state: { justRegistered: true, companyEmail: formData.companyEmail } });
     }
   };
 

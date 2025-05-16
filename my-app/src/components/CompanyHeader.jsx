@@ -14,7 +14,7 @@ function CompanyHeader({
   const [notifications, setNotifications] = useState([
     // Example notifications, you might fetch these or pass them as props
     { id: 1, content: "New application for UI/UX Intern.", time: "2m ago" },
-    { id: 2, content: "Your post 'Backend Developer' has 5 new views.", time: "1h ago" },
+    { id: 2, content: "Your Company application has been approved", time: "1h ago" },
   ]);
   const notificationRef = useRef(null)
   const userDropdownRef = useRef(null)
