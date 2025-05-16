@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { ChevronLeft, ChevronRight, Bell, User, LogOut } from "lucide-react";
+import { ChevronLeft, ChevronRight, Bell, User, LogOut } from 'lucide-react';
 import "./ProStudentHeader.css";
 
 export default function ProStudentHeader({
@@ -13,6 +13,14 @@ export default function ProStudentHeader({
   const [notifications, setNotifications] = useState([
     { id: 1, content: "New assessment available!", time: "2m ago" },
     { id: 2, content: "Your profile was viewed.", time: "1h ago" },
+    { id: 3, content: "New internship cycle begins on June 15th. Get ready!", time: "3h ago" },
+    { id: 4, content: "Reminder: Summer internship cycle is about to begin in 3 days.", time: "5h ago" },
+    { id: 5, content: "Your internship report status has been set to 'Approved'.", time: "Yesterday" },
+    { id: 6, content: "SCAD Officer Ahmed has accepted your appointment for tomorrow at 2:00 PM.", time: "Yesterday" },
+    { id: 7, content: "Incoming call from Dr. Sarah Mohamed.", time: "2 days ago" },
+    { id: 8, content: "Upcoming Workshop: 'Resume Building' starts in 1 hour. Room 302.", time: "2 days ago" },
+    { id: 9, content: "Mohamed from your project group sent you a message: 'Can we meet today?'", time: "3 days ago" },
+    { id: 10, content: "Your internship report status has been set to 'Needs Revision'.", time: "4 days ago" },
   ]);
   const notificationRef = useRef(null);
   const userDropdownRef = useRef(null);
@@ -132,4 +140,4 @@ export default function ProStudentHeader({
       </div>
     </header>
   );
-} 
+}

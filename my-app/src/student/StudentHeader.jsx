@@ -11,8 +11,8 @@ function StudentHeader({
   const [showNotifications, setShowNotifications] = useState(false)
   const [showUserDropdown, setShowUserDropdown] = useState(false)
   const [notifications, setNotifications] = useState([
-    { id: 1, content: "New internship available!", time: "2m ago" },
-    { id: 2, content: "Your application was viewed.", time: "1h ago" },
+    { id: 1, content: "New internship cycle begins on June 15th. Get ready!", time: "2m ago" },
+    { id: 2, content: "Your internship report status has been set to 'Approved'.", time: "1h ago" },
   ])
   const notificationRef = useRef(null)
   const userDropdownRef = useRef(null)
