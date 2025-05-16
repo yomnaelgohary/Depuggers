@@ -67,6 +67,7 @@ export default function Company() {
       id: 1,
       companyName: "Dell Technologies",
       title: "Backend Developer Intern",
+      industry: "Technology",
       salary: "$89.10",
       hourlyRate: "$14.85/h",
       requirements: ["CODING SKILLS", "JAVA", "SPRING"],
@@ -88,6 +89,7 @@ export default function Company() {
       id: 2,
       companyName: "Microsoft",
       title: "UI/UX Design Intern",
+      industry: "Design",
       requirements: ["JAVASCRIPT", "REACT", "FIGMA"],
       location: "N Teseen, New Cairo",
       startDate: "May 15, 2025",
@@ -107,6 +109,7 @@ export default function Company() {
       id: 19,
       companyName: "Google",
       title: "Software Engineering Intern",
+      industry: "Technology",
       salary: "$125.00",
       hourlyRate: "$25.00/h",
       requirements: ["ALGORITHMS", "DATA STRUCTURES", "PYTHON"],
@@ -128,6 +131,7 @@ export default function Company() {
       id: 20,
       companyName: "Amazon",
       title: "Cloud Solutions Intern",
+      industry: "E-Commerce",
       salary: "$115.00",
       hourlyRate: "$23.00/h",
       requirements: ["AWS", "CLOUD COMPUTING", "PYTHON"],
@@ -149,6 +153,7 @@ export default function Company() {
       id: 21,
       companyName: "Meta",
       title: "Machine Learning Intern",
+      industry: "Technology",
       salary: "$120.00",
       hourlyRate: "$24.00/h",
       requirements: ["MACHINE LEARNING", "PYTHON", "DEEP LEARNING"],
@@ -170,6 +175,7 @@ export default function Company() {
       id: 7,
       companyName: "Dell Technologies",
       title: "Cybersecurity Intern",
+      industry: "Cybersecurity",
       requirements: ["NETWORK SECURITY", "PENETRATION TESTING"],
       location: "Smart Village, Giza",
       startDate: "Jul 01, 2025",
@@ -189,6 +195,7 @@ export default function Company() {
       id: 8,
       companyName: "Dell Technologies",
       title: "Cloud Engineering Intern",
+      industry: "Cloud Computing",
       salary: "$105.60",
       hourlyRate: "$16.50/h",
       requirements: ["AWS", "AZURE", "CLOUD COMPUTING"],
@@ -210,6 +217,7 @@ export default function Company() {
       id: 9,
       companyName: "Dell Technologies",
       title: "QA Testing Intern",
+      industry: "Quality Assurance",
       requirements: ["TESTING", "SELENIUM", "QUALITY ASSURANCE"],
       location: "Dokki, Giza",
       startDate: "Jun 15, 2025",
@@ -229,6 +237,7 @@ export default function Company() {
       id: 10,
       companyName: "Dell Technologies",
       title: "Product Management Intern",
+      industry: "Product Management",
       salary: "$88.00",
       hourlyRate: "$14.67/h",
       requirements: ["PRODUCT MANAGEMENT", "AGILE"],
@@ -250,6 +259,7 @@ export default function Company() {
       id: 11,
       companyName: "Dell Technologies",
       title: "Blockchain Developer Intern",
+      industry: "Blockchain",
       requirements: ["BLOCKCHAIN", "SOLIDITY", "WEB3"],
       location: "Heliopolis, Cairo",
       startDate: "Sep 01, 2025",
@@ -269,6 +279,7 @@ export default function Company() {
       id: 12,
       companyName: "Dell Technologies",
       title: "AI Research Intern",
+      industry: "Artificial Intelligence",
       salary: "$120.00",
       hourlyRate: "$20.00/h",
       requirements: ["ARTIFICIAL INTELLIGENCE", "PYTHON", "DEEP LEARNING"],
@@ -290,6 +301,7 @@ export default function Company() {
       id: 13,
       companyName: "Dell Technologies",
       title: "Game Development Intern",
+      industry: "Game Development",
       requirements: ["UNITY", "C#", "GAME DESIGN"],
       location: "Maadi, Cairo",
       startDate: "Jul 15, 2025",
@@ -309,6 +321,7 @@ export default function Company() {
       id: 14,
       companyName: "Dell Technologies",
       title: "Technical Writer Intern",
+      industry: "Technical Writing",
       requirements: ["TECHNICAL WRITING", "DOCUMENTATION"],
       location: "N Teseen, New Cairo",
       startDate: "Jun 01, 2025",
@@ -328,6 +341,7 @@ export default function Company() {
       id: 15,
       companyName: "Dell Technologies",
       title: "Database Administrator Intern",
+      industry: "Database Administration",
       requirements: ["SQL", "DATABASE MANAGEMENT", "MYSQL"],
       location: "N Teseen, New Cairo",
       startDate: "Sep 15, 2025",
@@ -347,6 +361,7 @@ export default function Company() {
       id: 16,
       companyName: "Dell Technologies",
       title: "Sales Assistant Intern",
+      industry: "Sales",
       salary: "$123.51",
       hourlyRate: "$14.53/h",
       requirements: ["SALES", "CUSTOMER SERVICE", "RETAIL"],
@@ -368,6 +383,7 @@ export default function Company() {
       id: 17,
       companyName: "Dell Technologies",
       title: "Marketing Intern",
+      industry: "Marketing",
       salary: "$95.40",
       hourlyRate: "$15.90/h",
       requirements: ["DIGITAL MARKETING", "SOCIAL MEDIA", "CONTENT CREATION"],
@@ -389,6 +405,7 @@ export default function Company() {
       id: 18,
       companyName: "Dell Technologies",
       title: "HR Assistant Intern",
+      industry: "Human Resources",
       requirements: ["HUMAN RESOURCES", "RECRUITMENT", "ADMINISTRATION"],
       location: "Heliopolis, Cairo",
       startDate: "Dec 01, 2024",
@@ -861,8 +878,42 @@ export default function Company() {
   };
 
   // Filter Dell posts for My Posts section (assuming this is still needed)
-  // const myPosts = jobListings.filter(job => job.companyName === "Dell Technologies");
+  const myPosts = jobListings.filter(job => job.companyName === "Dell Technologies");
+  const filteredMyPosts = myPosts.filter((job) => {
+    if (searchQuery && !job.title.toLowerCase().includes(searchQuery.toLowerCase())) {
+      return false;
+    }
+    if (filters.isPaid !== null && job.isPaid !== filters.isPaid) {
+      return false;
+    }
+    if (filters.duration !== null && job.durationMonths !== filters.duration) {
+      return false;
+    }
+    if (filters.location !== null && job.location !== filters.location) {
+      return false;
+    }
+    if (filters.skills.length > 0) {
+      const hasRequiredSkill = job.requirements.some((req) =>
+        filters.skills.some((skill) => req.toLowerCase().includes(skill.toLowerCase()))
+      );
+      if (!hasRequiredSkill) {
+        return false;
+      }
+    }
+    return true;
+  });
 
+  // Helper to get industry for a job
+  function getIndustry(job) {
+    const companyIndustryMap = {
+      "Dell Technologies": "Technology",
+      "Microsoft": "Technology",
+      "Google": "Technology",
+      "Amazon": "E-Commerce",
+      "Meta": "Technology",
+    };
+    return job.industry || companyIndustryMap[job.companyName] || "Other";
+  }
 
   return (
     <div className="cs-company-container">
@@ -896,10 +947,13 @@ export default function Company() {
                     )}
 
                     <div className="cs-job-details">
-                      <div className="cs-company-name">{job.companyName}</div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                        <div className="cs-company-name">{job.companyName}</div>
+                        <span className="cs-industry-badge">{getIndustry(job)}</span>
+                      </div>
                       {job.isLearningOpportunity && <div className="cs-learning-opportunity">LEARNING OPPORTUNITY</div>}
 
-                      <h3 className="cs-job-title">{job.title}</h3>
+                      <h3 className="cs-job-title">{searchQuery ? <HighlightText text={job.title} highlight={searchQuery} /> : job.title}</h3>
 
                       <div className="cs-job-requirements">
                         <div className="cs-requirement-label">REQUIRES:</div>
@@ -1071,71 +1125,74 @@ export default function Company() {
               </div>
 
               <div className="cs-job-listings">
-                {filteredJobs.map((job) => (
-                   <div className={`cs-job-card ${job.status === "completed" ? "cs-completed-job" : ""}`} key={job.id}>
-                   {job.status === "completed" && <div className="cs-completed-banner">INTERNSHIP COMPLETE</div>}
+                {filteredMyPosts.map((job) => (
+                  <div className={`cs-job-card ${job.status === "completed" ? "cs-completed-job" : ""}`} key={job.id}>
+                    {job.status === "completed" && <div className="cs-completed-banner">INTERNSHIP COMPLETE</div>}
 
-                   {job.salary && (
-                     <div className="cs-job-salary">
-                       <div className="cs-amount">{job.salary}</div>
-                       <div className="cs-hourly-rate">{job.hourlyRate}</div>
-                     </div>
-                   )}
+                    {job.salary && (
+                      <div className="cs-job-salary">
+                        <div className="cs-amount">{job.salary}</div>
+                        <div className="cs-hourly-rate">{job.hourlyRate}</div>
+                      </div>
+                    )}
 
-                   <div className="cs-job-details">
-                     <div className="cs-company-name">{job.companyName}</div>
-                     {job.isLearningOpportunity && <div className="cs-learning-opportunity">LEARNING OPPORTUNITY</div>}
+                    <div className="cs-job-details">
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                        <div className="cs-company-name">{job.companyName}</div>
+                        <span className="cs-industry-badge">{getIndustry(job)}</span>
+                      </div>
+                      {job.isLearningOpportunity && <div className="cs-learning-opportunity">LEARNING OPPORTUNITY</div>}
 
-                     <h3 className="cs-job-title">
-                       {searchQuery ? <HighlightText text={job.title} highlight={searchQuery} /> : job.title}
-                     </h3>
+                      <h3 className="cs-job-title">
+                        {searchQuery ? <HighlightText text={job.title} highlight={searchQuery} /> : job.title}
+                      </h3>
 
-                     <div className="cs-job-requirements">
-                       <div className="cs-requirement-label">REQUIRES:</div>
-                       <div className="cs-requirement-tags">
-                         {job.requirements.map((req, index) => (
-                           <span className="cs-requirement-tag" key={index}>
-                             {req}
-                           </span>
-                         ))}
-                       </div>
-                     </div>
+                      <div className="cs-job-requirements">
+                        <div className="cs-requirement-label">REQUIRES:</div>
+                        <div className="cs-requirement-tags">
+                          {job.requirements.map((req, index) => (
+                            <span className="cs-requirement-tag" key={index}>
+                              {req}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
 
-                     <div className="cs-job-location">
-                       <span className="cs-location-icon">◎</span>
-                       <span>{job.location}</span>
-                     </div>
+                      <div className="cs-job-location">
+                        <span className="cs-location-icon">◎</span>
+                        <span>{job.location}</span>
+                      </div>
 
-                     <div className="cs-job-duration">
-                       <div>
-                         <div className="cs-date-range">
-                           {job.startDate} - {job.endDate}
-                         </div>
-                         <div className="cs-duration">{job.duration}</div>
-                       </div>
-                       <div className="cs-time-slot">
-                         <div className="cs-time">{job.timeSlot}</div>
-                         <div className="cs-time-of-day">{job.timeOfDay}</div>
-                       </div>
-                     </div>
+                      <div className="cs-job-duration">
+                        <div>
+                          <div className="cs-date-range">
+                            {job.startDate} - {job.endDate}
+                          </div>
+                          <div className="cs-duration">{job.duration}</div>
+                        </div>
+                        <div className="cs-time-slot">
+                          <div className="cs-time">{job.timeSlot}</div>
+                          <div className="cs-time-of-day">{job.timeOfDay}</div>
+                        </div>
+                      </div>
 
-                     <div className="cs-job-work-hours">
-                       <span className="cs-work-hours-icon">⏱</span>
-                       <span>{job.workHours}</span>
-                     </div>
+                      <div className="cs-job-work-hours">
+                        <span className="cs-work-hours-icon">⏱</span>
+                        <span>{job.workHours}</span>
+                      </div>
 
-                     {job.description && <div className="cs-job-description">{job.description}</div>}
+                      {job.description && <div className="cs-job-description">{job.description}</div>}
 
-                     <div className="cs-job-applications">
-                       <Users size={16} className="cs-applications-icon" />
-                       <span className="cs-applications-count">{job.applications} applications</span>
-                     </div>
-                   </div>
+                      <div className="cs-job-applications">
+                        <Users size={16} className="cs-applications-icon" />
+                        <span className="cs-applications-count">{job.applications} applications</span>
+                      </div>
+                    </div>
 
-                   <div className={`cs-job-status ${job.isPaid ? "cs-paid" : "cs-unpaid"}`}>
-                     {job.isPaid ? "PAID" : "UNPAID"}
-                   </div>
-                 </div>
+                    <div className={`cs-job-status ${job.isPaid ? "cs-paid" : "cs-unpaid"}`}>
+                      {job.isPaid ? "PAID" : "UNPAID"}
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
