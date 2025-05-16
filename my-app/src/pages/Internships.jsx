@@ -242,61 +242,55 @@ function Internships() {
   // ... (InternshipCard component remains the same) ...
   function InternshipCard({ internship, onClick }) {
     return (
-      <div className="internship-display-card" onClick={onClick}>
-        <div className="internship-display-card-left">
-          {(internship.salary || internship.hourlyRate) && (
-            <>
-              <div className="price-info">
-                {internship.salary && <div className="salary-total">{internship.salary}</div>}
-                {internship.hourlyRate && <div className="hourly-rate">{internship.hourlyRate}</div>}
-              </div>
-              <div className="price-separator-line"></div>
-            </>
-          )}
-        </div>
-  
-        <div className="internship-display-card-center">
-          <div className="company-name-list">{internship.companyName}</div>
-          <h3 className="job-title-list">{internship.jobTitle}</h3>
-          {internship.learningOpportunity && (
-            <span className="learning-opportunity-badge-list">LEARNING OPPORTUNITY</span>
-          )}
-          <div className="skills-required-list">
-            <span>REQUIRES:</span>
-            {internship.skills.map((skill, index) => (
-              <span key={index} className="skill-tag-list-item">{skill}</span>
-            ))}
+      <div className={`cs-job-card${internship.status === "completed" ? " cs-completed-job" : ""}`} onClick={onClick}>
+        {internship.status === "completed" && <div className="cs-completed-banner">INTERNSHIP COMPLETE</div>}
+
+        {(internship.salary || internship.hourlyRate) && (
+          <div className="cs-job-salary">
+            {internship.salary && <div className="cs-amount">{internship.salary}</div>}
+            {internship.hourlyRate && <div className="cs-hourly-rate">{internship.hourlyRate}</div>}
           </div>
-          <div className="detail-item-list location-list">
-            <MapPin size={14} className="detail-icon" />
+        )}
+
+        <div className="cs-job-details">
+          <div className="cs-company-name">{internship.companyName}</div>
+          {internship.learningOpportunity && <div className="cs-learning-opportunity">LEARNING OPPORTUNITY</div>}
+          <h3 className="cs-job-title">{internship.jobTitle}</h3>
+          <div className="cs-job-requirements">
+            <div className="cs-requirement-label">REQUIRES:</div>
+            <div className="cs-requirement-tags">
+              {internship.skills.map((skill, index) => (
+                <span className="cs-requirement-tag" key={index}>{skill}</span>
+              ))}
+            </div>
+          </div>
+          <div className="cs-job-location">
+            <span className="cs-location-icon">◎</span>
             <span>{internship.location}</span>
           </div>
-          <div className="detail-item-list dates-list">{internship.startDate}</div>
-          <div className="detail-item-list duration-list">{internship.duration}</div>
-          <div className="detail-item-list hours-per-week-list">
-            <Clock size={14} className="detail-icon" />
+          <div className="cs-job-duration">
+            <div>
+              <div className="cs-date-range">{internship.startDate}</div>
+              <div className="cs-duration">{internship.duration}</div>
+            </div>
+            <div className="cs-time-slot">
+              <div className="cs-time">{internship.workHours}</div>
+              <div className="cs-time-of-day">{internship.workShift}</div>
+            </div>
+          </div>
+          <div className="cs-job-work-hours">
+            <span className="cs-work-hours-icon">⏱</span>
             <span>{internship.hoursPerWeek}</span>
           </div>
-          <p className="description-preview-list">{internship.description}</p>
+          {internship.description && <div className="cs-job-description">{internship.description}</div>}
           {internship.applications !== undefined && (
-             <div className="applications-count-list">
-                <Users size={14} className="detail-icon" />
-                <span>{internship.applications} applications</span>
+            <div className="cs-job-applications">
+              <Users size={16} className="cs-applications-icon" />
+              <span className="cs-applications-count">{internship.applications} applications</span>
             </div>
           )}
         </div>
-  
-        <div className={`internship-display-card-right ${internship.isPaid ? 'paid-bg' : 'unpaid-bg'}`}>
-          {internship.isPaid && ( 
-            <div className="work-time-info-list">
-              {internship.workHours && <div className="work-time-list">{internship.workHours}</div>}
-              {internship.workShift && <div className="work-shift-list">{internship.workShift}</div>}
-            </div>
-          )}
-          <div className="payment-status-text-list">
-            {internship.isPaid ? "PAID" : "UNPAID"}
-          </div>
-        </div>
+        <div className={`cs-job-status ${internship.isPaid ? "cs-paid" : "cs-unpaid"}`}>{internship.isPaid ? "PAID" : "UNPAID"}</div>
       </div>
     );
   }
