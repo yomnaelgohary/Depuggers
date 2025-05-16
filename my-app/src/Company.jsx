@@ -19,7 +19,7 @@ export default function Company() {
     isPaid: null,
     duration: null,
     location: null,
-    skills: [],
+    industry: null,
   })
 
   const [internSearch, setInternSearch] = useState("")
@@ -724,13 +724,13 @@ export default function Company() {
       isPaid: null,
       duration: null,
       location: null,
-      skills: [],
+      industry: null,
     });
   };
 
   const hasActiveFilters = () => {
     return (
-      filters.isPaid !== null || filters.duration !== null || filters.location !== null || filters.skills.length > 0
+      filters.isPaid !== null || filters.duration !== null || filters.location !== null || filters.industry !== null
     );
   };
 
@@ -751,13 +751,8 @@ export default function Company() {
     if (filters.location !== null && job.location !== filters.location) {
       return false;
     }
-    if (filters.skills.length > 0) {
-      const hasRequiredSkill = job.requirements.some((req) =>
-        filters.skills.some((skill) => req.toLowerCase().includes(skill.toLowerCase()))
-      );
-      if (!hasRequiredSkill) {
-        return false;
-      }
+    if (filters.industry && getIndustry(job) !== filters.industry) {
+      return false;
     }
     return true;
   });
@@ -892,13 +887,8 @@ export default function Company() {
     if (filters.location !== null && job.location !== filters.location) {
       return false;
     }
-    if (filters.skills.length > 0) {
-      const hasRequiredSkill = job.requirements.some((req) =>
-        filters.skills.some((skill) => req.toLowerCase().includes(skill.toLowerCase()))
-      );
-      if (!hasRequiredSkill) {
-        return false;
-      }
+    if (filters.industry && getIndustry(job) !== filters.industry) {
+      return false;
     }
     return true;
   });
@@ -1089,15 +1079,15 @@ export default function Company() {
                       </div>
 
                       <div className="cs-filter-section">
-                        <h3>SKILLS</h3>
+                        <h3>INDUSTRY</h3>
                         <div className="cs-filter-options">
-                          {Array.from(new Set(jobListings.flatMap((job) => job.requirements))).map((skill, index) => (
+                          {Array.from(new Set(jobListings.map((job) => getIndustry(job)))).map((industry, index) => (
                             <button
                               key={index}
-                              className={`cs-filter-option ${filters.skills.includes(skill) ? "cs-selected" : ""}`}
-                              onClick={() => handleSkillToggle(skill)}
+                              className={`cs-filter-option ${filters.industry === industry ? "cs-selected" : ""}`}
+                              onClick={() => handleFilterChange("industry", industry)}
                             >
-                              {skill}
+                              {industry}
                             </button>
                           ))}
                         </div>
