@@ -55,8 +55,8 @@ const DashboardContent = () => {
       id: 1,
       name: "Google",
       industry: "Technology",
-      matchScore: 92,
-      why: "Matches your skills in React and Node.js, and your interest in large-scale systems",
+      
+      why: "Matches your skills in React and Node.js, and your interest in systems",
       saved: false,
       viewed: false,
     },
@@ -64,7 +64,7 @@ const DashboardContent = () => {
       id: 2,
       name: "Airbnb",
       industry: "Travel/Tech",
-      matchScore: 88,
+      
       why: "Strong UX focus aligns with your design coursework",
       saved: false,
       viewed: false,
@@ -73,7 +73,7 @@ const DashboardContent = () => {
       id: 3,
       name: "Spotify",
       industry: "Music/Tech",
-      matchScore: 85,
+     
       why: "Recommended by 3 past interns with similar profiles",
       saved: false,
       viewed: false,
@@ -183,22 +183,7 @@ const DashboardContent = () => {
                   ],
                   onFilter: (value, record) => record.industry.includes(value),
                 },
-                {
-                  title: "Match Score",
-                  dataIndex: "matchScore",
-                  key: "matchScore",
-                  sorter: (a, b) => a.matchScore - b.matchScore,
-                  render: (score) => (
-                    <Tooltip title={`Match score: ${score}%`}>
-                      <Progress
-                        percent={score}
-                        status={score > 90 ? "success" : score > 80 ? "active" : "normal"}
-                        format={() => `${score}%`}
-                        strokeColor="#5f2878"
-                      />
-                    </Tooltip>
-                  ),
-                },
+                
                 {
                   title: "Why Recommended",
                   dataIndex: "why",

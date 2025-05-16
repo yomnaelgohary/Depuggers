@@ -2074,781 +2074,425 @@ s
   background-color: #d32f2f;
 }
 
-/* Internships Section Styles */
-.internships-section {
-  background-color: #f7f8fa;
-  border-radius: 8px;
-  padding: 20px;
-  z-index: 1000;
-  width: 100%;
-  min-height: 100vh;
-}
-
-.internships-header h2 {
-  font-size: 28px;
-  font-weight: 700;
-  color: #1c1c1e;
-  margin: 0;
-}
-
-.search-filter-container {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 25px;
-  padding-bottom: 15px;
-}
-
-.search-input-wrapper {
-  flex-grow: 1;
-  position: relative;
-}
-
-.search-input {
-  width: 100%;
-  padding: 10px 15px;
-  border: 1px solid #d1d1d6;
-  border-radius: 6px;
-  font-size: 14px;
-  color: #333;
-  outline: none;
-  background-color: #fff;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-.search-input:focus {
-  border-color: #5f2878; /* Theme purple focus */
-  box-shadow: 0 0 0 2px rgba(95, 40, 120, 0.2);
-}
-.search-input::placeholder {
-  color: #8e8e93;
-}
-
-.filters-button {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 10px 15px;
-  border: 1px solid #d1d1d6;
-  border-radius: 6px;
-  background-color: #fff;
-  font-size: 14px;
-  color: #333;
-  cursor: pointer;
-  height: auto;
-  white-space: nowrap;
-  transition: background-color 0.2s, border-color 0.2s;
-}
-.filters-button:hover {
-  background-color: #f8f8f8;
-  border-color: #b0b0b9;
-}
-/* Filter badge on main page */
-.filter-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #5f2878; /* THEME PURPLE */
-  color: white;
-  border-radius: 50%;
-  width: 18px;
-  height: 18px;
-  font-size: 10px;
-  margin-left: 5px;
-}
-
-
-/* Filter Popup Styles */
-.filter-popup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.55);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000;
-  backdrop-filter: blur(2px);
-}
-
-.filter-popup {
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  width: 90%;
-  max-width: 480px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.filter-popup-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 18px 22px;
-  border-bottom: 1px solid #eef0f2;
-}
-
-.filter-popup-header h3 {
-  font-size: 19px;
-  margin: 0;
-  font-weight: 600;
-  color: #2c2c2e;
-}
-
-.filter-close-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #777;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px;
-  border-radius: 50%;
-  transition: background-color 0.2s;
-}
-.filter-close-btn:hover {
-  background-color: #f0f0f0;
-}
-
-
-.filter-popup-content {
-  max-height: 65vh;
-  overflow-y: auto;
-  padding: 8px 0;
-}
-
-.filter-section {
-  padding: 12px 22px;
-  border-bottom: 1px solid #f5f5f5;
-}
-.filter-section:last-child {
-  border-bottom: none;
-}
-.filter-section h4 {
-  font-size: 15px;
-  font-weight: 500;
-  color: #333;
-  margin: 0 0 12px 0;
-}
-.filter-options {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.filter-option {
-  padding: 10px 12px;
-  cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease;
-  font-size: 14px;
-  border-radius: 5px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.filter-option:hover {
-  background-color: #f5f0f7; /* Lighter shade of theme purple for hover */
-}
-.filter-option.selected {
-  background-color: #5f2878; /* THEME PURPLE */
-  color: #ffffff; /* White text on purple background */
-  font-weight: 500;
-}
-.filter-option.selected .check-icon {
-  color: #ffffff; /* White check icon on purple background */
-}
-.check-icon { /* Default (unselected) check icon */
-  color: #5f2878; /* THEME PURPLE */
-}
-
-
-.filter-popup-footer {
-  display: flex;
-  justify-content: space-between;
-  padding: 18px 22px;
-  border-top: 1px solid #eef0f2;
-  gap: 12px;
-}
-.filter-popup-footer button {
-  padding: 10px 18px;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s ease, box-shadow 0.2s ease;
-  flex-grow: 1;
-}
-.filter-popup-footer .apply-button {
-  background-color: #5f2878; /* THEME PURPLE */
-  border: none;
-  color: white;
-}
-.filter-popup-footer .reset-button {
-  background-color: #f5f5f5;
-  border: 1px solid #ccc;
-  color: #333;
-}
-.filter-popup-footer .apply-button:hover {
-  background-color: #4a2060; /* Darker shade of THEME PURPLE */
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-.filter-popup-footer .reset-button:hover {
-  background-color: #e8e8e8;
-  border-color: #bbb;
-}
+/* ... (Keep most of your existing styles for .internships-section, headers, filters, etc.) ... */
 
 /* --- Internship List and Card Styles --- */
 .internships-list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
 }
 
 .internship-display-card {
   display: flex;
   background-color: #fff;
   border: 1px solid #e4e4e7;
-  border-radius: 6px;
+  border-radius: 8px;
   overflow: hidden;
-  cursor: pointer;
-  transition: box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out, transform 0.2s ease-in-out;
-  min-height: 160px;
-}
-.internship-display-card:hover {
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.07);
-  border-color: #a0a0a9;
-  transform: translateY(-2px);
+  /* cursor: pointer; */ /* REMOVED - Card is no longer directly clickable */
+  transition: box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out;
+  min-height: 180px;
+  position: relative; /* For absolute positioning of industry tag if needed, but flexbox is better */
 }
 
+/* Optional: Keep a subtle hover effect if you like, even if not clickable */
+.internship-display-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Softer hover */
+}
+
+/* Left column: Salary/Hourly Rate */
 .internship-display-card-left {
-  padding: 16px 0px 16px 16px;
+  padding: 20px 0px 20px 20px;
   display: flex;
   align-items: center;
-  min-width: 100px;
+  min-width: 110px;
   flex-shrink: 0;
   position: relative;
 }
-.price-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
+.price-info { /* Container for salary and hourly rate */
+  /* Styles for this container if needed */
 }
 .salary-total {
-  font-size: 18px;
-  font-weight: 600;
-  color: #1c1c1e;
-  margin-bottom: 2px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 3px;
 }
 .hourly-rate {
-  font-size: 13px;
-  color: #6c6c70;
+  font-size: 14px;
+  color: #6b7280;
 }
 .price-separator-line {
   width: 1.5px;
-  background-color: #dcdce0;
-  height: 60%;
-  margin-left: 16px;
+  background-color: #e5e7eb;
+  height: 70%;
+  margin-left: 20px;
   align-self: center;
   border-radius: 1px;
 }
 .internship-display-card-left:empty {
-  min-width: 100px;
-  padding: 16px;
+  min-width: 110px;
+  padding: 20px;
 }
 
-
+/* Center column: Main details */
 .internship-display-card-center {
   flex-grow: 1;
-  padding: 16px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
-.company-name-list {
+
+.internship-card-top-info {
+  display: flex;
+  justify-content: space-between; /* Key for positioning industry */
+  align-items: flex-start;      /* Align to top */
+  width: 100%;                 /* Ensure it takes full width of its container */
+  margin-bottom: 4px;
+}
+
+.cs-company-name { /* Company name on the left */
   font-size: 13px;
-  color: #7a7a80;
-  margin-bottom: -2px;
+  color: #5f2878; /* Purple color as in image */
+  font-weight: 500;
 }
+
+.internship-card-industry { /* Industry text on the right */
+  font-size: 13px;
+  color: #374151; /* Dark gray, similar to image */
+  font-weight: 400;
+  /* text-align: right; */ /* Not needed if using justify-content: space-between */
+}
+
+
 .job-title-list {
-  font-size: 18px;
-  font-weight: 600;
-  color: #111;
-  margin: 0 0 4px 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 6px 0;
   line-height: 1.3;
 }
+/* ... (rest of your .learning-opportunity-badge-list, .skills-required-list, .skill-tag-list-item, .detail-item-list styles) ... */
 .learning-opportunity-badge-list {
   font-size: 10px;
   font-weight: 500;
-  color: #5856d6; /* Original learning opportunity badge color */
-  background-color: #edeafd;
-  padding: 3px 8px;
-  border-radius: 12px;
+  color: #5f2878;
+  background-color: #f3e8fd;
+  padding: 4px 10px;
+  border-radius: 16px;
   align-self: flex-start;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 .skills-required-list {
-  font-size: 12px;
-  color: #4c4c53;
+  font-size: 13px;
+  color: #4b5563;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 4px;
+  gap: 8px;
+  margin-bottom: 6px;
 }
 .skills-required-list > span:first-child {
   font-weight: 500;
-  margin-right: 2px;
+  margin-right: 4px;
+  color: #374151;
 }
 .skill-tag-list-item {
-  background-color: #f0f0f4;
-  color: #525259;
-  padding: 3px 8px;
-  border-radius: 12px;
+  background-color: #eef2ff;
+  color: #4338ca;
+  padding: 4px 10px;
+  border-radius: 16px;
   font-size: 11px;
   font-weight: 500;
   text-transform: uppercase;
 }
 .detail-item-list {
-  font-size: 13px;
-  color: #5c5c63;
+  font-size: 14px;
+  color: #4b5563;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
 .detail-item-list .detail-icon {
-  color: #808085;
+  color: #9ca3af;
+  flex-shrink: 0;
 }
 .dates-list, .duration-list {
- padding-left: 20px;
+ padding-left: 22px;
 }
+
 .description-preview-list {
-  font-size: 13px;
-  color: #4a4a50;
-  line-height: 1.5;
-  margin-top: 4px;
-  margin-bottom: 6px;
+  font-size: 14px;
+  color: #4b5563;
+  line-height: 1.6;
+  margin-top: 6px;
+  margin-bottom: 8px; /* Space before applications count */
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .applications-count-list {
-  font-size: 12px;
-  color: #6c6c70;
+  font-size: 13px;
+  color: #6b7280;
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-top: auto;
+  margin-top: auto; /* Pushes to the bottom if space allows */
 }
 .applications-count-list .detail-icon {
-  color: #8a8a8e;
+  color: #9ca3af;
 }
 
+/* REMOVED .view-details-button-internship as the button is removed */
+
+
+/* Right column: Status (Paid/Unpaid) and Time */
 .internship-display-card-right {
   display: flex;
   flex-direction: column;
-  /* align-items: center; */ /* Base alignment, will be overridden for unpaid */
-  padding: 16px 12px;
-  min-width: 100px;
-  /* text-align: center; */ /* Base alignment, will be overridden for unpaid */
+  padding: 20px 16px;
+  min-width: 110px;
   flex-shrink: 0;
+  text-align: right;
 }
 .internship-display-card-right.paid-bg {
-  background-color: #e7f3ff; /* Light blue for PAID */
-  justify-content: space-between; /* Time at top, PAID at bottom */
-  align-items: center; /* Center content horizontally */
-  text-align: center;
+  background-color: #e7f3ff;
+  justify-content: space-between;
+  align-items: flex-end;
 }
 .internship-display-card-right.unpaid-bg {
-  background-color: #f3e5f5ab; /* Softer Light purple for UNPAID */
-  justify-content: flex-start; /* Align UNPAID text to the top */
-  align-items: flex-start;   /* Align UNPAID text to the left */
-  text-align: left;
+  background-color: #f3e5f5ab;
+  justify-content: flex-start; /* UNPAID text at top */
+  align-items: flex-end;   /* Aligned to the right */
 }
 .work-time-info-list {
-  /* Styles for this container if needed */
+  margin-bottom: auto;
 }
 .work-time-list {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
-  color: #3c3c43;
+  color: #374151;
 }
 .work-shift-list {
-  font-size: 10px;
-  color: #8a8a8e;
+  font-size: 11px;
+  color: #6b7280;
   text-transform: uppercase;
-  margin-top: 1px;
+  margin-top: 2px;
 }
 .payment-status-text-list {
-  font-weight: bold;
+  font-weight: 600;
   text-transform: uppercase;
+  margin-top: 8px;
 }
 .internship-display-card-right.paid-bg .payment-status-text-list {
   color: #007aff;
-  font-size: 11px;
+  font-size: 12px;
 }
 .internship-display-card-right.unpaid-bg .payment-status-text-list {
-  color: #9c27b0; /* Deeper purple for UNPAID text */
-  font-size: 12px; /* Adjusted size to match image more closely for unpaid */
-  /* For unpaid, the text itself is already at the top-left due to parent's align/justify */
+  color: #9c27b0;
+  font-size: 13px;
 }
 
-.no-results {
-  text-align: center;
-  padding: 40px 20px;
-  color: #555;
-  font-size: 16px;
-  background-color: #fff;
-  border-radius: 8px;
-  border: 1px solid #e4e4e7;
-  margin-top: 20px;
-}
-.no-results h3 {
-  font-size: 20px;
-  color: #333;
-  margin-bottom: 8px;
-}
+/* ... (Keep your .no-results, filter modal styles (.cs-filter-modal-overlay, etc.), and responsive styles) ... */
+/* Ensure the filter modal styles are distinct if they were different from the general ones I provided before */
 
-
-/* --- Styles for Enhanced Internship Details Modal --- */
-.internship-details-modal-overlay {
+/* Filter Modal Styles (using cs- prefix for consistency) */
+.cs-filter-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(20, 20, 25, 0.65); /* Or your desired dimming color/opacity */
+  background-color: rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 2000;
-  padding: 20px;
-  /* backdrop-filter: blur(4px); */              /* THIS LINE MUST BE COMMENTED OUT OR DELETED */
 }
-
-.internship-details-modal-content {
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
-  width: 100%;
-  max-width: 780px;
-  max-height: 90vh;
+.cs-filter-modal {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  width: 90%;
+  max-width: 500px;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  max-height: 85vh;
 }
-
-.internship-details-modal-header {
+.cs-filter-modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 28px;
-  border-bottom: 1px solid #eef0f2;
-  background-color: #fcfcfd;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e5e7eb;
 }
-.internship-details-modal-header h2 {
-  font-size: 22px;
+.cs-filter-modal-header h2 {
   font-weight: 600;
-  color: #111827;
+  text-transform: capitalize;
+  font-size: 18px;
+  color: #1f2937;
   margin: 0;
-  line-height: 1.3;
 }
-.modal-close-button-enhanced {
+.cs-close-button {
   background: none;
   border: none;
   cursor: pointer;
-  color: #6b7280;
+  color: #9ca3af;
   padding: 6px;
   border-radius: 50%;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.2s, color 0.2s;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
-.modal-close-button-enhanced:hover {
+.cs-close-button:hover {
   background-color: #f3f4f6;
-  color: #111827;
+  color: #374151;
 }
-
-.internship-details-modal-body {
-  padding: 28px;
+.cs-filter-modal-content {
+  padding: 8px 20px 20px 20px;
   overflow-y: auto;
   flex-grow: 1;
-  scrollbar-width: thin;
-  scrollbar-color: #c5c5c5 #f0f0f0;
 }
-.internship-details-modal-body::-webkit-scrollbar {
-  width: 8px;
+.cs-filter-section {
+  margin-bottom: 20px;
 }
-.internship-details-modal-body::-webkit-scrollbar-track {
-  background: #f0f0f0;
-  border-radius: 4px;
-}
-.internship-details-modal-body::-webkit-scrollbar-thumb {
-  background-color: #c5c5c5;
-  border-radius: 4px;
-  border: 2px solid #f0f0f0;
-}
-
-
-.modal-company-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
-  padding-bottom: 20px;
-  border-bottom: 1px dashed #dde1e6;
-}
-.modal-company-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.modal-icon {
-  color: #4b5563;
-}
-.modal-company-name {
-  font-size: 19px;
-  font-weight: 500;
-  color: #1f2937;
-}
-.modal-industry-tag {
-  font-size: 13px;
-  color: #5f6b7a;
-  background-color: #f0f2f5;
-  padding: 5px 12px;
-  border-radius: 16px;
-}
-
-.modal-learning-opportunity {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background-color: #e6f7ff;
-  color: #026aa2;
-  padding: 12px 14px;
-  border-radius: 8px;
-  margin-bottom: 24px;
-  font-size: 14px;
-  border: 1px solid #b3d9ff;
-}
-.modal-icon-success {
-  color: #007bff;
-}
-
-.modal-key-info-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 24px;
-  margin-bottom: 28px;
-  background-color: #f8f9fa;
-  padding: 20px;
-  border-radius: 10px;
-  border: 1px solid #e9ecef;
-}
-.modal-info-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-}
-.modal-info-item .modal-icon {
-  margin-top: 3px;
-  color: #5f2878; /* Theme purple for modal icons */
-}
-.modal-icon-paid { color: #16a34a !important; }
-.modal-icon-unpaid { color: #dc2626 !important; }
-
-.modal-info-label {
-  font-size: 13px;
-  color: #6b7280;
-  margin: 0 0 4px 0;
-  font-weight: 500;
-}
-.modal-info-value {
-  font-size: 15px;
-  color: #1f2937;
-  margin: 0;
-  font-weight: 500;
-}
-.modal-info-value.paid-text { color: #16a34a; font-weight: 600; }
-.modal-info-value.unpaid-text { color: #dc2626; font-weight: 600;}
-.modal-salary-detail, .modal-info-detail {
-  font-size: 13px;
-  color: #4b5563;
-  margin-top: 3px;
-  line-height: 1.4;
-}
-
-.modal-section {
-  margin-bottom: 28px;
-}
-.modal-section:last-child {
+.cs-filter-section:last-child {
   margin-bottom: 0;
 }
-.modal-section-title {
-  font-size: 19px;
+.cs-filter-section-title {
   font-weight: 600;
-  color: #111827;
-  margin-bottom: 16px;
-  padding-bottom: 8px;
-  border-bottom: 2px solid #5f2878; /* Theme purple for modal section titles */
-  display: inline-block;
-}
-.modal-description-text {
-  font-size: 15px;
-  line-height: 1.75;
-  color: #374151;
-  white-space: pre-wrap;
-}
-.modal-description-text p {
-    margin-bottom: 1em;
-}
-.modal-description-text p:last-child {
-    margin-bottom: 0;
-}
-
-.modal-skills-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-.modal-skill-tag {
-  background-color: #f3e8fd;
-  color: #5f2878; /* Theme purple for modal skill tags */
-  padding: 7px 14px;
-  border-radius: 6px;
+  margin-bottom: 12px;
+  text-transform: uppercase;
   font-size: 13px;
-  font-weight: 500;
-  border: 1px solid #e0c4f5;
+  color: #6b7280;
+  letter-spacing: 0.5px;
 }
-
-.modal-applications-info {
+.cs-filter-options {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  gap: 8px;
+}
+.cs-filter-options-wrap {
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.cs-filter-option {
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  font-size: 14px;
+  border-radius: 6px;
+  background-color: #f9fafb;
+  color: #374151;
+  border: 1px solid #e5e7eb;
+  text-align: left;
+}
+.cs-filter-option:hover {
+  background-color: #f3f4f6;
+  border-color: #d1d5db;
+}
+.cs-filter-option.cs-selected {
+  background-color: #5f2878;
+  color: white;
+  border-color: #4a2060;
+  font-weight: 500;
+}
+.cs-filter-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px 20px;
+  border-top: 1px solid #e5e7eb;
+  background-color: #f9fafb;
   gap: 12px;
-  background-color: #fffbeb;
-  padding: 14px;
-  border-radius: 8px;
-  color: #78350f;
-  border: 1px solid #fde68a;
 }
-.modal-applications-info .modal-icon{
-    color: #b45309;
+.cs-reset-button,
+.cs-apply-button {
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  min-width: 120px;
+  text-align: center;
 }
-.modal-applications-info .modal-info-value {
-    color: #78350f;
+.cs-reset-button {
+  background-color: #fff;
+  color: #4b5563;
+  border: 1px solid #d1d5db;
+}
+.cs-reset-button:hover {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+}
+.cs-reset-button.cs-active {
+    background-color: #e5e7eb;
+}
+.cs-apply-button {
+  background-color: #5f2878;
+  color: white;
+  border: 1px solid #5f2878;
+}
+.cs-apply-button:hover {
+  background-color: #4a2060;
+  border-color: #4a2060;
 }
 
-
-.internship-details-modal-footer {
-  padding: 10px 28px; /* Reduced padding as it's empty now */
-  border-top: 1px solid #eef0f2;
-  min-height: 20px; /* Give it some minimal height or remove if completely empty styling is preferred */
-  background-color: #fcfcfd;
-}
-
+/* REMOVED Internship Details Modal Styles as per request to remove popups */
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .internship-display-card {
-    flex-direction: column;
-  }
+  .internships-section { padding: 16px; }
+  .companies-filter-controls { flex-direction: column; align-items: stretch; gap: 12px; }
+  .cs-search-input { max-width: none; }
+
+  .internship-display-card { flex-direction: column; min-height: auto; }
   .internship-display-card-left {
     border-right: none;
     border-bottom: 1px solid #f0f0f0;
     align-items: center;
     min-width: auto;
-    padding: 12px 16px;
+    padding: 16px;
     flex-direction: row;
-    justify-content: center;
+    justify-content: flex-start;
   }
-  .price-separator-line {
-    height: 24px;
-    margin-left: 12px;
-    margin-right: 12px;
-  }
+  .price-separator-line { height: 30px; margin-left: 16px; margin-right: 0; }
+  .internship-display-card-center { padding: 16px; }
+  .internship-card-top-info { flex-direction: row; /* Keep side-by-side on mobile unless too cramped */ justify-content: space-between; align-items: center; }
+
   .internship-display-card-right {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom-left-radius: 6px;
-    border-bottom-right-radius: 6px;
     flex-direction: row;
-    min-height: 50px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    min-width: auto;
+    text-align: left;
   }
-  /* For paid cards on mobile, ensure time/shift and PAID text are spaced out */
-  .internship-display-card-right.paid-bg {
-      justify-content: space-around;
-      align-items: center;
-  }
-  /* For unpaid cards on mobile, ensure UNPAID is at the start */
+  .internship-display-card-right.paid-bg,
   .internship-display-card-right.unpaid-bg {
-      justify-content: flex-start;
-      align-items: center; /* Vertically center UNPAID text in its row */
-      padding-left: 16px; /* Ensure some padding from left edge */
+    justify-content: space-between;
+    align-items: center;
   }
-  .internship-display-card-right.unpaid-bg .payment-status-text-list {
-      font-size: 12px;
-  }
+  .work-time-info-list { margin-bottom: 0; text-align: left; }
+  .payment-status-text-list { margin-top: 0; text-align: right; }
 
-  .dates-list, .duration-list {
-    padding-left: 0;
-  }
-}
-
-@media (max-width: 600px) {
-  .internship-details-modal-header h2 {
-    font-size: 20px;
-  }
-  .internship-details-modal-body,
-  .internship-details-modal-header,
-  .internship-details-modal-footer {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-  .modal-company-section {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-  .modal-key-info-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-  /* Footer buttons already removed, so responsive changes to them are not needed here */
-  .search-filter-container {
-    flex-direction: column;
-    align-items: stretch;
-  }
+  .dates-list, .duration-list { padding-left: 0; }
+  .cs-filter-modal { max-width: 90vw; }
 }
 
 @media (max-width: 480px) {
-  .internships-header h2 {
-    font-size: 24px;
-  }
-  .internship-display-card-center {
-    padding: 12px;
-  }
-   .salary-total {
-    font-size: 16px;
-  }
-  .job-title-list {
-    font-size: 17px;
-  }
-  .filter-popup {
-    max-width: 95%;
-    border-radius: 8px;
-  }
-  .filter-popup-footer {
-    flex-direction: column;
-  }
+  .internships-header h2 { font-size: 22px; }
+  .job-title-list { font-size: 18px; }
+  .salary-total { font-size: 18px; }
+  .cs-filter-modal-header h2 { font-size: 16px; }
+  .cs-filter-actions { flex-direction: column; gap: 10px; }
+  .cs-filter-actions button { width: 100%; }
 }
-
 
 /* Evaluations & Reports Styles */
 .container {
