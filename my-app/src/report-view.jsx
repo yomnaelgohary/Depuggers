@@ -203,20 +203,13 @@ function ReportView() {
                 <div className="info-label unique16">Student</div>
                 <div className="info-value unique16">{studentData.name}</div>
               </div>
-
               <div className="info-item unique16">
                 <div className="info-label unique16">Major</div>
                 <div className="info-value unique16">{studentData.major}</div>
               </div>
-
               <div className="info-item unique16">
                 <div className="info-label unique16">Company</div>
                 <div className="info-value unique16">{studentData.company}</div>
-              </div>
-
-              <div className="info-item unique16">
-                <div className="info-label unique16">Internship Title</div>
-                <div className="info-value unique16">{studentData.internshipTitle}</div>
               </div>
             </div>
 
@@ -225,37 +218,30 @@ function ReportView() {
                 <div className="info-label unique16">Main Supervisor</div>
                 <div className="info-value unique16">{studentData.supervisor}</div>
               </div>
-
               <div className="info-item unique16">
                 <div className="info-label unique16">Internship Dates</div>
                 <div className="info-value unique16">{studentData.dates}</div>
               </div>
+            </div>
+          </div>
 
-              <div className="info-item unique16">
-                <div className="info-label unique16">Introduction</div>
-                <div className="info-value unique16">{studentData.intro}</div>
-              </div>
+          <div className="divider unique16"></div>
 
-              <div className="info-item unique16">
-                <div className="info-label unique16">Relevant Course</div>
-                <div className="info-value unique16">{studentData.relevantCourse}</div>
-              </div>
-
-              <div className="info-item unique16">
-                <div className="info-label unique16">Report Body</div>
-                <div className="info-value unique16">
-                  This report evaluates the performance and learning outcomes of the internship. The student has
-                  demonstrated
-                  {studentData.status === "Accepted"
-                    ? " excellent"
-                    : studentData.status === "Pending"
-                      ? " satisfactory"
-                      : studentData.status === "Flagged"
-                        ? " concerning"
-                        : " insufficient"}
-                  progress throughout the internship period. The student has successfully applied knowledge from their
-                  coursework to real-world scenarios.
-                </div>
+          <div className="evaluation-summary unique16">
+            <div className="info-item unique16">
+              <div className="info-label unique16">Body</div>
+              <div className="info-value unique16">
+                This report evaluates the performance and learning outcomes of the internship. The student has
+                demonstrated
+                {studentData.status === "Accepted"
+                  ? " excellent"
+                  : studentData.status === "Pending"
+                    ? " satisfactory"
+                    : studentData.status === "Flagged"
+                      ? " concerning"
+                      : " insufficient"}
+                progress throughout the internship period. The student has successfully applied knowledge from their
+                coursework to real-world scenarios.
               </div>
             </div>
           </div>
