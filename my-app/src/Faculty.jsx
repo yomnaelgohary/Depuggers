@@ -584,6 +584,12 @@ function Faculty() {
                       ))}
                     </ul>
                   </div>
+
+                  <div className="stat-section-unique13 stat-graph-unique13">
+                    <div className="stat-graph-title-unique13">Internship Completion Rate</div>
+                    <div className="stat-graph-bar-unique13"></div>
+                    <div className="stat-graph-label-unique13">60% of students completed their internships</div>
+                  </div>
                 </div>
               ) : (
                 <p>Loading statistics...</p>
