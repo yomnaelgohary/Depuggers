@@ -562,67 +562,79 @@ Overall: ${report.performance.overall.toFixed(1)}/5.0`;
           <div className="evaluations-header">
             <h2>Evaluations & Reports</h2>
           </div>
-          <div className="search-filter-container">
-            <div className="search-container">
-              <input
-                type="text"
-                className="search-input"
-                placeholder="Search by title, student name, or company..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-            <div className="filter-container">
-              <button className="filter-button" onClick={() => setShowFilterPopup(!showFilterPopup)}>
-                <Menu size={16} /> Filters
-              </button>
-              {showFilterPopup && (
-                <div className="filter-overlay" onClick={() => setShowFilterPopup(false)}> {/* Allow closing by clicking overlay */}
-                  <div className="filter-popup" ref={filterPopupRef} onClick={(e) => e.stopPropagation()}> {/* Prevent closing when clicking inside popup */}
-                    <div className="filter-popup-header">
-                      <h3>Filter Reports</h3>
-                      <button className="close-popup-button" onClick={() => setShowFilterPopup(false)}>
-                        <X size={16} />
-                      </button>
-                    </div>
-                    <div className="filter-content">
-                      <div className="filter-section">
-                        <h4>Status</h4>
-                        <div className="filter-options">
-                          {statusOptions.map((status) => (
-                            <div
-                              key={status}
-                              className={`filter-option ${selectedStatus === status ? "selected" : ""}`}
-                              onClick={() => setSelectedStatus(status)}
-                            >
-                              {status}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                      <div className="filter-section">
-                        <h4>Major</h4>
-                        <div className="filter-options">
-                          {uniqueMajors.map((major) => (
-                            <div
-                              key={major}
-                              className={`filter-option ${selectedMajor === major ? "selected" : ""}`}
-                              onClick={() => setSelectedMajor(major)}
-                            >
-                              {major}
-                            </div>
-                          ))}
-                        </div>
+          <div className="companies-filter-controls" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', marginBottom: '20px' }}>
+            <input
+              type="text"
+              className="minimal-search cs-search-input"
+              placeholder="Search by title, student name, or company..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              style={{ width: '380px' }}
+            />
+            <button className="filters-button cs-filter-button" onClick={() => setShowFilterPopup(!showFilterPopup)} style={{ marginLeft: 'auto' }}>
+              <span className="hamburger-icon">≡</span>
+              Filters
+              {/* You can add a filter badge here if you want to show active filter count */}
+            </button>
+            {showFilterPopup && (
+              <div className="cs-filter-modal-overlay" onClick={() => setShowFilterPopup(false)}>
+                <div className="cs-filter-modal" ref={filterPopupRef} onClick={e => e.stopPropagation()}>
+                  <div className="cs-filter-modal-header">
+                    <h2>Filters</h2>
+                    <button className="cs-close-button" onClick={() => setShowFilterPopup(false)}>
+                      <X size={18} />
+                    </button>
+                  </div>
+                  <div className="cs-filter-modal-content">
+                    <div className="cs-filter-section">
+                      <div style={{ fontWeight: 700, marginBottom: 8, textTransform: 'uppercase', fontSize: 15 }}>STATUS</div>
+                      <div className="cs-filter-options">
+                        {statusOptions.map((status) => (
+                          <div
+                            key={status}
+                            className={`cs-filter-option${selectedStatus === status ? " cs-selected" : ""}`}
+                            onClick={() => setSelectedStatus(status)}
+                          >
+                            {status}
+                          </div>
+                        ))}
                       </div>
                     </div>
-                    <div className="filter-actions">
-                      <button className="reset-button" onClick={handleResetFilters}>Reset</button>
-                      <button className="apply-button" onClick={handleApplyFilters}>Apply</button>
+                    <div className="cs-filter-section">
+                      <div style={{ fontWeight: 700, marginBottom: 8, textTransform: 'uppercase', fontSize: 15 }}>MAJOR</div>
+                      <div className="cs-filter-options">
+                        {uniqueMajors.map((major) => (
+                          <div
+                            key={major}
+                            className={`cs-filter-option${selectedMajor === major ? " cs-selected" : ""}`}
+                            onClick={() => setSelectedMajor(major)}
+                          >
+                            {major}
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
+                  <div className="cs-filter-actions">
+                    <button className="cs-reset-button" onClick={handleResetFilters}>Reset</button>
+                    <button className="cs-apply-button" onClick={handleApplyFilters}>
+                      {`Show ${reports.filter((report) => {
+                        if (searchQuery) {
+                          const query = searchQuery.toLowerCase();
+                          const matchesTitle = report.title.toLowerCase().includes(query);
+                          const matchesStudent = report.studentName.toLowerCase().includes(query);
+                          const matchesCompany = report.company.toLowerCase().includes(query);
+                          if (!matchesTitle && !matchesStudent && !matchesCompany) return false;
+                        }
+                        if (selectedStatus !== "All" && report.status.toLowerCase() !== selectedStatus.toLowerCase()) return false;
+                        if (selectedMajor !== "All" && report.major !== selectedMajor) return false;
+                        return true;
+                      }).length} Evaluations`}
+                    </button>
+                  </div>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
           <div className="reports-list">
             {filteredReports.length > 0 ? (
