@@ -1213,15 +1213,15 @@ s
   }
 }
 
-/* New Calendar Styles */
+/* Existing Calendar Styles */
 .calendar-container {
   background-color: #fff;
   border-radius: 12px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
   padding: 25px;
   width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
+  max-width: 800px; /* Adjust as needed, form might need less width */
+  margin: 20px auto; /* Added top/bottom margin for better page placement */
   z-index: 1001;
   position: relative;
   overflow: hidden;
@@ -1240,6 +1240,7 @@ s
   align-items: center;
   justify-content: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 
 .calendar-close:hover {
@@ -1265,6 +1266,19 @@ s
   color: #666;
   margin-bottom: 15px;
 }
+
+.year-section {
+  margin-bottom: 15px;
+}
+.year-heading {
+  font-size: 18px;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #eee;
+}
+
 
 .months-grid {
   display: grid;
@@ -1301,63 +1315,33 @@ s
   gap: 5px;
 }
 
-/* Fix the progress bar styles to ensure the bar itself is purple, not the background */
 .month-progress {
   height: 8px;
-  background-color: #e0e0e0; /* Light gray background for the empty portion */
+  background-color: #e0e0e0;
   border-radius: 3px;
   overflow: hidden;
   position: relative;
 }
 
-/* Make sure the progress-bar class is properly defined and visible */
 .month-progress .progress-bar {
   height: 100%;
-  background-color: #5f2878; /* Vibrant purple for the filled portion */
+  background-color: #5f2878;
   border-radius: 3px;
   position: absolute;
   top: 0;
   left: 0;
-  width: 65%; /* Default width to ensure the bar is visible */
+  transition: width 0.5s ease-in-out; /* Smooth width transition */
+  box-shadow: 0 0 5px rgba(95, 40, 120, 0.5); /* Adjusted glow for #5f2878 */
 }
 
-/* Make the purple color more saturated and brighter for better visibility */
-.month-card:nth-child(1) .month-progress .progress-bar {
-  width: 75%;
-  background-color: #5f2878; /* Dark Orchid - a rich purple */
-}
-
-.month-card:nth-child(2) .month-progress .progress-bar {
-  width: 45%;
-  background-color: #5f2878; /* Blue Violet - a vibrant purple */
-}
-
-.month-card:nth-child(3) .month-progress .progress-bar {
-  width: 90%;
-  background-color: #5f2878; /* Dark Violet - a deep purple */
-}
-
-.month-card:nth-child(4) .month-progress .progress-bar {
-  width: 30%;
-  background-color: #5f2878; /* Purple - a classic purple */
-}
-
-/* Enhance the animation to make the color transition more noticeable */
 @keyframes progressFill {
   0% {
     width: 0%;
     opacity: 0.7;
   }
   100% {
-    width: var(--fill-width, 65%);
     opacity: 1;
   }
-}
-
-/* Add a subtle glow effect to make the purple more prominent */
-.month-progress .progress-bar {
-  animation: progressFill 1.5s ease-out forwards;
-  box-shadow: 0 0 5px rgba(138, 43, 226, 0.5); /* Subtle purple glow */
 }
 
 .month-stats p {
@@ -1380,7 +1364,7 @@ s
 }
 
 .summary-item svg {
-  color: #c31432;
+  color: #c31432; /* Red color for icons */
 }
 
 .summary-item h4 {
@@ -1395,6 +1379,25 @@ s
   font-weight: 500;
   color: #333;
 }
+
+.edit-duration-button {
+  background-color: #5f2878; /* Purple */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  align-self: center; /* Center button if overview is flex column */
+  margin-top: 15px;
+}
+
+.edit-duration-button:hover {
+  background-color: #4a1f5e; /* Darker purple */
+}
+
 
 /* Month View Styles */
 .month-view {
@@ -1431,7 +1434,7 @@ s
   font-size: 22px;
   font-weight: 600;
   color: #333;
-  margin: 0 auto;
+  margin: 0 auto; /* Centers title when back button is present */
 }
 
 .month-calendar {
@@ -1457,13 +1460,9 @@ s
 }
 
 .calendar-day {
-  cursor: pointer;
+  cursor: default; /* Days are not clickable in this view */
   transition: background-color 0.2s ease;
   border-radius: 8px;
-}
-
-.calendar-day:hover {
-  background-color: #f0f0f0;
 }
 
 .day-content {
@@ -1484,15 +1483,15 @@ s
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background-color: #c31432;
+  background-color: #c31432; /* Red indicator for cycle days */
 }
 
 .empty-day {
   background-color: transparent;
 }
 
-.highlighted {
-  background-color: rgba(195, 20, 50, 0.1);
+.highlighted { /* For internship cycle days */
+  background-color: rgba(195, 20, 50, 0.1); /* Light red background */
 }
 
 .highlighted .day-number {
@@ -1500,12 +1499,13 @@ s
   font-weight: 600;
 }
 
-.today {
-  background-color: rgba(33, 150, 243, 0.1);
+.today { /* For the current day */
+  background-color: rgba(33, 150, 243, 0.1); /* Light blue background */
+  border: 1px solid rgba(33, 150, 243, 0.3); /* Subtle border for today */
 }
 
 .today .day-number {
-  color: #2196f3;
+  color: #2196f3; /* Blue color for today's number */
   font-weight: 600;
 }
 
@@ -1531,11 +1531,11 @@ s
 }
 
 .legend-indicator.highlighted {
-  background-color: rgba(195, 20, 50, 0.3);
+  background-color: rgba(195, 20, 50, 0.3); /* Legend for cycle day */
 }
 
 .legend-indicator.today {
-  background-color: rgba(33, 150, 243, 0.3);
+  background-color: rgba(33, 150, 243, 0.3); /* Legend for today */
 }
 
 .legend-item span {
@@ -1543,40 +1543,154 @@ s
   color: #666;
 }
 
-/* Add these styles to the calendar section */
+/* Month Card Active/Inactive Styles */
 .month-card.active-month {
-  background-color: #f8f9fa;
-  border: 1px solid #e0e0e0;
-}
-
-.month-card.active-month:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  border-color: #5f2878;
+  /* Styles for active months are default .month-card styles */
 }
 
 .month-card.inactive-month {
-  background-color: #f8f9fa;
-  border: 1px solid #e0e0e0;
-  opacity: 0.7;
+  opacity: 0.7; /* Make inactive months slightly faded */
 }
-
-.month-card.inactive-month:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
-}
-
 .month-card.inactive-month .month-progress {
-  background-color: rgba(138, 43, 226, 0.1); /* Even lighter purple for inactive months */
+  background-color: #f0e6f6; /* Lighter background for progress track in inactive months */
+}
+.month-card.inactive-month .month-progress .progress-bar {
+  background-color: #a477b5; /* Muted purple for progress in inactive months */
+  box-shadow: none; /* Remove glow for inactive months */
 }
 
-/* Update the months grid to show 4 columns for better layout */
-.months-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 15px;
-  margin-bottom: 20px;
+/* --- STYLES FOR SETUP FORM --- */
+
+.setup-form-container {
+  /* If .setup-form-container is directly inside .calendar-container,
+     it will inherit the padding and shadow.
+     If you want it to be visually distinct or take less width: */
+  /* max-width: 500px; */ /* Example: constrain width of the form itself */
+  /* margin: 0 auto; */ /* Center it if max-width is used */
 }
+
+.setup-form-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #1A202C;
+  margin-bottom: 24px;
+  text-align: left;
+}
+
+.duration-form .form-group {
+  margin-bottom: 20px; /* Space between form groups */
+}
+
+.duration-form .form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px; /* Space below label */
+  color: #2D3748;
+  font-size: 14px;
+}
+
+/* New wrapper for input and custom icon */
+.date-input-container {
+  position: relative; /* For absolute positioning of the icon if needed, or flex */
+  display: flex;      /* Aligns input and icon in a row */
+  align-items: center;/* Vertically aligns items in the middle */
+}
+
+.duration-form .date-picker-input {
+  width: 100%; /* Take full width of its container part */
+  padding: 10px 12px;
+  /* Adjust padding-right if icon is placed *inside* the input border visually */
+  /* e.g., padding-right: 35px; */
+  border: 1.5px solid #E53E3E; /* Red border as in the image */
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 16px;
+  background-color: #FFFFFF;
+  flex-grow: 1; /* Allows input to take available space if container is flex */
+}
+
+/* Hide the native browser's calendar picker icon */
+.duration-form .date-picker-input::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none; /* Also try this for good measure */
+}
+/* For Firefox, hiding the native UI is harder. This input type is heavily browser-styled. */
+/* Consider input[type="text"] with a separate date picker library for full control if this isn't enough. */
+
+
+/* Style for the custom calendar icon */
+.custom-calendar-icon {
+  color: #757575; /* Icon color, can be same as placeholder */
+  cursor: pointer;
+  /* Position the icon:
+     This example places it to appear just inside the right border of the input.
+     Adjust margin-left and input's padding-right accordingly.
+  */
+  margin-left: -30px; /* Pulls icon to the left, over the input's padding area */
+  /* If you want it completely outside, remove margin-left and add margin-left to the input instead */
+  /* Example: margin-left: 8px; if icon is truly separate */
+  z-index: 2; /* Ensures the icon is clickable if it overlaps with input padding */
+}
+
+.custom-calendar-icon:hover {
+  color: #1A202C; /* Darker on hover, or your preferred hover color */
+}
+
+
+/* Styling for the placeholder text (e.g., "dd/mm/yyyy") */
+.duration-form .date-picker-input::-webkit-input-placeholder {color: #757575; opacity: 1;}
+.duration-form .date-picker-input::-moz-placeholder {color: #757575; opacity: 1;}
+.duration-form .date-picker-input:-ms-input-placeholder {color: #757575; opacity: 1;}
+.duration-form .date-picker-input::-ms-input-placeholder {color: #757575; opacity: 1;}
+.duration-form .date-picker-input::placeholder {color: #757575; opacity: 1;}
+
+/* Styling for the "dd", "mm", "yyyy" segments in WebKit browsers before a date is picked */
+.duration-form .date-picker-input::-webkit-datetime-edit-text,
+.duration-form .date-picker-input::-webkit-datetime-edit-month-field,
+.duration-form .date-picker-input::-webkit-datetime-edit-day-field,
+.duration-form .date-picker-input::-webkit-datetime-edit-year-field {
+  color: #757575; /* Match placeholder color for these segments */
+}
+
+/* Color of the text once a valid date is selected */
+.duration-form .date-picker-input:valid,
+.duration-form .date-picker-input[value]:not([value=""]) {
+  color: #2D3748; /* Darker color for the actual entered date text */
+}
+
+/* Focus style for the date input */
+.duration-form .date-picker-input:focus {
+  outline: none;
+  border-color: #4A90E2; /* Example: blue border on focus */
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.3);
+}
+
+
+.duration-form .setup-submit-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1A202C;
+  color: white;
+  padding: 12px 20px; /* Slightly more padding */
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  width: auto;
+  margin-top: 24px; /* Increased space above the button */
+}
+
+.duration-form .setup-submit-button:hover {
+  background-color: #2D3748;
+}
+
+.duration-form .setup-submit-button svg { /* Styles for the Check icon */
+  margin-right: 8px;
+}
+
 
 /* Responsive Calendar Styles */
 @media (max-width: 768px) {
@@ -1586,7 +1700,7 @@ s
   }
 
   .months-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* More responsive grid */
   }
 
   .month-calendar td {
@@ -1596,6 +1710,18 @@ s
   .day-number {
     font-size: 14px;
   }
+
+  .setup-form-title {
+    font-size: 18px;
+  }
+  .duration-form .date-picker-input,
+  .duration-form .setup-submit-button {
+    font-size: 14px;
+  }
+  .custom-calendar-icon {
+    margin-left: -28px; /* Adjust icon position for smaller inputs */
+    /* Or adjust input padding-right */
+  }
 }
 
 @media (max-width: 480px) {
@@ -1604,13 +1730,20 @@ s
   }
 
   .months-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Even smaller cards on mobile */
   }
 
   .calendar-summary {
     flex-direction: column;
     gap: 15px;
     align-items: flex-start;
+  }
+
+  .month-header h2 {
+    font-size: 18px;
+  }
+  .back-button span {
+    display: none; /* Hide "Back" text on very small screens, keep icon */
   }
 
   .month-calendar th {
@@ -1621,6 +1754,36 @@ s
   .month-calendar td {
     height: 40px;
     padding: 5px;
+  }
+  .day-number {
+    font-size: 12px;
+  }
+  .day-indicator {
+    width: 4px;
+    height: 4px;
+  }
+
+  .setup-form-title {
+    font-size: 16px;
+    margin-bottom: 16px;
+  }
+  .duration-form .form-group label {
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+  .duration-form .date-picker-input {
+    padding: 8px 10px; /* Adjust padding considering the icon */
+    /* padding-right: 30px; */ /* If icon is inside */
+    font-size: 14px;
+  }
+  .duration-form .setup-submit-button {
+    padding: 10px 15px;
+    font-size: 14px;
+    margin-top: 16px;
+  }
+  .custom-calendar-icon {
+    margin-left: -26px; /* Further adjust icon position for very small inputs */
+    /* Or adjust input padding-right */
   }
 }
 
