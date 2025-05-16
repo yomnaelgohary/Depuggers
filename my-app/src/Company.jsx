@@ -1055,7 +1055,7 @@ export default function Company() {
                         Reset
                       </button>
                       <button className="cs-apply-button" onClick={applyFilters}>
-                        Show {filteredJobs.length} jobs
+                        Show {filteredJobs.length} Posts
                       </button>
                     </div>
                   </div>
