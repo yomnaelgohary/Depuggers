@@ -1382,3 +1382,30 @@ body {
   margin-bottom: 16px;
   padding-top: 0;
 }
+
+.notification-item-unique13 {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  background: #fff;
+  transition: background 0.2s;
+}
+.notification-item-unique13:last-child {
+  border-bottom: none;
+}
+.notification-item-unique13:hover {
+  background: #f5f3ff;
+}
+.notification-message-unique13 {
+  font-size: 15px;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+.notification-time-unique13 {
+  font-size: 12px;
+  color: #888;
+  align-self: flex-end;
+}
