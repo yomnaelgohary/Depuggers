@@ -566,7 +566,7 @@ Overall: ${report.performance.overall.toFixed(1)}/5.0`;
             <input
               type="text"
               className="minimal-search cs-search-input"
-              placeholder="Search by title, student name, or company..."
+              placeholder="Search by title, student name, or company"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               style={{ width: '380px' }}
