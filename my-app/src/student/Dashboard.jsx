@@ -189,25 +189,7 @@ const DashboardContent = () => {
                   dataIndex: "why",
                   key: "why",
                   render: (text) => <Typography.Text ellipsis={{ tooltip: text }}>{text}</Typography.Text>,
-                },
-                {
-                  title: "Action",
-                  key: "action",
-                  render: (_, record) => (
-                    <Space>
-                      <Button type="primary" onClick={() => markAsViewed(record.id)}>
-                        View Openings
-                      </Button>
-                      <Button
-                        icon={record.saved ? <StarFilled /> : <StarOutlined />}
-                        onClick={() => toggleSaveCompany(record.id)}
-                        className={record.saved ? "save-btn-purble" : ""}
-                      >
-                        {record.saved ? "Saved" : "Save"}
-                      </Button>
-                    </Space>
-                  ),
-                },
+                },               
               ]}
               pagination={{ pageSize: 5 }}
               rowClassName={(record) => (record.viewed ? "" : "unviewed-row unique2")}
