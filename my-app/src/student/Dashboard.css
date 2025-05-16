@@ -281,3 +281,57 @@
     padding: 16px;
   }
 }
+
+/* Custom Video Guide Button */
+.video-guide-btn {
+  background: #fff !important;
+  color: #5f2878 !important;
+  border: 2px solid #5f2878 !important;
+  transition: background 0.2s, color 0.2s;
+}
+.video-guide-btn:hover, .video-guide-btn:active, .video-guide-btn:focus {
+  background: #5f2878 !important;
+  color: #fff !important;
+  border-color: #5f2878 !important;
+}
+
+/* Save Button when pressed */
+.save-btn-purble {
+  background: #5f2878 !important;
+  color: #fff !important;
+  border-color: #5f2878 !important;
+}
+.save-btn-purble:hover, .save-btn-purble:active, .save-btn-purble:focus {
+  background: #4a1d5e !important;
+  color: #fff !important;
+  border-color: #4a1d5e !important;
+}
+
+/* Suggested Companies Tab (active) */
+.ant-tabs-tab-active .ant-tabs-tab-btn {
+  background: #5f2878 !important;
+  color: #fff !important;
+  border-radius: 6px 6px 0 0;
+  padding: 6px 16px;
+}
+
+/* Complete Profile Button (not purple) */
+.complete-profile-btn {
+  background: #fff !important;
+  color: #5f2878 !important;
+  border: 2px solid #5f2878 !important;
+  transition: background 0.2s, color 0.2s;
+}
+.complete-profile-btn:hover, .complete-profile-btn:active, .complete-profile-btn:focus {
+  background: #f5f3ff !important;
+  color: #5f2878 !important;
+  border-color: #5f2878 !important;
+}
+
+/* Tabs: purple underline and hover */
+.ant-tabs-ink-bar {
+  background: #5f2878 !important;
+}
+.ant-tabs-tab:hover .ant-tabs-tab-btn {
+  color: #5f2878 !important;
+}

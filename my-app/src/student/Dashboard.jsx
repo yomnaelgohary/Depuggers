@@ -216,6 +216,7 @@ const DashboardContent = () => {
                       <Button
                         icon={record.saved ? <StarFilled /> : <StarOutlined />}
                         onClick={() => toggleSaveCompany(record.id)}
+                        className={record.saved ? "save-btn-purble" : ""}
                       >
                         {record.saved ? "Saved" : "Save"}
                       </Button>
@@ -241,7 +242,7 @@ const DashboardContent = () => {
               <Checkbox>Add your skills</Checkbox>
               <Checkbox>Upload your resume</Checkbox>
             </div>
-            <Button type="primary" onClick={() => setProfileCompletionModalVisible(true)} style={{ marginTop: "16px" }}>
+            <Button type="default" onClick={() => setProfileCompletionModalVisible(true)} style={{ marginTop: "16px" }} className="complete-profile-btn">
               Complete Profile
             </Button>
 
@@ -249,7 +250,7 @@ const DashboardContent = () => {
             <div className="video-guide-section unique2">
               <h3>Not sure what internships count for your major?</h3>
               <p>Watch this short guide to understand the requirements:</p>
-              <Button type="primary" icon={<PlayCircleOutlined />} onClick={() => setVideoModalVisible(true)}>
+              <Button type="primary" icon={<PlayCircleOutlined />} onClick={() => setVideoModalVisible(true)} className="video-guide-btn">
                 Watch Video Guide
               </Button>
             </div>
