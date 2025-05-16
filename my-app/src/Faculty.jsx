@@ -290,23 +290,23 @@ function Faculty() {
   });
 
   return (
-    <div className="app-container">
+    <div className="app-container-unique13">
       {/* Sidebar */}
-      <aside className="sidebar">
-        <div className="sidebar-header">
-          <h2 className="logo-text">Hello Dr. Milad</h2>
+      <aside className="sidebar-unique13">
+        <div className="sidebar-header-unique13">
+          <h2 className="logo-text-unique13">Hello Dr. Milad</h2>
         </div>
 
-        <div className="sidebar-content">
-          <ul className="sidebar-nav">
-            <li className={`sidebar-nav-item ${activeTab === "students" ? "active" : ""}`}>
-              <a href="#" className="sidebar-nav-link" onClick={() => setActiveTab("students")}>
+        <div className="sidebar-content-unique13">
+          <ul className="sidebar-nav-unique13">
+            <li className={`sidebar-nav-item-unique13 ${activeTab === "students" ? "active" : ""}`}>
+              <a href="#" className="sidebar-nav-link-unique13" onClick={() => setActiveTab("students")}>
                 <Users size={20} />
                 <span>Students</span>
               </a>
             </li>
-            <li className={`sidebar-nav-item ${activeTab === "statistics" ? "active" : ""}`}>
-              <a href="#" className="sidebar-nav-link" onClick={() => setActiveTab("statistics")}>
+            <li className={`sidebar-nav-item-unique13 ${activeTab === "statistics" ? "active" : ""}`}>
+              <a href="#" className="sidebar-nav-link-unique13" onClick={() => setActiveTab("statistics")}>
                 <BarChart2 size={20} />
                 <span>Statistics</span>
               </a>
@@ -315,42 +315,42 @@ function Faculty() {
         </div>
       </aside>
 
-      <div className="main-content">
+      <div className="main-content-unique13">
         {/* Header */}
-        <header className="main-header">
-          <div className="header-left">
-            <div className="nav-buttons">
-              <button className="nav-button" onClick={handleBack}>
+        <header className="main-header-unique13">
+          <div className="header-left-unique13">
+            <div className="nav-buttons-unique13">
+              <button className="nav-button-unique13" onClick={handleBack}>
                 <ChevronLeft size={20} />
               </button>
-              <button className="nav-button" onClick={handleNext}>
+              <button className="nav-button-unique13" onClick={handleNext}>
                 <ChevronRight size={20} />
               </button>
             </div>
           </div>
 
-          <div className="header-right">
-            <div className="notification-container">
-              <button className="notification-button" onClick={() => setShowNotifications(!showNotifications)}>
+          <div className="header-right-unique13">
+            <div className="notification-container-unique13">
+              <button className="notification-button-unique13" onClick={() => setShowNotifications(!showNotifications)}>
                 <Bell size={20} />
               </button>
               {showNotifications && (
-                <div className="notification-dropdown">
-                  <div className="notification-item">
+                <div className="notification-dropdown-unique13">
+                  <div className="notification-item-unique13">
                     <p>No new notifications</p>
                   </div>
                 </div>
               )}
             </div>
 
-            <div className="profile-container">
-              <div className="profile-image" onClick={() => setShowProfileMenu(!showProfileMenu)}>
+            <div className="profile-container-unique13">
+              <div className="profile-image-unique13" onClick={() => setShowProfileMenu(!showProfileMenu)}>
                 <User size={20} />
               </div>
 
               {showProfileMenu && (
-                <div className="profile-menu">
-                  <button className="profile-menu-item" onClick={handleLogout}>
+                <div className="profile-menu-unique13">
+                  <button className="profile-menu-item-unique13" onClick={handleLogout}>
                     <LogOut size={16} />
                     <span>Logout</span>
                   </button>
@@ -361,42 +361,42 @@ function Faculty() {
         </header>
 
         {/* Main content area */}
-        <main className="content-area">
-          <div className="content-header">
-            <h2 className="content-title">{activeTab === "statistics" ? "Real-time Statistics" : "Students"}</h2>
+        <main className="content-area-unique13">
+          <div className="content-header-unique13">
+            <h2 className="content-title-unique13">{activeTab === "statistics" ? "Real-time Statistics" : "Students"}</h2>
           </div>
 
           {activeTab === "students" ? (
             <>
-              <div className="filters-section">
+              <div className="filters-section-unique13">
                 <button
-                  className={`filter-button-main ${showFilterModal ? 'active' : ''}`}
+                  className={`filter-button-main-unique13 ${showFilterModal ? 'active' : ''}`}
                   onClick={() => setShowFilterModal(!showFilterModal)}
                 >
                   <AlignLeft size={18} />
                   <span>Filters</span>
                 </button>
-                <div className="students-count">
+                <div className="students-count-unique13">
                   Showing {filteredStudents.length} of {students.length} students
                 </div>
               </div>
 
               {showFilterModal && (
-                <div className="filter-modal-overlay">
-                  <div className="filter-modal">
-                    <div className="filter-modal-header">
+                <div className="filter-modal-overlay-unique13">
+                  <div className="filter-modal-unique13">
+                    <div className="filter-modal-header-unique13">
                       <h3>Filters</h3>
-                      <button className="close-modal-button" onClick={() => setShowFilterModal(false)}>×</button>
+                      <button className="close-modal-button-unique13" onClick={() => setShowFilterModal(false)}>×</button>
                     </div>
 
-                    <div className="filter-modal-content">
-                      <div className="filter-section">
+                    <div className="filter-modal-content-unique13">
+                      <div className="filter-section-unique13">
                         <h4>MAJOR</h4>
-                        <div className="filter-options">
+                        <div className="filter-options-unique13">
                           {uniqueMajors.map((major) => (
                             <button
                               key={major}
-                              className={`filter-option ${selectedFilters.major === major ? 'active' : ''}`}
+                              className={`filter-option-unique13 ${selectedFilters.major === major ? 'active' : ''}`}
                               onClick={() => setSelectedFilters({ ...selectedFilters, major })}
                             >
                               {major}
@@ -405,13 +405,13 @@ function Faculty() {
                         </div>
                       </div>
 
-                      <div className="filter-section">
+                      <div className="filter-section-unique13">
                         <h4>STATUS</h4>
-                        <div className="filter-options">
+                        <div className="filter-options-unique13">
                           {uniqueStatuses.map((status) => (
                             <button
                               key={status}
-                              className={`filter-option ${selectedFilters.status === status ? 'active' : ''}`}
+                              className={`filter-option-unique13 ${selectedFilters.status === status ? 'active' : ''}`}
                               onClick={() => setSelectedFilters({ ...selectedFilters, status })}
                             >
                               {status}
@@ -421,9 +421,9 @@ function Faculty() {
                       </div>
                     </div>
 
-                    <div className="filter-modal-footer">
+                    <div className="filter-modal-footer-unique13">
                       <button
-                        className="reset-button"
+                        className="reset-button-unique13"
                         onClick={() => {
                           setSelectedFilters({
                             major: "All Majors",
@@ -434,7 +434,7 @@ function Faculty() {
                         Reset
                       </button>
                       <button
-                        className="apply-button"
+                        className="apply-button-unique13"
                         onClick={() => {
                           setSelectedMajor(selectedFilters.major);
                           setSelectedStatus(selectedFilters.status);
@@ -448,8 +448,8 @@ function Faculty() {
                 </div>
               )}
 
-              <div className="students-table-container">
-                <table className="students-table">
+              <div className="students-table-container-unique13">
+                <table className="students-table-unique13">
                   <thead>
                     <tr>
                       <th>Student</th>
@@ -464,14 +464,14 @@ function Faculty() {
                       filteredStudents.map((student) => (
                         <tr key={student.id}>
                           <td>{student.name}</td>
-                          <td className="major">{student.major}</td>
+                          <td className="major-unique13">{student.major}</td>
                           <td>
-                            <span className={`status-pill ${student.status.toLowerCase()}`}>{student.status}</span>
+                            <span className={`status-pill-unique13 ${student.status.toLowerCase()}-unique13`}>{student.status}</span>
                           </td>
-                          <td className="comment">{student.comment || "-"}</td>
-                          <td className="actions">
+                          <td className="comment-unique13">{student.comment || "-"}</td>
+                          <td className="actions-unique13">
                             <button
-                              className="action-button details-button"
+                              className="action-button details-button-unique13"
                               onClick={() => handleViewReport(student.id)}
                             >
                               {student.status === "Pending" ? "Review" : "Details"}
@@ -481,7 +481,7 @@ function Faculty() {
                       ))
                     ) : (
                       <tr>
-                        <td colSpan="5" className="no-results">
+                        <td colSpan="5" className="no-results-unique13">
                           No students match the selected filters
                         </td>
                       </tr>
@@ -491,69 +491,69 @@ function Faculty() {
               </div>
             </>
           ) : (
-            <div className="statistics-view">
+            <div className="statistics-view-unique13">
               {statistics ? (
-                <div className="statistics-content">
-                  <div className="stat-section">
-                    <h4 className="stat-title">Status Distribution</h4>
-                    <div className="status-stats">
-                      <div className="status-stat-item">
-                        <div className="status-label">Accepted</div>
-                        <div className="status-count accepted">{statistics.statusCounts?.accepted ?? 0}</div>
+                <div className="statistics-content-unique13">
+                  <div className="stat-section-unique13">
+                    <h4 className="stat-title-unique13">Status Distribution</h4>
+                    <div className="status-stats-unique13">
+                      <div className="status-stat-item-unique13">
+                        <div className="status-label-unique13">Accepted</div>
+                        <div className="status-count-unique13 accepted-unique13">{statistics.statusCounts?.accepted ?? 0}</div>
                       </div>
-                      <div className="status-stat-item">
-                        <div className="status-label">Rejected</div>
-                        <div className="status-count rejected">{statistics.statusCounts?.rejected ?? 0}</div>
+                      <div className="status-stat-item-unique13">
+                        <div className="status-label-unique13">Rejected</div>
+                        <div className="status-count-unique13 rejected-unique13">{statistics.statusCounts?.rejected ?? 0}</div>
                       </div>
-                      <div className="status-stat-item">
-                        <div className="status-label">Flagged</div>
-                        <div className="status-count flagged">{statistics.statusCounts?.flagged ?? 0}</div>
+                      <div className="status-stat-item-unique13">
+                        <div className="status-label-unique13">Flagged</div>
+                        <div className="status-count-unique13 flagged-unique13">{statistics.statusCounts?.flagged ?? 0}</div>
                       </div>
-                      <div className="status-stat-item">
-                        <div className="status-label">Pending</div>
-                        <div className="status-count pending">{statistics.statusCounts?.pending ?? 0}</div>
+                      <div className="status-stat-item-unique13">
+                        <div className="status-label-unique13">Pending</div>
+                        <div className="status-count-unique13 pending-unique13">{statistics.statusCounts?.pending ?? 0}</div>
                       </div>
                     </div>
                   </div>
 
-                  <div className="stat-section">
-                    <h4 className="stat-title">Average Review Time</h4>
-                    <div className="avg-review-time">
-                      <div className="time-value">{statistics.averageReviewTime || "N/A"}</div>
+                  <div className="stat-section-unique13">
+                    <h4 className="stat-title-unique13">Average Review Time</h4>
+                    <div className="avg-review-time-unique13">
+                      <div className="time-value-unique13">{statistics.averageReviewTime || "N/A"}</div>
                     </div>
                   </div>
 
-                  <div className="stat-section">
-                    <h4 className="stat-title">Most Frequently Used Courses</h4>
-                    <ul className="stat-list">
+                  <div className="stat-section-unique13">
+                    <h4 className="stat-title-unique13">Most Frequently Used Courses</h4>
+                    <ul className="stat-list-unique13">
                       {(statistics.topCourses || []).map((course, index) => (
-                        <li key={index} className="stat-list-item">
-                          <span className="item-name">{course.name}</span>
-                          <span className="item-value">{course.count} internships</span>
+                        <li key={index} className="stat-list-item-unique13">
+                          <span className="item-name-unique13">{course.name}</span>
+                          <span className="item-value-unique13">{course.count} internships</span>
                         </li>
                       ))}
                     </ul>
                   </div>
 
-                  <div className="stat-section">
-                    <h4 className="stat-title">Top Rated Companies</h4>
-                    <ul className="stat-list">
+                  <div className="stat-section-unique13">
+                    <h4 className="stat-title-unique13">Top Rated Companies</h4>
+                    <ul className="stat-list-unique13">
                       {(statistics.topRatedCompanies || []).map((company, index) => (
-                        <li key={index} className="stat-list-item">
-                          <span className="item-name">{company.name}</span>
-                          <span className="item-value">{company.rating}/5</span>
+                        <li key={index} className="stat-list-item-unique13">
+                          <span className="item-name-unique13">{company.name}</span>
+                          <span className="item-value-unique13">{company.rating}/5</span>
                         </li>
                       ))}
                     </ul>
                   </div>
 
-                  <div className="stat-section">
-                    <h4 className="stat-title">Top Companies by Internship Count</h4>
-                    <ul className="stat-list">
+                  <div className="stat-section-unique13">
+                    <h4 className="stat-title-unique13">Top Companies by Internship Count</h4>
+                    <ul className="stat-list-unique13">
                       {(statistics.topCompaniesByCount || []).map((company, index) => (
-                        <li key={index} className="stat-list-item">
-                          <span className="item-name">{company.name}</span>
-                          <span className="item-value">{company.count} internships</span>
+                        <li key={index} className="stat-list-item-unique13">
+                          <span className="item-name-unique13">{company.name}</span>
+                          <span className="item-value-unique13">{company.count} internships</span>
                         </li>
                       ))}
                     </ul>
@@ -563,10 +563,10 @@ function Faculty() {
                 <p>Loading statistics...</p>
               )}
 
-              <div className="report-generation">
-                <div className="report-form">
+              <div className="report-generation-unique13">
+                <div className="report-form-unique13">
                   <button
-                    className="generate-button"
+                    className="generate-button-unique13"
                     onClick={handleGenerateReport}
                     disabled={isGeneratingReport || !statistics}
                   >
@@ -579,30 +579,30 @@ function Faculty() {
 
           {/* Report Preview Modal */}
           {showReportPreview && generatedReport && (
-            <div className="report-preview-overlay">
-              <div className="report-preview-container">
-                <div className="report-preview-header">
+            <div className="report-preview-overlay-unique13">
+              <div className="report-preview-container-unique13">
+                <div className="report-preview-header-unique13">
                   <h2>{generatedReport.title}</h2>
-                  <button className="close-preview-button" onClick={handleClosePreview} aria-label="Close preview">
+                  <button className="close-preview-button-unique13" onClick={handleClosePreview} aria-label="Close preview">
                     ×
                   </button>
                 </div>
 
-                <div className="report-preview-content">
-                  <div className="report-meta">
+                <div className="report-preview-content-unique13">
+                  <div className="report-meta-unique13">
                     <p>Generated on: {generatedReport.date}</p>
                     <p>Generated by: Dr. Milad</p>
                   </div>
 
                   {generatedReport.sections.map((section, index) => (
-                    <div key={index} className="report-section">
+                    <div key={index} className="report-section-unique13">
                       <h3>{section.title}</h3>
                       {section.data?.length > 0 ? (
-                        <dl className="report-list">
+                        <dl className="report-list-unique13">
                           {section.data.map((item, i) => (
-                            <div key={i} className="report-list-item">
-                              <dt className="report-item-label">{item.label}</dt>
-                              <dd className="report-item-value">{item.value}</dd>
+                            <div key={i} className="report-list-item-unique13">
+                              <dt className="report-item-label-unique13">{item.label}</dt>
+                              <dd className="report-item-value-unique13">{item.value}</dd>
                             </div>
                           ))}
                         </dl>
@@ -613,8 +613,8 @@ function Faculty() {
                   ))}
                 </div>
 
-                <div className="report-preview-footer">
-                  <button className="download-pdf-button" onClick={handleDownloadPDF}>
+                <div className="report-preview-footer-unique13">
+                  <button className="download-pdf-button-unique13" onClick={handleDownloadPDF}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="20"
@@ -625,7 +625,7 @@ function Faculty() {
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      className="download-icon"
+                      className="download-icon-unique13"
                       aria-hidden="true"
                     >
                       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>

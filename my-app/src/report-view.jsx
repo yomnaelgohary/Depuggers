@@ -24,12 +24,9 @@ function ReportView() {
   const [canEdit, setCanEdit] = useState(false)
   const [errorMessage, setErrorMessage] = useState("")
 
-  // In a real app, you would fetch the student data based on the studentId
   useEffect(() => {
-    // Simulating data fetch based on studentId
     console.log(`Fetching data for student ID: ${studentId}`)
 
-    // Mock data for different students
     const mockStudents = {
       1: {
         name: "Omar Ahmed",
@@ -110,13 +107,11 @@ function ReportView() {
       },
     }
 
-    // Get student data if it exists
     if (mockStudents[studentId]) {
       const student = mockStudents[studentId]
       setStudentData(student)
       setStatus(student.status)
 
-      // Only allow editing for Engineering students with Pending status
       if (student.major === "Engineering" && student.status === "Pending") {
         setCanEdit(true)
         setErrorMessage("")
@@ -138,7 +133,7 @@ function ReportView() {
       setShowCommentPopup(true)
     } else {
       setStatus(newStatus)
-      setComment("") // Clear comment if status is Accepted
+      setComment("")
     }
   }
 
@@ -148,27 +143,21 @@ function ReportView() {
       return
     }
 
-    // Check if comment is required but empty
     if ((status === "Rejected" || status === "Flagged") && !comment.trim()) {
       alert("Please provide a comment for the " + status + " status.")
       setShowCommentPopup(true)
       return
     }
 
-    // Implement save functionality here
     console.log(`Status saved: ${status} for student ID: ${studentId}`)
     console.log(`Comment: ${comment}`)
-
-    // You could show a success message here
     alert("Status updated successfully!")
 
-    // Update the student data
     setStudentData({
       ...studentData,
       status: status,
     })
 
-    // After saving, the student is no longer pending
     setCanEdit(false)
   }
 
@@ -181,83 +170,80 @@ function ReportView() {
   }
 
   const handleCommentCancel = () => {
-    // If they cancel, revert to Accepted status
     setStatus("Accepted")
     setComment("")
     setShowCommentPopup(false)
   }
 
   const handleDownloadPDF = () => {
-    // Implement PDF download functionality
     console.log("Downloading PDF")
   }
 
   const handleBackClick = () => {
-    navigate(-1) // Go back to the previous page
+    navigate(-1)
   }
 
   return (
-    <div className="page-container">
-      <div className="report-container">
-        <div className="back-link">
-          <button className="back-button" onClick={handleBackClick}>
+    <div className="page-container unique16">
+      <div className="report-container unique16">
+        <div className="back-link unique16">
+          <button className="back-button unique16" onClick={handleBackClick}>
             ← Back
           </button>
         </div>
 
-        <h1 className="report-title">View Report</h1>
+        <h1 className="report-title unique16">View Report</h1>
 
-        {/* Report Information Card */}
-        <div className="report-card">
-          <h2 className="card-title">Evaluation Report</h2>
+        <div className="report-card unique16">
+          <h2 className="card-title unique16">Evaluation Report</h2>
 
-          <div className="info-grid">
-            <div className="info-column">
-              <div className="info-item">
-                <div className="info-label">Student</div>
-                <div className="info-value">{studentData.name}</div>
+          <div className="info-grid unique16">
+            <div className="info-column unique16">
+              <div className="info-item unique16">
+                <div className="info-label unique16">Student</div>
+                <div className="info-value unique16">{studentData.name}</div>
               </div>
 
-              <div className="info-item">
-                <div className="info-label">Major</div>
-                <div className="info-value">{studentData.major}</div>
+              <div className="info-item unique16">
+                <div className="info-label unique16">Major</div>
+                <div className="info-value unique16">{studentData.major}</div>
               </div>
 
-              <div className="info-item">
-                <div className="info-label">Company</div>
-                <div className="info-value">{studentData.company}</div>
+              <div className="info-item unique16">
+                <div className="info-label unique16">Company</div>
+                <div className="info-value unique16">{studentData.company}</div>
               </div>
 
-              <div className="info-item">
-                <div className="info-label">Internship Title</div>
-                <div className="info-value">{studentData.internshipTitle}</div>
+              <div className="info-item unique16">
+                <div className="info-label unique16">Internship Title</div>
+                <div className="info-value unique16">{studentData.internshipTitle}</div>
               </div>
             </div>
 
-            <div className="info-column">
-              <div className="info-item">
-                <div className="info-label">Main Supervisor</div>
-                <div className="info-value">{studentData.supervisor}</div>
+            <div className="info-column unique16">
+              <div className="info-item unique16">
+                <div className="info-label unique16">Main Supervisor</div>
+                <div className="info-value unique16">{studentData.supervisor}</div>
               </div>
 
-              <div className="info-item">
-                <div className="info-label">Internship Dates</div>
-                <div className="info-value">{studentData.dates}</div>
+              <div className="info-item unique16">
+                <div className="info-label unique16">Internship Dates</div>
+                <div className="info-value unique16">{studentData.dates}</div>
               </div>
 
-              <div className="info-item">
-                <div className="info-label">Introduction</div>
-                <div className="info-value">{studentData.intro}</div>
+              <div className="info-item unique16">
+                <div className="info-label unique16">Introduction</div>
+                <div className="info-value unique16">{studentData.intro}</div>
               </div>
 
-              <div className="info-item">
-                <div className="info-label">Relevant Course</div>
-                <div className="info-value">{studentData.relevantCourse}</div>
+              <div className="info-item unique16">
+                <div className="info-label unique16">Relevant Course</div>
+                <div className="info-value unique16">{studentData.relevantCourse}</div>
               </div>
 
-              <div className="info-item">
-                <div className="info-label">Report Body</div>
-                <div className="info-value">
+              <div className="info-item unique16">
+                <div className="info-label unique16">Report Body</div>
+                <div className="info-value unique16">
                   This report evaluates the performance and learning outcomes of the internship. The student has
                   demonstrated
                   {studentData.status === "Accepted"
@@ -275,12 +261,11 @@ function ReportView() {
           </div>
         </div>
 
-        {/* Set Status Card */}
-        <div className="report-card">
-          <h2 className="card-title">Set Status</h2>
+        <div className="report-card unique16">
+          <h2 className="card-title unique16">Set Status</h2>
 
-          <div className={`status-options ${!canEdit ? "disabled" : ""}`}>
-            <label className="status-option">
+          <div className={`status-options unique16 ${!canEdit ? "disabled" : ""}`}>
+            <label className="status-option unique16">
               <input
                 type="radio"
                 name="status"
@@ -288,10 +273,10 @@ function ReportView() {
                 onChange={() => handleStatusChange("Accepted")}
                 disabled={!canEdit}
               />
-              <span className="status-text">Accepted</span>
+              <span className="status-text unique16">Accepted</span>
             </label>
 
-            <label className="status-option">
+            <label className="status-option unique16">
               <input
                 type="radio"
                 name="status"
@@ -299,10 +284,10 @@ function ReportView() {
                 onChange={() => handleStatusChange("Rejected")}
                 disabled={!canEdit}
               />
-              <span className="status-text">Rejected</span>
+              <span className="status-text unique16">Rejected</span>
             </label>
 
-            <label className="status-option">
+            <label className="status-option unique16">
               <input
                 type="radio"
                 name="status"
@@ -310,23 +295,22 @@ function ReportView() {
                 onChange={() => handleStatusChange("Flagged")}
                 disabled={!canEdit}
               />
-              <span className="status-text">Flagged</span>
+              <span className="status-text unique16">Flagged</span>
             </label>
           </div>
 
           {errorMessage && (
-            <div className="edit-restriction-message">
+            <div className="edit-restriction-message unique16">
               <p>{errorMessage}</p>
             </div>
           )}
 
-          {/* Display comment if one exists and status is Rejected or Flagged */}
           {comment && (status === "Rejected" || status === "Flagged") && (
-            <div className="comment-display">
+            <div className="comment-display unique16">
               <h3>Comment:</h3>
               <p>{comment}</p>
               {canEdit && (
-                <button className="edit-comment-button" onClick={() => setShowCommentPopup(true)}>
+                <button className="edit-comment-button unique16" onClick={() => setShowCommentPopup(true)}>
                   Edit Comment
                 </button>
               )}
@@ -334,7 +318,7 @@ function ReportView() {
           )}
 
           <button
-            className={`save-status-button ${!canEdit ? "disabled" : ""}`}
+            className={`save-status-button unique16 ${!canEdit ? "disabled" : ""}`}
             onClick={handleSaveStatus}
             disabled={!canEdit}
           >
@@ -342,10 +326,9 @@ function ReportView() {
           </button>
         </div>
 
-        {/* Download Button */}
-        <div className="report-card">
-          <div className="download-button-container">
-            <button className="download-button" onClick={handleDownloadPDF}>
+        <div className="report-card unique16">
+          <div className="download-button-container unique16">
+            <button className="download-button unique16" onClick={handleDownloadPDF}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -356,7 +339,7 @@ function ReportView() {
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="download-icon"
+                className="download-icon unique16"
               >
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                 <polyline points="7 10 12 15 17 10"></polyline>
@@ -367,24 +350,23 @@ function ReportView() {
           </div>
         </div>
 
-        {/* Comment Popup */}
         {showCommentPopup && (
-          <div className="popup-overlay">
-            <div className="comment-popup">
+          <div className="popup-overlay unique16">
+            <div className="comment-popup unique16">
               <h2>Comment Required</h2>
               <p>Please provide a reason for {status.toLowerCase()} this report:</p>
               <textarea
-                className="comment-textarea"
+                className="comment-textarea unique16"
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
                 placeholder="Enter your comment here..."
                 rows={4}
               ></textarea>
-              <div className="popup-buttons">
-                <button className="cancel-button" onClick={handleCommentCancel}>
+              <div className="popup-buttons unique16">
+                <button className="cancel-button unique16" onClick={handleCommentCancel}>
                   Cancel
                 </button>
-                <button className="submit-button" onClick={handleCommentSubmit}>
+                <button className="submit-button unique16" onClick={handleCommentSubmit}>
                   Submit
                 </button>
               </div>
