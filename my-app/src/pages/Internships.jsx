@@ -22,10 +22,8 @@ function Internships() {
   const [resetActive, setResetActive] = useState(false);
 
   const [tempLocation, setTempLocation] = useState("");
-  const [tempSkill, setTempSkill] = useState("");
 
   const [selectedLocation, setSelectedLocation] = useState("");
-  const [selectedSkill, setSelectedSkill] = useState("");
 
   // ... (companies and internships data) ...
   const companies = [
@@ -169,7 +167,6 @@ function Internships() {
   const filteredInternships = internships.filter((internship) => {
     const company = companies.find((c) => c.id === internship.companyId);
     if (!company) return false;
-    // Only filter if a filter is selected
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       const matchesTitle = internship.jobTitle.toLowerCase().includes(query);
@@ -183,7 +180,6 @@ function Internships() {
       if (internship.isPaid !== isPaid) return false;
     }
     if (selectedLocation && internship.location !== selectedLocation) return false;
-    if (selectedSkill && !internship.skills.includes(selectedSkill)) return false;
     return true;
   });
 
@@ -198,7 +194,6 @@ function Internships() {
     setTempDuration(selectedDuration)
     setTempPayStatus(selectedPayStatus)
     setTempLocation(selectedLocation)
-    setTempSkill(selectedSkill)
     setShowFilters(true)
   }
 
@@ -211,7 +206,6 @@ function Internships() {
     setSelectedDuration(tempDuration)
     setSelectedPayStatus(tempPayStatus)
     setSelectedLocation(tempLocation)
-    setSelectedSkill(tempSkill)
     setShowFilters(false)
   }
 
@@ -220,12 +214,10 @@ function Internships() {
     setTempDuration("All")
     setTempPayStatus("All")
     setTempLocation("")
-    setTempSkill("")
     setSelectedIndustry("All")
     setSelectedDuration("All")
     setSelectedPayStatus("All")
     setSelectedLocation("")
-    setSelectedSkill("")
     setShowFilters(false)
   }
 
@@ -241,6 +233,7 @@ function Internships() {
 
   // ... (InternshipCard component remains the same) ...
   function InternshipCard({ internship, onClick }) {
+    const company = companies.find((c) => c.id === internship.companyId);
     return (
       <div className={`cs-job-card${internship.status === "completed" ? " cs-completed-job" : ""}`} onClick={onClick}>
         {internship.status === "completed" && <div className="cs-completed-banner">INTERNSHIP COMPLETE</div>}
@@ -254,6 +247,7 @@ function Internships() {
 
         <div className="cs-job-details">
           <div className="cs-company-name">{internship.companyName}</div>
+          {company && <div className="cs-company-industry">{company.industry}</div>}
           {internship.learningOpportunity && <div className="cs-learning-opportunity">LEARNING OPPORTUNITY</div>}
           <h3 className="cs-job-title">{internship.jobTitle}</h3>
           <div className="cs-job-requirements">
@@ -391,17 +385,17 @@ function Internships() {
                       ))}
                     </div>
                   </div>
-                  {/* SKILLS */}
+                  {/* INDUSTRY */}
                   <div className="cs-filter-section">
-                    <div style={{ fontWeight: 700, marginBottom: 8, textTransform: 'uppercase', fontSize: 15 }}>SKILLS</div>
+                    <div style={{ fontWeight: 700, marginBottom: 8, textTransform: 'uppercase', fontSize: 15 }}>INDUSTRY</div>
                     <div className="cs-filter-options" style={{ flexWrap: 'wrap' }}>
-                      {[...new Set(internships.flatMap(i => i.skills))].map((skill) => (
+                      {uniqueIndustries.filter(i => i !== 'All').map((industry) => (
                         <div
-                          key={skill}
-                          className={`cs-filter-option${tempSkill === skill ? " cs-selected" : ""}`}
-                          onClick={() => setTempSkill(skill)}
+                          key={industry}
+                          className={`cs-filter-option${tempIndustry === industry ? " cs-selected" : ""}`}
+                          onClick={() => setTempIndustry(industry)}
                         >
-                          {skill}
+                          {industry}
                         </div>
                       ))}
                     </div>
@@ -430,7 +424,7 @@ function Internships() {
                       if (tempPayStatus && tempPayStatus !== 'All' && internship.isPaid !== (tempPayStatus === 'Paid')) return false;
                       if (tempDuration && tempDuration !== 'All' && internship.duration !== tempDuration) return false;
                       if (tempLocation && tempLocation !== '' && internship.location !== tempLocation) return false;
-                      if (tempSkill && tempSkill !== '' && !internship.skills.includes(tempSkill)) return false;
+                      if (tempIndustry && tempIndustry !== 'All' && internship.companyId !== companies.find((c) => c.industry === tempIndustry)?.id) return false;
                       return true;
                     }).length} Internships`}
                   </button>
