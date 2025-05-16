@@ -438,7 +438,7 @@ function Faculty() {
                           {uniqueMajors.map((major) => (
                             <button
                               key={major}
-                              className={`cs-filter-option ${selectedFilters.major === major ? "cs-selected" : ""}`}
+                              className={`cs-filter-option${selectedFilters.major === major ? " cs-selected" : ""}`}
                               onClick={() => setSelectedFilters({ ...selectedFilters, major })}
                             >
                               {major}
@@ -452,7 +452,7 @@ function Faculty() {
                           {uniqueStatuses.map((status) => (
                             <button
                               key={status}
-                              className={`cs-filter-option ${selectedFilters.status === status ? "cs-selected" : ""}`}
+                              className={`cs-filter-option${selectedFilters.status === status ? " cs-selected" : ""}`}
                               onClick={() => setSelectedFilters({ ...selectedFilters, status })}
                             >
                               {status}
@@ -462,7 +462,7 @@ function Faculty() {
                       </div>
                     </div>
                     <div className="cs-filter-actions">
-                      <button className="cs-reset-button" onClick={() => {
+                      <button className={`cs-reset-button${(selectedFilters.major !== "All Majors" || selectedFilters.status !== "All Statuses") ? " cs-active" : ""}`} onClick={() => {
                         setSelectedFilters({ major: "All Majors", status: "All Statuses" });
                       }}>
                         Reset
