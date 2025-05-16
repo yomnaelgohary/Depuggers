@@ -442,7 +442,7 @@ const Reports = () => {
                           ? "red"
                           : "blue"
                   }
-                  className="unique4-ant-tag"
+                  className={`status-pill-unique13 ${report.status === "approved" ? "accepted-unique13" : report.status === "flagged" ? "flagged-unique13" : report.status === "rejected" ? "rejected-unique13" : "pending-unique13"}`}
                 >
                   {report.status?.toUpperCase() || "DRAFT"}
                 </Tag>
@@ -468,7 +468,7 @@ const Reports = () => {
                     dataSource={relevantCourses}
                     renderItem={(course) => (
                       <List.Item className="unique4-ant-list-item">
-                        <Tag color="blue" className="unique4-ant-tag">{course.code}</Tag> {course.name}
+                        <Tag color="blue" className="status-pill-unique13 flagged-unique13">{course.code}</Tag> {course.name}
                       </List.Item>
                     )}
                   />
@@ -484,13 +484,13 @@ const Reports = () => {
               </p>
               <p>
                 <strong>Recommend:</strong>
-                <Tag color={evaluation.wouldRecommend ? "green" : "red"} className="unique4-ant-tag">
+                <Tag color={evaluation.wouldRecommend ? "green" : "red"} className={`status-pill-unique13 ${evaluation.wouldRecommend ? "accepted-unique13" : "rejected-unique13"}`}>
                   {evaluation.wouldRecommend ? "Yes" : "No"}
                 </Tag>
               </p>
               <p>
                 <strong>Status:</strong>
-                <Tag color={evaluation.isFinalized ? "green" : "orange"} className="unique4-ant-tag">
+                <Tag color={evaluation.isFinalized ? "green" : "orange"} className={`status-pill-unique13 ${evaluation.isFinalized ? "accepted-unique13" : "flagged-unique13"}`}>
                   {evaluation.isFinalized ? "FINALIZED" : "DRAFT"}
                 </Tag>
               </p>
@@ -611,7 +611,16 @@ const Reports = () => {
               title: "Status",
               dataIndex: "status",
               key: "status",
-              render: (status) => <Tag color={status === "completed" ? "green" : "orange"} className="unique4-ant-tag">{status.toUpperCase()}</Tag>,
+              render: (status) => {
+                let statusClass = "pending-unique13";
+                if (status === "completed" || status === "approved") statusClass = "accepted-unique13";
+                else if (status === "flagged") statusClass = "flagged-unique13";
+                else if (status === "rejected") statusClass = "rejected-unique13";
+                else if (status === "appealed") statusClass = "pending-unique13";
+                return (
+                  <span className={`status-pill-unique13 ${statusClass}`}>{status ? status.toUpperCase() : "PENDING"}</span>
+                );
+              },
             },
             {
               title: "Report Status",
@@ -619,13 +628,12 @@ const Reports = () => {
               render: (_, record) => {
                 const report = reports.find((r) => r.internshipId === record.id)
                 if (!report) return "-"
-
-                let color = "default"
-                if (report.status === "approved") color = "green"
-                if (report.status === "flagged") color = "orange"
-                if (report.status === "rejected") color = "red"
-
-                return <Tag color={color} className="unique4-ant-tag">{report.status ? report.status.toUpperCase() : "PENDING"}</Tag>
+                let statusClass = "pending-unique13";
+                if (report.status === "approved") statusClass = "accepted-unique13";
+                else if (report.status === "flagged") statusClass = "flagged-unique13";
+                else if (report.status === "rejected") statusClass = "rejected-unique13";
+                else if (report.status === "appealed") statusClass = "pending-unique13";
+                return <span className={`status-pill-unique13 ${statusClass}`}>{report.status ? report.status.toUpperCase() : "PENDING"}</span>;
               },
             },
             {
@@ -700,20 +708,19 @@ const Reports = () => {
               dataIndex: "status",
               key: "status",
               render: (status) => {
-                let color = "default"
-                if (status === "approved") color = "green"
-                if (status === "flagged") color = "orange"
-                if (status === "rejected") color = "red"
-                if (status === "appealed") color = "blue"
-
-                return <Tag color={color} className="unique4-ant-tag">{status ? status.toUpperCase() : "PENDING"}</Tag>
+                let statusClass = "pending-unique13";
+                if (status === "approved") statusClass = "accepted-unique13";
+                else if (status === "flagged") statusClass = "flagged-unique13";
+                else if (status === "rejected") statusClass = "rejected-unique13";
+                else if (status === "appealed") statusClass = "pending-unique13";
+                return <span className={`status-pill-unique13 ${statusClass}`}>{status ? status.toUpperCase() : "PENDING"}</span>;
               },
             },
             {
               title: "Finalized",
               dataIndex: "isFinalized",
               key: "isFinalized",
-              render: (isFinalized) => <Tag color={isFinalized ? "green" : "orange"} className="unique4-ant-tag">{isFinalized ? "YES" : "NO"}</Tag>,
+              render: (isFinalized) => <span className={`status-pill-unique13 ${isFinalized ? "accepted-unique13" : "flagged-unique13"}`}>{isFinalized ? "YES" : "NO"}</span>,
             },
             {
               title: "Actions",
@@ -776,7 +783,7 @@ const Reports = () => {
               dataIndex: "wouldRecommend",
               key: "wouldRecommend",
               render: (recommend) => (
-                <Tag color={recommend ? "green" : "red"} className="unique4-ant-tag">{recommend ? "Recommended" : "Not Recommended"}</Tag>
+                <span className={`status-pill-unique13 ${recommend ? "accepted-unique13" : "rejected-unique13"}`}>{recommend ? "Recommended" : "Not Recommended"}</span>
               ),
             },
             {
@@ -790,7 +797,7 @@ const Reports = () => {
               dataIndex: "isFinalized",
               key: "status",
               render: (isFinalized) => (
-                <Tag color={isFinalized ? "green" : "orange"} className="unique4-ant-tag">{isFinalized ? "Finalized" : "Draft"}</Tag>
+                <span className={`status-pill-unique13 ${isFinalized ? "accepted-unique13" : "flagged-unique13"}`}>{isFinalized ? "Finalized" : "Draft"}</span>
               ),
             },
             {
@@ -885,7 +892,7 @@ const Reports = () => {
                   dataSource={selectedCourses}
                   renderItem={(course) => (
                     <List.Item className="unique4-ant-list-item">
-                      <Tag color="blue" className="unique4-ant-tag">{course.code}</Tag> {course.name}
+                      <Tag color="blue" className="status-pill-unique13 flagged-unique13">{course.code}</Tag> {course.name}
                     </List.Item>
                   )}
                 />
