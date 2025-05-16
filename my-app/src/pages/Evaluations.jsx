@@ -418,39 +418,51 @@ function Evaluations() {
         </div>
 
         {showFilterPopup && (
-            <div className="filter-overlay" onClick={() => setShowFilterPopup(false)}>
-                <div className="filter-popup" ref={filterPopupRef} onClick={(e) => e.stopPropagation()}>
-                    <div className="filter-popup-header">
-                        <h3>Filter Reports</h3>
-                        <button className="close-popup-button" onClick={() => setShowFilterPopup(false)}>
-                            <X size={16} />
+            <div className="cs-filter-modal-overlay" onClick={() => setShowFilterPopup(false)}>
+                <div className="cs-filter-modal" ref={filterPopupRef} onClick={e => e.stopPropagation()}>
+                    <div className="cs-filter-modal-header">
+                        <h2>Filters</h2>
+                        <button className="cs-close-button" onClick={() => setShowFilterPopup(false)}>
+                            <X size={18} />
                         </button>
                     </div>
-                    <div className="filter-content">
-                        <div className="filter-section">
-                        <h4>Status</h4>
-                        <div className="filter-options">
-                            {statusOptionsForFilter.map((status) => (
-                            <div key={status} className={`filter-option ${selectedStatusFilter === status ? "selected" : ""}`} onClick={() => setSelectedStatusFilter(status)}>
-                                {status}
+                    <div className="cs-filter-modal-content">
+                        <div className="cs-filter-section">
+                            <h3>Status</h3>
+                            <div className="cs-filter-options">
+                                {statusOptionsForFilter.map((status) => (
+                                    <button
+                                        key={status}
+                                        className={`cs-filter-option${selectedStatusFilter === status ? " cs-selected" : ""}`}
+                                        onClick={() => setSelectedStatusFilter(status)}
+                                    >
+                                        {status}
+                                    </button>
+                                ))}
                             </div>
-                            ))}
                         </div>
-                        </div>
-                        <div className="filter-section">
-                        <h4>Major</h4>
-                        <div className="filter-options">
-                            {uniqueMajors.map((major) => (
-                            <div key={major} className={`filter-option ${selectedMajorFilter === major ? "selected" : ""}`} onClick={() => setSelectedMajorFilter(major)}>
-                                {major}
+                        <div className="cs-filter-section">
+                            <h3>Major</h3>
+                            <div className="cs-filter-options">
+                                {uniqueMajors.map((major) => (
+                                    <button
+                                        key={major}
+                                        className={`cs-filter-option${selectedMajorFilter === major ? " cs-selected" : ""}`}
+                                        onClick={() => setSelectedMajorFilter(major)}
+                                    >
+                                        {major}
+                                    </button>
+                                ))}
                             </div>
-                            ))}
-                        </div>
                         </div>
                     </div>
-                    <div className="filter-actions">
-                        <button className="reset-button" onClick={handleResetFilters}>Reset</button>
-                        <button className="apply-button" onClick={handleApplyFilters}>Apply</button>
+                    <div className="cs-filter-actions">
+                        <button className={`cs-reset-button`} onClick={handleResetFilters}>
+                            Reset
+                        </button>
+                        <button className="cs-apply-button" onClick={handleApplyFilters}>
+                            Apply
+                        </button>
                     </div>
                 </div>
             </div>
