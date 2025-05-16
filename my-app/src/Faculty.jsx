@@ -397,37 +397,34 @@ function Faculty() {
 
         <main className="content-area-unique13">
           <div className="content-header-unique13">
-            <h2 className="content-title-unique13">{activeTab === "statistics" ? "Real-time Statistics" : "Applicants"}</h2>
+            {/* <h2 className="content-title-unique13">{activeTab === "statistics" ? "Real-time Statistics" : "Applicants"}</h2> */}
           </div>
 
           {activeTab === "students" ? (
             <>
-              <div className="filters-section-unique13">
-                <button
-                  className={`filter-button-main-unique13 ${showFilterModal ? 'active' : ''}`}
-                  onClick={() => setShowFilterModal(!showFilterModal)}
-                >
-                  <AlignLeft size={18} />
-                  <span>Filters</span>
+              <div className="cs-filters">
+                <button className="cs-filter-button" onClick={() => setShowFilterModal(!showFilterModal)}>
+                  <span className="cs-filter-icon">≡</span> Filters
                 </button>
               </div>
 
               {showFilterModal && (
-                <div className="filter-modal-overlay-unique13">
-                  <div className="filter-modal-unique13">
-                    <div className="filter-modal-header-unique13">
-                      <h3>Filters</h3>
-                      <button className="close-modal-button-unique13" onClick={() => setShowFilterModal(false)}>×</button>
+                <div className="cs-filter-modal-overlay">
+                  <div className="cs-filter-modal">
+                    <div className="cs-filter-modal-header">
+                      <h2>Filters</h2>
+                      <button className="cs-close-button" onClick={() => setShowFilterModal(false)}>
+                        ×
+                      </button>
                     </div>
-
-                    <div className="filter-modal-content-unique13">
-                      <div className="filter-section-unique13">
-                        <h4>MAJOR</h4>
-                        <div className="filter-options-unique13">
+                    <div className="cs-filter-modal-content">
+                      <div className="cs-filter-section">
+                        <h3>MAJOR</h3>
+                        <div className="cs-filter-options">
                           {uniqueMajors.map((major) => (
                             <button
                               key={major}
-                              className={`filter-option-unique13 ${selectedFilters.major === major ? 'active' : ''}`}
+                              className={`cs-filter-option ${selectedFilters.major === major ? "cs-selected" : ""}`}
                               onClick={() => setSelectedFilters({ ...selectedFilters, major })}
                             >
                               {major}
@@ -435,14 +432,13 @@ function Faculty() {
                           ))}
                         </div>
                       </div>
-
-                      <div className="filter-section-unique13">
-                        <h4>STATUS</h4>
-                        <div className="filter-options-unique13">
+                      <div className="cs-filter-section">
+                        <h3>STATUS</h3>
+                        <div className="cs-filter-options">
                           {uniqueStatuses.map((status) => (
                             <button
                               key={status}
-                              className={`filter-option-unique13 ${selectedFilters.status === status ? 'active' : ''}`}
+                              className={`cs-filter-option ${selectedFilters.status === status ? "cs-selected" : ""}`}
                               onClick={() => setSelectedFilters({ ...selectedFilters, status })}
                             >
                               {status}
@@ -451,27 +447,17 @@ function Faculty() {
                         </div>
                       </div>
                     </div>
-
-                    <div className="filter-modal-footer-unique13">
-                      <button
-                        className="reset-button-unique13"
-                        onClick={() => {
-                          setSelectedFilters({
-                            major: "All Majors",
-                            status: "All Statuses"
-                          });
-                        }}
-                      >
+                    <div className="cs-filter-actions">
+                      <button className="cs-reset-button" onClick={() => {
+                        setSelectedFilters({ major: "All Majors", status: "All Statuses" });
+                      }}>
                         Reset
                       </button>
-                      <button
-                        className="apply-button-unique13"
-                        onClick={() => {
-                          setSelectedMajor(selectedFilters.major);
-                          setSelectedStatus(selectedFilters.status);
-                          setShowFilterModal(false);
-                        }}
-                      >
+                      <button className="cs-apply-button" onClick={() => {
+                        setSelectedMajor(selectedFilters.major);
+                        setSelectedStatus(selectedFilters.status);
+                        setShowFilterModal(false);
+                      }}>
                         Show {filteredStudents.length} students
                       </button>
                     </div>

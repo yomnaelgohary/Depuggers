@@ -1079,3 +1079,179 @@ body {
     justify-content: space-between;
   }
 }
+
+/* Filters (copied from Company.css for faculty page) */
+.cs-filters {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.cs-filter-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: white;
+  color: #333;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.cs-filter-button:hover,
+.cs-filter-button:focus {
+  background-color: #5f2878;
+  color: white;
+  border-color: #5f2878;
+}
+
+.cs-filter-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.cs-filter-modal {
+  background-color: white;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  padding: 0;
+  position: relative;
+}
+
+.cs-filter-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: white;
+  border-bottom: 1px solid #e0e0e0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-radius: 16px 16px 0 0;
+}
+
+.cs-filter-modal-content {
+  padding: 20px;
+  overflow: auto;
+  max-height:calc(90vh - 140px);
+}
+
+.cs-filter-modal-header h2 {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.cs-close-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #666;
+  cursor: pointer;
+}
+
+.cs-filter-section {
+  margin-bottom: 24px;
+}
+
+.cs-filter-section h3 {
+  width:100%;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.cs-filter-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.cs-filter-option {
+  padding: 8px 16px;
+  background-color: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  border-radius: 20px;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cs-filter-option.cs-selected {
+  background-color: #5f2878;
+  color: white;
+  border-color: #5f2878;
+}
+
+.cs-filter-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 30px;
+  padding: 0 10px;
+  position: sticky;
+  bottom: 0;
+  background-color: white;
+  padding: 20px;
+  border-top: 1px solid #e0e0e0;
+  border-radius: 0 0 16px 16px;
+}
+
+.cs-reset-button {
+  padding: 15px 30px;
+  background-color: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  border-radius: 30px;
+  font-size: 16px;
+  color: #666;
+  cursor: pointer;
+  flex: 1;
+  text-align: center;
+  font-weight: 500;
+}
+
+.cs-reset-button.cs-active {
+  background-color: #f0e6f5;
+  border-color: #5f2878;
+  color: #5f2878;
+}
+
+.cs-apply-button {
+  padding: 15px 30px;
+  background-color: #5f2878;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  flex: 1;
+  text-align: center;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.cs-apply-button:hover {
+  background-color: #4a1e5a;
+}
+
+.cs-filter-icon {
+  font-size: 18px;
+  margin-right: 4px;
+}
