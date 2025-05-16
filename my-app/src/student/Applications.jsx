@@ -154,11 +154,15 @@ const Applications = () => {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      render: (status) => (
-        <Tag icon={statusIcons[status]} color={statusColors[status]}>
-          {status.charAt(0).toUpperCase() + status.slice(1)}
-        </Tag>
-      ),
+      render: (status) => {
+        let statusClass = "pending-unique13";
+        if (status === "accepted") statusClass = "accepted-unique13";
+        else if (status === "rejected") statusClass = "rejected-unique13";
+        else if (status === "finalized") statusClass = "flagged-unique13";
+        return (
+          <span className={`status-pill-unique13 ${statusClass}`}>{status.charAt(0).toUpperCase() + status.slice(1)}</span>
+        );
+      },
     },
     {
       title: "Decision Date",
@@ -172,7 +176,7 @@ const Applications = () => {
       key: "actions",
       render: (_, record) => (
         <Button
-          className="unique-view-profile-button"
+          className="unique-view-profile-button unique-btn-white"
           icon={<EyeOutlined />}
           onClick={() => {
             setSelectedApplication(record)
@@ -285,7 +289,7 @@ const Applications = () => {
           visible={isModalVisible}
           onCancel={() => setIsModalVisible(false)}
           footer={
-            <Button type="primary" onClick={() => setIsModalVisible(false)}>
+            <Button type="primary" onClick={() => setIsModalVisible(false)} className="unique-btn-white">
               Close
             </Button>
           }
@@ -298,10 +302,17 @@ const Applications = () => {
               <Descriptions.Item label="Company">{selectedApplication.company}</Descriptions.Item>
               <Descriptions.Item label="Applied Date">{selectedApplication.appliedDate}</Descriptions.Item>
               <Descriptions.Item label="Status">
-                <Badge
-                  status={statusColors[selectedApplication.status]}
-                  text={<span style={{ textTransform: "capitalize" }}>{selectedApplication.status}</span>}
-                />
+                <span className={`status-pill-unique13 ${
+                  selectedApplication.status === "accepted"
+                    ? "accepted-unique13"
+                    : selectedApplication.status === "rejected"
+                    ? "rejected-unique13"
+                    : selectedApplication.status === "finalized"
+                    ? "flagged-unique13"
+                    : "pending-unique13"
+                }`}>
+                  {selectedApplication.status.charAt(0).toUpperCase() + selectedApplication.status.slice(1)}
+                </span>
               </Descriptions.Item>
               {selectedApplication.decisionDate && (
                 <Descriptions.Item label="Decision Date">{selectedApplication.decisionDate}</Descriptions.Item>

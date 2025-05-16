@@ -437,3 +437,15 @@
 .unique-applications-card {
   animation: fadeIn 0.3s ease-out;
 }
+
+.unique-btn-white {
+  background: #fff !important;
+  color: #5f2878 !important;
+  border: 2px solid #5f2878 !important;
+  transition: background 0.2s, color 0.2s;
+}
+.unique-btn-white:hover, .unique-btn-white:active, .unique-btn-white:focus {
+  background: #5f2878 !important;
+  color: #fff !important;
+  border-color: #5f2878 !important;
+}
