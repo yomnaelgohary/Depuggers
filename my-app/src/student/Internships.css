@@ -669,3 +669,35 @@ body {
     top: 38px;
   }
 }
+
+.intern-apply-now-button[disabled] {
+  background-color: #f0f0f0 !important;
+  color: #bfbfbf !important;
+  border-color: #e0e0e0 !important;
+  cursor: not-allowed !important;
+  opacity: 0.7;
+}
+
+.intern-next-btn {
+  background: #fff !important;
+  color: #5f2878 !important;
+  border: 2px solid #5f2878 !important;
+  transition: background 0.2s, color 0.2s;
+}
+.intern-next-btn:hover, .intern-next-btn:active, .intern-next-btn:focus {
+  background: #5f2878 !important;
+  color: #fff !important;
+  border-color: #5f2878 !important;
+}
+
+.intern-prev-btn {
+  background: #5f2878 !important;
+  color: #fff !important;
+  border: 2px solid #5f2878 !important;
+  transition: background 0.2s, color 0.2s;
+}
+.intern-prev-btn:hover, .intern-prev-btn:active, .intern-prev-btn:focus {
+  background: #fff !important;
+  color: #5f2878 !important;
+  border-color: #5f2878 !important;
+}

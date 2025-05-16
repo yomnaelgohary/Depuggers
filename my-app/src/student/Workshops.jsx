@@ -733,45 +733,7 @@ const Workshops = () => {
               <p>Enhance your skills and prepare for your career with our online workshops</p>
             </div>
             <div className="header-actions">
-              <div className="notification-bell-container" onClick={() => setShowNotifications(!showNotifications)}>
-                <button className="notification-button">
-                  <BellOutlined />
-                  {unreadNotifications > 0 && <span className="notification-badge">{unreadNotifications}</span>}
-                </button>
-                {showNotifications && (
-                  <div className="notifications-panel">
-                    <div className="notifications-header">
-                      <h3>Notifications</h3>
-                      <button className="clear-notifications" onClick={markAllNotificationsAsRead}>
-                        Mark all as read
-                      </button>
-                    </div>
-                    <div className="notifications-list">
-                      {notifications.length > 0 ? (
-                        notifications.map((notification) => (
-                          <div
-                            key={notification.id}
-                            className={`notification-item ${notification.read ? "" : "unread"}`}
-                            onClick={() => markNotificationAsRead(notification.id)}
-                          >
-                            <div className="notification-icon">
-                              {notification.type === "reminder" && <CalendarOutlined />}
-                              {notification.type === "registration" && <CheckCircleOutlined />}
-                              {notification.type === "chat" && <MessageOutlined />}
-                            </div>
-                            <div className="notification-content">
-                              <p>{notification.message}</p>
-                              <span className="notification-time">{formatRelativeTime(notification.timestamp)}</span>
-                            </div>
-                          </div>
-                        ))
-                      ) : (
-                        <div className="no-notifications">No notifications</div>
-                      )}
-                    </div>
-                  </div>
-                )}
-              </div>
+             
             </div>
           </div>
 

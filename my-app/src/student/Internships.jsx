@@ -618,7 +618,12 @@ const InternshipContent = () => {
               {internship.description && <div className="intern-job-description">{internship.description}</div>}
             </div>
 
-            <button className="intern-apply-now-button" onClick={() => handleApply()}>
+            <button
+              className="intern-apply-now-button"
+              onClick={() => handleApply()}
+              style={{ marginLeft: '32px' }}
+              disabled={internship.status === 'completed'}
+            >
               Apply Now
             </button>
 
@@ -709,16 +714,16 @@ const InternshipContent = () => {
         onCancel={() => setApplicationFormVisible(false)}
         footer={[
           applicationStep > 0 && (
-            <Button key="back" onClick={() => setApplicationStep(applicationStep - 1)}>
+            <Button key="back" onClick={() => setApplicationStep(applicationStep - 1)} className="intern-prev-btn">
               Previous
             </Button>
           ),
           applicationStep < steps.length - 1 ? (
-            <Button key="next" type="primary" onClick={handleNext}>
+            <Button key="next" type="primary" onClick={handleNext} className="intern-next-btn">
               Next
             </Button>
           ) : (
-            <Button key="submit" type="primary" loading={uploading} onClick={() => form.submit()}>
+            <Button key="submit" type="primary" loading={uploading} onClick={() => form.submit()} className="intern-next-btn">
               Submit Application
             </Button>
           ),

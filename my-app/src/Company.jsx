@@ -1893,7 +1893,24 @@ export default function Company() {
                   <div className="cs-details-section">
                     <h4>Resume</h4>
                     <div className="cs-download-buttons">
-                      <button className="cs-download-button"> {/* Use cs-download-button from above */}
+                      <button className="download-pdf-button-unique13">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="download-icon-unique13"
+                          aria-hidden="true"
+                        >
+                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                          <polyline points="7 10 12 15 17 10"></polyline>
+                          <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
                         Download Resume
                       </button>
                     </div>
@@ -1925,7 +1942,24 @@ export default function Company() {
                       </button>
                     </div>
                     <div className="cs-download-buttons">
-                      <button className="cs-download-button"> {/* Use cs-download-button from above */}
+                      <button className="download-pdf-button-unique13">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="download-icon-unique13"
+                          aria-hidden="true"
+                        >
+                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                          <polyline points="7 10 12 15 17 10"></polyline>
+                          <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
                         Download
                       </button>
                     </div>

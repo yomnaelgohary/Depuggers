@@ -133,16 +133,7 @@ const ViewedMyProfile = () => {
       </div>
 
       <div className="viewed-profile-actions-unique6">
-        <div className="search-container-unique6">
-          <SearchOutlined className="search-icon-unique6" />
-          <input
-            type="text"
-            placeholder="Search companies..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="search-input-unique6"
-          />
-        </div>
+        
 
         
       </div>

@@ -11,6 +11,11 @@ function Faculty() {
   const [showReportPreview, setShowReportPreview] = useState(false)
   const [showProfileMenu, setShowProfileMenu] = useState(false)
   const [showNotifications, setShowNotifications] = useState(false)
+  const [notifications, setNotifications] = useState([
+    { message: "New report submitted by Omar Ahmed", time: "2 min ago" },
+    { message: "Evaluation added for Laila Kamal", time: "10 min ago" },
+    { message: "Student Zain Mohamed flagged for review", time: "1 hour ago" },
+  ]);
 
   // Mock student data with updated majors
   const [students, setStudents] = useState([
@@ -362,9 +367,18 @@ function Faculty() {
                     <h3>Notifications</h3>
                   </div>
                   <div className="notifications-list-unique13">
-                    <div className="no-notifications-unique13">
-                      <p>No new notifications</p>
-                    </div>
+                    {notifications.length === 0 ? (
+                      <div className="no-notifications-unique13">
+                        <p>No new notifications</p>
+                      </div>
+                    ) : (
+                      notifications.map((notif, idx) => (
+                        <div className="notification-item-unique13" key={idx}>
+                          <div className="notification-message-unique13">{notif.message}</div>
+                          <div className="notification-time-unique13">{notif.time}</div>
+                        </div>
+                      ))
+                    )}
                   </div>
                 </div>
               )}
