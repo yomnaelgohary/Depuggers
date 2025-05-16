@@ -22,7 +22,7 @@ function Sidebar({ activePage, onPageChange }) {
     { id: "internships", label: "Internships", icon: <Briefcase size={20} /> },
     { id: "internship-cycle", label: "Internship Cycle", icon: <Calendar size={20} /> },
     { id: "workshops", label: "Workshops", icon: <BookOpen size={20} /> },
-    { id: "evaluations", label: "Evaluations", icon: <ClipboardCheck size={20} /> },
+    { id: "evaluations", label: "Evaluations & Reports", icon: <ClipboardCheck size={20} /> },
     { id: "statistics", label: "Statistics", icon: <BarChart2 size={20} /> },
   ]
 

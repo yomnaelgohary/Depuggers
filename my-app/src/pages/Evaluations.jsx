@@ -1,196 +1,66 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import { X, AlertTriangle, Edit, Save, Download, Menu } from "lucide-react"
+import { X, AlertTriangle, Edit, Save, Download, Menu, ArrowLeft } from "lucide-react" // Added ArrowLeft
 
 function Evaluations() {
   const [jspdfLoaded, setJspdfLoaded] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
-  const [selectedMajor, setSelectedMajor] = useState("All")
-  const [selectedStatus, setSelectedStatus] = useState("All")
+  const [selectedMajorFilter, setSelectedMajorFilter] = useState("All")
+  const [selectedStatusFilter, setSelectedStatusFilter] = useState("All")
   const [selectedReport, setSelectedReport] = useState(null)
-  const [reportType, setReportType] = useState(null) // To store 'internship' or 'evaluation'
   const [editingClarification, setEditingClarification] = useState(false)
   const [clarificationText, setClarificationText] = useState("")
   const [showFilterPopup, setShowFilterPopup] = useState(false)
   const filterPopupRef = useRef(null)
-  const clarificationTextareaRef = useRef(null); // Ref for the textarea
+  const clarificationTextareaRef = useRef(null);
+  const [currentSelectedStatusInDetail, setCurrentSelectedStatusInDetail] = useState("");
 
   const [reports, setReports] = useState([
     {
-      id: 1,
-      type: "internship",
-      title: "Software Engineering Internship Report",
-      studentName: "Alice Smith",
-      studentId: 101,
-      major: "Computer Science",
-      company: "Dell Technologies",
-      supervisor: "John Will",
-      supervisorPosition: "Software Engineer",
-      startDate: "2023-06-01",
-      endDate: "2023-08-31",
-      submissionDate: "2023-09-15",
-      status: "accepted",
-      content: "This report details my experience as a Software Engineering Intern at Dell Technologies...",
-      tasks: [
-        "Developed new features for the customer portal",
-        "Fixed bugs in the existing codebase",
-        "Participated in code reviews and team meetings",
-      ],
-      skills: ["Java", "Spring Boot", "Git", "Agile"],
-      challenges: "The biggest challenge was understanding the large codebase and the company's development workflow.",
-      learnings: "I learned how to work in a large team, how to communicate effectively, and how to manage my time.",
-      feedback: "The internship was a great learning experience. I would recommend it to other students.",
+      id: 1, type: "evaluation", title: "Omar Ahmed - Q1 Evaluation", studentName: "Omar Ahmed", studentId: "S001", major: "Engineering", company: "TechCorp", supervisor: "Sarah Williams", supervisorPosition: "Main Supervisor", startDate: "2023-05-15", endDate: "2023-08-10", submissionDate: "2023-08-15", status: "accepted",
+      contentBody: "This report evaluates the performance and learning outcomes of the internship. The student has demonstrated excellent progress throughout the internship period. The student has successfully applied knowledge from their coursework to real-world scenarios.", performance: { technical: 4.5, communication: 4.0, teamwork: 4.2, problemSolving: 4.8, overall: 4.4 }, strengths: "Proactive, quick learner.", areasForImprovement: "Time management.", comments: "-"
     },
     {
-      id: 2,
-      type: "evaluation",
-      title: "Data Science Internship Evaluation",
-      studentName: "Bob Johnson",
-      studentId: 102,
-      major: "Data Science",
-      company: "IBM",
-      supervisor: "John Smith",
-      supervisorPosition: "Senior Data Scientist",
-      startDate: "2023-06-01",
-      endDate: "2023-08-31",
-      submissionDate: "2023-09-05",
-      status: "pending",
-      performance: {
-        technical: 4.5,
-        communication: 4.0,
-        teamwork: 4.2,
-        problemSolving: 4.8,
-        overall: 4.4,
-      },
-      strengths: "Strong analytical skills and quick learner",
-      areasForImprovement: "Could improve documentation practices",
-      comments: "Bob was an excellent intern who contributed significantly to our team's projects.",
+      id: 2, type: "internship", title: "Marawan Mahmoud - Internship Report", studentName: "Marawan Mahmoud", studentId: "S002", major: "Engineering", company: "BuildIt Ltd.", supervisor: "Ali Hassan", supervisorPosition: "Project Lead", startDate: "2023-06-01", endDate: "2023-09-01", submissionDate: "2023-09-10", status: "rejected", clarification: "Missing required documents: Supervisor signature and weekly logs.",
+      contentBody: "Detailed my activities and projects during the internship at BuildIt Ltd.", tasks: ["Site supervision", "Blueprint analysis"], skills: ["AutoCAD", "Project Planning"], challenges: "Coordination with multiple teams.", learnings: "Practical application of engineering principles.", feedback: "Good effort.", comments: "Missing required documents"
     },
     {
-      id: 3,
-      type: "internship",
-      title: "UX Design Internship Report",
-      studentName: "Diana Lee",
-      studentId: 104,
-      major: "Design",
-      company: "Microsoft",
-      supervisor: "Emily Parker",
-      supervisorPosition: "UX Design Lead",
-      startDate: "2023-06-01",
-      endDate: "2023-08-31",
-      submissionDate: "2023-08-20",
-      status: "flagged",
-      clarification:
-        "The report lacks detailed examples of your design process and user research methods. Please provide more specific information about the methodologies used and include visual examples of your work.",
-      content: "This report summarizes my experience as a UX Design Intern at Microsoft...",
-      tasks: [
-        "Designed user interfaces for mobile applications",
-        "Conducted user research and usability testing",
-        "Created wireframes and prototypes",
-      ],
-      skills: ["Figma", "User Research", "Prototyping", "UI/UX"],
-      challenges: "The main challenge was adapting to the fast-paced environment and tight deadlines.",
-      learnings: "I learned how to work efficiently under pressure and how to take constructive criticism.",
-      feedback: "The internship provided valuable industry experience and helped me grow as a designer.",
+      id: 3, type: "evaluation", title: "Zain Mohamed - Mid-term Eval", studentName: "Zain Mohamed", studentId: "S003", major: "Business Informatics", company: "FinanceLLC", supervisor: "Layla Adel", supervisorPosition: "Finance Manager", startDate: "2023-07-01", endDate: "2023-10-01", submissionDate: "2023-08-15", status: "pending",
+      contentBody: "Mid-term evaluation focusing on data analysis skills and business process understanding.", performance: { technical: 4.0, communication: 4.2, teamwork: 4.5, problemSolving: 3.9, overall: 4.1 }, strengths: "Good data interpretation.", areasForImprovement: "Presentation skills.", comments: "-"
     },
     {
-      id: 4,
-      type: "internship",
-      title: "Cloud Engineering Internship Report",
-      studentName: "Michael Chen",
-      studentId: 105,
-      major: "Computer Engineering",
-      company: "Amazon",
-      supervisor: "Sarah Johnson",
-      supervisorPosition: "Cloud Solutions Architect",
-      startDate: "2023-05-15",
-      endDate: "2023-08-15",
-      submissionDate: "2023-09-01",
-      status: "rejected",
-      clarification:
-        "The report does not meet our documentation standards. The technical implementation details are insufficient, and there is no evidence of the claimed AWS architecture you worked on. Please revise with proper technical documentation and include diagrams of your infrastructure design.",
-      content: "This report covers my internship experience in the Cloud Engineering team at Amazon...",
-      tasks: [
-        "Designed and implemented serverless architectures",
-        "Optimized cloud resource utilization",
-        "Automated deployment pipelines",
-        "Participated in on-call rotations",
-      ],
-      skills: ["AWS", "Terraform", "Python", "CI/CD", "Docker"],
-      challenges:
-        "The most significant challenge was understanding the scale and complexity of Amazon's infrastructure and ensuring my solutions were scalable and resilient.",
-      learnings:
-        "I gained deep knowledge of cloud architecture principles, cost optimization strategies, and DevOps practices in a large-scale environment.",
-      feedback: "The internship was challenging but rewarding. I would have appreciated more structured mentorship.",
+      id: 4, type: "internship", title: "Youmna Ali - Design Portfolio", studentName: "Youmna Ali", studentId: "S004", major: "Business Informatics", company: "Creative Solutions", supervisor: "Nadia Gamal", supervisorPosition: "Art Director", startDate: "2023-05-20", endDate: "2023-08-20", submissionDate: "2023-08-25", status: "flagged", clarification: "Needs to update contact information on the report cover page.",
+      contentBody: "A collection of UI/UX projects developed for Creative Solutions.", tasks: ["User personas", "Wireframing"], skills: ["Figma", "Adobe XD"], challenges: "Balancing user needs with business goals.", learnings: "Iterative design process.", feedback: "Visually appealing work.", comments: "Needs to update contact information"
     },
     {
-      id: 5,
-      type: "evaluation",
-      title: "Business Consulting Internship Evaluation",
-      studentName: "Emily Rodriguez",
-      studentId: 106,
-      major: "Business Administration",
-      company: "Deloitte",
-      supervisor: "Michael Thompson",
-      supervisorPosition: "Senior Consultant",
-      startDate: "2023-06-01",
-      endDate: "2023-08-31",
-      submissionDate: "2023-09-10",
-      status: "accepted",
-      performance: {
-        technical: 4.2,
-        communication: 4.7,
-        teamwork: 4.5,
-        problemSolving: 4.3,
-        overall: 4.4,
-      },
-      strengths:
-        "Exceptional communication skills and ability to present complex ideas clearly to clients. Strong analytical thinking and attention to detail.",
-      areasForImprovement:
-        "Could benefit from developing deeper technical knowledge in data analysis tools and financial modeling.",
-      comments:
-        "Emily was an outstanding intern who quickly adapted to our fast-paced environment. She demonstrated remarkable professionalism and contributed valuable insights to client projects.",
+      id: 5, studentName: "Adham Ashraf", studentId: "S005", major: "Pharmacy", status: "rejected", comments: "Incomplete application" , type: "evaluation", title: "Adham Ashraf - Pharmacy Eval", company: "PharmaCo", supervisor: "Dr. Ezzat", supervisorPosition: "Head Pharmacist", startDate: "2023-01-01", endDate: "2023-03-31", submissionDate: "2023-04-05", contentBody: "Evaluation of practical skills in a pharmacy setting.", performance: { technical: 3.5, communication: 4.0, teamwork: 3.8, problemSolving: 3.2, overall: 3.6 }, clarification: "Application form incomplete."
     },
     {
-      id: 6,
-      type: "evaluation",
-      title: "Automotive Engineering Internship Evaluation",
-      studentName: "James Wilson",
-      studentId: 107,
-      major: "Mechanical Engineering",
-      company: "Tesla",
-      supervisor: "Elena Vasquez",
-      supervisorPosition: "Lead Engineer",
-      startDate: "2023-05-01",
-      endDate: "2023-08-15",
-      submissionDate: "2023-08-30",
-      status: "pending",
-      performance: {
-        technical: 4.8,
-        communication: 3.9,
-        teamwork: 4.0,
-        problemSolving: 4.9,
-        overall: 4.5,
-      },
-      strengths:
-        "Exceptional technical skills and innovative problem-solving approach. Demonstrated deep understanding of mechanical systems and manufacturing processes.",
-      areasForImprovement:
-        "Should work on communication skills, particularly when explaining technical concepts to non-technical team members.",
-      comments:
-        "James showed remarkable talent in engineering design and optimization. His prototype modifications resulted in a 15% efficiency improvement that will be implemented in future models.",
+      id: 6, studentName: "Sara Hassan", studentId: "S006", major: "Engineering", status: "pending", comments: "-", type: "internship", title: "Sara Hassan - Civil Eng Report", company: "ConstructX", supervisor: "Eng. Tarek", supervisorPosition: "Site Manager", startDate: "2023-02-15", endDate: "2023-05-15", submissionDate: "2023-05-20", contentBody: "Report on civil engineering project X."
     },
+    {
+      id: 7, studentName: "Ahmed Mahmoud", studentId: "S007", major: "Engineering", status: "pending", comments: "-", type: "evaluation", title: "Ahmed Mahmoud - Eval", company: "Innovatech", supervisor: "Dr. Mona", supervisorPosition: "R&D Lead", startDate: "2023-03-01", endDate: "2023-06-01", submissionDate: "2023-06-15", contentBody: "Assessment of research capabilities.", performance: { technical: 4.1, communication: 4.3, teamwork: 4.0, problemSolving: 4.5, overall: 4.2 }
+    },
+    {
+      id: 8, studentName: "Laila Kamal", studentId: "S008", major: "Applied Arts", status: "accepted", comments: "-", type: "internship", title: "Laila Kamal - Portfolio", company: "Artisan Studio", supervisor: "Ms. Dina", supervisorPosition: "Studio Head", startDate: "2023-04-01", endDate: "2023-07-01", submissionDate: "2023-07-10", contentBody: "Showcase of applied arts projects."
+    },
+    {
+      id: 9, studentName: "Karim Nader", studentId: "S009", major: "Business Informatics", status: "flagged", comments: "Missing supervisor information", type: "evaluation", title: "Karim Nader - BI Eval", company: "Data Driven Inc.", supervisor: "Mr. Omar", supervisorPosition: "Analytics Manager", startDate: "2023-05-01", endDate: "2023-08-01", submissionDate: "2023-08-15", contentBody: "Review of BI project contribution.", clarification: "Supervisor signature missing on page 3.", performance: { technical: 4.6, communication: 4.1, teamwork: 4.4, problemSolving: 4.7, overall: 4.45 }
+    },
+    {
+      id: 10, studentName: "Nour Samy", studentId: "S010", major: "Engineering", status: "pending", comments: "-", type: "internship", title: "Nour Samy - Eng. Report", company: "Mech Solutions", supervisor: "Eng. Farid", supervisorPosition: "Lead Mechanical Eng.", startDate: "2023-06-01", endDate: "2023-09-01", submissionDate: "2023-09-15", contentBody: "Report on mechanical design project."
+    }
   ])
 
   useEffect(() => {
     const updatedReports = reports.map((report) => {
-      const updatedReport = { ...report }
       if ((report.status === "flagged" || report.status === "rejected") && !report.clarification) {
-        updatedReport.clarification = "Additional information or corrections are needed for this report. Please review and resubmit."
+        return { ...report, clarification: "Additional information or corrections are required for this submission. Please review." };
       }
-      return updatedReport
+      return report;
     });
-    if (JSON.stringify(reports) !== JSON.stringify(updatedReports)) { // Prevent infinite loop
+    if (JSON.stringify(reports) !== JSON.stringify(updatedReports)) {
         setReports(updatedReports);
     }
 
@@ -202,475 +72,440 @@ function Evaluations() {
 
     const handleClickOutside = (event) => {
       if (showFilterPopup && filterPopupRef.current && !filterPopupRef.current.contains(event.target)) {
-        // Check if the click is on the filter button itself to prevent immediate closing
-        const filterButton = document.querySelector(".filter-button"); // Be more specific if needed
-        if (filterButton && filterButton.contains(event.target)) {
-            return;
-        }
+        const filterButton = document.querySelector(".evaluations-filter-button");
+        if (filterButton && filterButton.contains(event.target)) return;
         setShowFilterPopup(false)
       }
     }
-    const handleKeyDown = (event) => {
-      if (event.key === "Escape" && showFilterPopup) setShowFilterPopup(false)
-      if (event.key === "Enter" && showFilterPopup) handleApplyFilters()
-    }
-
-    document.addEventListener("mousedown", handleClickOutside)
-    document.addEventListener("keydown", handleKeyDown)
-
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      if (document.body.contains(script)) document.body.removeChild(script)
-      document.removeEventListener("mousedown", handleClickOutside)
-      document.removeEventListener("keydown", handleKeyDown)
+      if (document.body.contains(script)) document.body.removeChild(script);
+      document.removeEventListener("mousedown", handleClickOutside);
     }
-  }, [reports, showFilterPopup]) // Added reports to dependency array for initial clarification update
+  }, [reports, showFilterPopup]);
 
   const filteredReports = reports.filter((report) => {
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase()
-      const matchesTitle = report.title.toLowerCase().includes(query)
-      const matchesStudent = report.studentName.toLowerCase().includes(query)
-      const matchesCompany = report.company.toLowerCase().includes(query)
-      if (!matchesTitle && !matchesStudent && !matchesCompany) return false
+    const lowerSearchQuery = searchQuery.toLowerCase();
+    if (searchQuery &&
+        !report.studentName.toLowerCase().includes(lowerSearchQuery) &&
+        !report.major.toLowerCase().includes(lowerSearchQuery) &&
+        !(report.title && report.title.toLowerCase().includes(lowerSearchQuery)) &&
+        !(report.company && report.company.toLowerCase().includes(lowerSearchQuery)) &&
+        !(report.comments && report.comments.toLowerCase().includes(lowerSearchQuery))) {
+        return false;
     }
-    if (selectedMajor !== "All" && report.major !== selectedMajor) return false
-    if (selectedStatus !== "All" && report.status.toLowerCase() !== selectedStatus.toLowerCase()) return false
+    if (selectedMajorFilter !== "All" && report.major !== selectedMajorFilter) return false
+    if (selectedStatusFilter !== "All" && report.status.toLowerCase() !== selectedStatusFilter.toLowerCase()) return false
     return true
   })
 
   const uniqueMajors = ["All", ...new Set(reports.map((report) => report.major).filter(Boolean))].sort()
-  const statusOptions = ["All", "Accepted", "Pending", "Flagged", "Rejected"]
+  const statusOptionsForFilter = ["All", "Accepted", "Pending", "Flagged", "Rejected"]
+  const statusOptionsForDetail = ["Accepted", "Rejected", "Flagged", "Pending"];
 
-  const handleReportClick = (report) => {
-    setSelectedReport(report)
-    setReportType(report.type) // Set the report type
-    setClarificationText(report.clarification || "")
-    setEditingClarification(false)
+
+  const handleViewDetailsClick = (report) => {
+    setSelectedReport(report);
+    setCurrentSelectedStatusInDetail(report.status);
+    setClarificationText(report.clarification || "");
+    setEditingClarification(false);
   }
 
-  const closeReportDetails = () => {
-    setSelectedReport(null)
-    setReportType(null)
-    setEditingClarification(false)
+  const handleBackToList = () => {
+    setSelectedReport(null);
   }
 
-  const updateReportStatus = (reportId, newStatus) => {
-    const updatedReports = reports.map((report) => (report.id === reportId ? { ...report, status: newStatus } : report))
-    setReports(updatedReports)
-    if (selectedReport && selectedReport.id === reportId) {
-      setSelectedReport({ ...selectedReport, status: newStatus })
-    }
-  }
+  const handleSaveStatusInDetail = () => {
+    if (!selectedReport || !currentSelectedStatusInDetail) return;
+    const needsClarification = currentSelectedStatusInDetail === 'flagged' || currentSelectedStatusInDetail === 'rejected';
+
+    const updatedReports = reports.map((r) =>
+      r.id === selectedReport.id ? {
+        ...r,
+        status: currentSelectedStatusInDetail,
+        clarification: needsClarification ? clarificationText : (r.status === 'flagged' || r.status === 'rejected' ? r.clarification : "")
+      } : r
+    );
+    setReports(updatedReports);
+    setSelectedReport(prev => ({
+        ...prev,
+        status: currentSelectedStatusInDetail,
+        clarification: needsClarification ? clarificationText : (prev.status === 'flagged' || prev.status === 'rejected' ? prev.clarification : "")
+    }));
+    console.log(`Status for ${selectedReport.studentName} updated to ${currentSelectedStatusInDetail}`);
+  };
+
 
   const handleEditClarification = () => {
-    setEditingClarification(true)
+    setEditingClarification(true);
     setTimeout(() => {
-      if (clarificationTextareaRef.current) clarificationTextareaRef.current.focus()
-    }, 0)
-  }
+      clarificationTextareaRef.current?.focus();
+    }, 0);
+  };
 
-  const handleSaveClarification = (reportId) => {
-    const updatedReports = reports.map((report) =>
-      report.id === reportId ? { ...report, clarification: clarificationText } : report,
-    )
-    setReports(updatedReports)
-    if (selectedReport && selectedReport.id === reportId) {
-      setSelectedReport({ ...selectedReport, clarification: clarificationText })
-    }
-    setEditingClarification(false)
-  }
+  const handleSaveClarificationDirectly = () => {
+    if (!selectedReport) return;
+    const updatedReports = reports.map((r) =>
+      r.id === selectedReport.id ? { ...r, clarification: clarificationText } : r
+    );
+    setReports(updatedReports);
+    setSelectedReport(prev => ({ ...prev, clarification: clarificationText }));
+    setEditingClarification(false);
+    console.log(`Clarification for ${selectedReport.studentName} saved.`);
+  };
+
 
   const getStatusBadgeClass = (status) => {
-    switch (status.toLowerCase()) {
-      case "pending": return "status-badge pending"
-      case "flagged": return "status-badge flagged"
-      case "rejected": return "status-badge rejected"
-      case "accepted": return "status-badge accepted"
-      default: return "status-badge"
+    switch (status?.toLowerCase()) {
+      case "pending": return "status-badge pending";
+      case "flagged": return "status-badge flagged";
+      case "rejected": return "status-badge rejected";
+      case "accepted": return "status-badge accepted";
+      default: return "status-badge";
     }
   }
 
   const renderRatingStars = (rating) => {
-    const fullStars = Math.floor(rating)
-    const hasHalfStar = rating % 1 >= 0.5
-    const stars = []
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+    const stars = [];
     for (let i = 0; i < 5; i++) {
-      if (i < fullStars) stars.push(<span key={i} className="star full">★</span>)
-      else if (i === fullStars && hasHalfStar) stars.push(<span key={i} className="star half">★</span>)
-      else stars.push(<span key={i} className="star empty">☆</span>)
+      if (i < fullStars) stars.push(<span key={i} className="star full">★</span>);
+      else if (i === fullStars && hasHalfStar) stars.push(<span key={i} className="star half">★</span>);
+      else stars.push(<span key={i} className="star empty">☆</span>);
     }
-    return (
-      <div className="rating-stars">
-        {stars} <span className="rating-value">({rating.toFixed(1)})</span>
-      </div>
-    )
-  }
+    return <div className="rating-stars">{stars} <span className="rating-value">({rating?.toFixed(1) || 'N/A'})</span></div>;
+  };
 
   const generateReportPDF = (report) => {
     if (!jspdfLoaded || !window.jspdf) {
-      console.error("jsPDF library is not loaded.")
       alert("PDF generation library is not yet loaded. Please try again in a moment.");
       return
     }
-    const { jsPDF } = window.jspdf
-    const doc = new jsPDF()
-    doc.setFont("helvetica", "bold")
-    doc.setFontSize(20)
-    doc.text(`${report.title}`, 105, 20, { align: "center" })
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+    const leftMargin = 15;
+    const contentWidth = doc.internal.pageSize.getWidth() - 2 * leftMargin;
+    let yPos = 20;
 
-    // SCAD Logo Placeholder
-    doc.setFillColor(95, 40, 120); // SCAD Purple
-    doc.rect(15, 25, 15, 15, "F"); // x, y, width, height
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(18);
+    doc.text(report.title || "Report/Evaluation", doc.internal.pageSize.getWidth() / 2, yPos, { align: "center" });
+    yPos += 15;
+
+    doc.setFillColor(95, 40, 120);
+    doc.rect(leftMargin, yPos - 5, 10, 10, "F");
     doc.setTextColor(255, 255, 255);
-    doc.setFontSize(10);
-    doc.text("SCAD", 22.5, 34, { align: "center" }); // Adjust text position
-    doc.setTextColor(0, 0, 0); // Reset text color
+    doc.setFontSize(8);
+    doc.text("SCAD", leftMargin + 5, yPos, { align: "center" });
+    doc.setTextColor(0, 0, 0);
+    yPos += 15;
 
-    let yPosition = 55; // Start Y position lower
-    const leftMargin = 20;
-    const contentWidth = 170;
 
-    const addSection = (title, content, isList = false) => {
-        if (yPosition > 260) { // Check for page break
-            doc.addPage();
-            yPosition = 20;
-        }
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(14);
-        doc.text(title, leftMargin, yPosition);
-        yPosition += 8;
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(12);
-        if (isList && Array.isArray(content)) {
-            content.forEach(item => {
-                if (yPosition > 270) { doc.addPage(); yPosition = 20; }
-                const itemLines = doc.splitTextToSize(`• ${item}`, contentWidth - 5);
-                doc.text(itemLines, leftMargin + 5, yPosition);
-                yPosition += itemLines.length * 7;
-            });
-        } else if (typeof content === 'string') {
-            const lines = doc.splitTextToSize(content, contentWidth);
-            if (yPosition + lines.length * 7 > 270) { doc.addPage(); yPosition = 20;}
-            doc.text(lines, leftMargin, yPosition);
-            yPosition += lines.length * 7;
-        }
-        yPosition += 5; // Spacing after section
+    const addDetailPair = (label, value) => {
+      if (yPos > 270) { doc.addPage(); yPos = 20; }
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(10);
+      doc.text(label, leftMargin, yPos);
+      doc.setFont("helvetica", "normal");
+      const valueLines = doc.splitTextToSize(String(value || "-"), contentWidth - 30);
+      doc.text(valueLines, leftMargin + 35, yPos);
+      yPos += (valueLines.length * 6) + 2;
     };
 
+    const addSectionTitle = (title) => {
+      if (yPos > 265) { doc.addPage(); yPos = 20; }
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(12);
+      doc.text(title, leftMargin, yPos);
+      yPos += 7;
+    };
 
-    addSection("Student Information", `Name: ${report.studentName} (ID: ${report.studentId})\nMajor: ${report.major}\nCompany: ${report.company}\nSupervisor: ${report.supervisor} (${report.supervisorPosition})\nInternship Period: ${report.startDate} to ${report.endDate}\nSubmission Date: ${report.submissionDate}\nStatus: ${report.status.charAt(0).toUpperCase() + report.status.slice(1)}`);
+    const addParagraph = (text) => {
+      if (!text) return;
+      if (yPos > 260) { doc.addPage(); yPos = 20; }
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(10);
+      const lines = doc.splitTextToSize(text, contentWidth);
+      doc.text(lines, leftMargin, yPos);
+      yPos += lines.length * 6 + 4;
+    };
+
+    addSectionTitle("General Information");
+    addDetailPair("Student Name:", report.studentName);
+    addDetailPair("Student ID:", report.studentId);
+    addDetailPair("Major:", report.major);
+    addDetailPair("Company:", report.company);
+    addDetailPair("Supervisor:", `${report.supervisor} (${report.supervisorPosition || 'N/A'})`);
+    addDetailPair("Internship Dates:", `${report.startDate} to ${report.endDate}`);
+    addDetailPair("Submission Date:", report.submissionDate);
+    addDetailPair("Status:", report.status.charAt(0).toUpperCase() + report.status.slice(1));
+    yPos += 5;
 
     if ((report.status === "flagged" || report.status === "rejected") && report.clarification) {
-        addSection("Clarification Needed", report.clarification);
+      addSectionTitle("Clarification Provided/Needed");
+      addParagraph(report.clarification);
     }
 
     if (report.type === "internship") {
-        addSection("Report Content Summary", report.content);
-        addSection("Tasks Performed", report.tasks, true);
-        addSection("Skills Developed/Used", report.skills.join(', '));
-        addSection("Challenges Faced", report.challenges);
-        addSection("Key Learnings", report.learnings);
-        addSection("Student Feedback", report.feedback);
-    } else if (report.type === "evaluation") {
-        let performanceDetails = `Technical Skills: ${report.performance.technical.toFixed(1)}/5.0
-Communication: ${report.performance.communication.toFixed(1)}/5.0
-Teamwork: ${report.performance.teamwork.toFixed(1)}/5.0
-Problem Solving: ${report.performance.problemSolving.toFixed(1)}/5.0
-Overall: ${report.performance.overall.toFixed(1)}/5.0`;
-        addSection("Performance Evaluation", performanceDetails);
-        addSection("Strengths", report.strengths);
-        addSection("Areas for Improvement", report.areasForImprovement);
-        addSection("Supervisor Comments", report.comments);
+      addSectionTitle("Internship Report Details");
+      addParagraph(`Content Summary: ${report.contentBody || report.content || "-"}`);
+      if (report.tasks && report.tasks.length > 0) {
+        addParagraph(`Tasks Performed: \n${report.tasks.map(t => `  • ${t}`).join('\n')}`);
+      }
+      if (report.skills && report.skills.length > 0) {
+        addParagraph(`Skills Developed/Used: ${report.skills.join(', ')}`);
+      }
+      addParagraph(`Challenges: ${report.challenges || "-"}`);
+      addParagraph(`Learnings: ${report.learnings || "-"}`);
+      addParagraph(`Student Feedback: ${report.feedback || "-"}`);
+    } else if (report.type === "evaluation" && report.performance) {
+      addSectionTitle("Performance Evaluation");
+      Object.entries(report.performance).forEach(([key, value]) => {
+        const formattedKey = key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1');
+        addDetailPair(`${formattedKey}:`, `${value?.toFixed(1) || 'N/A'} / 5.0`);
+      });
+      yPos -= 2;
+      addParagraph(`Strengths: ${report.strengths || "-"}`);
+      addParagraph(`Areas for Improvement: ${report.areasForImprovement || "-"}`);
+      addParagraph(`Supervisor Comments: ${report.comments || "-"}`);
     }
 
-
-    // Footer on each page
     const pageCount = doc.internal.getNumberOfPages();
     for (let i = 1; i <= pageCount; i++) {
         doc.setPage(i);
-        doc.setFontSize(9);
-        doc.setTextColor(128, 128, 128);
-        doc.text(`Page ${i} of ${pageCount}`, 105, 285, { align: "center" });
-        doc.text(`Generated: ${new Date().toLocaleString()}`, 105, 290, {align: "center"});
+        doc.setFontSize(8);
+        doc.setTextColor(150);
+        doc.text(`Page ${i} of ${pageCount}`, doc.internal.pageSize.getWidth() / 2, 287, { align: "center" });
+        doc.text(`Generated by SCAD Internship Portal | ${new Date().toLocaleDateString()}`, doc.internal.pageSize.getWidth() / 2, 292, {align: "center"});
     }
 
-    const reportTypeString = report.type === "internship" ? "Internship_Report" : "Evaluation_Report"
-    doc.save(`${reportTypeString}_${report.studentName.replace(/\s+/g, "_")}_${report.id}.pdf`)
-  }
-
-  const handleResetFilters = () => {
-    setSelectedMajor("All")
-    setSelectedStatus("All")
-    // setSearchQuery(""); // Optionally reset search query
-  }
-
-  const handleApplyFilters = () => {
-    setShowFilterPopup(false) // Close popup when applying
-  }
-
-  const renderInternshipReport = (report) => {
-    return (
-      <div className="report-details">
-        <div className="report-details-header">
-          <h2>{report.title}</h2>
-          <div className="report-status-controls">
-            <span className={getStatusBadgeClass(report.status)}>
-              {report.status.charAt(0).toUpperCase() + report.status.slice(1)}
-            </span>
-            <div className="status-actions">
-              <button className={`status-button pending ${report.status === "pending" ? "active" : ""}`} onClick={() => updateReportStatus(report.id, "pending")}>Pending</button>
-              <button className={`status-button flagged ${report.status === "flagged" ? "active" : ""}`} onClick={() => updateReportStatus(report.id, "flagged")}>Flag</button>
-              <button className={`status-button rejected ${report.status === "rejected" ? "active" : ""}`} onClick={() => updateReportStatus(report.id, "rejected")}>Reject</button>
-              <button className={`status-button accepted ${report.status === "accepted" ? "active" : ""}`} onClick={() => updateReportStatus(report.id, "accepted")}>Accept</button>
-            </div>
-          </div>
-          <div className="report-actions">
-            <button className="modal-close-button" onClick={closeReportDetails}>
-              <X size={20} />
-            </button>
-          </div>
-        </div>
-        <div className="report-details-content">
-          {(report.status === "flagged" || report.status === "rejected") && (
-            <div className="clarification-section">
-              <div className="clarification-header">
-                <h3><AlertTriangle size={18} className="clarification-icon" /> Clarification for {report.status === "flagged" ? "Flag" : "Rejection"}</h3>
-                {!editingClarification ? (
-                  <button className="edit-clarification-button" onClick={handleEditClarification}><Edit size={16} /> Edit</button>
-                ) : (
-                  <button className="save-clarification-button" onClick={() => handleSaveClarification(report.id)}><Save size={16} /> Save Clarification</button>
-                )}
-              </div>
-              {!editingClarification ? (
-                <div className="clarification-text">{report.clarification || "No clarification provided."}</div>
-              ) : (
-                <textarea ref={clarificationTextareaRef} className="clarification-textarea" value={clarificationText} onChange={(e) => setClarificationText(e.target.value)} placeholder="Enter clarification reason here..." />
-              )}
-            </div>
-          )}
-          <div className="report-meta">
-            <div className="meta-item"><h4>Student</h4><p>{report.studentName} (ID: {report.studentId})</p></div>
-            <div className="meta-item"><h4>Major</h4><p>{report.major}</p></div>
-            <div className="meta-item"><h4>Company</h4><p>{report.company}</p></div>
-            <div className="meta-item"><h4>Supervisor</h4><p>{report.supervisor} ({report.supervisorPosition})</p></div>
-          </div>
-          <div className="internship-period">
-            <div className="period-item"><h4>Start Date</h4><p>{report.startDate}</p></div>
-            <div className="period-item"><h4>End Date</h4><p>{report.endDate}</p></div>
-            <div className="period-item"><h4>Submission Date</h4><p>{report.submissionDate}</p></div>
-          </div>
-          <div className="report-section"><h3>Report Content</h3><p>{report.content}</p></div>
-          <div className="report-section"><h3>Tasks Performed</h3><ul className="tasks-list">{report.tasks.map((task, index) => (<li key={index}>{task}</li>))}</ul></div>
-          <div className="report-section"><h3>Skills Developed</h3><div className="skills-list">{report.skills.map((skill, index) => (<span key={index} className="skill-tag">{skill}</span>))}</div></div>
-          <div className="report-section"><h3>Challenges</h3><p>{report.challenges}</p></div>
-          <div className="report-section"><h3>Learnings</h3><p>{report.learnings}</p></div>
-          <div className="report-section"><h3>Feedback</h3><p>{report.feedback}</p></div>
-        </div>
-        <div className="report-details-footer">
-            <button className="download-pdf-button-footer" onClick={() => generateReportPDF(report)}>
-                <Download size={16} /> Download PDF
-            </button>
-        </div>
-      </div>
-    )
-  }
-
-  const renderEvaluationReport = (report) => {
-    return (
-      <div className="report-details">
-        <div className="report-details-header">
-          <h2>{report.title}</h2>
-          <div className="report-status-controls">
-            <span className={getStatusBadgeClass(report.status)}>
-              {report.status.charAt(0).toUpperCase() + report.status.slice(1)}
-            </span>
-            <div className="status-actions">
-                <button className={`status-button pending ${report.status === "pending" ? "active" : ""}`} onClick={() => updateReportStatus(report.id, "pending")}>Pending</button>
-                <button className={`status-button flagged ${report.status === "flagged" ? "active" : ""}`} onClick={() => updateReportStatus(report.id, "flagged")}>Flag</button>
-                <button className={`status-button rejected ${report.status === "rejected" ? "active" : ""}`} onClick={() => updateReportStatus(report.id, "rejected")}>Reject</button>
-                <button className={`status-button accepted ${report.status === "accepted" ? "active" : ""}`} onClick={() => updateReportStatus(report.id, "accepted")}>Accept</button>
-            </div>
-          </div>
-          <div className="report-actions">
-            <button className="modal-close-button" onClick={closeReportDetails}>
-              <X size={20} />
-            </button>
-          </div>
-        </div>
-        <div className="report-details-content">
-          {(report.status === "flagged" || report.status === "rejected") && (
-            <div className="clarification-section">
-              <div className="clarification-header">
-                <h3><AlertTriangle size={18} className="clarification-icon" /> Clarification for {report.status === "flagged" ? "Flag" : "Rejection"}</h3>
-                {!editingClarification ? (
-                  <button className="edit-clarification-button" onClick={handleEditClarification}><Edit size={16} /> Edit</button>
-                ) : (
-                  <button className="save-clarification-button" onClick={() => handleSaveClarification(report.id)}><Save size={16} /> Save Clarification</button>
-                )}
-              </div>
-              {!editingClarification ? (
-                <div className="clarification-text">{report.clarification || "No clarification provided."}</div>
-              ) : (
-                <textarea ref={clarificationTextareaRef} className="clarification-textarea" value={clarificationText} onChange={(e) => setClarificationText(e.target.value)} placeholder="Enter clarification reason here..." />
-              )}
-            </div>
-          )}
-          <div className="report-meta">
-            <div className="meta-item"><h4>Student</h4><p>{report.studentName} (ID: {report.studentId})</p></div>
-            <div className="meta-item"><h4>Major</h4><p>{report.major}</p></div>
-            <div className="meta-item"><h4>Company</h4><p>{report.company}</p></div>
-            <div className="meta-item"><h4>Supervisor</h4><p>{report.supervisor} ({report.supervisorPosition})</p></div>
-          </div>
-          <div className="internship-period">
-            <div className="period-item"><h4>Start Date</h4><p>{report.startDate}</p></div>
-            <div className="period-item"><h4>End Date</h4><p>{report.endDate}</p></div>
-            <div className="period-item"><h4>Submission Date</h4><p>{report.submissionDate}</p></div>
-          </div>
-          <div className="report-section"><h3>Performance Evaluation</h3>
-            <div className="performance-grid">
-              <div className="performance-item"><h4>Technical Skills</h4>{renderRatingStars(report.performance.technical)}</div>
-              <div className="performance-item"><h4>Communication</h4>{renderRatingStars(report.performance.communication)}</div>
-              <div className="performance-item"><h4>Teamwork</h4>{renderRatingStars(report.performance.teamwork)}</div>
-              <div className="performance-item"><h4>Problem Solving</h4>{renderRatingStars(report.performance.problemSolving)}</div>
-              <div className="performance-item overall"><h4>Overall Performance</h4>{renderRatingStars(report.performance.overall)}</div>
-            </div>
-          </div>
-          <div className="report-section"><h3>Strengths</h3><p>{report.strengths}</p></div>
-          <div className="report-section"><h3>Areas for Improvement</h3><p>{report.areasForImprovement}</p></div>
-          <div className="report-section"><h3>Supervisor Comments</h3><p>{report.comments}</p></div>
-        </div>
-        <div className="report-details-footer">
-            <button className="download-pdf-button-footer" onClick={() => generateReportPDF(report)}>
-                <Download size={16} /> Download PDF
-            </button>
-        </div>
-      </div>
-    )
-  }
-
-  const formatReportType = (type, reportType) => { // reportType seems to be the title here, rename for clarity
-    if (type === "internship") return "Internship Report";
-    if (type === "evaluation") return "Evaluation Report";
-    return reportType; // Fallback to title if type is unknown
+    doc.save(`${report.type}_${report.studentName.replace(/\s+/g, "_")}_${report.id}.pdf`);
   };
 
 
-  return (
-    <div className="container">
-      {!selectedReport ? (
-        <div className="evaluations-section">
-          <div className="evaluations-header">
-            <h2>Evaluations & Reports</h2>
+  const handleResetFilters = () => {
+    setSelectedMajorFilter("All");
+    setSelectedStatusFilter("All");
+  };
+  const handleApplyFilters = () => {
+    setShowFilterPopup(false);
+  };
+
+
+  if (selectedReport) {
+    const reportTitle = selectedReport.type === "evaluation" ? "Evaluation Report" : "Internship Report";
+    return (
+      <div className="view-report-container">
+        <button onClick={handleBackToList} className="back-button">
+          <ArrowLeft size={18} strokeWidth={2.5}/> Back to List
+        </button>
+        <h1 className="view-report-title">{`View ${reportTitle}`}</h1>
+
+        <div className="report-card-detailed">
+          <h2 className="report-card-detailed-title">{reportTitle}</h2>
+          <div className="report-card-detailed-grid">
+            <div><p className="detail-label">Student</p><p className="detail-value">{selectedReport.studentName} ({selectedReport.studentId})</p></div>
+            <div><p className="detail-label">Main Supervisor</p><p className="detail-value">{selectedReport.supervisor} ({selectedReport.supervisorPosition || 'N/A'})</p></div>
+            <div><p className="detail-label">Major</p><p className="detail-value">{selectedReport.major}</p></div>
+            <div><p className="detail-label">Internship Dates</p><p className="detail-value">{selectedReport.startDate} - {selectedReport.endDate}</p></div>
+            <div><p className="detail-label">Company</p><p className="detail-value">{selectedReport.company}</p></div>
+            <div><p className="detail-label">Submission Date</p><p className="detail-value">{selectedReport.submissionDate}</p></div>
           </div>
-          <div className="companies-filter-controls" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', marginBottom: '20px' }}>
-            <input
-              type="text"
-              className="minimal-search cs-search-input"
-              placeholder="Search by title, student name, or company"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              style={{ width: '380px' }}
-            />
-            <button className="filters-button cs-filter-button" onClick={() => setShowFilterPopup(!showFilterPopup)} style={{ marginLeft: 'auto' }}>
-              <span className="hamburger-icon">≡</span>
-              Filters
-              {/* You can add a filter badge here if you want to show active filter count */}
-            </button>
-            {showFilterPopup && (
-              <div className="cs-filter-modal-overlay" onClick={() => setShowFilterPopup(false)}>
-                <div className="cs-filter-modal" ref={filterPopupRef} onClick={e => e.stopPropagation()}>
-                  <div className="cs-filter-modal-header">
-                    <h2>Filters</h2>
-                    <button className="cs-close-button" onClick={() => setShowFilterPopup(false)}>
-                      <X size={18} />
-                    </button>
+          <div className="report-card-detailed-body-section">
+            <h3 className="body-title">Body / Summary</h3>
+            <p className="body-content">
+              {selectedReport.contentBody || selectedReport.content || "No detailed content provided."}
+            </p>
+          </div>
+
+          {selectedReport.type === "internship" && (
+            <>
+              {selectedReport.tasks && selectedReport.tasks.length > 0 && (
+                <div className="report-card-detailed-body-section"><h3 className="body-title">Tasks Performed</h3><ul className="tasks-list-detail">{selectedReport.tasks.map((t, i) => <li key={i}>{t}</li>)}</ul></div>
+              )}
+              {selectedReport.skills && selectedReport.skills.length > 0 && (
+                <div className="report-card-detailed-body-section"><h3 className="body-title">Skills Developed/Used</h3><p className="body-content">{selectedReport.skills.join(', ')}</p></div>
+              )}
+               {selectedReport.challenges && <div className="report-card-detailed-body-section"><h3 className="body-title">Challenges</h3><p className="body-content">{selectedReport.challenges}</p></div>}
+               {selectedReport.learnings && <div className="report-card-detailed-body-section"><h3 className="body-title">Key Learnings</h3><p className="body-content">{selectedReport.learnings}</p></div>}
+               {selectedReport.feedback && <div className="report-card-detailed-body-section"><h3 className="body-title">Student Feedback</h3><p className="body-content">{selectedReport.feedback}</p></div>}
+            </>
+          )}
+
+          {selectedReport.type === "evaluation" && selectedReport.performance && (
+            <div className="report-card-detailed-body-section">
+              <h3 className="body-title">Performance Ratings</h3>
+              <div className="performance-grid-detail">
+                {Object.entries(selectedReport.performance).map(([key, value]) => (
+                  <div key={key} className="performance-item-detail-card">
+                    <span className="performance-key-detail">{key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}</span>
+                    {renderRatingStars(value)}
                   </div>
-                  <div className="cs-filter-modal-content">
-                    <div className="cs-filter-section">
-                      <div style={{ fontWeight: 700, marginBottom: 8, textTransform: 'uppercase', fontSize: 15 }}>STATUS</div>
-                      <div className="cs-filter-options">
-                        {statusOptions.map((status) => (
-                          <div
-                            key={status}
-                            className={`cs-filter-option${selectedStatus === status ? " cs-selected" : ""}`}
-                            onClick={() => setSelectedStatus(status)}
-                          >
-                            {status}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="cs-filter-section">
-                      <div style={{ fontWeight: 700, marginBottom: 8, textTransform: 'uppercase', fontSize: 15 }}>MAJOR</div>
-                      <div className="cs-filter-options">
-                        {uniqueMajors.map((major) => (
-                          <div
-                            key={major}
-                            className={`cs-filter-option${selectedMajor === major ? " cs-selected" : ""}`}
-                            onClick={() => setSelectedMajor(major)}
-                          >
-                            {major}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="cs-filter-actions">
-                    <button className="cs-reset-button" onClick={handleResetFilters}>Reset</button>
-                    <button className="cs-apply-button" onClick={handleApplyFilters}>
-                      {`Show ${reports.filter((report) => {
-                        if (searchQuery) {
-                          const query = searchQuery.toLowerCase();
-                          const matchesTitle = report.title.toLowerCase().includes(query);
-                          const matchesStudent = report.studentName.toLowerCase().includes(query);
-                          const matchesCompany = report.company.toLowerCase().includes(query);
-                          if (!matchesTitle && !matchesStudent && !matchesCompany) return false;
-                        }
-                        if (selectedStatus !== "All" && report.status.toLowerCase() !== selectedStatus.toLowerCase()) return false;
-                        if (selectedMajor !== "All" && report.major !== selectedMajor) return false;
-                        return true;
-                      }).length} Evaluations`}
-                    </button>
-                  </div>
-                </div>
+                ))}
               </div>
-            )}
-          </div>
-          <div className="reports-list">
-            {filteredReports.length > 0 ? (
-              filteredReports.map((report) => (
-                <div key={report.id} className="report-card" onClick={() => handleReportClick(report)}>
-                  <div className="report-card-header">
-                    <h3>{report.title}</h3>
-                    <span className={getStatusBadgeClass(report.status)}>
-                      {report.status.charAt(0).toUpperCase() + report.status.slice(1)}
-                    </span>
-                  </div>
-                  <div className="report-card-content">
-                    <p><strong>Type:</strong> {formatReportType(report.type, report.title)}</p>
-                    <p><strong>Student:</strong> {report.studentName}</p>
-                    <p><strong>Company:</strong> {report.company}</p>
-                    <p><strong>Supervisor:</strong> {report.supervisor}</p>
-                    <p><strong>Submitted:</strong> {report.submissionDate}</p>
-                    {(report.status === "flagged" || report.status === "rejected") && report.clarification && (
-                      <p className="report-clarification-preview">
-                        <strong>Clarification:</strong> {report.clarification.substring(0, 60)}
-                        {report.clarification.length > 60 ? "..." : ""}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className="no-results">No reports found matching your criteria.</div>
-            )}
-          </div>
+              {selectedReport.strengths && <><h4 className="sub-body-title">Strengths:</h4><p className="body-content">{selectedReport.strengths}</p></>}
+              {selectedReport.areasForImprovement && <><h4 className="sub-body-title">Areas for Improvement:</h4><p className="body-content">{selectedReport.areasForImprovement}</p></>}
+              {selectedReport.comments && <><h4 className="sub-body-title">Overall Supervisor Comments:</h4><p className="body-content">{selectedReport.comments}</p></>}
+            </div>
+          )}
         </div>
-      ) : reportType === "internship" ? (
-        renderInternshipReport(selectedReport)
-      ) : (
-        renderEvaluationReport(selectedReport)
-      )}
+
+        {(selectedReport.status === "flagged" || selectedReport.status === "rejected") && (
+            <div className="report-card-detailed clarification-module">
+                <div className="clarification-module-header">
+                    <h3 className="body-title">Clarification for {selectedReport.status.charAt(0).toUpperCase() + selectedReport.status.slice(1)} Status</h3>
+                    {!editingClarification ? (
+                        <button className="edit-clarification-btn-detail" onClick={handleEditClarification}>
+                            <Edit size={16} /> Edit Clarification
+                        </button>
+                    ) : (
+                        <button className="save-clarification-btn-detail" onClick={handleSaveClarificationDirectly}>
+                            <Save size={16} /> Save Clarification
+                        </button>
+                    )}
+                </div>
+                {!editingClarification ? (
+                    <p className="clarification-text-detail">{clarificationText || "No clarification provided yet. Click 'Edit' to add."}</p>
+                ) : (
+                    <textarea
+                        ref={clarificationTextareaRef}
+                        className="clarification-textarea-detail"
+                        value={clarificationText}
+                        onChange={(e) => setClarificationText(e.target.value)}
+                        placeholder="Enter clarification or reason for the current status..."
+                    />
+                )}
+            </div>
+        )}
+
+        <div className="report-card-detailed set-status-module">
+          <h2 className="report-card-detailed-title">Set Status</h2>
+          <div className="status-options-detail">
+            {statusOptionsForDetail.map((statusVal) => (
+              <label key={statusVal} className={`status-radio-label ${currentSelectedStatusInDetail === statusVal.toLowerCase() ? 'selected' : ''}`}>
+                <input
+                  type="radio"
+                  name="reportStatusDetail"
+                  value={statusVal.toLowerCase()}
+                  checked={currentSelectedStatusInDetail === statusVal.toLowerCase()}
+                  onChange={(e) => setCurrentSelectedStatusInDetail(e.target.value)}
+                />
+                <span className="status-radio-text">{statusVal}</span>
+              </label>
+            ))}
+          </div>
+          <button onClick={handleSaveStatusInDetail} className="save-status-button">
+            Save Status
+          </button>
+        </div>
+        <div className="report-details-page-footer">
+            <button className="download-pdf-button-page-footer" onClick={() => generateReportPDF(selectedReport)}>
+                <Download size={16} /> Download as PDF
+            </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="evaluations-container-list">
+        <div className="evaluations-header-list">
+            <h2>Evaluations & Reports</h2>
+            <button className="evaluations-filter-button" onClick={() => setShowFilterPopup(true)}>
+                <Menu size={18} /> Filters
+            </button>
+        </div>
+
+        {showFilterPopup && (
+            <div className="filter-overlay" onClick={() => setShowFilterPopup(false)}>
+                <div className="filter-popup" ref={filterPopupRef} onClick={(e) => e.stopPropagation()}>
+                    <div className="filter-popup-header">
+                        <h3>Filter Reports</h3>
+                        <button className="close-popup-button" onClick={() => setShowFilterPopup(false)}>
+                            <X size={16} />
+                        </button>
+                    </div>
+                    <div className="filter-content">
+                        <div className="filter-section">
+                        <h4>Status</h4>
+                        <div className="filter-options">
+                            {statusOptionsForFilter.map((status) => (
+                            <div key={status} className={`filter-option ${selectedStatusFilter === status ? "selected" : ""}`} onClick={() => setSelectedStatusFilter(status)}>
+                                {status}
+                            </div>
+                            ))}
+                        </div>
+                        </div>
+                        <div className="filter-section">
+                        <h4>Major</h4>
+                        <div className="filter-options">
+                            {uniqueMajors.map((major) => (
+                            <div key={major} className={`filter-option ${selectedMajorFilter === major ? "selected" : ""}`} onClick={() => setSelectedMajorFilter(major)}>
+                                {major}
+                            </div>
+                            ))}
+                        </div>
+                        </div>
+                    </div>
+                    <div className="filter-actions">
+                        <button className="reset-button" onClick={handleResetFilters}>Reset</button>
+                        <button className="apply-button" onClick={handleApplyFilters}>Apply</button>
+                    </div>
+                </div>
+            </div>
+        )}
+
+        <div className="evaluations-table-container">
+            <table className="evaluations-table">
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Major</th>
+                        <th>Status</th>
+                        <th>Comment</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {filteredReports.length > 0 ? (
+                        filteredReports.map((report) => (
+                            <tr key={report.id}>
+                                <td>{report.studentName}</td>
+                                <td>{report.major}</td>
+                                <td>
+                                    <span className={getStatusBadgeClass(report.status)}>
+                                        {report.status.charAt(0).toUpperCase() + report.status.slice(1)}
+                                    </span>
+                                </td>
+                                <td className="comment-cell">{report.comments || "-"}</td>
+                                <td>
+                                    {report.status === "pending" ? (
+                                        <button
+                                            className="action-button review-button" // Correct class for "Review"
+                                            onClick={() => handleViewDetailsClick(report)}
+                                        >
+                                            Review
+                                        </button>
+                                    ) : (
+                                        <button
+                                            className="action-button view-details-button" // Correct class for "View Details"
+                                            onClick={() => handleViewDetailsClick(report)}
+                                        >
+                                            View Details
+                                        </button>
+                                    )}
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="5" className="no-results-table">No reports found.</td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
+        </div>
     </div>
   )
 }
