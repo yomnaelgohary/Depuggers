@@ -1,120 +1,15 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import "./App.css"
-import SCAD from "./SCAD" // Import the SCAD component
-import Faculty from "./Faculty" // Import the Faculty component
-import ReportView from "./report-view" // Import the ReportView component
+import LoginPage from "./LoginPage" // Import the separated LoginPage component
+import SCAD from "./SCAD"
+import Faculty from "./Faculty"
+import ReportView from "./report-view"
 import Company from "./Company"
 import CompanyRegister from "./Companyregister"
 import Student from "./Student"
 import ProStudent from "./ProStudent"
-
-// LoginPage component
-function LoginPage() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
-  const [showRejectionModal, setShowRejectionModal] = useState(false)
-  const navigate = useNavigate()
-
-  // Check URL parameters for rejection status when component mounts
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search)
-    const rejectionStatus = urlParams.get("rejected")
-    if (rejectionStatus === "true") {
-      setShowRejectionModal(true)
-    }
-  }, [])
-
-  const handleLogin = () => {
-    // Check credentials and redirect accordingly
-    if (email.toLowerCase() === "scad" && password === "1234") {
-      navigate("/SCAD")
-    } else if (email.toLowerCase() === "faculty" && password === "1234") {
-      navigate("/faculty")
-    } else if (email.toLowerCase() === "company" && password === "1234") {
-      navigate("/company")
-    } else if (email.toLowerCase() === "student" && password === "1234") {
-      navigate("/student")
-    }else if (email.toLowerCase() === "prostudent" && password === "1234") {
-      navigate("/prostudent")
-    } else {
-      setError("Invalid credentials")
-    }
-  }
-
-  const handleRegister = () => {
-    // You would typically navigate to a registration page here
-    console.log("Register button clicked for companies")
-    // For now, let's just navigate to a placeholder or handle as needed
-    navigate("/register-company")
-  }
-
-  const closeRejectionModal = () => {
-    setShowRejectionModal(false)
-  }
-
-  return (
-    <div className="app-container">
-      <div className="welcome-box">
-        <h2>Login</h2>
-        <input
-          type="text"
-          placeholder="Email (e.g. scad or faculty)"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="input-field"
-        />
-        <input
-          type="password"
-          placeholder="Password (e.g. 1234)"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="input-field"
-        />
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        <button className="cta-button" onClick={handleLogin}>
-          Login
-        </button>
-        <button className="register-button" onClick={handleRegister}>
-          Register Now (for Companies)
-        </button>
-      </div>
-
-    </div>
-  )
-}
-
-export { LoginPage }
-
-// Placeholder for a company registration page
-function CompanyRegistrationPage() {
-  return (
-    <div className="app-container">
-      <div className="welcome-box">
-        <h2>Company Registration</h2>
-        <p>This is a placeholder for the company registration page.</p>
-        {/* Add your registration form here */}
-      </div>
-    </div>
-  )
-}
-
-// Dashboard wrapper component to handle different role dashboards
-function DashboardWrapper() {
-  // This would normally check the user role and render the appropriate dashboard
-  // For now, we'll just render a placeholder
-  return (
-    <div className="app-container">
-      <div className="welcome-box">
-        <h2>Dashboard</h2>
-        <p>This is a placeholder for the role-specific dashboard.</p>
-      </div>
-    </div>
-  )
-}
 
 // Main App component
 function App() {
@@ -124,13 +19,12 @@ function App() {
         <Route path="/" element={<LoginPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register-company" element={<CompanyRegister />} />
-        <Route path="/dashboard/:role" element={<DashboardWrapper />} />
         <Route path="/SCAD" element={<SCAD />} />
         <Route path="/faculty" element={<Faculty />} />
         <Route path="/report-view/:studentId" element={<ReportView />} />
         <Route path="/company" element={<Company />} />
         <Route path="/student" element={<Student />} />
-         <Route path="/prostudent" element={<ProStudent />} />
+        <Route path="/prostudent" element={<ProStudent />} />
       </Routes>
     </Router>
   )
