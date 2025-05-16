@@ -1,0 +1,285 @@
+/* ProStudentHeader.css (adapted from StudentHeader.css) */
+
+.psh-student-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  background-color: #fff;
+  border-bottom: 1px solid #eaeaea;
+  height: 64px;
+}
+
+.psh-header-left {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.psh-navigation-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.psh-nav-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #E5E7EB;
+  background-color: transparent;
+  color: #E5E7EB;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.psh-nav-button svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 1.5;
+}
+
+.psh-nav-button:hover:not(.psh-disabled) {
+  border-color: #5f2878;
+  color: #5f2878;
+}
+
+.psh-nav-button:active:not(.psh-disabled) {
+  background-color: #5f2878;
+  border-color: #5f2878;
+  color: white;
+}
+
+.psh-nav-button.psh-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border-color: #E5E7EB;
+  color: #E5E7EB;
+}
+
+.psh-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.psh-icon-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #f5f3ff;
+  border: 2px solid #5f2878;
+  color: #5f2878;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+  outline: none;
+}
+
+.psh-icon-button:hover {
+  background-color: #5f2878;
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(95, 40, 120, 0.2);
+}
+
+.psh-icon-button svg {
+  width: 20px;
+  height: 20px;
+  color: inherit;
+}
+
+.psh-notification-bell-container {
+  position: relative;
+}
+
+.psh-notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #dc2626;
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  border: 2px solid white;
+}
+
+.psh-notifications-panel {
+  position: absolute;
+  top: 45px;
+  right: -10px;
+  width: 320px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.psh-notifications-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.psh-notifications-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  color: #333;
+}
+
+.psh-clear-notifications {
+  background: none;
+  border: none;
+  color: #5f2878;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.psh-clear-notifications:hover {
+  background-color: #f5f3ff;
+}
+
+.psh-notifications-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.psh-notification-item {
+  padding: 16px;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.psh-notification-item:last-child {
+  border-bottom: none;
+}
+
+.psh-notification-content {
+  font-size: 14px;
+  color: #333;
+  margin: 0 0 4px 0;
+}
+
+.psh-notification-time {
+  font-size: 12px;
+  color: #666;
+}
+
+.psh-no-notifications {
+  padding: 24px 16px;
+  text-align: center;
+  color: #666;
+}
+
+.psh-avatar-container {
+  position: relative;
+}
+
+.psh-avatar-button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+}
+
+.psh-avatar-button:focus {
+  outline: none;
+}
+
+.psh-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #f5f3ff;
+  border: 2px solid #5f2878;
+  color: #5f2878;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+
+.psh-avatar:hover {
+  background-color: #5f2878;
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(95, 40, 120, 0.2);
+}
+
+.psh-avatar svg {
+  width: 20px;
+  height: 20px;
+  color: inherit;
+}
+
+.psh-user-dropdown {
+  position: absolute;
+  top: 45px;
+  right: -10px;
+  width: 250px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  overflow: hidden;
+  padding: 8px 0;
+}
+
+.psh-user-info {
+  padding: 16px;
+  background-color: white;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.psh-user-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  color: #333;
+}
+
+.psh-logout-button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 16px;
+  background: none;
+  border: none;
+  color: #dc2626;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.psh-logout-button:hover {
+  background-color: #fef2f2;
+}
+
+.psh-logout-button svg {
+  width: 16px;
+  height: 16px;
+  color: #dc2626;
+} 

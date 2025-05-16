@@ -31,6 +31,8 @@ import Workshops from "./student/Workshops"
 import "./ProStudent.css"
 import { NotificationsProvider, useNotifications } from "./components/NotificationsContext"
 import NotificationsPanel from "./components/NotificationsPanel"
+import ProStudentSidebar from "./student/ProStudentSidebar"
+import ProStudentHeader from "./student/ProStudentHeader"
 
 // Header component with notifications
 const Header = () => {
@@ -70,6 +72,37 @@ const Header = () => {
 // Main Student component
 function ProStudentContent() {
   const [activeTab, setActiveTab] = useState("dashboard")
+  // Navigation history state
+  const [navigationHistory, setNavigationHistory] = useState(["dashboard"])
+  const [historyPosition, setHistoryPosition] = useState(0)
+
+  const handlePageChange = (page) => {
+    if (historyPosition < navigationHistory.length - 1) {
+      const newHistory = navigationHistory.slice(0, historyPosition + 1)
+      setNavigationHistory([...newHistory, page])
+    } else {
+      setNavigationHistory((prevHistory) => [...prevHistory, page])
+    }
+    setHistoryPosition((prev) => prev + 1)
+    setActiveTab(page)
+  }
+
+  const canGoBack = historyPosition > 0
+  const canGoForward = historyPosition < navigationHistory.length - 1
+
+  const handleNavigateBack = () => {
+    if (canGoBack) {
+      setHistoryPosition((prev) => prev - 1)
+      setActiveTab(navigationHistory[historyPosition - 1])
+    }
+  }
+
+  const handleNavigateForward = () => {
+    if (canGoForward) {
+      setHistoryPosition((prev) => prev + 1)
+      setActiveTab(navigationHistory[historyPosition + 1])
+    }
+  }
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -113,24 +146,14 @@ function ProStudentContent() {
 
   return (
     <div className="unique11-student-container">
-      <div className="unique11-student-sidebar">
-        <div className="unique11-sidebar-header">
-          <div className="unique11-logo-container">
-            <div className="unique11-logo">S</div>
-            <h2>Student</h2>
-          </div>
-        </div>
-        <Menu
-          theme="dark"
-          mode="inline"
-          selectedKeys={[activeTab]}
-          onClick={(e) => setActiveTab(e.key)}
-          items={menuItems}
-          className="unique11-ant-menu"
-        />
-      </div>
+      <ProStudentSidebar activePage={activeTab} onPageChange={handlePageChange} />
       <div className="unique11-student-content">
-        <Header />
+        <ProStudentHeader
+          onNavigateBack={handleNavigateBack}
+          onNavigateForward={handleNavigateForward}
+          canGoBack={canGoBack}
+          canGoForward={canGoForward}
+        />
         <div className="unique11-content-body">{renderTabContent()}</div>
       </div>
     </div>
