@@ -202,9 +202,11 @@ body {
   justify-content: center;
 }
 
-.profile-button-unique13:focus, .profile-button-unique13:active {
-  outline: none;
-  box-shadow: none;
+.profile-button-unique13:focus-visible,
+.profile-button-unique13:focus,
+.profile-button-unique13:active {
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 .profile-avatar-unique13 {
@@ -235,8 +237,8 @@ body {
 
 .profile-menu-unique13 {
   position: absolute;
-  top: 60px;
-  right: 20px;
+  top: 45px;
+  right: -10px;
   width: 250px;
   background-color: white;
   border-radius: 12px;

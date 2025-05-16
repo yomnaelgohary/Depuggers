@@ -312,7 +312,7 @@ function Faculty() {
               onClick={() => setActiveTab("students")}
             >
               <Users size={20} />
-              <span>Applicants</span>
+              <span>Students</span>
               {activeTab === "students" && <span className="active-indicator-unique13"></span>}
             </button>
             <button
@@ -487,12 +487,21 @@ function Faculty() {
                           </td>
                           <td className="comment-unique13">{student.comment || "-"}</td>
                           <td className="actions-unique13">
-                            <button
-                              className="action-button details-button-unique13"
-                              onClick={() => handleViewReport(student.id)}
-                            >
-                              {student.status === "Pending" ? "Review" : "Details"}
-                            </button>
+                            {student.status === "Pending" ? (
+                              <button
+                                className="review-button-unique13"
+                                onClick={() => handleViewReport(student.id)}
+                              >
+                                Review
+                              </button>
+                            ) : (
+                              <button
+                                className="view-details-button-unique13"
+                                onClick={() => handleViewReport(student.id)}
+                              >
+                                View Details
+                              </button>
+                            )}
                           </td>
                         </tr>
                       ))
