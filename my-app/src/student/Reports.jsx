@@ -318,9 +318,27 @@ const Reports = () => {
   }
 
   const handleDownloadReport = (id) => {
-    message.success("Downloading report as PDF...")
-    // In a real implementation, this would generate and download a PDF
-  }
+  message.success({
+    content: 'Download started successfully!',
+    className: 'custom-download-message',
+    duration: 3,
+    icon: <DownloadOutlined style={{ color: '#5f2878' }} />,
+    style: {
+      marginTop: '50px', // Adjust as needed
+      background: '#f5f3ff',
+      color: '#5f2878',
+      borderLeft: '4px solid #5f2878',
+    },
+  });
+  
+  // Simulate download (replace with actual download logic)
+  const link = document.createElement('a');
+  link.href = '#'; // Replace with actual file URL
+  link.download = `report-${id}.pdf`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
 
   const handleFinalizeReport = async (id) => {
     try {
@@ -392,9 +410,7 @@ const Reports = () => {
   const handleExpandRow = (record) => {
     const key = record.id
     const expanded = expandedRowKeys.includes(key)
-    const newExpandedKeys = expanded
-      ? expandedRowKeys.filter((k) => k !== key)
-      : [...expandedRowKeys, key]
+    const newExpandedKeys = expanded ? expandedRowKeys.filter((k) => k !== key) : [...expandedRowKeys, key]
     setExpandedRowKeys(newExpandedKeys)
   }
 
@@ -420,7 +436,9 @@ const Reports = () => {
           <Panel header="Skills Gained" key="skills" className="unique4-ant-collapse-header">
             <div className="unique4-skills-tags">
               {record.skillsGained.map((skill) => (
-                <Tag key={skill} className="unique4-ant-tag">{skill}</Tag>
+                <Tag key={skill} className="unique4-ant-tag">
+                  {skill}
+                </Tag>
               ))}
             </div>
           </Panel>
@@ -468,7 +486,10 @@ const Reports = () => {
                     dataSource={relevantCourses}
                     renderItem={(course) => (
                       <List.Item className="unique4-ant-list-item">
-                        <Tag color="blue" className="status-pill-unique13 flagged-unique13">{course.code}</Tag> {course.name}
+                        <Tag color="blue" className="status-pill-unique13 flagged-unique13">
+                          {course.code}
+                        </Tag>{" "}
+                        {course.name}
                       </List.Item>
                     )}
                   />
@@ -484,13 +505,19 @@ const Reports = () => {
               </p>
               <p>
                 <strong>Recommend:</strong>
-                <Tag color={evaluation.wouldRecommend ? "green" : "red"} className={`status-pill-unique13 ${evaluation.wouldRecommend ? "accepted-unique13" : "rejected-unique13"}`}>
+                <Tag
+                  color={evaluation.wouldRecommend ? "green" : "red"}
+                  className={`status-pill-unique13 ${evaluation.wouldRecommend ? "accepted-unique13" : "rejected-unique13"}`}
+                >
                   {evaluation.wouldRecommend ? "Yes" : "No"}
                 </Tag>
               </p>
               <p>
                 <strong>Status:</strong>
-                <Tag color={evaluation.isFinalized ? "green" : "orange"} className={`status-pill-unique13 ${evaluation.isFinalized ? "accepted-unique13" : "flagged-unique13"}`}>
+                <Tag
+                  color={evaluation.isFinalized ? "green" : "orange"}
+                  className={`status-pill-unique13 ${evaluation.isFinalized ? "accepted-unique13" : "flagged-unique13"}`}
+                >
                   {evaluation.isFinalized ? "FINALIZED" : "DRAFT"}
                 </Tag>
               </p>
@@ -570,7 +597,10 @@ const Reports = () => {
               </div>
 
               <div className="unique4-filter-actions">
-                <button className={`unique4-reset-button ${hasActiveFilters() ? "unique4-active" : ""}`} onClick={resetFilters}>
+                <button
+                  className={`unique4-reset-button ${hasActiveFilters() ? "unique4-active" : ""}`}
+                  onClick={resetFilters}
+                >
                   Reset
                 </button>
                 <button className="unique4-apply-button" onClick={toggleFilters}>
@@ -612,14 +642,16 @@ const Reports = () => {
               dataIndex: "status",
               key: "status",
               render: (status) => {
-                let statusClass = "pending-unique13";
-                if (status === "completed" || status === "approved") statusClass = "accepted-unique13";
-                else if (status === "flagged") statusClass = "flagged-unique13";
-                else if (status === "rejected") statusClass = "rejected-unique13";
-                else if (status === "appealed") statusClass = "pending-unique13";
+                let statusClass = "pending-unique13"
+                if (status === "completed" || status === "approved") statusClass = "accepted-unique13"
+                else if (status === "flagged") statusClass = "flagged-unique13"
+                else if (status === "rejected") statusClass = "rejected-unique13"
+                else if (status === "appealed") statusClass = "pending-unique13"
                 return (
-                  <span className={`status-pill-unique13 ${statusClass}`}>{status ? status.toUpperCase() : "PENDING"}</span>
-                );
+                  <span className={`status-pill-unique13 ${statusClass}`}>
+                    {status ? status.toUpperCase() : "PENDING"}
+                  </span>
+                )
               },
             },
             {
@@ -628,12 +660,16 @@ const Reports = () => {
               render: (_, record) => {
                 const report = reports.find((r) => r.internshipId === record.id)
                 if (!report) return "-"
-                let statusClass = "pending-unique13";
-                if (report.status === "approved") statusClass = "accepted-unique13";
-                else if (report.status === "flagged") statusClass = "flagged-unique13";
-                else if (report.status === "rejected") statusClass = "rejected-unique13";
-                else if (report.status === "appealed") statusClass = "pending-unique13";
-                return <span className={`status-pill-unique13 ${statusClass}`}>{report.status ? report.status.toUpperCase() : "PENDING"}</span>;
+                let statusClass = "pending-unique13"
+                if (report.status === "approved") statusClass = "accepted-unique13"
+                else if (report.status === "flagged") statusClass = "flagged-unique13"
+                else if (report.status === "rejected") statusClass = "rejected-unique13"
+                else if (report.status === "appealed") statusClass = "pending-unique13"
+                return (
+                  <span className={`status-pill-unique13 ${statusClass}`}>
+                    {report.status ? report.status.toUpperCase() : "PENDING"}
+                  </span>
+                )
               },
             },
             {
@@ -658,7 +694,11 @@ const Reports = () => {
                         Appeal
                       </Button>
                     )}
-                    <Button className="unique4-view-profile-button" icon={<EyeOutlined />} onClick={() => handleExpandRow(record)}>
+                    <Button
+                      className="unique4-view-profile-button"
+                      icon={<EyeOutlined />}
+                      onClick={() => handleExpandRow(record)}
+                    >
                       View More
                     </Button>
                   </Space>
@@ -708,31 +748,47 @@ const Reports = () => {
               dataIndex: "status",
               key: "status",
               render: (status) => {
-                let statusClass = "pending-unique13";
-                if (status === "approved") statusClass = "accepted-unique13";
-                else if (status === "flagged") statusClass = "flagged-unique13";
-                else if (status === "rejected") statusClass = "rejected-unique13";
-                else if (status === "appealed") statusClass = "pending-unique13";
-                return <span className={`status-pill-unique13 ${statusClass}`}>{status ? status.toUpperCase() : "PENDING"}</span>;
+                let statusClass = "pending-unique13"
+                if (status === "approved") statusClass = "accepted-unique13"
+                else if (status === "flagged") statusClass = "flagged-unique13"
+                else if (status === "rejected") statusClass = "rejected-unique13"
+                else if (status === "appealed") statusClass = "pending-unique13"
+                return (
+                  <span className={`status-pill-unique13 ${statusClass}`}>
+                    {status ? status.toUpperCase() : "PENDING"}
+                  </span>
+                )
               },
             },
             {
               title: "Finalized",
               dataIndex: "isFinalized",
               key: "isFinalized",
-              render: (isFinalized) => <span className={`status-pill-unique13 ${isFinalized ? "accepted-unique13" : "flagged-unique13"}`}>{isFinalized ? "YES" : "NO"}</span>,
+              render: (isFinalized) => (
+                <span className={`status-pill-unique13 ${isFinalized ? "accepted-unique13" : "flagged-unique13"}`}>
+                  {isFinalized ? "YES" : "NO"}
+                </span>
+              ),
             },
             {
               title: "Actions",
               key: "actions",
               render: (_, record) => (
                 <Space size="middle">
-                  <Button className="unique4-view-profile-button" icon={<EyeOutlined />} onClick={() => handleEditReport(record)}>
+                  <Button
+                    className="unique4-view-profile-button"
+                    icon={<EyeOutlined />}
+                    onClick={() => handleEditReport(record)}
+                  >
                     View
                   </Button>
                   {!record.isFinalized && (
                     <>
-                      <Button className="unique4-view-profile-button" icon={<EditOutlined />} onClick={() => handleEditReport(record)}>
+                      <Button
+                        className="unique4-view-profile-button"
+                        icon={<EditOutlined />}
+                        onClick={() => handleEditReport(record)}
+                      >
                         Edit
                       </Button>
                       <Popconfirm
@@ -747,15 +803,22 @@ const Reports = () => {
                       </Popconfirm>
                     </>
                   )}
-                  <Button className="unique4-view-profile-button" icon={<DownloadOutlined />} onClick={() => handleDownloadReport(record.id)}>
+                  <Button
+                    className="unique4-view-profile-button"
+                    icon={<DownloadOutlined />}
+                    onClick={() => handleDownloadReport(record.id)}
+                  >
                     Download
                   </Button>
                   {!record.isFinalized && (
-                    <Button className="unique4-view-profile-button" icon={<CheckCircleOutlined />} onClick={() => handleFinalizeReport(record.id)}>
+                    <Button
+                      className="unique4-view-profile-button"
+                      icon={<CheckCircleOutlined />}
+                      onClick={() => handleFinalizeReport(record.id)}
+                    >
                       Finalize
                     </Button>
                   )}
-                 
                 </Space>
               ),
             },
@@ -783,7 +846,9 @@ const Reports = () => {
               dataIndex: "wouldRecommend",
               key: "wouldRecommend",
               render: (recommend) => (
-                <span className={`status-pill-unique13 ${recommend ? "accepted-unique13" : "rejected-unique13"}`}>{recommend ? "Recommended" : "Not Recommended"}</span>
+                <span className={`status-pill-unique13 ${recommend ? "accepted-unique13" : "rejected-unique13"}`}>
+                  {recommend ? "Recommended" : "Not Recommended"}
+                </span>
               ),
             },
             {
@@ -797,7 +862,9 @@ const Reports = () => {
               dataIndex: "isFinalized",
               key: "status",
               render: (isFinalized) => (
-                <span className={`status-pill-unique13 ${isFinalized ? "accepted-unique13" : "flagged-unique13"}`}>{isFinalized ? "Finalized" : "Draft"}</span>
+                <span className={`status-pill-unique13 ${isFinalized ? "accepted-unique13" : "flagged-unique13"}`}>
+                  {isFinalized ? "Finalized" : "Draft"}
+                </span>
               ),
             },
             {
@@ -805,12 +872,20 @@ const Reports = () => {
               key: "actions",
               render: (_, record) => (
                 <Space size="middle">
-                  <Button className="unique4-view-profile-button" icon={<EyeOutlined />} onClick={() => handleEditEvaluation(record)}>
+                  <Button
+                    className="unique4-view-profile-button"
+                    icon={<EyeOutlined />}
+                    onClick={() => handleEditEvaluation(record)}
+                  >
                     View
                   </Button>
                   {!record.isFinalized && (
                     <>
-                      <Button className="unique4-view-profile-button" icon={<EditOutlined />} onClick={() => handleEditEvaluation(record)}>
+                      <Button
+                        className="unique4-view-profile-button"
+                        icon={<EditOutlined />}
+                        onClick={() => handleEditEvaluation(record)}
+                      >
                         Edit
                       </Button>
                       <Popconfirm
@@ -892,7 +967,10 @@ const Reports = () => {
                   dataSource={selectedCourses}
                   renderItem={(course) => (
                     <List.Item className="unique4-ant-list-item">
-                      <Tag color="blue" className="status-pill-unique13 flagged-unique13">{course.code}</Tag> {course.name}
+                      <Tag color="blue" className="status-pill-unique13 flagged-unique13">
+                        {course.code}
+                      </Tag>{" "}
+                      {course.name}
                     </List.Item>
                   )}
                 />
@@ -977,7 +1055,11 @@ const Reports = () => {
             <Rate allowHalf />
           </Form.Item>
           <Form.Item name="comments" label="Additional Comments">
-            <TextArea rows={4} placeholder="Share your thoughts about the internship..." className="unique4-ant-input" />
+            <TextArea
+              rows={4}
+              placeholder="Share your thoughts about the internship..."
+              className="unique4-ant-input"
+            />
           </Form.Item>
         </Form>
       </Modal>
@@ -997,7 +1079,11 @@ const Reports = () => {
             label="Appeal Message"
             rules={[{ required: true, message: "Please enter your appeal message" }]}
           >
-            <TextArea rows={4} placeholder="Explain why you are appealing this report..." className="unique4-ant-input" />
+            <TextArea
+              rows={4}
+              placeholder="Explain why you are appealing this report..."
+              className="unique4-ant-input"
+            />
           </Form.Item>
         </Form>
       </Modal>

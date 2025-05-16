@@ -1543,10 +1543,7 @@ s
   color: #666;
 }
 
-/* Month Card Active/Inactive Styles */
-.month-card.active-month {
-  /* Styles for active months are default .month-card styles */
-}
+
 
 .month-card.inactive-month {
   opacity: 0.7; /* Make inactive months slightly faded */
@@ -1561,13 +1558,7 @@ s
 
 /* --- STYLES FOR SETUP FORM --- */
 
-.setup-form-container {
-  /* If .setup-form-container is directly inside .calendar-container,
-     it will inherit the padding and shadow.
-     If you want it to be visually distinct or take less width: */
-  /* max-width: 500px; */ /* Example: constrain width of the form itself */
-  /* margin: 0 auto; */ /* Center it if max-width is used */
-}
+
 
 .setup-form-title {
   font-size: 20px;
@@ -2272,9 +2263,7 @@ s
   flex-shrink: 0;
   position: relative;
 }
-.price-info { /* Container for salary and hourly rate */
-  /* Styles for this container if needed */
-}
+
 .salary-total {
   font-size: 20px;
   font-weight: 700;
@@ -2315,11 +2304,6 @@ s
   margin-bottom: 4px;
 }
 
-.cs-company-name { /* Company name on the left */
-  font-size: 13px;
-  color: #5f2878; /* Purple color as in image */
-  font-weight: 500;
-}
 
 .internship-card-industry { /* Industry text on the right */
   font-size: 13px;
@@ -2394,7 +2378,7 @@ s
   margin-top: 6px;
   margin-bottom: 8px; /* Space before applications count */
   display: -webkit-box;
-  -webkit-line-clamp: 1;
+
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -2466,145 +2450,7 @@ s
 /* Ensure the filter modal styles are distinct if they were different from the general ones I provided before */
 
 /* Filter Modal Styles (using cs- prefix for consistency) */
-.cs-filter-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000;
-}
-.cs-filter-modal {
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-  width: 90%;
-  max-width: 500px;
-  display: flex;
-  flex-direction: column;
-  max-height: 85vh;
-}
-.cs-filter-modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 20px;
-  border-bottom: 1px solid #e5e7eb;
-}
-.cs-filter-modal-header h2 {
-  font-weight: 600;
-  text-transform: capitalize;
-  font-size: 18px;
-  color: #1f2937;
-  margin: 0;
-}
-.cs-close-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #9ca3af;
-  padding: 6px;
-  border-radius: 50%;
-  display: flex;
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-.cs-close-button:hover {
-  background-color: #f3f4f6;
-  color: #374151;
-}
-.cs-filter-modal-content {
-  padding: 8px 20px 20px 20px;
-  overflow-y: auto;
-  flex-grow: 1;
-}
-.cs-filter-section {
-  margin-bottom: 20px;
-}
-.cs-filter-section:last-child {
-  margin-bottom: 0;
-}
-.cs-filter-section-title {
-  font-weight: 600;
-  margin-bottom: 12px;
-  text-transform: uppercase;
-  font-size: 13px;
-  color: #6b7280;
-  letter-spacing: 0.5px;
-}
-.cs-filter-options {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.cs-filter-options-wrap {
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-.cs-filter-option {
-  padding: 10px 14px;
-  cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-  font-size: 14px;
-  border-radius: 6px;
-  background-color: #f9fafb;
-  color: #374151;
-  border: 1px solid #e5e7eb;
-  text-align: left;
-}
-.cs-filter-option:hover {
-  background-color: #f3f4f6;
-  border-color: #d1d5db;
-}
-.cs-filter-option.cs-selected {
-  background-color: #5f2878;
-  color: white;
-  border-color: #4a2060;
-  font-weight: 500;
-}
-.cs-filter-actions {
-  display: flex;
-  justify-content: flex-end;
-  padding: 16px 20px;
-  border-top: 1px solid #e5e7eb;
-  background-color: #f9fafb;
-  gap: 12px;
-}
-.cs-reset-button,
-.cs-apply-button {
-  padding: 10px 20px;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
-  min-width: 120px;
-  text-align: center;
-}
-.cs-reset-button {
-  background-color: #fff;
-  color: #4b5563;
-  border: 1px solid #d1d5db;
-}
-.cs-reset-button:hover {
-  background-color: #f9fafb;
-  border-color: #9ca3af;
-}
-.cs-reset-button.cs-active {
-    background-color: #e5e7eb;
-}
-.cs-apply-button {
-  background-color: #5f2878;
-  color: white;
-  border: 1px solid #5f2878;
-}
-.cs-apply-button:hover {
-  background-color: #4a2060;
-  border-color: #4a2060;
-}
+
 
 /* REMOVED Internship Details Modal Styles as per request to remove popups */
 
@@ -2612,7 +2458,7 @@ s
 @media (max-width: 768px) {
   .internships-section { padding: 16px; }
   .companies-filter-controls { flex-direction: column; align-items: stretch; gap: 12px; }
-  .cs-search-input { max-width: none; }
+  
 
   .internship-display-card { flex-direction: column; min-height: auto; }
   .internship-display-card-left {
@@ -2645,16 +2491,14 @@ s
   .payment-status-text-list { margin-top: 0; text-align: right; }
 
   .dates-list, .duration-list { padding-left: 0; }
-  .cs-filter-modal { max-width: 90vw; }
+  
 }
 
 @media (max-width: 480px) {
   .internships-header h2 { font-size: 22px; }
   .job-title-list { font-size: 18px; }
   .salary-total { font-size: 18px; }
-  .cs-filter-modal-header h2 { font-size: 16px; }
-  .cs-filter-actions { flex-direction: column; gap: 10px; }
-  .cs-filter-actions button { width: 100%; }
+ 
 }
 
 /* Evaluations Page - General Container */
@@ -2991,10 +2835,7 @@ s
 }
 
 
-/* Clarification Module in Detail View */
-.clarification-module {
-  /* This will inherit .report-card-detailed styles if it's a direct child with that class */
-}
+
 .clarification-module-header {
   display: flex;
   justify-content: space-between;
@@ -3031,10 +2872,7 @@ s
 }
 
 
-/* Set Status Module */
-.set-status-module {
-  /* This will inherit .report-card-detailed styles if it's a direct child with that class */
-}
+
 .status-options-detail {
   display: flex;
   flex-direction: column;

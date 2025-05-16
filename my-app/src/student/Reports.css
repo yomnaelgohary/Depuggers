@@ -540,3 +540,25 @@
   color: #fff !important;
   border-color: #2563eb !important;
 }
+.custom-download-message {
+  background-color: #f5f3ff !important;
+  color: #5f2878 !important;
+  border-left: 4px solid #5f2878 !important;
+  padding: 10px 15px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  border-radius: 4px !important;
+  margin-top: 50px !important;
+}
+
+.custom-download-message .anticon {
+  color: #5f2878 !important;
+}
+
+.download-success-message-unique .ant-message-notice-content {
+  background-color: #f5f3ff;
+  color: #5f2878;
+  font-weight: 500;
+}
+.custom-download-message {
+  z-index: 10000 !important;
+}
