@@ -1,7 +1,8 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { Bell, User, LogOut, X, Info, AlertTriangle, CheckCircle, ArrowLeft, ArrowRight, Phone } from "lucide-react"
+import { Bell, User, LogOut, X, Info, AlertTriangle, CheckCircle, ChevronLeft, ChevronRight, Phone } from "lucide-react"
+import { useNavigate } from "react-router-dom"
 import { useNotifications } from "./NotificationsContext"
 import "./Header.css"
 
@@ -92,6 +93,7 @@ function Header({ onNavigateBack, onNavigateForward, canGoBack, canGoForward }) 
   const [showUserDropdown, setShowUserDropdown] = useState(false)
   const { notifications } = useNotifications()
   const notificationCount = notifications.length
+  const navigate = useNavigate()
 
   const notificationsPanelRef = useRef(null);
   const userDropdownRef = useRef(null)
@@ -132,41 +134,34 @@ function Header({ onNavigateBack, onNavigateForward, canGoBack, canGoForward }) 
   }
 
   const handleLogout = () => {
-    console.log("Logging out...");
     setShowUserDropdown(false);
+    navigate("/login");
   };
 
   return (
-    <header className="app-header">
-      <div className="header-left">
-        <div className="navigation-controls">
-          {/* REVERTED TO YOUR ORIGINAL STRUCTURE FOR ARROW BUTTONS if it was working */}
+    <header className="ch-company-header">
+      <div className="ch-header-left">
+        <div className="ch-navigation-buttons">
           <button
-            className={`nav-control-btn ${!canGoBack ? "disabled" : ""}`}
+            className={`ch-nav-button ${!canGoBack ? "ch-disabled" : ""}`}
             onClick={onNavigateBack}
             disabled={!canGoBack}
-            title={canGoBack ? "Go back" : "No previous page"}
+            aria-label="Go back"
           >
-            <span className="nav-arrow-icon"> {/* Keep span if you style icon via this class */}
-              <ArrowLeft size={14} /> {/* Set size directly on Lucide icon */}
-            </span>
+            <ChevronLeft size={24} strokeWidth={1.5} />
           </button>
-
           <button
-            className={`nav-control-btn ${!canGoForward ? "disabled" : ""}`}
+            className={`ch-nav-button ${!canGoForward ? "ch-disabled" : ""}`}
             onClick={onNavigateForward}
             disabled={!canGoForward}
-            title={canGoForward ? "Go forward" : "No next page"}
+            aria-label="Go forward"
           >
-            <span className="nav-arrow-icon"> {/* Keep span if you style icon via this class */}
-              <ArrowRight size={14} /> {/* Set size directly on Lucide icon */}
-            </span>
+            <ChevronRight size={24} strokeWidth={1.5} />
           </button>
         </div>
       </div>
-
-      <div className="header-right">
-        <div className="notification-container">
+      <div className="ch-header-right">
+        <div className="ch-notification-bell-container">
           <button
             className="header-icon-button"
             onClick={toggleNotifications}
@@ -191,7 +186,7 @@ function Header({ onNavigateBack, onNavigateForward, canGoBack, canGoForward }) 
           )}
         </div>
 
-        <div className="avatar-container">
+        <div className="ch-avatar-container">
           <button
             className="header-icon-button avatar-button-override"
             onClick={toggleUserDropdown}
@@ -207,12 +202,8 @@ function Header({ onNavigateBack, onNavigateForward, canGoBack, canGoForward }) 
               ref={userDropdownRef}
             >
               <div className="user-dropdown-info">
-                <div className="dropdown-avatar-placeholder">
-                    <User size={22} />
-                </div>
                 <div className="user-details">
                     <p className="user-name">SCAD ADMIN</p>
-                    <p className="user-email">admin@scad.guc.edu.eg</p>
                 </div>
               </div>
               <div className="dropdown-divider"></div>

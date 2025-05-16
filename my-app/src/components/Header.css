@@ -58,11 +58,6 @@
 .nav-control-btn:hover:not(.disabled) .nav-arrow-icon {
   color: white; /* Your original hover icon color */
 }
-/* If the SVG itself needs its color changed on hover, and it's inside the span: */
-.nav-control-btn:hover:not(.disabled) .nav-arrow-icon svg {
-  /* stroke: white; */ /* Or fill: white; depending on the SVG */
-  /* This might not be needed if the parent span's color change is sufficient */
-}
 
 
 .nav-control-btn:active:not(.disabled) {
@@ -78,10 +73,6 @@
 .nav-control-btn.disabled .nav-arrow-icon {
   color: #adb5bd; /* Your original disabled icon color */
 }
-/* If the SVG itself needs its color changed when disabled: */
-.nav-control-btn.disabled .nav-arrow-icon svg {
- /* stroke: #adb5bd; */ /* Or fill, if needed */
-}
 
 
 /* --- Enhanced Header Icon Buttons (Notification & Avatar) - REMAINS THE SAME --- */
@@ -94,24 +85,29 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: #f8f9fa;
-  border: 1px solid #dee2e6;
+  background-color: #f5f3ff;
+  border: 2px solid #5f2878;
+  color: #5f2878;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #495057;
   cursor: pointer;
-  position: relative;
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
-  padding:0;
+  transition: all 0.2s ease;
+  padding: 0;
+  outline: none;
 }
 .header-icon-button:hover {
-  background-color: #e9ecef;
-  border-color: #ced4da;
-  color: #212529;
+  background-color: #5f2878;
+  color: white;
+  border-color: #5f2878;
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(95, 40, 120, 0.2);
 }
 .header-icon-button:active {
-  transform: scale(0.92);
+  background-color: #5f2878;
+  color: white;
+  border-color: #5f2878;
+  transform: scale(0.97);
 }
 .header-icon-button:focus-visible {
   outline: 2px solid #5f2878;
@@ -120,9 +116,7 @@
 .header-icon-button:focus {
   outline: none;
 }
-.avatar-button-override {
-  /* Styles if needed */
-}
+
 .notification-container,
 .avatar-container {
   position: relative;
@@ -152,11 +146,12 @@
   position: absolute;
   top: calc(40px + 12px);
   right: 0;
-  width: 280px;
+  width: 220px;
+  min-height: 70px;
   background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  padding: 12px;
+  padding: 8px 12px;
   z-index: 1050;
   border: 1px solid #f0f0f0;
   opacity: 0;
@@ -170,12 +165,20 @@
   visibility: visible;
   transition: opacity 0.2s ease-out, transform 0.2s ease-out, visibility 0s linear;
 }
-/* ... (rest of user dropdown and notification panel styles remain as per the previous enhanced version) ... */
 .user-dropdown-info {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 12px 16px;
+  gap: 10px;
+  padding: 8px 0 4px 0;
+}
+.user-name {
+  font-weight: 600;
+  font-size: 15px;
+  color: #1a202c;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .dropdown-avatar-placeholder {
     width: 44px;
@@ -192,15 +195,6 @@
 }
 .user-details {
   overflow: hidden;
-}
-.user-name {
-  font-weight: 600;
-  font-size: 16px;
-  color: #1a202c;
-  margin: 0 0 4px 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 .user-email {
   font-size: 13px;
@@ -354,9 +348,7 @@
   flex-shrink: 0;
   padding-top: 2px;
 }
-.notification-icon-type {
-  /* Size is set in JSX */
-}
+
 .notification-icon-type.success { color: #38a169; }
 .notification-icon-type.warning { color: #dd6b20; }
 .notification-icon-type.error   { color: #e53e3e; }
@@ -409,6 +401,151 @@
   transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 .clear-all-button:hover {
+  background-color: #f0eaff;
+  color: #5f2878;
+}
+
+/* Add/replace styles for SCAD Header to match CompanyHeader */
+.ch-company-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  background-color: #fff;
+  border-bottom: 1px solid #eaeaea;
+  height: 64px;
+}
+.ch-header-left {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.ch-navigation-buttons {
+  display: flex;
+  gap: 8px;
+}
+.ch-nav-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #E5E7EB;
+  background-color: transparent;
+  color: #E5E7EB;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+.ch-nav-button svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 1.5;
+}
+.ch-nav-button:hover:not(.ch-disabled) {
+  border-color: #5f2878;
+  color: #5f2878;
+}
+.ch-nav-button:active:not(.ch-disabled) {
+  background-color: #5f2878;
+  border-color: #5f2878;
+  color: white;
+}
+.ch-nav-button.ch-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border-color: #E5E7EB;
+  color: #E5E7EB;
+}
+.ch-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.ch-icon-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #f5f3ff;
+  border: 2px solid #5f2878;
+  color: #5f2878;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+  outline: none;
+}
+.ch-icon-button:hover {
+  background-color: #5f2878;
+  color: white;
+  border-color: #5f2878;
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(95, 40, 120, 0.2);
+}
+.ch-icon-button:active {
+  background-color: #5f2878;
+  color: white;
+  border-color: #5f2878;
+  transform: scale(0.97);
+}
+.ch-icon-button svg {
+  width: 20px;
+  height: 20px;
+  color: inherit;
+}
+.ch-notification-bell-container {
+  position: relative;
+}
+.ch-notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #dc2626;
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  border: 2px solid white;
+}
+.ch-avatar-container {
+  position: relative;
+}
+.ch-avatar-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #f5f3ff;
+  border: 2px solid #5f2878;
+  color: #5f2878;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+  outline: none;
+}
+.ch-avatar-button:hover {
+  background-color: #5f2878;
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(95, 40, 120, 0.2);
+}
+.ch-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
   background-color: #f0eaff;
   color: #5f2878;
 }

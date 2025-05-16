@@ -171,3 +171,120 @@
     min-width: 240px;
   }
 }
+
+/* Add/replace styles for SCAD Sidebar to match CompanySidebar */
+.csb-company-sidebar {
+  width: 280px;
+  min-width: 280px;
+  height: 100vh;
+  background-color: #ffffff;
+  border-right: 1px solid #e9ecef;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  overflow-y: auto;
+}
+.csb-sidebar-header {
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid #E5E7EB;
+  margin-bottom: 8px;
+}
+.csb-company-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: #5f2878;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.csb-company-title {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #2D2D2D;
+  letter-spacing: -0.02em;
+  margin: 0;
+  line-height: 1.2;
+}
+.csb-sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.csb-sidebar-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.csb-sidebar-section-title {
+  padding: 0 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.csb-sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 12px;
+}
+.csb-sidebar-menu-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  text-align: left;
+  color: #4b5563;
+  gap: 12px;
+  width: 100%;
+}
+.csb-sidebar-menu-item:hover {
+  background-color: #f9fafb;
+  color: #5f2878;
+}
+.csb-sidebar-menu-item.csb-active {
+  background-color: #f5f3ff;
+  color: #5f2878;
+  font-weight: 500;
+}
+.csb-sidebar-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: inherit;
+}
+.csb-sidebar-label {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+}
+.csb-active-indicator {
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 24px;
+  background-color: #5f2878;
+  border-radius: 0 4px 4px 0;
+}

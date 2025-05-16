@@ -93,15 +93,7 @@ function Dashboard({ activePage, onPageChange }) {
   return (
     <div className="dashboard-container">
       {/* Welcome Section */}
-      <div className="dashboard-header">
-        <div>
-          <h1 className="dashboard-title">Welcome back, Admin</h1>
-          <p className="dashboard-subtitle">Here's what's happening with your platform today.</p>
-        </div>
-        <div className="date-display">
-          {new Date().toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}
-        </div>
-      </div>
+      {/* Removed dashboard-header with welcome, subtitle, and date */}
 
       {/* Quick Actions - Using navigation pattern from Sidebar */}
       <div className="dashboard-card actions-card">
