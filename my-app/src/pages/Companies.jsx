@@ -6,8 +6,8 @@ import { useNotifications } from "../components/NotificationsContext"
 
 function Companies() {
   const [showFilters, setShowFilters] = useState(false)
-  const [tempSelectedIndustries, setTempSelectedIndustries] = useState(["All"])
-  const [selectedIndustries, setSelectedIndustries] = useState(["All"])
+  const [tempSelectedIndustries, setTempSelectedIndustries] = useState(["All Companies"])
+  const [selectedIndustries, setSelectedIndustries] = useState(["All Companies"])
 
   const { addNotification } = useNotifications()
   const [jspdfLoaded, setJspdfLoaded] = useState(false)
@@ -17,6 +17,7 @@ function Companies() {
   // Ref for the filter popup to handle click outside
   const filterPopupRef = useRef(null);
 
+  const [resetActive, setResetActive] = useState(false);
 
   const [initialCompanies, setInitialCompanies] = useState([
     { id: 1, name: "Dell Technologies", industry: "Technology" },
@@ -51,7 +52,11 @@ function Companies() {
   }
 
   const [filteredCompanies, setFilteredCompanies] = useState(initialCompanies)
-  const uniqueIndustries = ["All", ...new Set(initialCompanies.map((company) => company.industry))].sort()
+  const uniqueIndustries = ["All Companies", ...new Set(initialCompanies.map((company) => company.industry))].sort((a, b) => {
+    if (a === "All Companies") return -1;
+    if (b === "All Companies") return 1;
+    return a.localeCompare(b);
+  });
 
   useEffect(() => {
     const script = document.createElement("script")
@@ -91,7 +96,7 @@ function Companies() {
       results = results.filter((company) => company.name.toLowerCase().includes(searchQuery.toLowerCase()))
     }
 
-    if (!selectedIndustries.includes("All")) {
+    if (!selectedIndustries.includes("All Companies")) {
       results = results.filter((company) => selectedIndustries.includes(company.industry))
     }
 
@@ -121,13 +126,13 @@ function Companies() {
 
   const toggleIndustrySelection = (industry) => {
     setTempSelectedIndustries((prev) => {
-      if (industry === "All") {
-        return ["All"]
+      if (industry === "All Companies") {
+        return ["All Companies"]
       }
-      const newSelection = prev.includes("All") ? [industry] :
+      const newSelection = prev.includes("All Companies") ? [industry] :
                            prev.includes(industry) ? prev.filter((i) => i !== industry) :
                            [...prev, industry];
-      return newSelection.length === 0 ? ["All"] : newSelection;
+      return newSelection.length === 0 ? ["All Companies"] : newSelection;
     })
   }
 
@@ -137,8 +142,8 @@ function Companies() {
   }
 
   const resetFilters = () => {
-    setTempSelectedIndustries(["All"])
-    setSelectedIndustries(["All"]) // Also reset the applied filters
+    setTempSelectedIndustries(["All Companies"])
+    setSelectedIndustries(["All Companies"]) // Also reset the applied filters
     setShowFilters(false)
   }
 
@@ -221,7 +226,7 @@ function Companies() {
     : null
 
   const getActiveFilterCount = () => {
-    if (selectedIndustries.includes("All") || selectedIndustries.length === 0) return 0 // Consider empty as 'All'
+    if (selectedIndustries.includes("All Companies") || selectedIndustries.length === 0) return 0 // Consider empty as 'All'
     return selectedIndustries.length
   }
 
@@ -233,19 +238,21 @@ function Companies() {
         <div className="companies-header">
           <h2>Companies</h2>
         </div>
-        <div className="companies-filter-controls">
+        <div className="companies-filter-controls" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', marginBottom: '20px' }}>
           <input
             type="text"
-            className="minimal-search" // This class needs to be defined in your CSS
-            placeholder="Search companies..." // More specific placeholder
+            className="minimal-search cs-search-input"
+            placeholder="Search companies..."
             value={searchQuery}
             onChange={handleSearchChange}
+            style={{ width: '250px' }}
           />
-
-          <button className="filters-button" onClick={openFilterModal}>
-            <span className="hamburger-icon">≡</span> {/* Or use Menu icon from lucide-react */}
+          <button className="filters-button cs-filter-button" onClick={openFilterModal} style={{ marginLeft: 'auto' }}>
+            <span className="hamburger-icon">≡</span>
             Filters
-            {activeFilterCount > 0 && <span className="filter-badge">{activeFilterCount}</span>}
+            {selectedIndustries && selectedIndustries.length > 0 && !selectedIndustries.includes('All Companies') && (
+              <span className="filter-badge">{selectedIndustries.length}</span>
+            )}
           </button>
         </div>
 
@@ -277,33 +284,46 @@ function Companies() {
 
         {/* Filter Modal */}
         {showFilters && (
-          <div className="filter-popup-overlay" onClick={closeFilterModal}>
-            {/* Added ref to filter-popup and stopPropagation */}
-            <div className="filter-popup" ref={filterPopupRef} onClick={(e) => e.stopPropagation()}>
-              <div className="filter-popup-header">
-                <h3>Filter by Industry</h3>
-                <button className="popup-close-btn" onClick={closeFilterModal}> {/* Added class for styling */}
+          <div className="cs-filter-modal-overlay" onClick={closeFilterModal}>
+            <div className="cs-filter-modal" ref={filterPopupRef} onClick={(e) => e.stopPropagation()}>
+              <div className="cs-filter-modal-header">
+                <h2>Filter by Industry</h2>
+                <button className="cs-close-button" onClick={closeFilterModal}>
                   <X size={18} />
                 </button>
               </div>
-              <div className="filter-options-container"> {/* Added container for scrolling if many options */}
-                {uniqueIndustries.map((industry) => (
-                  <div
-                    key={industry}
-                    className={`filter-option ${tempSelectedIndustries.includes(industry) ? "selected" : ""}`}
-                    onClick={() => toggleIndustrySelection(industry)}
-                  >
-                    {industry}
-                    {/* {tempSelectedIndustries.includes(industry) && <CheckCircle size={16} className="check-icon" />} */} {/* REMOVE OR COMMENT OUT THIS LINE */}
+              <div className="cs-filter-modal-content">
+                <div className="cs-filter-section">
+                  <div className="cs-filter-options">
+                    {uniqueIndustries.map((industry) => (
+                      <div
+                        key={industry}
+                        className={`cs-filter-option${tempSelectedIndustries.includes(industry) ? " cs-selected" : ""}`}
+                        onClick={() => toggleIndustrySelection(industry)}
+                      >
+                        {industry}
+                      </div>
+                    ))}
                   </div>
-                ))}
+                </div>
               </div>
-              <div className="filter-popup-footer">
-                <button className="reset-button" onClick={resetFilters}>
+              <div className="cs-filter-actions">
+                <button
+                  className={`cs-reset-button${resetActive ? " cs-active" : ""}`}
+                  onClick={resetFilters}
+                  onMouseDown={() => setResetActive(true)}
+                  onMouseUp={() => setResetActive(false)}
+                  onMouseLeave={() => setResetActive(false)}
+                >
                   Reset
                 </button>
-                <button className="apply-button" onClick={applyFilters}>
-                  Apply Filters {/* Changed text for clarity */}
+                <button className="cs-apply-button" onClick={applyFilters}>
+                  {`Show ${initialCompanies.filter(company => {
+                    let matches = true;
+                    if (searchQuery && !company.name.toLowerCase().includes(searchQuery.toLowerCase())) matches = false;
+                    if (!tempSelectedIndustries.includes('All Companies') && !tempSelectedIndustries.includes(company.industry)) matches = false;
+                    return matches;
+                  }).length} Companies`}
                 </button>
               </div>
             </div>
