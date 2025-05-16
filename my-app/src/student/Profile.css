@@ -1,8 +1,9 @@
 /* Profile Component Styles */
 .profile-content-custom {
-  padding: 20px;
+  padding: 30px;
   max-width: 1200px;
   margin: 0 auto;
+  width: 100%;
 }
 
 .profile-header-custom {
@@ -12,8 +13,9 @@
   margin-bottom: 25px;
   padding: 15px 20px;
   border-radius: 8px;
-  background-color: #fafafa;
+  background-color: white;
   border: 1px solid #e0e0e0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .profile-title-custom {
@@ -24,8 +26,8 @@
 
 .profile-icon-custom {
   font-size: 28px;
-  color: #1890ff;
-  background-color: rgba(24, 144, 255, 0.1);
+  color: #5f2878;
+  background-color: rgba(95, 40, 120, 0.1);
   padding: 10px;
   border-radius: 50%;
 }
@@ -39,12 +41,12 @@
 
 .section-icon-custom {
   font-size: 20px;
-  color: #1890ff;
+  color: #5f2878;
 }
 
 .section-feature-icon-custom {
   font-size: 36px;
-  color: #1890ff;
+  color: #5f2878;
   opacity: 0.8;
 }
 
@@ -99,7 +101,7 @@
 }
 
 .profile-responsibility-icon {
-  color: #1890ff;
+  color: #5f2878;
   margin-top: 4px;
 }
 
@@ -115,7 +117,7 @@
   margin-bottom: 20px;
   background: #fff;
   border-radius: 8px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
 
@@ -146,8 +148,8 @@
 .profile-tag-skill {
   background-color: #f0f0f0;
   color: #333;
-  border: none;
-  border-radius: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 20px;
   padding: 6px 14px;
   font-size: 13px;
   font-weight: 500;
@@ -157,10 +159,10 @@
 }
 
 .profile-tag-interest {
-  background-color: #f0f0f0;
-  color: #333;
-  border: none;
-  border-radius: 16px;
+  background-color: #f0e6f5;
+  color: #5f2878;
+  border: 1px solid rgba(95, 40, 120, 0.3);
+  border-radius: 20px;
   padding: 6px 14px;
   font-size: 13px;
   font-weight: 500;
@@ -170,10 +172,10 @@
 }
 
 .profile-tag-skill-gained {
-  background-color: #f0f0f0;
+  background-color: #f5f5f5;
   color: #333;
-  border: none;
-  border-radius: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 20px;
   padding: 6px 14px;
   font-size: 13px;
   font-weight: 500;
@@ -184,6 +186,8 @@
 
 .profile-section-custom {
   margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
 }
 
 .profile-divider-with-text {
@@ -195,14 +199,33 @@
 .profile-form-actions {
   margin-top: 16px;
   padding-top: 12px;
+  display: flex;
+  gap: 15px;
+}
+
+.profile-form-actions button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.profile-form-actions button[type="primary"] {
+  background-color: #5f2878;
+  border-color: #5f2878;
+}
+
+.profile-form-actions button[type="primary"]:hover {
+  background-color: #4a1d5e;
+  border-color: #4a1d5e;
 }
 
 /* Job Cards */
 .profile-card-job {
   margin-bottom: 16px;
   border-radius: 8px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  border-left: 4px solid #52c41a;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #5f2878;
   transition: all 0.3s ease;
 }
 
@@ -256,7 +279,7 @@
 }
 
 .profile-responsibility-icon {
-  color: #52c41a;
+  color: #5f2878;
   margin-right: 10px;
   font-size: 16px;
 }
@@ -265,8 +288,8 @@
 .profile-card-activity {
   margin-bottom: 16px;
   border-radius: 8px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  border-left: 4px solid #fa8c16;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #5f2878;
   transition: all 0.3s ease;
 }
 
@@ -317,4 +340,117 @@
   text-align: center;
   padding: 20px;
   color: #8c8c8c;
+}
+
+/* Internship Cards */
+.profile-card-internship {
+  margin-bottom: 16px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.profile-card-internship.current {
+  border-left: 4px solid #5f2878;
+}
+
+.profile-card-internship.completed {
+  border-left: 4px solid #5f2878;
+  opacity: 0.9;
+}
+
+/* Ant Design overrides */
+.ant-btn-primary {
+  background-color: #5f2878;
+  border-color: #5f2878;
+}
+
+.ant-btn-primary:hover,
+.ant-btn-primary:focus {
+  background-color: #4a1d5e;
+  border-color: #4a1d5e;
+}
+
+.ant-tag-blue {
+  color: #5f2878;
+  background: #f0e6f5;
+  border-color: #5f2878;
+}
+
+.ant-tag-green {
+  color: #5f2878;
+  background: #f0e6f5;
+  border-color: #5f2878;
+}
+
+.ant-tag-orange {
+  color: #5f2878;
+  background: #f0e6f5;
+  border-color: #5f2878;
+}
+
+.ant-steps-item-process .ant-steps-item-icon {
+  background-color: #5f2878;
+  border-color: #5f2878;
+}
+
+.ant-steps-item-finish .ant-steps-item-icon {
+  border-color: #5f2878;
+}
+
+.ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
+  color: #5f2878;
+}
+
+.ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title::after {
+  background-color: #5f2878;
+}
+
+.ant-btn-dashed:hover,
+.ant-btn-dashed:focus {
+  color: #5f2878;
+  border-color: #5f2878;
+}
+
+.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #5f2878;
+  border-color: #5f2878;
+}
+
+.ant-checkbox-wrapper:hover .ant-checkbox-inner,
+.ant-checkbox:hover .ant-checkbox-inner,
+.ant-checkbox-input:focus + .ant-checkbox-inner {
+  border-color: #5f2878;
+}
+
+.ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+  color: #5f2878;
+  background-color: #f0e6f5;
+}
+
+.ant-select-focused .ant-select-selector,
+.ant-select-selector:hover,
+.ant-select-open .ant-select-selector {
+  border-color: #5f2878 !important;
+}
+
+.ant-input:hover,
+.ant-input:focus,
+.ant-input-focused {
+  border-color: #5f2878;
+}
+
+.ant-input-affix-wrapper:hover,
+.ant-input-affix-wrapper:focus,
+.ant-input-affix-wrapper-focused {
+  border-color: #5f2878;
+}
+
+.ant-btn-link {
+  color: #5f2878;
+}
+
+.ant-btn-link:hover,
+.ant-btn-link:focus {
+  color: #4a1d5e;
 }
