@@ -19,6 +19,14 @@ function Internships() {
   const [selectedPayStatus, setSelectedPayStatus] = useState("All")
   const [selectedInternship, setSelectedInternship] = useState(null)
 
+  const [resetActive, setResetActive] = useState(false);
+
+  const [tempLocation, setTempLocation] = useState("");
+  const [tempSkill, setTempSkill] = useState("");
+
+  const [selectedLocation, setSelectedLocation] = useState("");
+  const [selectedSkill, setSelectedSkill] = useState("");
+
   // ... (companies and internships data) ...
   const companies = [
     { id: 1, name: "Dell Technologies", industry: "Technology" },
@@ -159,22 +167,25 @@ function Internships() {
 
 
   const filteredInternships = internships.filter((internship) => {
-    const company = companies.find((c) => c.id === internship.companyId)
+    const company = companies.find((c) => c.id === internship.companyId);
     if (!company) return false;
+    // Only filter if a filter is selected
     if (searchQuery) {
-      const query = searchQuery.toLowerCase()
-      const matchesTitle = internship.jobTitle.toLowerCase().includes(query)
-      const matchesCompany = company.name.toLowerCase().includes(query)
-      if (!matchesTitle && !matchesCompany) return false
+      const query = searchQuery.toLowerCase();
+      const matchesTitle = internship.jobTitle.toLowerCase().includes(query);
+      const matchesCompany = company.name.toLowerCase().includes(query);
+      if (!matchesTitle && !matchesCompany) return false;
     }
-    if (selectedIndustry !== "All" && company.industry !== selectedIndustry) return false
-    if (selectedDuration !== "All" && internship.duration !== selectedDuration) return false
+    if (selectedIndustry !== "All" && company.industry !== selectedIndustry) return false;
+    if (selectedDuration !== "All" && internship.duration !== selectedDuration) return false;
     if (selectedPayStatus !== "All") {
-      const isPaid = selectedPayStatus === "Paid"
-      if (internship.isPaid !== isPaid) return false
+      const isPaid = selectedPayStatus === "Paid";
+      if (internship.isPaid !== isPaid) return false;
     }
-    return true
-  })
+    if (selectedLocation && internship.location !== selectedLocation) return false;
+    if (selectedSkill && !internship.skills.includes(selectedSkill)) return false;
+    return true;
+  });
 
   const uniqueIndustries = ["All", ...new Set(companies.map((company) => company.industry))].sort()
   const uniqueDurations = ["All", ...new Set(internships.map((internship) => internship.duration))].sort()
@@ -186,6 +197,8 @@ function Internships() {
     setTempIndustry(selectedIndustry)
     setTempDuration(selectedDuration)
     setTempPayStatus(selectedPayStatus)
+    setTempLocation(selectedLocation)
+    setTempSkill(selectedSkill)
     setShowFilters(true)
   }
 
@@ -197,6 +210,8 @@ function Internships() {
     setSelectedIndustry(tempIndustry)
     setSelectedDuration(tempDuration)
     setSelectedPayStatus(tempPayStatus)
+    setSelectedLocation(tempLocation)
+    setSelectedSkill(tempSkill)
     setShowFilters(false)
   }
 
@@ -204,9 +219,13 @@ function Internships() {
     setTempIndustry("All")
     setTempDuration("All")
     setTempPayStatus("All")
+    setTempLocation("")
+    setTempSkill("")
     setSelectedIndustry("All")
     setSelectedDuration("All")
     setSelectedPayStatus("All")
+    setSelectedLocation("")
+    setSelectedSkill("")
     setShowFilters(false)
   }
 
@@ -287,22 +306,21 @@ function Internships() {
     <>
       {!selectedInternship ? (
         <div className="internships-section">
-          {/* ... (header, search, filter button) ... */}
           <div className="internships-header">
             <h2>Internships</h2>
           </div>
-          <div className="search-filter-container">
-            <div className="search-input-wrapper">
-              <input
-                type="text"
-                className="search-input"
-                placeholder="Search internship by title or company"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-            <button className="filters-button" onClick={openFilterModal}>
-              <span className="hamburger-icon">≡</span> Filters
+          <div className="companies-filter-controls" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', marginBottom: '20px' }}>
+            <input
+              type="text"
+              className="minimal-search cs-search-input"
+              placeholder="Search internship by title or company"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              style={{ width: '320px' }}
+            />
+            <button className="filters-button cs-filter-button" onClick={openFilterModal} style={{ marginLeft: 'auto' }}>
+              <span className="hamburger-icon">≡</span>
+              Filters
               {activeFilterCount > 0 && <span className="filter-badge">{activeFilterCount}</span>}
             </button>
           </div>
@@ -325,73 +343,102 @@ function Internships() {
 
 
           {showFilters && (
-            <div className="filter-popup-overlay" onClick={closeFilterModal}>
-              <div className="filter-popup" onClick={(e) => e.stopPropagation()}>
-                <div className="filter-popup-header">
-                  <h3>Filter Internships</h3>
-                  <button onClick={closeFilterModal} className="filter-close-btn">
+            <div className="cs-filter-modal-overlay" onClick={closeFilterModal}>
+              <div className="cs-filter-modal" onClick={e => e.stopPropagation()}>
+                <div className="cs-filter-modal-header">
+                  <h2 style={{ fontWeight: 700, textTransform: 'capitalize' }}>Filters</h2>
+                  <button className="cs-close-button" onClick={closeFilterModal}>
                     <X size={18} />
                   </button>
                 </div>
-                <div className="filter-popup-content">
-                  {/* Industry Filter Section */}
-                  <div className="filter-section">
-                    <h4>Industry</h4>
-                    <div className="filter-options">
-                      {uniqueIndustries.map((industry) => (
-                        <div
-                          key={industry}
-                          className={`filter-option ${tempIndustry === industry ? "selected" : ""}`}
-                          onClick={() => setTempIndustry(industry)}
-                        >
-                          {industry}
-                          {/* {tempIndustry === industry && <CheckCircle size={16} className="check-icon" />} */} {/* REMOVE OR COMMENT OUT THIS LINE */}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Duration Filter Section */}
-                  <div className="filter-section">
-                    <h4>Duration</h4>
-                    <div className="filter-options">
-                      {uniqueDurations.map((duration) => (
-                        <div
-                          key={duration}
-                          className={`filter-option ${tempDuration === duration ? "selected" : ""}`}
-                          onClick={() => setTempDuration(duration)}
-                        >
-                          {duration}
-                          {/* {tempDuration === duration && <CheckCircle size={16} className="check-icon" />} */} {/* REMOVE OR COMMENT OUT THIS LINE */}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Payment Filter Section */}
-                  <div className="filter-section">
-                    <h4>Payment</h4>
-                    <div className="filter-options">
-                      {["All", "Paid", "Unpaid"].map((payStatus) => (
+                <div className="cs-filter-modal-content">
+                  {/* PAYMENT */}
+                  <div className="cs-filter-section">
+                    <div style={{ fontWeight: 700, marginBottom: 8, textTransform: 'uppercase', fontSize: 15 }}>PAYMENT</div>
+                    <div className="cs-filter-options">
+                      {["Paid", "Unpaid"].map((payStatus) => (
                         <div
                           key={payStatus}
-                          className={`filter-option ${tempPayStatus === payStatus ? "selected" : ""}`}
+                          className={`cs-filter-option${tempPayStatus === payStatus ? " cs-selected" : ""}`}
                           onClick={() => setTempPayStatus(payStatus)}
                         >
                           {payStatus}
-                          {/* {tempPayStatus === payStatus && <CheckCircle size={16} className="check-icon" />} */} {/* REMOVE OR COMMENT OUT THIS LINE */}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  {/* DURATION */}
+                  <div className="cs-filter-section">
+                    <div style={{ fontWeight: 700, marginBottom: 8, textTransform: 'uppercase', fontSize: 15 }}>DURATION</div>
+                    <div className="cs-filter-options" style={{ flexWrap: 'wrap' }}>
+                      {uniqueDurations.filter(d => d !== 'All').map((duration) => (
+                        <div
+                          key={duration}
+                          className={`cs-filter-option${tempDuration === duration ? " cs-selected" : ""}`}
+                          onClick={() => setTempDuration(duration)}
+                        >
+                          {duration}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  {/* LOCATION */}
+                  <div className="cs-filter-section">
+                    <div style={{ fontWeight: 700, marginBottom: 8, textTransform: 'uppercase', fontSize: 15 }}>LOCATION</div>
+                    <div className="cs-filter-options" style={{ flexWrap: 'wrap' }}>
+                      {[...new Set(internships.map(i => i.location))].map((location) => (
+                        <div
+                          key={location}
+                          className={`cs-filter-option${tempLocation === location ? " cs-selected" : ""}`}
+                          onClick={() => setTempLocation(location)}
+                        >
+                          {location}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  {/* SKILLS */}
+                  <div className="cs-filter-section">
+                    <div style={{ fontWeight: 700, marginBottom: 8, textTransform: 'uppercase', fontSize: 15 }}>SKILLS</div>
+                    <div className="cs-filter-options" style={{ flexWrap: 'wrap' }}>
+                      {[...new Set(internships.flatMap(i => i.skills))].map((skill) => (
+                        <div
+                          key={skill}
+                          className={`cs-filter-option${tempSkill === skill ? " cs-selected" : ""}`}
+                          onClick={() => setTempSkill(skill)}
+                        >
+                          {skill}
                         </div>
                       ))}
                     </div>
                   </div>
                 </div>
-
-                <div className="filter-popup-footer">
-                  <button className="reset-button" onClick={resetFilters}>
-                    Reset All
+                <div className="cs-filter-actions">
+                  <button
+                    className={`cs-reset-button${resetActive ? " cs-active" : ""}`}
+                    onClick={resetFilters}
+                    onMouseDown={() => setResetActive(true)}
+                    onMouseUp={() => setResetActive(false)}
+                    onMouseLeave={() => setResetActive(false)}
+                  >
+                    Reset
                   </button>
-                  <button className="apply-button" onClick={applyFilters}>
-                    Apply Filters
+                  <button className="cs-apply-button" onClick={applyFilters}>
+                    {`Show ${internships.filter((internship) => {
+                      const company = companies.find((c) => c.id === internship.companyId);
+                      if (!company) return false;
+                      if (searchQuery) {
+                        const query = searchQuery.toLowerCase();
+                        const matchesTitle = internship.jobTitle.toLowerCase().includes(query);
+                        const matchesCompany = company.name.toLowerCase().includes(query);
+                        if (!matchesTitle && !matchesCompany) return false;
+                      }
+                      if (tempPayStatus && tempPayStatus !== 'All' && internship.isPaid !== (tempPayStatus === 'Paid')) return false;
+                      if (tempDuration && tempDuration !== 'All' && internship.duration !== tempDuration) return false;
+                      if (tempLocation && tempLocation !== '' && internship.location !== tempLocation) return false;
+                      if (tempSkill && tempSkill !== '' && !internship.skills.includes(tempSkill)) return false;
+                      return true;
+                    }).length} Internships`}
                   </button>
                 </div>
               </div>
