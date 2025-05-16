@@ -1,17 +1,21 @@
 import React, { useState, useRef, useEffect } from "react"
 import { ChevronLeft, ChevronRight, Bell, User, LogOut } from "lucide-react"
 import { useNavigate } from "react-router-dom"
-import "./CompanyHeader.css"
+import "./CompanyHeader.css" // This import remains the same
 
-function CompanyHeader({ 
-  onNavigateBack, 
-  onNavigateForward, 
-  canGoBack, 
-  canGoForward 
+function CompanyHeader({
+  onNavigateBack,
+  onNavigateForward,
+  canGoBack,
+  canGoForward
 }) {
   const [showNotifications, setShowNotifications] = useState(false)
   const [showUserDropdown, setShowUserDropdown] = useState(false)
-  const [notifications, setNotifications] = useState([])
+  const [notifications, setNotifications] = useState([
+    // Example notifications, you might fetch these or pass them as props
+    { id: 1, content: "New application for UI/UX Intern.", time: "2m ago" },
+    { id: 2, content: "Your post 'Backend Developer' has 5 new views.", time: "1h ago" },
+  ]);
   const notificationRef = useRef(null)
   const userDropdownRef = useRef(null)
   const navigate = useNavigate()
@@ -32,12 +36,12 @@ function CompanyHeader({
 
   const toggleNotifications = () => {
     setShowNotifications(!showNotifications)
-    setShowUserDropdown(false)
+    setShowUserDropdown(false) // Close user dropdown when opening notifications
   }
 
   const toggleUserDropdown = () => {
     setShowUserDropdown(!showUserDropdown)
-    setShowNotifications(false)
+    setShowNotifications(false) // Close notifications when opening user dropdown
   }
 
   const clearNotifications = () => {
@@ -46,63 +50,76 @@ function CompanyHeader({
 
   const handleLogout = () => {
     // Clear any stored user data/tokens
-    localStorage.removeItem("userToken")
-    sessionStorage.removeItem("userToken")
+    localStorage.removeItem("userToken") // Example
+    sessionStorage.removeItem("userToken") // Example
     
-    // Navigate to login page
-    navigate("/login")
+    // Navigate to login page or home page after logout
+    navigate("/login") // Adjust to your login route
   }
 
+  // Placeholder user data - in a real app, this would come from context, props, or a store
+  const userData = {
+    name: "Dell Technologies", // Example
+    email: "company@dell.com"   // Example
+  };
+
+
   return (
-    <header className="company-header">
-      <div className="header-left">
-        <div className="navigation-buttons">
-          <button 
-            className={`nav-button ${!canGoBack ? "disabled" : ""}`}
+    <header className="ch-company-header">
+      <div className="ch-header-left">
+        {/* <div className="ch-logo">
+          <img src="/path-to-your-logo.svg" alt="Company Logo" /> // Example logo
+          <h1>Company Portal</h1>
+        </div> */}
+        <div className="ch-navigation-buttons">
+          <button
+            className={`ch-nav-button ${!canGoBack ? "ch-disabled" : ""}`}
             onClick={onNavigateBack}
             disabled={!canGoBack}
+            aria-label="Go back"
           >
             <ChevronLeft size={24} />
           </button>
-          <button 
-            className={`nav-button ${!canGoForward ? "disabled" : ""}`}
+          <button
+            className={`ch-nav-button ${!canGoForward ? "ch-disabled" : ""}`}
             onClick={onNavigateForward}
             disabled={!canGoForward}
+            aria-label="Go forward"
           >
             <ChevronRight size={24} />
           </button>
         </div>
       </div>
 
-      <div className="header-right">
-        <div className="notification-bell-container" ref={notificationRef}>
-          <button className="icon-button" onClick={toggleNotifications}>
+      <div className="ch-header-right">
+        <div className="ch-notification-bell-container" ref={notificationRef}>
+          <button className="ch-icon-button" onClick={toggleNotifications} aria-label="Toggle notifications">
             <Bell size={24} />
             {notifications.length > 0 && (
-              <span className="notification-badge">{notifications.length}</span>
+              <span className="ch-notification-badge">{notifications.length}</span>
             )}
           </button>
 
           {showNotifications && (
-            <div className="notifications-panel">
-              <div className="notifications-header">
+            <div className="ch-notifications-panel">
+              <div className="ch-notifications-header">
                 <h3>Notifications</h3>
                 {notifications.length > 0 && (
-                  <button className="clear-notifications" onClick={clearNotifications}>
+                  <button className="ch-clear-notifications" onClick={clearNotifications}>
                     Clear all
                   </button>
                 )}
               </div>
-              <div className="notifications-list">
+              <div className="ch-notifications-list">
                 {notifications.length === 0 ? (
-                  <div className="no-notifications">
+                  <div className="ch-no-notifications">
                     <p>No new notifications</p>
                   </div>
                 ) : (
-                  notifications.map((notification, index) => (
-                    <div key={index} className="notification-item">
-                      <p className="notification-content">{notification.content}</p>
-                      <span className="notification-time">{notification.time}</span>
+                  notifications.map((notification) => ( // Changed index to notification.id for key
+                    <div key={notification.id} className="ch-notification-item">
+                      <p className="ch-notification-content">{notification.content}</p>
+                      <span className="ch-notification-time">{notification.time}</span>
                     </div>
                   ))
                 )}
@@ -111,16 +128,21 @@ function CompanyHeader({
           )}
         </div>
 
-        <div className="avatar-container" ref={userDropdownRef}>
-          <button className="avatar-button" onClick={toggleUserDropdown}>
-            <div className="avatar">
-              <User size={16} />
+        <div className="ch-avatar-container" ref={userDropdownRef}>
+          <button className="ch-avatar-button" onClick={toggleUserDropdown} aria-label="Toggle user menu">
+            <div className="ch-avatar">
+              <User size={20} /> {/* Adjusted size slightly for better fit */}
             </div>
           </button>
 
           {showUserDropdown && (
-            <div className="user-dropdown">
-              <button className="logout-button" onClick={handleLogout}>
+            <div className="ch-user-dropdown">
+              <div className="ch-user-info">
+                <p className="ch-user-name">{userData.name}</p>
+                <p className="ch-user-email">{userData.email}</p>
+              </div>
+              {/* <div className="ch-dropdown-divider" /> You can add other items here if needed */}
+              <button className="ch-logout-button" onClick={handleLogout}>
                 <LogOut size={16} />
                 <span>Logout</span>
               </button>
@@ -132,4 +154,4 @@ function CompanyHeader({
   )
 }
 
-export default CompanyHeader 
+export default CompanyHeader

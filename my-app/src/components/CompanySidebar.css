@@ -1,5 +1,7 @@
+/* CompanySidebar.css */
+
 /* Sidebar Container */
-.company-sidebar {
+.csb-company-sidebar { /* Renamed from .company-sidebar */
   width: 280px;
   min-width: 280px;
   height: 100vh;
@@ -10,18 +12,18 @@
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 10; /* Kept z-index, ensure it interacts well with other components */
   overflow-y: auto;
 }
 
 /* Sidebar Header */
-.sidebar-header {
+.csb-sidebar-header { /* Renamed from .sidebar-header */
   padding: 24px;
   border-bottom: 1px solid #f0f0f0;
   text-align: center;
 }
 
-.company-title {
+.csb-company-title { /* Renamed from .company-title */
   font-size: 24px;
   font-weight: 700;
   color: #333;
@@ -31,7 +33,7 @@
 }
 
 /* Sidebar Content */
-.sidebar-content {
+.csb-sidebar-content { /* Renamed from .sidebar-content */
   flex: 1;
   overflow-y: auto;
   padding: 20px 0;
@@ -41,13 +43,13 @@
 }
 
 /* Sidebar Section */
-.sidebar-section {
+.csb-sidebar-section { /* Renamed from .sidebar-section */
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.sidebar-section-title {
+.csb-sidebar-section-title { /* Renamed from .sidebar-section-title */
   padding: 0 20px;
   font-size: 12px;
   font-weight: 600;
@@ -57,14 +59,14 @@
 }
 
 /* Sidebar Menu */
-.sidebar-menu {
+.csb-sidebar-menu { /* Renamed from .sidebar-menu */
   display: flex;
   flex-direction: column;
   gap: 4px;
   padding: 0 12px;
 }
 
-.sidebar-menu-item {
+.csb-sidebar-menu-item { /* Renamed from .sidebar-menu-item */
   display: flex;
   align-items: center;
   padding: 12px 16px;
@@ -80,35 +82,35 @@
   width: 100%;
 }
 
-.sidebar-menu-item:hover {
+.csb-sidebar-menu-item:hover { /* Updated */
   background-color: #f9fafb;
   color: #5f2878;
 }
 
-.sidebar-menu-item.active {
+.csb-sidebar-menu-item.csb-active { /* Renamed from .sidebar-menu-item.active */
   background-color: #f5f3ff;
   color: #5f2878;
   font-weight: 500;
 }
 
-.sidebar-icon {
+.csb-sidebar-icon { /* Renamed from .sidebar-icon */
   display: flex;
   align-items: center;
   justify-content: center;
   width: 24px;
   height: 24px;
-  color: inherit;
+  color: inherit; /* Good practice to inherit color */
 }
 
-.sidebar-label {
+.csb-sidebar-label { /* Renamed from .sidebar-label */
   flex: 1;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 500; /* Note: .active also sets font-weight, this will be overridden if active */
 }
 
-.active-indicator {
+.csb-active-indicator { /* Renamed from .active-indicator */
   position: absolute;
-  left: -12px;
+  left: -12px; /* Adjusted based on padding of .csb-sidebar-menu */
   top: 50%;
   transform: translateY(-50%);
   width: 3px;
@@ -119,27 +121,27 @@
 
 /* Responsive styles */
 @media (max-width: 768px) {
-  .company-sidebar {
+  .csb-company-sidebar { /* Updated */
     width: 80px;
     min-width: 80px;
   }
 
-  .company-title,
-  .sidebar-section-title,
-  .sidebar-label {
+  .csb-company-title, /* Updated */
+  .csb-sidebar-section-title, /* Updated */
+  .csb-sidebar-label { /* Updated */
     display: none;
   }
 
-  .sidebar-menu {
-    padding: 0 8px;
+  .csb-sidebar-menu { /* Updated */
+    padding: 0 8px; /* Adjusted padding for smaller sidebar */
   }
 
-  .sidebar-menu-item {
-    padding: 12px;
-    justify-content: center;
+  .csb-sidebar-menu-item { /* Updated */
+    padding: 12px; /* Adjusted padding */
+    justify-content: center; /* Center icon when label is hidden */
   }
 
-  .active-indicator {
-    left: -8px;
+  .csb-active-indicator { /* Updated */
+    left: -8px; /* Adjusted for new padding */
   }
-} 
+}

@@ -10,26 +10,23 @@ export default function Company() {
   const [activePage, setActivePage] = useState("posts")
   const [navigationHistory, setNavigationHistory] = useState(["posts"])
   const [historyPosition, setHistoryPosition] = useState(0)
-  const [activeTab, setActiveTab] = useState("posts")
+  // const [activeTab, setActiveTab] = useState("posts") // activeTab seems unused, consider removing
   const [searchQuery, setSearchQuery] = useState("")
   const [showFilters, setShowFilters] = useState(false)
   const [selectedPost, setSelectedPost] = useState(null)
   const [selectedApplication, setSelectedApplication] = useState(null)
   const [filters, setFilters] = useState({
-    isPaid: null, // null = both, true = paid only, false = unpaid only
-    duration: null, // null = all durations, 1, 3, 6, etc. (months)
-    location: null, // null = all locations
+    isPaid: null,
+    duration: null,
+    location: null,
     skills: [],
   })
-
-  // Update the interns section to implement search, filtering, and evaluation functionality
-  // Add these state variables at the top of the component:
 
   const [internSearch, setInternSearch] = useState("")
   const [internFilter, setInternFilter] = useState("")
   const [selectedIntern, setSelectedIntern] = useState(null)
   const [showEvaluationModal, setShowEvaluationModal] = useState(false)
-  const [currentEvaluation, setCurrentEvaluation] = useState(null)
+  const [currentEvaluation, setCurrentEvaluation] = useState(null) // This seems to be used to check if editing or adding new
   const [evaluationData, setEvaluationData] = useState({
     professionalAppearance: "",
     professionalConfidence: "",
@@ -53,15 +50,8 @@ export default function Company() {
       time: "2 hours ago",
     },
   ])
-  const [showNotifications, setShowNotifications] = useState(false)
+  // const [showNotifications, setShowNotifications] = useState(false) // showNotifications seems unused, used directly in CompanyHeader presumably
 
-  // Function to clear all notifications
-  const clearAllNotifications = (e) => {
-    e.stopPropagation()
-    setNotifications([])
-  }
-
-  // Function to add a notification
   const addNotification = (message) => {
     const newNotification = {
       message,
@@ -70,11 +60,9 @@ export default function Company() {
     setNotifications([newNotification, ...notifications])
   }
 
-  // Available locations
   const locations = ["N Teseen, New Cairo", "Maadi, Cairo", "Smart Village, Giza", "Dokki, Giza", "Heliopolis, Cairo"]
 
-  // Sample job listings data with consistent duration format and application counts
-  const jobListings = [
+  const [jobListings, setJobListings] = useState([
     {
       id: 1,
       companyName: "Dell Technologies",
@@ -355,7 +343,6 @@ export default function Company() {
       timeOfDay: "MORNING",
       status: "active",
     },
-    // Completed internships (before May 2025)
     {
       id: 16,
       companyName: "Dell Technologies",
@@ -417,10 +404,9 @@ export default function Company() {
       timeOfDay: "MORNING",
       status: "completed",
     },
-  ]
+  ]);
 
-  // Sample applications data with enhanced student information
-  const applications = [
+  const [applications, setApplications] = useState([ // Make applications a state variable
     {
       id: 1,
       postId: 1,
@@ -442,6 +428,7 @@ export default function Company() {
       availableStartDate: "May 10, 2025",
       status: "pending",
       internshipStatus: "current",
+      evaluation: null,
     },
     {
       id: 2,
@@ -464,10 +451,11 @@ export default function Company() {
       availableStartDate: "May 15, 2025",
       status: "accepted",
       internshipStatus: "current",
+      evaluation: null,
     },
     {
       id: 3,
-      postId: 3,
+      postId: 3, // Assuming postId 3 exists in jobListings or this is for another company
       postTitle: "Frontend Developer Intern",
       firstName: "Zainab",
       lastName: "Mahmoud",
@@ -486,6 +474,7 @@ export default function Company() {
       availableStartDate: "May 20, 2025",
       status: "accepted",
       internshipStatus: "completed",
+      evaluation: { professionalAppearance: "5", professionalConfidence: "4", professionalDemeanor: "5", trustworthiness: "5", ethicalBehavior: "5", punctuality: "4" },
     },
     {
       id: 4,
@@ -507,11 +496,12 @@ export default function Company() {
       availabilityHours: "25 hours/week",
       availableStartDate: "May 16, 2025",
       status: "rejected",
-      internshipStatus: "completed",
+      internshipStatus: "completed", // If rejected, internshipStatus might be null or 'not_started'
+      evaluation: null,
     },
     {
       id: 5,
-      postId: 4,
+      postId: 4, // Assuming postId 4 exists
       postTitle: "Data Science Intern",
       firstName: "Laila",
       lastName: "Mohamed",
@@ -530,10 +520,11 @@ export default function Company() {
       availableStartDate: "Jun 05, 2025",
       status: "accepted",
       internshipStatus: "current",
+      evaluation: null,
     },
     {
       id: 6,
-      postId: 5,
+      postId: 5, // Assuming postId 5 exists
       postTitle: "Mobile App Developer Intern",
       firstName: "Karim",
       lastName: "Salah",
@@ -552,10 +543,11 @@ export default function Company() {
       availableStartDate: "May 15, 2025",
       status: "pending",
       internshipStatus: "current",
+      evaluation: null,
     },
     {
       id: 7,
-      postId: 6,
+      postId: 6, // Assuming postId 6 exists
       postTitle: "Frontend Developer Intern",
       firstName: "Hana",
       lastName: "Mahmoud",
@@ -572,12 +564,13 @@ export default function Company() {
       applicationDate: "Apr 25, 2025",
       availabilityHours: "35 hours/week",
       availableStartDate: "Jun 16, 2025",
-      status: "finalized",
+      status: "finalized", // "finalized" often means hired/completed paperwork
       internshipStatus: "completed",
+      evaluation: { professionalAppearance: "4", professionalConfidence: "3", professionalDemeanor: "4", trustworthiness: "5", ethicalBehavior: "4", punctuality: "5" },
     },
     {
       id: 8,
-      postId: 7,
+      postId: 7, // Corresponds to Cybersecurity Intern
       postTitle: "Cybersecurity Intern",
       firstName: "Amr",
       lastName: "Hassan",
@@ -595,11 +588,12 @@ export default function Company() {
       availabilityHours: "25 hours/week",
       availableStartDate: "Jul 05, 2025",
       status: "pending",
-      internshipStatus: null,
+      internshipStatus: null, // Not yet an intern
+      evaluation: null,
     },
     {
       id: 9,
-      postId: 8,
+      postId: 8, // Corresponds to Cloud Engineering Intern
       postTitle: "Cloud Engineering Intern",
       firstName: "Sara",
       lastName: "Ahmed",
@@ -618,10 +612,11 @@ export default function Company() {
       availableStartDate: "Aug 05, 2025",
       status: "accepted",
       internshipStatus: "current",
+      evaluation: null,
     },
     {
       id: 10,
-      postId: 17,
+      postId: 17, // Corresponds to Marketing Intern (completed)
       postTitle: "Marketing Intern",
       firstName: "Tarek",
       lastName: "Samir",
@@ -640,10 +635,10 @@ export default function Company() {
       availableStartDate: "Feb 05, 2025",
       status: "finalized",
       internshipStatus: "completed",
+      evaluation: { professionalAppearance: "5", professionalConfidence: "5", professionalDemeanor: "4", trustworthiness: "5", ethicalBehavior: "5", punctuality: "5" },
     },
-  ]
+  ]);
 
-  // Available duration options for filtering
   const durationOptions = [
     { value: 1, label: "1 Month" },
     { value: 2, label: "2 Months" },
@@ -652,83 +647,60 @@ export default function Company() {
     { value: 6, label: "6 Months" },
     { value: 9, label: "9 Months" },
     { value: 12, label: "12 Months" },
-  ]
-
-  // Add these functions for intern functionality:
+  ];
 
   const handleInternSearchChange = (e) => {
-    setInternSearch(e.target.value)
-  }
+    setInternSearch(e.target.value);
+  };
 
-  const handleInternFilterChange = (e) => {
-    setInternFilter(e.target.value)
-  }
+  // const handleInternFilterChange = (e) => { // This was unused
+  //   setInternFilter(e.target.value);
+  // };
 
   const filteredInterns = applications
     .filter((app) => app.internshipStatus === "current" || app.internshipStatus === "completed")
     .filter((intern) => {
-      // Filter by status if selected
       if (internFilter && intern.internshipStatus !== internFilter) {
-        return false
+        return false;
       }
-
-      // Filter by search term
       if (internSearch) {
-        const searchTerm = internSearch.toLowerCase()
+        const searchTerm = internSearch.toLowerCase();
         return (
-          intern.applicantName.toLowerCase().includes(searchTerm) || 
+          intern.applicantName.toLowerCase().includes(searchTerm) ||
           intern.postTitle.toLowerCase().includes(searchTerm)
-        )
+        );
       }
+      return true;
+    });
 
-      return true
-    })
-
-  const saveEvaluation = (evaluation) => {
-    // In a real app, you would update the state or make an API call here
-    console.log("Saving evaluation:", evaluation)
-    setShowEvaluationModal(false)
-    // Show success notification
-    alert("Evaluation saved successfully")
-  }
-
-  const deleteEvaluation = (internId) => {
-    if (confirm("Are you sure you want to delete this evaluation? This action cannot be undone.")) {
-      // In a real app, you would update the state or make an API call here
-      console.log("Deleting evaluation for intern:", internId)
-      // Show success notification
-      alert("Evaluation deleted successfully")
-    }
-  }
-
-  // Handle search input change
   const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value)
-  }
+    setSearchQuery(e.target.value);
+  };
 
   const clearSearch = () => {
-    setSearchQuery("")
-    // Reset filters as well
-    resetFilters()
-  }
+    setSearchQuery("");
+    resetFilters();
+  };
 
   const toggleFilters = () => {
-    setShowFilters(!showFilters)
-  }
+    setShowFilters(!showFilters);
+  };
 
   const handleFilterChange = (type, value) => {
-    setFilters({
-      ...filters,
-      [type]: value,
-    })
-  }
-
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [type]: prevFilters[type] === value ? null : value, // Toggle behavior for single select options
+    }));
+  };
+  
   const handleSkillToggle = (skill) => {
-    setFilters({
-      ...filters,
-      skills: filters.skills.includes(skill) ? filters.skills.filter((s) => s !== skill) : [...filters.skills, skill],
-    })
-  }
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      skills: prevFilters.skills.includes(skill)
+        ? prevFilters.skills.filter((s) => s !== skill)
+        : [...prevFilters.skills, skill],
+    }));
+  };
 
   const resetFilters = () => {
     setFilters({
@@ -736,268 +708,242 @@ export default function Company() {
       duration: null,
       location: null,
       skills: [],
-    })
-  }
+    });
+  };
 
   const hasActiveFilters = () => {
     return (
       filters.isPaid !== null || filters.duration !== null || filters.location !== null || filters.skills.length > 0
-    )
-  }
-
-  const applyFilters = () => {
-    setShowFilters(false)
-  }
-
-  const filteredJobs = jobListings.filter((job) => {
-    // Filter by search query
-    if (searchQuery && !job.title.toLowerCase().includes(searchQuery.toLowerCase())) {
-      return false
-    }
-
-    // Filter by payment status
-    if (filters.isPaid !== null && job.isPaid !== filters.isPaid) {
-      return false
-    }
-
-    // Filter by duration
-    if (filters.duration !== null && job.durationMonths !== filters.duration) {
-      return false
-    }
-
-    // Filter by location
-    if (filters.location !== null && job.location !== filters.location) {
-      return false
-    }
-
-    // Filter by skills
-    if (filters.skills.length > 0) {
-      const hasRequiredSkill = job.requirements.some((req) =>
-        filters.skills.some((skill) => req.toLowerCase().includes(skill.toLowerCase())),
-      )
-      if (!hasRequiredSkill) {
-        return false
-      }
-    }
-
-    return true
-  })
-
-  // Filter applications based on selected post
-  const filteredApplications = selectedPost ? applications.filter((app) => app.postId === selectedPost) : applications
-
-  // Update application status with notification
-  const updateApplicationStatus = (applicationId, newStatus) => {
-    const updatedApplications = applications.map((app) => {
-      if (app.id === applicationId) {
-        return { ...app, status: newStatus };
-      }
-      return app;
-    });
-
-    // In a real app, you would update the state or make an API call here
-    console.log(`Updated application ${applicationId} status to ${newStatus}`);
-
-    // Add notification
-    const app = applications.find((a) => a.id === applicationId);
-    addNotification(`${app.applicantName}'s application status changed to ${newStatus}`);
-
-    // Show save indication
-    const button = document.querySelector(`.status-button[data-status="${newStatus}"]`);
-    if (button) {
-      button.classList.add('saved');
-      setTimeout(() => button.classList.remove('saved'), 2000);
-    }
+    );
   };
 
-  // Update internship status
-  const updateInternshipStatus = (applicationId, internshipStatus) => {
-    const updatedApplications = applications.map((app) => {
-      if (app.id === applicationId) {
-        return { ...app, internshipStatus }
-      }
-      return app
-    })
-    // In a real app, you would update the state or make an API call here
-    console.log(`Updated application ${applicationId} internship status to ${internshipStatus}`)
-  }
+  const applyFilters = () => {
+    setShowFilters(false);
+  };
 
+  const filteredJobs = jobListings.filter((job) => {
+    if (searchQuery && !job.title.toLowerCase().includes(searchQuery.toLowerCase())) {
+      return false;
+    }
+    if (filters.isPaid !== null && job.isPaid !== filters.isPaid) {
+      return false;
+    }
+    if (filters.duration !== null && job.durationMonths !== filters.duration) {
+      return false;
+    }
+    if (filters.location !== null && job.location !== filters.location) {
+      return false;
+    }
+    if (filters.skills.length > 0) {
+      const hasRequiredSkill = job.requirements.some((req) =>
+        filters.skills.some((skill) => req.toLowerCase().includes(skill.toLowerCase()))
+      );
+      if (!hasRequiredSkill) {
+        return false;
+      }
+    }
+    return true;
+  });
+
+  const filteredApplications = selectedPost
+    ? applications.filter((app) => app.postId === selectedPost)
+    : applications;
+
+  const updateApplicationStatus = (applicationId, newStatus) => {
+    setApplications((prevApplications) =>
+      prevApplications.map((app) => {
+        if (app.id === applicationId) {
+          return { ...app, status: newStatus };
+        }
+        return app;
+      })
+    );
+    const app = applications.find((a) => a.id === applicationId);
+    if (app) {
+        addNotification(`${app.applicantName}'s application status changed to ${newStatus}`);
+    }
+
+    // Show save indication
+    const buttons = document.querySelectorAll(`.cs-status-button`);
+    buttons.forEach(btn => btn.classList.remove('cs-saved')); // Remove from all first
+
+    const button = document.querySelector(`.cs-status-button[data-status="${newStatus}"]`);
+    if (button) {
+      button.classList.add('cs-saved');
+      setTimeout(() => button.classList.remove('cs-saved'), 2000);
+    }
+  };
+  
   const handleAddEvaluation = (intern) => {
-    setSelectedIntern(intern)
-    setEvaluationData({
+    setSelectedIntern(intern);
+    setEvaluationData({ // Reset evaluation data for new entry
       professionalAppearance: "",
       professionalConfidence: "",
       professionalDemeanor: "",
       trustworthiness: "",
       ethicalBehavior: "",
       punctuality: ""
-    })
-    setCurrentEvaluation(null)
-    setShowEvaluationModal(true)
-  }
+    });
+    setCurrentEvaluation(null); // Explicitly null for new evaluation
+    setShowEvaluationModal(true);
+  };
 
   const handleEditEvaluation = (intern) => {
-    setSelectedIntern(intern)
-    setEvaluationData(intern.evaluation)
-    setCurrentEvaluation(intern.evaluation)
-    setShowEvaluationModal(true)
-  }
-
-  const handleDeleteEvaluation = (internId) => {
-    if (confirm("Are you sure you want to delete this evaluation? This action cannot be undone.")) {
-      // In a real app, you would update the state or make an API call here
-      console.log("Deleting evaluation for intern:", internId)
-      // Show success notification
-      alert("Evaluation deleted successfully")
-    }
-  }
-
+    setSelectedIntern(intern);
+    // Ensure evaluation object exists and populate fields, otherwise use defaults
+    const existingEval = intern.evaluation || {
+      professionalAppearance: "",
+      professionalConfidence: "",
+      professionalDemeanor: "",
+      trustworthiness: "",
+      ethicalBehavior: "",
+      punctuality: ""
+    };
+    setEvaluationData(existingEval);
+    setCurrentEvaluation(existingEval); // Set currentEvaluation to the existing one
+    setShowEvaluationModal(true);
+  };
+  
   const handleSaveEvaluation = () => {
-    // Simulate saving the evaluation data
-    const evaluationToSave = {
-      ...evaluationData,
-    }
-
-    // In a real application, you would make an API call to save the evaluation
-    console.log("Saving evaluation:", evaluationToSave)
-
-    // Update the selected intern's evaluation (in the real app, this would be done on the server)
-    const updatedApplications = applications.map((app) => {
-      if (app.id === selectedIntern.id) {
-        return { ...app, evaluation: evaluationToSave }
-      }
-      return app
-    })
-
-    // Update the applications state with the new evaluation
-    // setApplications(updatedApplications);
-
-    // Close the modal
-    setShowEvaluationModal(false)
-    setSelectedIntern({ ...selectedIntern, evaluation: evaluationToSave })
-
-    // Show success notification
-    alert("Evaluation saved successfully")
-  }
+    setApplications((prevApplications) =>
+      prevApplications.map((app) => {
+        if (app.id === selectedIntern.id) {
+          return { ...app, evaluation: evaluationData };
+        }
+        return app;
+      })
+    );
+    setShowEvaluationModal(false);
+    // Update selectedIntern state as well to reflect changes if viewed again immediately
+    setSelectedIntern(prev => ({...prev, evaluation: evaluationData})); 
+    addNotification(`Evaluation for ${selectedIntern.applicantName} has been saved.`);
+    alert("Evaluation saved successfully");
+  };
+  
 
   const handlePageChange = (page) => {
-    if (historyPosition < navigationHistory.length - 1) {
-      const newHistory = navigationHistory.slice(0, historyPosition + 1)
-      setNavigationHistory([...newHistory, page])
-    } else {
-      setNavigationHistory((prevHistory) => [...prevHistory, page])
-    }
-    setHistoryPosition((prev) => prev + 1)
-    setActivePage(page)
-  }
+    const newHistory = navigationHistory.slice(0, historyPosition + 1);
+    setNavigationHistory([...newHistory, page]);
+    setHistoryPosition(newHistory.length);
+    setActivePage(page);
+  };
 
   const handleNavigateBack = () => {
     if (historyPosition > 0) {
-      const newPosition = historyPosition - 1
-      const previousPage = navigationHistory[newPosition]
-      setHistoryPosition(newPosition)
-      setActivePage(previousPage)
+      const newPosition = historyPosition - 1;
+      setActivePage(navigationHistory[newPosition]);
+      setHistoryPosition(newPosition);
     }
-  }
+  };
 
   const handleNavigateForward = () => {
     if (historyPosition < navigationHistory.length - 1) {
-      const newPosition = historyPosition + 1
-      const nextPage = navigationHistory[newPosition]
-      setHistoryPosition(newPosition)
-      setActivePage(nextPage)
+      const newPosition = historyPosition + 1;
+      setActivePage(navigationHistory[newPosition]);
+      setHistoryPosition(newPosition);
     }
-  }
-
-  const handleStatusChange = (internId, newStatus) => {
-    const updatedApplications = applications.map((app) => {
-      if (app.id === internId) {
-        return { ...app, internshipStatus: newStatus === "current" ? "completed" : "current" };
-      }
-      return app;
-    });
-    // In a real app, you would make an API call here
-    setApplications(updatedApplications);
   };
 
-  // Filter Dell posts for My Posts section
-  const myPosts = jobListings.filter(job => job.companyName === "Dell Technologies")
+  const handleStatusChange = (internId, currentStatus) => {
+    const newStatus = currentStatus === "current" ? "completed" : "current";
+    setApplications((prevApplications) =>
+      prevApplications.map((app) => {
+        if (app.id === internId) {
+          return { ...app, internshipStatus: newStatus };
+        }
+        return app;
+      })
+    );
+    const intern = applications.find(app => app.id === internId);
+    if (intern) {
+        addNotification(`${intern.applicantName}'s internship status changed to ${newStatus}.`);
+    }
+  };
+
+  // Filter Dell posts for My Posts section (assuming this is still needed)
+  // const myPosts = jobListings.filter(job => job.companyName === "Dell Technologies");
+
 
   return (
-    <div className="company-container">
+    <div className="cs-company-container">
       <CompanySidebar activePage={activePage} onPageChange={handlePageChange} />
-      <div className="company-content">
+      <div className="cs-company-content">
         <CompanyHeader
           onNavigateBack={handleNavigateBack}
           onNavigateForward={handleNavigateForward}
           canGoBack={historyPosition > 0}
           canGoForward={historyPosition < navigationHistory.length - 1}
+          // Pass notifications related state and functions if CompanyHeader handles them
+          notifications={notifications}
+          // clearAllNotifications={clearAllNotifications} // If implemented in CompanyHeader
+          // showNotifications={showNotifications} // If implemented in CompanyHeader
+          // setShowNotifications={setShowNotifications} // If implemented in CompanyHeader
         />
-        <main className="company-main">
+        <main className="cs-company-main">
           {activePage === "posts" && (
-            <div className="post-section">
+            <div className="cs-post-section"> {/* Assuming cs-post-section is a general wrapper */}
               <h2>Posts</h2>
-              <div className="job-listings">
+              <div className="cs-job-listings">
                 {jobListings.map((job) => (
-                  <div className={`job-card ${job.status === "completed" ? "completed-job" : ""}`} key={job.id}>
-                    {job.status === "completed" && <div className="completed-banner">INTERNSHIP COMPLETE</div>}
+                  <div className={`cs-job-card ${job.status === "completed" ? "cs-completed-job" : ""}`} key={job.id}>
+                    {job.status === "completed" && <div className="cs-completed-banner">INTERNSHIP COMPLETE</div>}
 
                     {job.salary && (
-                      <div className="job-salary">
-                        <div className="amount">{job.salary}</div>
-                        <div className="hourly-rate">{job.hourlyRate}</div>
+                      <div className="cs-job-salary">
+                        <div className="cs-amount">{job.salary}</div>
+                        <div className="cs-hourly-rate">{job.hourlyRate}</div>
                       </div>
                     )}
 
-                    <div className="job-details">
-                      <div className="company-name">{job.companyName}</div>
-                      {job.isLearningOpportunity && <div className="learning-opportunity">LEARNING OPPORTUNITY</div>}
+                    <div className="cs-job-details">
+                      <div className="cs-company-name">{job.companyName}</div>
+                      {job.isLearningOpportunity && <div className="cs-learning-opportunity">LEARNING OPPORTUNITY</div>}
 
-                      <h3 className="job-title">{job.title}</h3>
+                      <h3 className="cs-job-title">{job.title}</h3>
 
-                      <div className="job-requirements">
-                        <div className="requirement-label">REQUIRES:</div>
-                        <div className="requirement-tags">
+                      <div className="cs-job-requirements">
+                        <div className="cs-requirement-label">REQUIRES:</div>
+                        <div className="cs-requirement-tags">
                           {job.requirements.map((req, index) => (
-                            <span className="requirement-tag" key={index}>
+                            <span className="cs-requirement-tag" key={index}>
                               {req}
                             </span>
                           ))}
                         </div>
                       </div>
 
-                      <div className="job-location">
-                        <span className="location-icon">◎</span>
+                      <div className="cs-job-location">
+                        <span className="cs-location-icon">◎</span> {/* Assuming cs-location-icon for styling */}
                         <span>{job.location}</span>
                       </div>
 
-                      <div className="job-duration">
+                      <div className="cs-job-duration">
                         <div>
-                          <div className="date-range">
+                          <div className="cs-date-range">
                             {job.startDate} - {job.endDate}
                           </div>
-                          <div className="duration">{job.duration}</div>
+                          <div className="cs-duration">{job.duration}</div>
                         </div>
-                        <div className="time-slot">
-                          <div className="time">{job.timeSlot}</div>
-                          <div className="time-of-day">{job.timeOfDay}</div>
+                        <div className="cs-time-slot">
+                          <div className="cs-time">{job.timeSlot}</div> {/* Assuming cs-time for styling */}
+                          <div className="cs-time-of-day">{job.timeOfDay}</div>
                         </div>
                       </div>
 
-                      <div className="job-work-hours">
-                        <span className="work-hours-icon">⏱</span>
+                      <div className="cs-job-work-hours">
+                        <span className="cs-work-hours-icon">⏱</span> {/* Assuming cs-work-hours-icon for styling */}
                         <span>{job.workHours}</span>
                       </div>
 
-                      {job.description && <div className="job-description">{job.description}</div>}
+                      {job.description && <div className="cs-job-description">{job.description}</div>}
 
-                      <div className="job-applications">
-                        <Users size={16} className="applications-icon" />
-                        <span className="applications-count">{job.applications} applications</span>
+                      <div className="cs-job-applications">
+                        <Users size={16} className="cs-applications-icon" />
+                        <span className="cs-applications-count">{job.applications} applications</span> {/* Assuming cs-applications-count */}
                       </div>
                     </div>
 
-                    <div className={`job-status ${job.isPaid ? "paid" : "unpaid"}`}>
+                    <div className={`cs-job-status ${job.isPaid ? "cs-paid" : "cs-unpaid"}`}>
                       {job.isPaid ? "PAID" : "UNPAID"}
                     </div>
                   </div>
@@ -1007,22 +953,22 @@ export default function Company() {
           )}
 
           {activePage === "myposts" && (
-            <div className="post-section">
+            <div className="cs-post-section">  {/* Assuming cs-post-section is a general wrapper */}
               <h2>My Posts</h2>
-              <div className="filters">
-                <button className="filter-button" onClick={toggleFilters}>
-                  <span className="filter-icon">≡</span> Filters
+              <div className="cs-filters">
+                <button className="cs-filter-button" onClick={toggleFilters}>
+                  <span className="cs-filter-icon">≡</span> Filters {/* Assuming cs-filter-icon for styling */}
                 </button>
-                <div className="search-container">
+                <div className="cs-search-container">
                   <input
                     type="text"
                     placeholder="Search job title"
-                    className="search-input"
+                    className="cs-search-input"
                     value={searchQuery}
                     onChange={handleSearchChange}
                   />
                   {searchQuery && (
-                    <button className="clear-search" onClick={() => clearSearch()}>
+                    <button className="cs-clear-search" onClick={() => clearSearch()}>
                       ×
                     </button>
                   )}
@@ -1030,27 +976,27 @@ export default function Company() {
               </div>
 
               {showFilters && (
-                <div className="filter-modal-overlay">
-                  <div className="filter-modal">
-                    <div className="filter-modal-header">
+                <div className="cs-filter-modal-overlay">
+                  <div className="cs-filter-modal">
+                    <div className="cs-filter-modal-header">
                       <h2>Filters</h2>
-                      <button className="close-button" onClick={toggleFilters}>
+                      <button className="cs-close-button" onClick={toggleFilters}>
                         ✕
                       </button>
                     </div>
 
-                    <div className="filter-modal-content">
-                      <div className="filter-section">
+                    <div className="cs-filter-modal-content">
+                      <div className="cs-filter-section">
                         <h3>PAYMENT</h3>
-                        <div className="filter-options">
+                        <div className="cs-filter-options">
                           <button
-                            className={`filter-option ${filters.isPaid === true ? "selected" : ""}`}
+                            className={`cs-filter-option ${filters.isPaid === true ? "cs-selected" : ""}`}
                             onClick={() => handleFilterChange("isPaid", true)}
                           >
                             Paid
                           </button>
                           <button
-                            className={`filter-option ${filters.isPaid === false ? "selected" : ""}`}
+                            className={`cs-filter-option ${filters.isPaid === false ? "cs-selected" : ""}`}
                             onClick={() => handleFilterChange("isPaid", false)}
                           >
                             Unpaid
@@ -1058,13 +1004,13 @@ export default function Company() {
                         </div>
                       </div>
 
-                      <div className="filter-section">
+                      <div className="cs-filter-section">
                         <h3>DURATION</h3>
-                        <div className="filter-options">
+                        <div className="cs-filter-options">
                           {durationOptions.map((option) => (
                             <button
                               key={option.value}
-                              className={`filter-option ${filters.duration === option.value ? "selected" : ""}`}
+                              className={`cs-filter-option ${filters.duration === option.value ? "cs-selected" : ""}`}
                               onClick={() => handleFilterChange("duration", option.value)}
                             >
                               {option.label}
@@ -1073,13 +1019,13 @@ export default function Company() {
                         </div>
                       </div>
 
-                      <div className="filter-section">
+                      <div className="cs-filter-section">
                         <h3>LOCATION</h3>
-                        <div className="filter-options">
+                        <div className="cs-filter-options">
                           {locations.map((location, index) => (
                             <button
                               key={index}
-                              className={`filter-option ${filters.location === location ? "selected" : ""}`}
+                              className={`cs-filter-option ${filters.location === location ? "cs-selected" : ""}`}
                               onClick={() => handleFilterChange("location", location)}
                             >
                               {location}
@@ -1088,13 +1034,13 @@ export default function Company() {
                         </div>
                       </div>
 
-                      <div className="filter-section">
+                      <div className="cs-filter-section">
                         <h3>SKILLS</h3>
-                        <div className="filter-options">
+                        <div className="cs-filter-options">
                           {Array.from(new Set(jobListings.flatMap((job) => job.requirements))).map((skill, index) => (
                             <button
                               key={index}
-                              className={`filter-option ${filters.skills.includes(skill) ? "selected" : ""}`}
+                              className={`cs-filter-option ${filters.skills.includes(skill) ? "cs-selected" : ""}`}
                               onClick={() => handleSkillToggle(skill)}
                             >
                               {skill}
@@ -1104,11 +1050,11 @@ export default function Company() {
                       </div>
                     </div>
 
-                    <div className="filter-actions">
-                      <button className={`reset-button ${hasActiveFilters() ? "active" : ""}`} onClick={resetFilters}>
+                    <div className="cs-filter-actions">
+                      <button className={`cs-reset-button ${hasActiveFilters() ? "cs-active" : ""}`} onClick={resetFilters}>
                         Reset
                       </button>
-                      <button className="apply-button" onClick={applyFilters}>
+                      <button className="cs-apply-button" onClick={applyFilters}>
                         Show {filteredJobs.length} jobs
                       </button>
                     </div>
@@ -1116,128 +1062,129 @@ export default function Company() {
                 </div>
               )}
 
-              <div className="search-results">
+              <div className="cs-search-results">
                 {searchQuery && (
-                  <div className="results-count">
+                  <div className="cs-results-count">
                     Found {filteredJobs.length} {filteredJobs.length === 1 ? "job" : "jobs"} matching "{searchQuery}"
                   </div>
                 )}
               </div>
 
-              <div className="job-listings">
+              <div className="cs-job-listings">
                 {filteredJobs.map((job) => (
-                  <div className={`job-card ${job.status === "completed" ? "completed-job" : ""}`} key={job.id}>
-                    {job.status === "completed" && <div className="completed-banner">INTERNSHIP COMPLETE</div>}
+                   <div className={`cs-job-card ${job.status === "completed" ? "cs-completed-job" : ""}`} key={job.id}>
+                   {job.status === "completed" && <div className="cs-completed-banner">INTERNSHIP COMPLETE</div>}
 
-                    {job.salary && (
-                      <div className="job-salary">
-                        <div className="amount">{job.salary}</div>
-                        <div className="hourly-rate">{job.hourlyRate}</div>
-                      </div>
-                    )}
+                   {job.salary && (
+                     <div className="cs-job-salary">
+                       <div className="cs-amount">{job.salary}</div>
+                       <div className="cs-hourly-rate">{job.hourlyRate}</div>
+                     </div>
+                   )}
 
-                    <div className="job-details">
-                      <div className="company-name">Dell Technologies</div>
-                      {job.isLearningOpportunity && <div className="learning-opportunity">LEARNING OPPORTUNITY</div>}
+                   <div className="cs-job-details">
+                     <div className="cs-company-name">{job.companyName}</div>
+                     {job.isLearningOpportunity && <div className="cs-learning-opportunity">LEARNING OPPORTUNITY</div>}
 
-                      <h3 className="job-title">
-                        {searchQuery ? <HighlightText text={job.title} highlight={searchQuery} /> : job.title}
-                      </h3>
+                     <h3 className="cs-job-title">
+                       {searchQuery ? <HighlightText text={job.title} highlight={searchQuery} /> : job.title}
+                     </h3>
 
-                      <div className="job-requirements">
-                        <div className="requirement-label">REQUIRES:</div>
-                        <div className="requirement-tags">
-                          {job.requirements.map((req, index) => (
-                            <span className="requirement-tag" key={index}>
-                              {req}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
+                     <div className="cs-job-requirements">
+                       <div className="cs-requirement-label">REQUIRES:</div>
+                       <div className="cs-requirement-tags">
+                         {job.requirements.map((req, index) => (
+                           <span className="cs-requirement-tag" key={index}>
+                             {req}
+                           </span>
+                         ))}
+                       </div>
+                     </div>
 
-                      <div className="job-location">
-                        <span className="location-icon">◎</span>
-                        <span>{job.location}</span>
-                      </div>
+                     <div className="cs-job-location">
+                       <span className="cs-location-icon">◎</span>
+                       <span>{job.location}</span>
+                     </div>
 
-                      <div className="job-duration">
-                        <div>
-                          <div className="date-range">
-                            {job.startDate} - {job.endDate}
-                          </div>
-                          <div className="duration">{job.duration}</div>
-                        </div>
-                        <div className="time-slot">
-                          <div className="time">{job.timeSlot}</div>
-                          <div className="time-of-day">{job.timeOfDay}</div>
-                        </div>
-                      </div>
+                     <div className="cs-job-duration">
+                       <div>
+                         <div className="cs-date-range">
+                           {job.startDate} - {job.endDate}
+                         </div>
+                         <div className="cs-duration">{job.duration}</div>
+                       </div>
+                       <div className="cs-time-slot">
+                         <div className="cs-time">{job.timeSlot}</div>
+                         <div className="cs-time-of-day">{job.timeOfDay}</div>
+                       </div>
+                     </div>
 
-                      <div className="job-work-hours">
-                        <span className="work-hours-icon">⏱</span>
-                        <span>{job.workHours}</span>
-                      </div>
+                     <div className="cs-job-work-hours">
+                       <span className="cs-work-hours-icon">⏱</span>
+                       <span>{job.workHours}</span>
+                     </div>
 
-                      {job.description && <div className="job-description">{job.description}</div>}
+                     {job.description && <div className="cs-job-description">{job.description}</div>}
 
-                      <div className="job-applications">
-                        <Users size={16} className="applications-icon" />
-                        <span className="applications-count">{job.applications} applications</span>
-                      </div>
-                    </div>
+                     <div className="cs-job-applications">
+                       <Users size={16} className="cs-applications-icon" />
+                       <span className="cs-applications-count">{job.applications} applications</span>
+                     </div>
+                   </div>
 
-                    <div className={`job-status ${job.isPaid ? "paid" : "unpaid"}`}>
-                      {job.isPaid ? "PAID" : "UNPAID"}
-                    </div>
-                  </div>
+                   <div className={`cs-job-status ${job.isPaid ? "cs-paid" : "cs-unpaid"}`}>
+                     {job.isPaid ? "PAID" : "UNPAID"}
+                   </div>
+                 </div>
                 ))}
               </div>
             </div>
           )}
           {activePage === "create" && (
-            <div className="create-post-section">
+            <div className="cs-create-post-section">
               <h2>Create Post</h2>
+              {/* <div className="cs-create-post-breadcrumb">Company / Create Post</div> */}
 
-              <form className="create-post-form">
-                <div className="form-row">
-                  <div className="form-column">
-                    <div className="form-group">
+              <form className="cs-create-post-form">
+                <div className="cs-form-row">
+                  <div className="cs-form-column">
+                    <div className="cs-form-group">
                       <label>Internship Title</label>
-                      <input type="text" placeholder="Enter title" className="form-input" />
-                      <div className="form-help-text">Enter the title of the internship.</div>
+                      <input type="text" placeholder="Enter title" className="cs-form-input" />
+                      <div className="cs-form-help-text">Enter the title of the internship.</div>
                     </div>
                   </div>
-                  <div className="form-column">
-                    <div className="form-group">
+                  <div className="cs-form-column">
+                    <div className="cs-form-group">
                       <label>Duration (in months)</label>
-                      <input type="number" placeholder="0" className="form-input" />
-                      <div className="form-help-text">Enter the duration of the internship in months.</div>
+                      <input type="number" placeholder="0" className="cs-form-input" />
+                      <div className="cs-form-help-text">Enter the duration of the internship in months.</div>
                     </div>
                   </div>
                 </div>
 
-                <div className="form-row">
-                  <div className="form-column">
-                    <div className="form-group">
+                <div className="cs-form-row">
+                  <div className="cs-form-column">
+                    <div className="cs-form-group">
                       <label>Salary (in USD)</label>
-                      <input type="number" placeholder="0" className="form-input" />
-                      <div className="form-help-text">Enter the salary of the internship in USD.</div>
+                      <input type="number" placeholder="0" className="cs-form-input" />
+                      <div className="cs-form-help-text">Enter the salary of the internship in USD.</div>
                     </div>
                   </div>
-                  <div className="form-column">
-                    <div className="form-group">
+                  <div className="cs-form-column">
+                    <div className="cs-form-group">
                       <label>Hourly Rate (in USD)</label>
-                      <input type="number" placeholder="0" className="form-input" />
-                      <div className="form-help-text">Enter the hourly rate in USD.</div>
+                      <input type="number" placeholder="0" className="cs-form-input" />
+                      <div className="cs-form-help-text">Enter the hourly rate in USD.</div>
                     </div>
                   </div>
                 </div>
 
-                <div className="form-row">
-                  <div className="form-column">
-                    <div className="form-group">
+                <div className="cs-form-row">
+                  <div className="cs-form-column">
+                    <div className="cs-form-group">
                       <label>Location</label>
-                      <select className="form-select filter-styled">
+                      <select className="cs-form-select cs-filter-styled">
                         <option value="">Select location</option>
                         {locations.map((location, index) => (
                           <option key={index} value={location}>
@@ -1245,111 +1192,111 @@ export default function Company() {
                           </option>
                         ))}
                       </select>
-                      <div className="form-help-text">Select the location of the internship.</div>
+                      <div className="cs-form-help-text">Select the location of the internship.</div>
                     </div>
                   </div>
-                  <div className="form-column">
-                    <div className="form-group">
+                  <div className="cs-form-column">
+                    <div className="cs-form-group">
                       <label>Payment Type</label>
-                      <select className="form-select filter-styled">
+                      <select className="cs-form-select cs-filter-styled">
                         <option>Paid</option>
                         <option>Unpaid</option>
                       </select>
-                      <div className="form-help-text">Select whether the internship is paid or unpaid.</div>
+                      <div className="cs-form-help-text">Select whether the internship is paid or unpaid.</div>
                     </div>
                   </div>
                 </div>
 
-                <div className="form-row">
-                  <div className="form-column">
-                    <div className="form-group">
+                <div className="cs-form-row">
+                  <div className="cs-form-column">
+                    <div className="cs-form-group">
                       <label>Start Date</label>
-                      <input type="date" className="form-input" />
-                      <div className="form-help-text">Select the start date of the internship.</div>
+                      <input type="date" className="cs-form-input" />
+                      <div className="cs-form-help-text">Select the start date of the internship.</div>
                     </div>
                   </div>
-                  <div className="form-column">
-                    <div className="form-group">
+                  <div className="cs-form-column">
+                    <div className="cs-form-group">
                       <label>End Date</label>
-                      <input type="date" className="form-input" />
-                      <div className="form-help-text">Select the end date of the internship.</div>
+                      <input type="date" className="cs-form-input" />
+                      <div className="cs-form-help-text">Select the end date of the internship.</div>
                     </div>
                   </div>
                 </div>
 
-                <div className="form-row">
-                  <div className="form-column">
-                    <div className="form-group">
+                <div className="cs-form-row">
+                  <div className="cs-form-column">
+                    <div className="cs-form-group">
                       <label>Time Slot</label>
-                      <select className="form-select filter-styled">
+                      <select className="cs-form-select cs-filter-styled">
                         <option value="">Select time slot</option>
                         <option value="9:00 - 17:00">9:00 - 17:00 (MORNING)</option>
                         <option value="10:00 - 16:00">10:00 - 16:00 (MORNING)</option>
                         <option value="12:00 - 21:00">12:00 - 21:00 (AFTERNOON)</option>
                         <option value="13:00 - 19:00">13:00 - 19:00 (AFTERNOON)</option>
                       </select>
-                      <div className="form-help-text">Select the time slot for the internship.</div>
+                      <div className="cs-form-help-text">Select the time slot for the internship.</div>
                     </div>
                   </div>
-                  <div className="form-column">
-                    <div className="form-group">
+                  <div className="cs-form-column">
+                    <div className="cs-form-group">
                       <label>Required Skills</label>
-                      <input type="text" placeholder="Enter skills (comma separated)" className="form-input" />
-                      <div className="form-help-text">Enter the required skills, separated by commas.</div>
+                      <input type="text" placeholder="Enter skills (comma separated)" className="cs-form-input" />
+                      <div className="cs-form-help-text">Enter the required skills, separated by commas.</div>
                     </div>
                   </div>
                 </div>
 
-                <div className="form-row">
-                  <div className="form-column">
-                    <div className="form-group">
+                <div className="cs-form-row">
+                  <div className="cs-form-column"> {/* This was not full-width before, making it consistent with other single-column rows */}
+                    <div className="cs-form-group">
                       <label>Learning Opportunity</label>
-                      <select className="form-select filter-styled">
+                      <select className="cs-form-select cs-filter-styled">
                         <option value="false">No</option>
                         <option value="true">Yes</option>
                       </select>
-                      <div className="form-help-text">Is this a learning opportunity?</div>
+                      <div className="cs-form-help-text">Is this a learning opportunity?</div>
                     </div>
                   </div>
                 </div>
 
-                <div className="form-row">
-                  <div className="form-column full-width">
-                    <div className="form-group">
+                <div className="cs-form-row">
+                  <div className="cs-form-column cs-full-width">
+                    <div className="cs-form-group">
                       <label>Description (min. 200 characters)</label>
-                      <textarea placeholder="Enter description" className="form-textarea"></textarea>
-                      <div className="form-help-text">Provide a detailed description of the internship.</div>
+                      <textarea placeholder="Enter description" className="cs-form-textarea"></textarea>
+                      <div className="cs-form-help-text">Provide a detailed description of the internship.</div>
                     </div>
                   </div>
                 </div>
 
-                <div className="form-actions">
-                  <button type="submit" className="create-post-button">
-                    <span className="plus-icon">+</span> Create Post
+                <div className="cs-form-actions">
+                  <button type="submit" className="cs-create-post-button">
+                    <span className="cs-plus-icon">+</span> Create Post
                   </button>
                 </div>
               </form>
             </div>
           )}
           {activePage === "interns" && (
-            <div className="interns-section">
+            <div className="cs-interns-section">
               <h2>Interns</h2>
               {!selectedIntern ? (
                 <>
-                  <div className="filters">
-                    <button className="filter-button" onClick={toggleFilters}>
-                      <span className="filter-icon">≡</span> Filters
+                  <div className="cs-filters cs-interns-filters"> {/* Added cs-interns-filters for specific styling if needed */}
+                    <button className="cs-filter-button" onClick={toggleFilters}>
+                      <span className="cs-filter-icon">≡</span> Filters
                     </button>
-                    <div className="search-container">
+                    <div className="cs-search-container"> {/* Re-used cs-search-container */}
                       <input
                         type="text"
                         placeholder="Search by name or position"
-                        className="search-input"
+                        className="cs-search-input"
                         value={internSearch}
                         onChange={handleInternSearchChange}
                       />
                       {internSearch && (
-                        <button className="clear-search" onClick={() => setInternSearch("")}>
+                        <button className="cs-clear-search" onClick={() => setInternSearch("")}>
                           ×
                         </button>
                       )}
@@ -1357,27 +1304,27 @@ export default function Company() {
                   </div>
 
                   {showFilters && (
-                    <div className="filter-modal-overlay">
-                      <div className="filter-modal">
-                        <div className="filter-modal-header">
+                    <div className="cs-filter-modal-overlay">
+                      <div className="cs-filter-modal">
+                        <div className="cs-filter-modal-header">
                           <h2>Filters</h2>
-                          <button className="close-button" onClick={toggleFilters}>
+                          <button className="cs-close-button" onClick={toggleFilters}>
                             ✕
                           </button>
                         </div>
 
-                        <div className="filter-modal-content">
-                          <div className="filter-section">
+                        <div className="cs-filter-modal-content">
+                          <div className="cs-filter-section">
                             <h3>STATUS</h3>
-                            <div className="filter-options">
+                            <div className="cs-filter-options">
                               <button
-                                className={`filter-option ${internFilter === "current" ? "selected" : ""}`}
+                                className={`cs-filter-option ${internFilter === "current" ? "cs-selected" : ""}`}
                                 onClick={() => setInternFilter(internFilter === "current" ? "" : "current")}
                               >
                                 Current Interns
                               </button>
                               <button
-                                className={`filter-option ${internFilter === "completed" ? "selected" : ""}`}
+                                className={`cs-filter-option ${internFilter === "completed" ? "cs-selected" : ""}`}
                                 onClick={() => setInternFilter(internFilter === "completed" ? "" : "completed")}
                               >
                                 Completed Internships
@@ -1386,14 +1333,14 @@ export default function Company() {
                           </div>
                         </div>
 
-                        <div className="filter-actions">
+                        <div className="cs-filter-actions">
                           <button
-                            className={`reset-button ${internFilter ? "active" : ""}`}
+                            className={`cs-reset-button ${internFilter ? "cs-active" : ""}`}
                             onClick={() => setInternFilter("")}
                           >
                             Reset
                           </button>
-                          <button className="apply-button" onClick={toggleFilters}>
+                          <button className="cs-apply-button" onClick={toggleFilters}>
                             Show {filteredInterns.length} interns
                           </button>
                         </div>
@@ -1401,7 +1348,7 @@ export default function Company() {
                     </div>
                   )}
 
-                  <div className="interns-table">
+                  <div className="cs-interns-table">
                     <table>
                       <thead>
                         <tr>
@@ -1416,27 +1363,28 @@ export default function Company() {
                         {filteredInterns.map((intern) => (
                           <tr key={intern.id}>
                             <td>
-                              <div className="intern-name">{intern.applicantName}</div>
-                              <div className="intern-university">{intern.university}</div>
+                              <div className="cs-intern-name">{intern.applicantName}</div>
+                              <div className="cs-intern-university">{intern.university}</div>
                             </td>
                             <td>{intern.postTitle}</td>
                             <td>{intern.availableStartDate}</td>
                             <td>
                               <span 
-                                className={`status-badge ${intern.internshipStatus === "current" ? "status-current" : "status-completed"}`}
-                                onClick={() => handleStatusChange(intern.id, intern.internshipStatus)}
+                                className={`cs-status-badge ${intern.internshipStatus === "current" ? "cs-status-current" : "cs-status-completed"}`}
+                                onClick={() => handleStatusChange(intern.id, intern.internshipStatus)} // Added onClick for status change
+                                style={{cursor: 'pointer'}} // Make it look clickable
                               >
                                 {intern.internshipStatus === "current" ? "Current" : "Completed"}
                               </span>
                             </td>
                             <td>
-                              <div className="action-buttons">
-                                <button className="view-details-button" onClick={() => setSelectedIntern(intern)}>
+                              <div className="cs-action-buttons">
+                                <button className="cs-view-details-button" onClick={() => setSelectedIntern(intern)}>
                                   View Details
                                 </button>
                                 {intern.internshipStatus === "completed" && (
                                   <button 
-                                    className={`evaluation-button ${intern.evaluation ? "view-evaluation" : "add-evaluation"}`}
+                                    className={`cs-evaluation-button ${intern.evaluation ? "cs-view-evaluation" : "cs-add-evaluation"}`}
                                     onClick={() => intern.evaluation ? handleEditEvaluation(intern) : handleAddEvaluation(intern)}
                                   >
                                     {intern.evaluation ? "View Evaluation" : "Add Evaluation"}
@@ -1451,49 +1399,49 @@ export default function Company() {
                   </div>
                 </>
               ) : (
-                <div className="intern-details">
-                  <div className="intern-details-header">
+                <div className="cs-intern-details"> {/* This class was used for application details too, can be generic */}
+                  <div className="cs-intern-details-header">
                     <h3>Intern Details</h3>
-                    <button className="back-button" onClick={() => setSelectedIntern(null)}>
+                    <button className="cs-back-button" onClick={() => setSelectedIntern(null)}>
                       Back to Interns
                     </button>
                   </div>
 
-                  <div className="details-section">
+                  <div className="cs-details-section">
                     <h4>Intern Information</h4>
-                    <div className="info-grid">
-                      <div className="info-row">
-                        <div className="info-group">
+                    <div className="cs-info-grid">
+                      <div className="cs-info-row">
+                        <div className="cs-info-group">
                           <label>First Name</label>
                           <div>{selectedIntern.firstName}</div>
                         </div>
-                        <div className="info-group">
+                        <div className="cs-info-group">
                           <label>Last Name</label>
                           <div>{selectedIntern.lastName}</div>
                         </div>
-                        <div className="info-group">
+                        <div className="cs-info-group">
                           <label>Email</label>
                           <div>{selectedIntern.applicantEmail}</div>
                         </div>
-                        <div className="info-group">
+                        <div className="cs-info-group">
                           <label>Phone</label>
                           <div>{selectedIntern.applicantPhone}</div>
                         </div>
                       </div>
-                      <div className="info-row">
-                        <div className="info-group">
+                      <div className="cs-info-row">
+                        <div className="cs-info-group">
                           <label>University</label>
                           <div>{selectedIntern.university}</div>
                         </div>
-                        <div className="info-group">
+                        <div className="cs-info-group">
                           <label>Major</label>
                           <div>{selectedIntern.major}</div>
                         </div>
-                        <div className="info-group">
+                        <div className="cs-info-group">
                           <label>Current Education</label>
                           <div>{selectedIntern.currentEducation}</div>
                         </div>
-                        <div className="info-group">
+                        <div className="cs-info-group">
                           <label>GPA</label>
                           <div>{selectedIntern.gpa}</div>
                         </div>
@@ -1501,27 +1449,27 @@ export default function Company() {
                     </div>
                   </div>
 
-                  <div className="details-section">
+                  <div className="cs-details-section">
                     <h4>Internship Information</h4>
-                    <div className="info-grid">
-                      <div className="info-row">
-                        <div className="info-group">
+                    <div className="cs-info-grid">
+                      <div className="cs-info-row">
+                        <div className="cs-info-group">
                           <label>Position</label>
                           <div>{selectedIntern.postTitle}</div>
                         </div>
-                        <div className="info-group">
+                        <div className="cs-info-group">
                           <label>Start Date</label>
                           <div>{selectedIntern.availableStartDate}</div>
                         </div>
-                        <div className="info-group">
+                        <div className="cs-info-group">
                           <label>Status</label>
                           <div>
-                            <span className={`status-badge ${selectedIntern.internshipStatus === "current" ? "status-current" : "status-completed"}`}>
+                            <span className={`cs-status-badge ${selectedIntern.internshipStatus === "current" ? "cs-status-current" : "cs-status-completed"}`}>
                               {selectedIntern.internshipStatus === "current" ? "Current" : "Completed"}
                             </span>
                           </div>
                         </div>
-                        <div className="info-group">
+                        <div className="cs-info-group">
                           <label>Availability</label>
                           <div>{selectedIntern.availabilityHours}</div>
                         </div>
@@ -1531,17 +1479,17 @@ export default function Company() {
                 </div>
               )}
 
-              {showEvaluationModal && (
-                <div className="evaluation-modal-overlay">
-                  <div className="evaluation-modal">
-                    <div className="evaluation-modal-header">
-                      <h3>{currentEvaluation ? "View/Edit Evaluation" : "Add Evaluation"}</h3>
-                      <button className="close-button" onClick={() => setShowEvaluationModal(false)}>✕</button>
+              {showEvaluationModal && selectedIntern && ( // Ensure selectedIntern is not null
+                <div className="cs-evaluation-modal-overlay">
+                  <div className="cs-evaluation-modal">
+                    <div className="cs-evaluation-modal-header">
+                      <h3>{currentEvaluation ? "View/Edit Evaluation" : "Add Evaluation"} for {selectedIntern.applicantName}</h3>
+                      <button className="cs-close-button" onClick={() => setShowEvaluationModal(false)}>✕</button>
                     </div>
-                    <div className="evaluation-form">
-                      <div className="evaluation-section">
+                    <div className="cs-evaluation-form">
+                      <div className="cs-evaluation-section">
                         <h4>Rating: (1=Disagree and 5=Definitely True/Agree)</h4>
-                        <div className="evaluation-field">
+                        <div className="cs-evaluation-field">
                           <label>Practices professional appearance and conduct:</label>
                           <select 
                             value={evaluationData.professionalAppearance || ""}
@@ -1555,7 +1503,7 @@ export default function Company() {
                             <option value="5">5 - Strongly Agree</option>
                           </select>
                         </div>
-                        <div className="evaluation-field">
+                        <div className="cs-evaluation-field">
                           <label>Demonstrates professional confidence:</label>
                           <select 
                             value={evaluationData.professionalConfidence || ""}
@@ -1569,13 +1517,13 @@ export default function Company() {
                             <option value="5">5 - Strongly Agree</option>
                           </select>
                         </div>
-                        <div className="evaluation-field">
+                        <div className="cs-evaluation-field">
                           <label>Demonstrates professional demeanor when dealing with internal or external clients, co-workers, and/or superiors:</label>
                           <select 
                             value={evaluationData.professionalDemeanor || ""}
                             onChange={(e) => setEvaluationData({ ...evaluationData, professionalDemeanor: e.target.value })}
                           >
-                            <option value="">Please Select</option>
+                           <option value="">Please Select</option>
                             <option value="1">1 - Strongly Disagree</option>
                             <option value="2">2 - Disagree</option>
                             <option value="3">3 - Neutral</option>
@@ -1583,7 +1531,7 @@ export default function Company() {
                             <option value="5">5 - Strongly Agree</option>
                           </select>
                         </div>
-                        <div className="evaluation-field">
+                        <div className="cs-evaluation-field">
                           <label>Shows trustworthiness and confidentiality:</label>
                           <select 
                             value={evaluationData.trustworthiness || ""}
@@ -1597,7 +1545,7 @@ export default function Company() {
                             <option value="5">5 - Strongly Agree</option>
                           </select>
                         </div>
-                        <div className="evaluation-field">
+                        <div className="cs-evaluation-field">
                           <label>Demonstrates/practices ethical behavior:</label>
                           <select 
                             value={evaluationData.ethicalBehavior || ""}
@@ -1611,7 +1559,7 @@ export default function Company() {
                             <option value="5">5 - Strongly Agree</option>
                           </select>
                         </div>
-                        <div className="evaluation-field">
+                        <div className="cs-evaluation-field">
                           <label>Regularly on time and maintains agreeable schedule/hours:</label>
                           <select 
                             value={evaluationData.punctuality || ""}
@@ -1626,11 +1574,11 @@ export default function Company() {
                           </select>
                         </div>
                       </div>
-                      <div className="evaluation-modal-actions">
-                        <button className="cancel-button" onClick={() => setShowEvaluationModal(false)}>
+                      <div className="cs-evaluation-modal-actions">
+                        <button className="cs-cancel-button" onClick={() => setShowEvaluationModal(false)}>
                           Cancel
                         </button>
-                        <button className="save-button" onClick={handleSaveEvaluation}>
+                        <button className="cs-save-button" onClick={handleSaveEvaluation}>
                           Save Evaluation
                         </button>
                       </div>
@@ -1641,34 +1589,34 @@ export default function Company() {
             </div>
           )}
           {activePage === "applicants" && (
-            <div className="applications-section">
+            <div className="cs-applications-section">
               <h2>Applications</h2>
               {!selectedApplication ? (
                 <>
-                  <div className="filters">
-                    <button className="filter-button" onClick={toggleFilters}>
-                      <span className="filter-icon">≡</span> Filters
+                  <div className="cs-filters">
+                    <button className="cs-filter-button" onClick={toggleFilters}>
+                      <span className="cs-filter-icon">≡</span> Filters
                     </button>
                   </div>
 
                   {showFilters && (
-                    <div className="filter-modal-overlay">
-                      <div className="filter-modal">
-                        <div className="filter-modal-header">
+                    <div className="cs-filter-modal-overlay">
+                      <div className="cs-filter-modal">
+                        <div className="cs-filter-modal-header">
                           <h2>Filters</h2>
-                          <button className="close-button" onClick={toggleFilters}>
+                          <button className="cs-close-button" onClick={toggleFilters}>
                             ✕
                           </button>
                         </div>
 
-                        <div className="filter-modal-content">
-                          <div className="filter-section">
+                        <div className="cs-filter-modal-content">
+                          <div className="cs-filter-section">
                             <h3>POST</h3>
-                            <div className="filter-options">
-                              {jobListings.map((job) => (
+                            <div className="cs-filter-options">
+                              {jobListings.map((job) => ( // Make sure jobListings is available or filter from a relevant source
                                 <button
                                   key={job.id}
-                                  className={`filter-option ${selectedPost === job.id ? "selected" : ""}`}
+                                  className={`cs-filter-option ${selectedPost === job.id ? "cs-selected" : ""}`}
                                   onClick={() => setSelectedPost(selectedPost === job.id ? null : job.id)}
                                 >
                                   {job.title}
@@ -1678,21 +1626,21 @@ export default function Company() {
                           </div>
                         </div>
 
-                        <div className="filter-actions">
+                        <div className="cs-filter-actions">
                           <button
-                            className={`reset-button ${selectedPost ? "active" : ""}`}
+                            className={`cs-reset-button ${selectedPost ? "cs-active" : ""}`}
                             onClick={() => setSelectedPost(null)}
                           >
                             Reset
                           </button>
-                          <button className="apply-button" onClick={toggleFilters}>
+                          <button className="cs-apply-button" onClick={toggleFilters}>
                             Show {filteredApplications.length} applications
                           </button>
                         </div>
                       </div>
                     </div>
                   )}
-                  <div className="applications-table">
+                  <div className="cs-applications-table">
                     <table>
                       <thead>
                         <tr>
@@ -1706,15 +1654,15 @@ export default function Company() {
                         {filteredApplications.map((application) => (
                           <tr key={application.id}>
                             <td>
-                              <div className="applicant-name">{application.applicantName}</div>
-                              <div className="applicant-university">{application.university}</div>
+                              <div className="cs-applicant-name">{application.applicantName}</div>
+                              <div className="cs-applicant-university">{application.university}</div>
                             </td>
                             <td>{application.postTitle}</td>
                             <td>{application.applicationDate}</td>
                             <td>
-                              <div className="action-button-container">
+                              <div className="cs-action-button-container">
                                 <button 
-                                  className="view-details-button"
+                                  className="cs-view-details-button"
                                   onClick={() => setSelectedApplication(application)}
                                 >
                                   View Details
@@ -1728,52 +1676,52 @@ export default function Company() {
                   </div>
                 </>
               ) : (
-                <div className="application-details">
-                  <div className="application-details-header">
+                <div className="cs-application-details">
+                  <div className="cs-application-details-header">
                     <h3>Application Details</h3>
                     <button 
-                      className="back-button"
+                      className="cs-back-button"
                       onClick={() => setSelectedApplication(null)}
                     >
                       Back to Applications
                     </button>
                   </div>
 
-                  <div className="details-section">
+                  <div className="cs-details-section">
                     <h4>Applicant Information</h4>
-                    <div className="info-grid">
-                      <div className="info-row">
-                        <div className="info-group">
+                    <div className="cs-info-grid">
+                      <div className="cs-info-row">
+                        <div className="cs-info-group">
                           <label>First Name</label>
                           <div>{selectedApplication.firstName}</div>
                         </div>
-                        <div className="info-group">
+                        <div className="cs-info-group">
                           <label>Last Name</label>
                           <div>{selectedApplication.lastName}</div>
                         </div>
-                        <div className="info-group">
+                        <div className="cs-info-group">
                           <label>Email</label>
                           <div>{selectedApplication.applicantEmail}</div>
                         </div>
-                        <div className="info-group">
+                        <div className="cs-info-group">
                           <label>Phone</label>
                           <div>{selectedApplication.applicantPhone}</div>
                         </div>
                       </div>
-                      <div className="info-row">
-                        <div className="info-group">
+                      <div className="cs-info-row">
+                        <div className="cs-info-group">
                           <label>University</label>
                           <div>{selectedApplication.university}</div>
                         </div>
-                        <div className="info-group">
+                        <div className="cs-info-group">
                           <label>Major</label>
                           <div>{selectedApplication.major}</div>
                         </div>
-                        <div className="info-group">
+                        <div className="cs-info-group">
                           <label>Current Education</label>
                           <div>{selectedApplication.currentEducation}</div>
                         </div>
-                        <div className="info-group">
+                        <div className="cs-info-group">
                           <label>GPA</label>
                           <div>{selectedApplication.gpa}</div>
                         </div>
@@ -1781,23 +1729,23 @@ export default function Company() {
                     </div>
                   </div>
 
-                  <div className="details-section">
+                  <div className="cs-details-section">
                     <h4>Application Information</h4>
-                    <div className="info-grid">
-                      <div className="info-row">
-                        <div className="info-group">
+                    <div className="cs-info-grid">
+                      <div className="cs-info-row">
+                        <div className="cs-info-group">
                           <label>Position</label>
                           <div>{selectedApplication.postTitle}</div>
                         </div>
-                        <div className="info-group">
+                        <div className="cs-info-group">
                           <label>Application Date</label>
                           <div>{selectedApplication.applicationDate}</div>
                         </div>
-                        <div className="info-group">
+                        <div className="cs-info-group">
                           <label>Availability</label>
                           <div>{selectedApplication.availabilityHours}</div>
                         </div>
-                        <div className="info-group">
+                        <div className="cs-info-group">
                           <label>Start Date</label>
                           <div>{selectedApplication.availableStartDate}</div>
                         </div>
@@ -1805,49 +1753,49 @@ export default function Company() {
                     </div>
                   </div>
 
-                  <div className="details-section">
+                  <div className="cs-details-section">
                     <h4>Cover Letter</h4>
-                    <div className="cover-letter-text">
+                    <div className="cs-cover-letter-text">
                       {selectedApplication.coverLetter}
                     </div>
                   </div>
 
-                  <div className="details-section">
+                  <div className="cs-details-section">
                     <h4>Resume</h4>
-                    <div className="download-buttons">
-                      <button className="download-button">
+                    <div className="cs-download-buttons">
+                      <button className="cs-download-button"> {/* Use cs-download-button from above */}
                         Download Resume
                       </button>
                     </div>
                   </div>
 
-                  <div className="details-section">
+                  <div className="cs-details-section">
                     <h4>Application Status</h4>
-                    <div className="status-buttons">
+                    <div className="cs-status-buttons">
                       <button 
-                        className={`status-button ${selectedApplication.status === 'pending' ? 'active' : ''}`}
+                        className={`cs-status-button ${selectedApplication.status === 'pending' ? 'cs-active' : ''}`}
                         onClick={() => updateApplicationStatus(selectedApplication.id, 'pending')}
                         data-status="pending"
                       >
                         Pending
                       </button>
                       <button 
-                        className={`status-button ${selectedApplication.status === 'accepted' ? 'active' : ''}`}
+                        className={`cs-status-button ${selectedApplication.status === 'accepted' ? 'cs-active' : ''}`}
                         onClick={() => updateApplicationStatus(selectedApplication.id, 'accepted')}
                         data-status="accepted"
                       >
                         Accept
                       </button>
                       <button 
-                        className={`status-button ${selectedApplication.status === 'rejected' ? 'active' : ''}`}
+                        className={`cs-status-button ${selectedApplication.status === 'rejected' ? 'cs-active' : ''}`}
                         onClick={() => updateApplicationStatus(selectedApplication.id, 'rejected')}
                         data-status="rejected"
                       >
                         Reject
                       </button>
                     </div>
-                    <div className="download-buttons">
-                      <button className="download-button">
+                    <div className="cs-download-buttons">
+                      <button className="cs-download-button"> {/* Use cs-download-button from above */}
                         Download
                       </button>
                     </div>
@@ -1865,23 +1813,24 @@ export default function Company() {
 // Helper component to highlight search text
 function HighlightText({ text, highlight }) {
   if (!highlight.trim()) {
-    return <span>{text}</span>
+    return <span>{text}</span>;
   }
 
-  const regex = new RegExp(`(${highlight})`, "gi")
-  const parts = text.split(regex)
+  const regex = new RegExp(`(${highlight})`, "gi");
+  const parts = text.split(regex);
 
   return (
     <span>
       {parts.map((part, i) =>
         regex.test(part) ? (
-          <span key={i} className="highlight">
+          <span key={i} className="cs-highlight"> {/* Updated class name */}
             {part}
           </span>
         ) : (
           <span key={i}>{part}</span>
-        ),
+        )
       )}
     </span>
-  )
+  );
 }
+
