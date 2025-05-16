@@ -188,7 +188,7 @@ function ReportView() {
       <div className="report-container unique16">
         <div className="back-link unique16">
           <button className="back-button unique16" onClick={handleBackClick}>
-            ← Back
+            Back
           </button>
         </div>
 

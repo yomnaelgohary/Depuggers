@@ -36,7 +36,7 @@ html.unique16 {
 .back-button.unique16 {
   display: flex;
   align-items: center;
-  background: none;
+  background: #fff;
   border: 1px solid #e5e7eb;
   border-radius: 4px;
   padding: 6px 12px;
@@ -47,7 +47,8 @@ html.unique16 {
 }
 
 .back-button.unique16:hover {
-  background-color: #f9f5ff;
+  background-color: #5f2878;
+  color: #fff;
   border-color: #5f2878;
 }
 
