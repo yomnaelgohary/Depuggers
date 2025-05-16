@@ -1476,6 +1476,90 @@ export default function Company() {
                       </div>
                     </div>
                   </div>
+
+                  {/* Add Evaluation Section */}
+                  <div className="cs-details-section">
+                    <div className="cs-evaluation-header">
+                      <h4>Evaluation</h4>
+                      {selectedIntern.internshipStatus === "completed" && !selectedIntern.evaluation && (
+                        <button 
+                          className="cs-evaluation-button cs-add-evaluation"
+                          onClick={() => handleAddEvaluation(selectedIntern)}
+                        >
+                          Add Evaluation
+                        </button>
+                      )}
+                      {selectedIntern.evaluation && (
+                        <div className="cs-evaluation-actions">
+                          <button 
+                            className="cs-edit-evaluation-button"
+                            onClick={() => handleEditEvaluation(selectedIntern)}
+                          >
+                            Edit Evaluation
+                          </button>
+                          <button 
+                            className="cs-delete-evaluation-button"
+                            onClick={() => {
+                              if (window.confirm('Are you sure you want to delete this evaluation?')) {
+                                setApplications(prevApplications =>
+                                  prevApplications.map(app =>
+                                    app.id === selectedIntern.id
+                                      ? { ...app, evaluation: null }
+                                      : app
+                                  )
+                                );
+                                setSelectedIntern({ ...selectedIntern, evaluation: null });
+                                addNotification(`Evaluation for ${selectedIntern.applicantName} has been deleted.`);
+                              }
+                            }}
+                          >
+                            Delete Evaluation
+                          </button>
+                        </div>
+                      )}
+                    </div>
+
+                    {selectedIntern.evaluation ? (
+                      <div className="cs-evaluation-summary">
+                        <div className="cs-evaluation-ratings">
+                          <div className="cs-rating-item">
+                            <span className="cs-rating-label">Professional Appearance</span>
+                            <span className="cs-rating-value">{selectedIntern.evaluation.professionalAppearance}/5</span>
+                          </div>
+                          <div className="cs-rating-item">
+                            <span className="cs-rating-label">Professional Confidence</span>
+                            <span className="cs-rating-value">{selectedIntern.evaluation.professionalConfidence}/5</span>
+                          </div>
+                          <div className="cs-rating-item">
+                            <span className="cs-rating-label">Professional Demeanor</span>
+                            <span className="cs-rating-value">{selectedIntern.evaluation.professionalDemeanor}/5</span>
+                          </div>
+                          <div className="cs-rating-item">
+                            <span className="cs-rating-label">Trustworthiness</span>
+                            <span className="cs-rating-value">{selectedIntern.evaluation.trustworthiness}/5</span>
+                          </div>
+                          <div className="cs-rating-item">
+                            <span className="cs-rating-label">Ethical Behavior</span>
+                            <span className="cs-rating-value">{selectedIntern.evaluation.ethicalBehavior}/5</span>
+                          </div>
+                          <div className="cs-rating-item">
+                            <span className="cs-rating-label">Punctuality</span>
+                            <span className="cs-rating-value">{selectedIntern.evaluation.punctuality}/5</span>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      selectedIntern.internshipStatus === "completed" ? (
+                        <div className="cs-no-evaluation">
+                          <p>No evaluation has been added yet.</p>
+                        </div>
+                      ) : (
+                        <div className="cs-no-evaluation">
+                          <p>Evaluation can be added once the internship is completed.</p>
+                        </div>
+                      )
+                    )}
+                  </div>
                 </div>
               )}
 
@@ -1488,7 +1572,6 @@ export default function Company() {
                     </div>
                     <div className="cs-evaluation-form">
                       <div className="cs-evaluation-section">
-                        <h4>Rating: (1=Disagree and 5=Definitely True/Agree)</h4>
                         <div className="cs-evaluation-field">
                           <label>Practices professional appearance and conduct:</label>
                           <select 
@@ -1496,11 +1579,11 @@ export default function Company() {
                             onChange={(e) => setEvaluationData({ ...evaluationData, professionalAppearance: e.target.value })}
                           >
                             <option value="">Please Select</option>
-                            <option value="1">1 - Strongly Disagree</option>
-                            <option value="2">2 - Disagree</option>
-                            <option value="3">3 - Neutral</option>
-                            <option value="4">4 - Agree</option>
-                            <option value="5">5 - Strongly Agree</option>
+                            <option value="1">Strongly Disagree</option>
+                            <option value="2">Disagree</option>
+                            <option value="3">Neutral</option>
+                            <option value="4">Agree</option>
+                            <option value="5">Strongly Agree</option>
                           </select>
                         </div>
                         <div className="cs-evaluation-field">
@@ -1510,11 +1593,11 @@ export default function Company() {
                             onChange={(e) => setEvaluationData({ ...evaluationData, professionalConfidence: e.target.value })}
                           >
                             <option value="">Please Select</option>
-                            <option value="1">1 - Strongly Disagree</option>
-                            <option value="2">2 - Disagree</option>
-                            <option value="3">3 - Neutral</option>
-                            <option value="4">4 - Agree</option>
-                            <option value="5">5 - Strongly Agree</option>
+                            <option value="1">Strongly Disagree</option>
+                            <option value="2">Disagree</option>
+                            <option value="3">Neutral</option>
+                            <option value="4">Agree</option>
+                            <option value="5">Strongly Agree</option>
                           </select>
                         </div>
                         <div className="cs-evaluation-field">
@@ -1524,11 +1607,11 @@ export default function Company() {
                             onChange={(e) => setEvaluationData({ ...evaluationData, professionalDemeanor: e.target.value })}
                           >
                            <option value="">Please Select</option>
-                            <option value="1">1 - Strongly Disagree</option>
-                            <option value="2">2 - Disagree</option>
-                            <option value="3">3 - Neutral</option>
-                            <option value="4">4 - Agree</option>
-                            <option value="5">5 - Strongly Agree</option>
+                            <option value="1">Strongly Disagree</option>
+                            <option value="2">Disagree</option>
+                            <option value="3">Neutral</option>
+                            <option value="4">Agree</option>
+                            <option value="5">Strongly Agree</option>
                           </select>
                         </div>
                         <div className="cs-evaluation-field">
@@ -1538,11 +1621,11 @@ export default function Company() {
                             onChange={(e) => setEvaluationData({ ...evaluationData, trustworthiness: e.target.value })}
                           >
                             <option value="">Please Select</option>
-                            <option value="1">1 - Strongly Disagree</option>
-                            <option value="2">2 - Disagree</option>
-                            <option value="3">3 - Neutral</option>
-                            <option value="4">4 - Agree</option>
-                            <option value="5">5 - Strongly Agree</option>
+                            <option value="1">Strongly Disagree</option>
+                            <option value="2">Disagree</option>
+                            <option value="3">Neutral</option>
+                            <option value="4">Agree</option>
+                            <option value="5">Strongly Agree</option>
                           </select>
                         </div>
                         <div className="cs-evaluation-field">
@@ -1552,11 +1635,11 @@ export default function Company() {
                             onChange={(e) => setEvaluationData({ ...evaluationData, ethicalBehavior: e.target.value })}
                           >
                             <option value="">Please Select</option>
-                            <option value="1">1 - Strongly Disagree</option>
-                            <option value="2">2 - Disagree</option>
-                            <option value="3">3 - Neutral</option>
-                            <option value="4">4 - Agree</option>
-                            <option value="5">5 - Strongly Agree</option>
+                            <option value="1">Strongly Disagree</option>
+                            <option value="2">Disagree</option>
+                            <option value="3">Neutral</option>
+                            <option value="4">Agree</option>
+                            <option value="5">Strongly Agree</option>
                           </select>
                         </div>
                         <div className="cs-evaluation-field">
@@ -1566,11 +1649,11 @@ export default function Company() {
                             onChange={(e) => setEvaluationData({ ...evaluationData, punctuality: e.target.value })}
                           >
                             <option value="">Please Select</option>
-                            <option value="1">1 - Strongly Disagree</option>
-                            <option value="2">2 - Disagree</option>
-                            <option value="3">3 - Neutral</option>
-                            <option value="4">4 - Agree</option>
-                            <option value="5">5 - Strongly Agree</option>
+                            <option value="1">Strongly Disagree</option>
+                            <option value="2">Disagree</option>
+                            <option value="3">Neutral</option>
+                            <option value="4">Agree</option>
+                            <option value="5">Strongly Agree</option>
                           </select>
                         </div>
                       </div>

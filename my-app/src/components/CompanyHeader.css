@@ -65,33 +65,44 @@
   gap: 16px;
 }
 
-.ch-icon-button { /* Renamed from .icon-button */
-  background-color: transparent;
-  border: none;
+.ch-icon-button {
   width: 40px;
   height: 40px;
   border-radius: 50%;
+  background-color: #f5f3ff;
+  border: 2px solid #5f2878;
+  color: #5f2878;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
-  color: #333;
+  padding: 0;
+  outline: none;
 }
 
-.ch-icon-button:hover { /* Updated */
-  background-color: rgba(228, 230, 233, 0.5);
+.ch-icon-button:hover {
+  background-color: #5f2878;
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(95, 40, 120, 0.2);
+}
+
+.ch-icon-button svg {
+  width: 20px;
+  height: 20px;
+  color: inherit;
 }
 
 .ch-notification-bell-container { /* Renamed from .notification-bell-container */
   position: relative;
 }
 
-.ch-notification-badge { /* Renamed from .notification-badge */
+.ch-notification-badge {
   position: absolute;
   top: -5px;
   right: -5px;
-  background-color: #5f2878;
+  background-color: #dc2626;
   color: white;
   border-radius: 50%;
   width: 18px;
@@ -101,6 +112,7 @@
   align-items: center;
   justify-content: center;
   font-weight: bold;
+  border: 2px solid white;
 }
 
 .ch-notifications-panel { /* Renamed from .notifications-panel */
@@ -175,71 +187,88 @@
   color: #666;
 }
 
-.ch-avatar-container { /* Renamed from .avatar-container */
+.ch-avatar-container {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.ch-avatar-button { /* Renamed from .avatar-button */
+.ch-avatar-button {
   background: none;
   border: none;
   padding: 0;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
 }
 
-.ch-avatar { /* Renamed from .avatar */
+.ch-avatar-button:focus {
+  outline: none;
+}
+
+.ch-avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   background-color: #f5f3ff;
+  border: 2px solid #5f2878;
   color: #5f2878;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
+  overflow: hidden;
 }
 
-.ch-avatar:hover { /* Updated */
+.ch-avatar:hover {
   background-color: #5f2878;
   color: white;
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(95, 40, 120, 0.2);
 }
 
-.ch-user-dropdown { /* Renamed from .user-dropdown */
+.ch-avatar svg {
+  width: 20px;
+  height: 20px;
+  color: inherit;
+}
+
+.ch-user-dropdown {
   position: absolute;
   top: 45px;
   right: -10px;
-  width: 200px;
+  width: 250px;
   background-color: white;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   z-index: 1000;
   overflow: hidden;
+  padding: 8px 0;
 }
 
-.ch-user-info { /* Renamed from .user-info */
-  padding: 12px 16px;
-  border-bottom: 1px solid #e0e0e0; /* This was using e0e0e0, kept as is, but could be eaeaea for consistency */
+.ch-user-info {
+  padding: 16px;
+  background-color: white;
+  border-bottom: 1px solid #eaeaea;
 }
 
-.ch-user-name { /* Renamed from .user-name */
-  font-size: 14px;
+.ch-user-name {
+  font-size: 16px;
   font-weight: 600;
   margin: 0;
   color: #333;
 }
 
-.ch-user-email { /* Renamed from .user-email */
-  font-size: 12px;
+.ch-user-email {
+  font-size: 14px;
   color: #666;
   margin: 4px 0 0;
 }
 
-.ch-dropdown-divider { /* Renamed from .dropdown-divider */
-  height: 1px;
-  background-color: #e0e0e0; /* This was using e0e0e0, kept as is */
-  margin: 8px 0;
-}
-
-.ch-logout-button { /* Renamed from .logout-button */
+.ch-logout-button {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -253,6 +282,12 @@
   transition: all 0.2s ease;
 }
 
-.ch-logout-button:hover { /* Updated */
+.ch-logout-button:hover {
   background-color: #fef2f2;
+}
+
+.ch-logout-button svg {
+  width: 16px;
+  height: 16px;
+  color: #dc2626;
 }
