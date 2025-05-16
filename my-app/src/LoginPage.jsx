@@ -13,11 +13,32 @@ function LoginPage() {
   const [showPasswordHint, setShowPasswordHint] = useState(false)
   const navigate = useNavigate()
 
+  const validDomains = {
+    scad: "scad.com",
+    faculty: "faculty.com",
+    student: "student.com",
+    prostudent: "prostudent.com",
+    company: "company.com"
+  };
+
+  const getRoleFromEmail = (email) => {
+    const domain = email.split("@")[1]?.toLowerCase();
+    if (!domain) return null;
+    if (domain === validDomains.scad) return "scad";
+    if (domain === validDomains.faculty) return "faculty";
+    if (domain === validDomains.student) return "student";
+    if (domain === validDomains.prostudent) return "prostudent";
+    if (domain === validDomains.company) return "company";
+    return null;
+  };
+
   const handleLogin = () => {
     const newErrors = {}
 
     if (!username.trim()) {
-      newErrors.username = "Please enter your username"
+      newErrors.username = "Please enter your email"
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(username)) {
+      newErrors.username = "Please enter a valid email address"
     }
 
     if (!password) {
@@ -29,20 +50,19 @@ function LoginPage() {
       return
     }
 
-    const validUsernames = ["scad", "faculty", "company", "student", "prostudent"]
-    const usernameLower = username.toLowerCase()
-    const usernameExists = validUsernames.includes(usernameLower)
+    const emailLower = username.toLowerCase();
+    const role = getRoleFromEmail(emailLower);
 
-    if (!usernameExists) {
-      setError({ username: "Username doesn't exist" })
+    if (!role) {
+      setError({ username: "Email must be from @scad.com, @faculty.com, @student.com, @prostudent.com, or @company.com" })
     } else if (password !== "1234") {
       setError({ password: "Incorrect password" })
     } else {
-      if (usernameLower === "scad") navigate("/SCAD")
-      else if (usernameLower === "faculty") navigate("/faculty")
-      else if (usernameLower === "company") navigate("/company")
-      else if (usernameLower === "student") navigate("/student")
-      else if (usernameLower ===  "prostudent") navigate("/prostudent")
+      if (role === "scad") navigate("/SCAD")
+      else if (role === "faculty") navigate("/faculty")
+      else if (role === "student") navigate("/student")
+      else if (role === "prostudent") navigate("/prostudent")
+      else if (role === "company") navigate("/company")
     }
   }
 
@@ -81,11 +101,11 @@ function LoginPage() {
 
           <div className="login-form">
             <div className="form-group">
-              <label htmlFor="username">Username</label>
+              <label htmlFor="username">Email</label>
               <input
                 id="username"
-                type="text"
-                placeholder="Enter your username"
+                type="email"
+                placeholder="Enter your institutional email"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 onKeyDown={handleKeyDown}
