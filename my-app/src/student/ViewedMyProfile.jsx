@@ -126,81 +126,81 @@ const ViewedMyProfile = () => {
   })
 
   return (
-    <div className="viewed-profile-container">
-      <div className="viewed-profile-header">
+    <div className="viewed-profile-container-unique6">
+      <div className="viewed-profile-header-unique6">
         <h1>Companies That Viewed My Profile</h1>
         <p>See which companies have shown interest in your profile</p>
       </div>
 
-      <div className="viewed-profile-actions">
-        <div className="search-container">
-          <SearchOutlined className="search-icon" />
+      <div className="viewed-profile-actions-unique6">
+        <div className="search-container-unique6">
+          <SearchOutlined className="search-icon-unique6" />
           <input
             type="text"
             placeholder="Search companies..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="search-input"
+            className="search-input-unique6"
           />
         </div>
 
         
       </div>
 
-      <div className="viewed-profile-stats">
-        <div className="stat-card">
+      <div className="viewed-profile-stats-unique6">
+        <div className="stat-card-unique6">
           <h3>{companies.length}</h3>
           <p>Total Views</p>
         </div>
-        <div className="stat-card">
+        <div className="stat-card-unique6">
           <h3>{companies.filter((c) => c.saved).length}</h3>
           <p>Saved Companies</p>
         </div>
-        <div className="stat-card">
+        <div className="stat-card-unique6">
           <h3>{companies.reduce((sum, company) => sum + company.viewCount, 0)}</h3>
           <p>Total Impressions</p>
         </div>
       </div>
 
-      <div className="companies-list">
+      <div className="companies-list-unique6">
         {sortedCompanies.length > 0 ? (
           sortedCompanies.map((company) => (
-            <div className="company-card" key={company.id}>
+            <div className="company-card-unique6" key={company.id}>
               <div
-                className="company-logo"
+                className="company-logo-unique6"
                 style={{ backgroundColor: company.saved ? "var(--primary-color)" : "#6c757d" }}
               >
                 {company.logo}
               </div>
-              <div className="company-info">
+              <div className="company-info-unique6">
                 <h3>{company.name}</h3>
-                <p className="company-details">
+                <p className="company-details-unique6">
                   <span>{company.industry}</span> • <span>{company.location}</span>
                 </p>
-                <div className="view-details">
-                  <span className="view-count">
+                <div className="view-details-unique6">
+                  <span className="view-count-unique6">
                     <UserOutlined /> Viewed {company.viewCount} {company.viewCount === 1 ? "time" : "times"}
                   </span>
-                  <span className="view-time">
+                  <span className="view-time-unique6">
                     <ClockCircleOutlined /> {formatRelativeTime(company.viewedDate)}
                   </span>
                 </div>
               </div>
-              <div className="company-actions">
+              <div className="company-actions-unique6">
                 <button
-                  className={`save-button ${company.saved ? "saved" : ""}`}
+                  className={`save-button-unique6 ${company.saved ? "saved-unique6" : ""}`}
                   onClick={() => toggleSaved(company.id)}
                 >
                   {company.saved ? <StarFilled /> : <StarOutlined />}
                 </button>
-                <button className="message-button">
+                <button className="message-button-unique6">
                   <MessageOutlined />
                 </button>
               </div>
             </div>
           ))
         ) : (
-          <div className="no-results">
+          <div className="no-results-unique6">
             <p>No companies match your search criteria.</p>
           </div>
         )}

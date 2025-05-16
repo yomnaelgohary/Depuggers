@@ -1,4 +1,3 @@
-/* Dashboard Container */
 .dashboard-container {
   padding: 24px;
   background-color: #f8f9fa;
@@ -11,7 +10,7 @@
   overflow-x: hidden;
 }
 
-/* Dashboard Header */
+/* Dashboard Header unique2 */
 .dashboard-header {
   display: flex;
   justify-content: space-between;
@@ -19,20 +18,20 @@
   margin-bottom: 0px;
 }
 
-.dashboard-title {
+.dashboard-title unique2 {
   font-size: 24px;
   font-weight: 600;
   color: #212529;
   margin: 0 0 8px 0;
 }
 
-.dashboard-subtitle {
+.dashboard-subtitle unique2 {
   font-size: 14px;
   color: #6c757d;
   margin: 0;
 }
 
-.date-display {
+.date-display unique2 {
   font-size: 14px;
   color: #6c757d;
   background-color: #ffffff;
@@ -42,14 +41,14 @@
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-/* Stats Overview */
+/* Stats Overview unique2 */
 .stats-overview {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
 
-.stat-card {
+.stat-card unique2 {
   background-color: white;
   border-radius: 8px;
   padding: 20px;
@@ -61,13 +60,13 @@
   transition: all 0.2s ease;
 }
 
-.stat-card:hover {
+.stat-card:hover unique2 {
   transform: translateY(-2px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Force stat-icon to be purple with !important */
-.stat-icon {
+.stat-icon unique2 {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -80,7 +79,7 @@
 }
 
 /* Improved stat content layout */
-.stat-content {
+.stat-content unique2 {
   flex: 1;
   display: flex;
   flex-direction: column; /* Changed to column layout */
@@ -89,7 +88,7 @@
   overflow: hidden; /* Prevent overflow */
 }
 
-.stat-title {
+.stat-title unique2 {
   font-size: 14px; /* Slightly smaller */
   color: #6c757d;
   font-weight: 500;
@@ -99,21 +98,21 @@
   text-overflow: ellipsis; /* Add ellipsis if needed */
 }
 
-.stat-value {
+.stat-value unique2 {
   font-size: 28px;
   font-weight: 700;
   color: #5f2878;
   display: block; /* Ensure it takes full width */
 }
 
-/* Main Dashboard Content */
+/* Main Dashboard Content unique2 */
 .dashboard-content {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 20px;
 }
 
-/* Dashboard Cards */
+/* Dashboard Cards unique2 */
 .dashboard-card {
   background-color: white;
   border-radius: 8px;
@@ -121,7 +120,7 @@
   overflow: hidden;
 }
 
-.card-header {
+.card-header unique2 {
   padding: 16px 20px;
   border-bottom: 1px solid #e9ecef;
   display: flex;
@@ -129,41 +128,41 @@
   justify-content: space-between;
 }
 
-.card-title {
+.card-title unique2 {
   font-size: 18px;
   font-weight: 600;
   margin: 0;
   color: #212529;
 }
 
-.card-body {
+.card-body unique2 {
   padding: 20px;
 }
 
-.card-tabs {
+.card-tabs unique2 {
   margin-bottom: 0 !important;
 }
 
-/* Profile Card */
+/* Profile Card unique2 */
 .profile-card {
   height: fit-content;
 }
 
-/* Profile Completion */
-.profile-tasks {
+/* Profile Completion unique2 */
+.profile-tasks unique2 {
   margin-top: 20px;
 }
 
-.profile-tasks .ant-checkbox-wrapper {
+.profile-tasks .ant-checkbox-wrapper unique2 {
   display: block;
   margin-bottom: 12px;
 }
 
-.profile-tasks .ant-checkbox-wrapper:last-child {
+.profile-tasks .ant-checkbox-wrapper:last-child unique2 {
   margin-bottom: 0;
 }
 
-/* Video Guide Section */
+/* Video Guide Section unique2 */
 .video-guide-section {
   margin-top: 20px;
   padding: 15px;
@@ -172,113 +171,113 @@
   border-left: 4px solid #5f2878;
 }
 
-.video-guide-section h3 {
+.video-guide-section h3 unique2 {
   color: #212529;
   margin-bottom: 8px;
 }
 
-.video-guide-section p {
+.video-guide-section p unique2 {
   color: #6c757d;
   margin-bottom: 12px;
 }
 
-/* Video Container */
+/* Video Container unique2 */
 .video-container {
   margin-bottom: 20px;
   border-radius: 4px;
   overflow: hidden;
 }
 
-.video-description {
+.video-description unique2 {
   padding: 10px;
 }
 
-.video-description h4 {
+.video-description h4 unique2 {
   color: #212529;
   margin-bottom: 8px;
 }
 
-.video-description ul {
+.video-description ul unique2 {
   padding-left: 20px;
   color: #6c757d;
 }
 
-.video-description li {
+.video-description li unique2 {
   margin-bottom: 6px;
 }
 
-/* Unviewed Row */
+/* Unviewed Row unique2 */
 .unviewed-row {
   background-color: #f8fbff !important;
 }
 
-.unviewed-row:hover {
+.unviewed-row:hover unique2 {
   background-color: #f5f3ff !important;
 }
 
-/* Ant Design Overrides */
-.ant-btn-primary {
+/* Ant Design Overrides unique2 */
+.ant-btn-primary unique2 {
   background-color: #5f2878 !important;
   border-color: #5f2878 !important;
 }
 
-.ant-btn-primary:hover {
+.ant-btn-primary:hover unique2 {
   background-color: #4a1d5e !important;
   border-color: #4a1d5e !important;
 }
 
-.ant-progress-bg {
+.ant-progress-bg unique2 {
   background-color: #5f2878 !important;
 }
 
-.ant-tabs-ink-bar {
+.ant-tabs-ink-bar unique2 {
   background-color: #5f2878 !important;
 }
 
-.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn unique2 {
   color: #5f2878 !important;
 }
 
-.ant-checkbox-checked .ant-checkbox-inner {
+.ant-checkbox-checked .ant-checkbox-inner unique2 {
   background-color: #5f2878 !important;
   border-color: #5f2878 !important;
 }
 
-.ant-badge-dot {
+.ant-badge-dot unique2 {
   background-color: #5f2878 !important;
 }
 
-/* Responsive adjustments */
+/* Responsive adjustments unique2 */
 @media (max-width: 1200px) {
-  .stats-overview {
+  .stats-overview unique2 {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 992px) {
-  .dashboard-content {
+  .dashboard-content unique2 {
     grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 768px) {
-  .dashboard-header {
+  .dashboard-header unique2 {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
   }
 
-  .date-display {
+  .date-display unique2 {
     align-self: flex-start;
   }
 }
 
 @media (max-width: 576px) {
-  .stats-overview {
+  .stats-overview unique2 {
     grid-template-columns: 1fr;
   }
 
-  .dashboard-container {
+  .dashboard-container unique2 {
     padding: 16px;
   }
 }

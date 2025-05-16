@@ -42,24 +42,24 @@ const Header = () => {
   }
 
   return (
-    <header className="content-header">
-      <div className="nav-buttons">
-        <button className="nav-button">
+    <header className="unique11-content-header">
+      <div className="unique11-nav-buttons">
+        <button className="unique11-nav-button">
           <LeftOutlined />
         </button>
-        <button className="nav-button">
+        <button className="unique11-nav-button">
           <RightOutlined />
         </button>
       </div>
-      <div className="header-actions">
-        <div className="notification-bell-container">
-          <button className="action-button" onClick={toggleNotifications}>
+      <div className="unique11-header-actions">
+        <div className="unique11-notification-bell-container">
+          <button className="unique11-action-button" onClick={toggleNotifications}>
             <BellOutlined />
-            {unreadCount > 0 && <span className="notification-badge">{unreadCount}</span>}
+            {unreadCount > 0 && <span className="unique11-notification-badge">{unreadCount}</span>}
           </button>
           {showNotifications && <NotificationsPanel onClose={() => setShowNotifications(false)} />}
         </div>
-        <button className="action-button">
+        <button className="unique11-action-button">
           <UserAddOutlined />
         </button>
       </div>
@@ -112,11 +112,11 @@ function ProStudentContent() {
   ]
 
   return (
-    <div className="student-container">
-      <div className="student-sidebar">
-        <div className="sidebar-header">
-          <div className="logo-container">
-            <div className="logo">S</div>
+    <div className="unique11-student-container">
+      <div className="unique11-student-sidebar">
+        <div className="unique11-sidebar-header">
+          <div className="unique11-logo-container">
+            <div className="unique11-logo">S</div>
             <h2>Student</h2>
           </div>
         </div>
@@ -126,11 +126,12 @@ function ProStudentContent() {
           selectedKeys={[activeTab]}
           onClick={(e) => setActiveTab(e.key)}
           items={menuItems}
+          className="unique11-ant-menu"
         />
       </div>
-      <div className="student-content">
+      <div className="unique11-student-content">
         <Header />
-        <div className="content-body">{renderTabContent()}</div>
+        <div className="unique11-content-body">{renderTabContent()}</div>
       </div>
     </div>
   )

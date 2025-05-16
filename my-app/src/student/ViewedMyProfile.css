@@ -1,25 +1,25 @@
-/* ViewedMyProfile.css */
-.viewed-profile-container {
+/* ViewedMyProfile.css unique6 */
+.viewed-profile-container-unique6 {
   animation: fadeIn 0.3s ease-in-out;
 }
 
-.viewed-profile-header {
+.viewed-profile-header-unique6 {
   margin-bottom: 24px;
 }
 
-.viewed-profile-header h1 {
+.viewed-profile-header-unique6 h1 {
   font-size: 24px;
   font-weight: 600;
   color: var(--text-dark);
   margin-bottom: 8px;
 }
 
-.viewed-profile-header p {
+.viewed-profile-header-unique6 p {
   color: var(--text-medium);
   font-size: 14px;
 }
 
-.viewed-profile-actions {
+.viewed-profile-actions-unique6 {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -27,12 +27,12 @@
   gap: 16px;
 }
 
-.search-container {
+.search-container-unique6 {
   position: relative;
   flex: 1;
 }
 
-.search-icon {
+.search-icon-unique6 {
   position: absolute;
   left: 12px;
   top: 50%;
@@ -40,7 +40,7 @@
   color: var(--text-light);
 }
 
-.search-input {
+.search-input-unique6 {
   width: 100%;
   height: 40px;
   padding: 8px 12px 8px 36px;
@@ -50,17 +50,17 @@
   transition: var(--transition);
 }
 
-.search-input:focus {
+.search-input-unique6:focus {
   outline: none;
   border-color: var(--primary-color);
   box-shadow: 0 0 0 2px rgba(95, 40, 120, 0.1);
 }
 
-.filter-container {
+.filter-container-unique6 {
   position: relative;
 }
 
-.filter-button {
+.filter-button-unique6 {
   height: 40px;
   padding: 0 16px;
   background-color: white;
@@ -74,12 +74,12 @@
   color: var(--text-dark);
 }
 
-.filter-button:hover {
+.filter-button-unique6:hover {
   background-color: #f9fafb;
   border-color: #d1d5db;
 }
 
-.filter-dropdown {
+.filter-dropdown-unique6 {
   position: absolute;
   top: 100%;
   right: 0;
@@ -93,24 +93,24 @@
   border: 1px solid var(--border-color);
 }
 
-.filter-section {
+.filter-section-unique6 {
   padding: 16px;
 }
 
-.filter-section h4 {
+.filter-section-unique6 h4 {
   font-size: 14px;
   font-weight: 600;
   margin-bottom: 12px;
   color: var(--text-dark);
 }
 
-.sort-options {
+.sort-options-unique6 {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.sort-options label {
+.sort-options-unique6 label {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -119,18 +119,18 @@
   cursor: pointer;
 }
 
-.sort-options input[type="radio"] {
+.sort-options-unique6 input[type="radio"] {
   accent-color: var(--primary-color);
 }
 
-.viewed-profile-stats {
+.viewed-profile-stats-unique6 {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
   margin-bottom: 24px;
 }
 
-.stat-card {
+.stat-card-unique6 {
   background-color: white;
   border-radius: var(--border-radius);
   padding: 20px;
@@ -140,30 +140,30 @@
   transition: var(--transition);
 }
 
-.stat-card:hover {
+.stat-card-unique6:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
 
-.stat-card h3 {
+.stat-card-unique6 h3 {
   font-size: 28px;
   font-weight: 600;
   color: var(--primary-color);
   margin-bottom: 8px;
 }
 
-.stat-card p {
+.stat-card-unique6 p {
   color: var(--text-medium);
   font-size: 14px;
 }
 
-.companies-list {
+.companies-list-unique6 {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.company-card {
+.company-card-unique6 {
   display: flex;
   align-items: center;
   background-color: white;
@@ -174,12 +174,12 @@
   transition: var(--transition);
 }
 
-.company-card:hover {
+.company-card-unique6:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
 
-.company-logo {
+.company-logo-unique6 {
   width: 50px;
   height: 50px;
   border-radius: 8px;
@@ -194,45 +194,45 @@
   flex-shrink: 0;
 }
 
-.company-info {
+.company-info-unique6 {
   flex: 1;
 }
 
-.company-info h3 {
+.company-info-unique6 h3 {
   font-size: 16px;
   font-weight: 600;
   color: var(--text-dark);
   margin-bottom: 4px;
 }
 
-.company-details {
+.company-details-unique6 {
   color: var(--text-medium);
   font-size: 14px;
   margin-bottom: 8px;
 }
 
-.view-details {
+.view-details-unique6 {
   display: flex;
   gap: 16px;
   font-size: 13px;
   color: var(--text-light);
 }
 
-.view-count,
-.view-time {
+.view-count-unique6,
+.view-time-unique6 {
   display: flex;
   align-items: center;
   gap: 4px;
 }
 
-.company-actions {
+.company-actions-unique6 {
   display: flex;
   gap: 8px;
   margin-left: 16px;
 }
 
-.save-button,
-.message-button {
+.save-button-unique6,
+.message-button-unique6 {
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -246,20 +246,20 @@
   color: var(--text-medium);
 }
 
-.save-button:hover,
-.message-button:hover {
+.save-button-unique6:hover,
+.message-button-unique6:hover {
   background-color: #f9fafb;
   color: var(--primary-color);
   border-color: var(--primary-color);
 }
 
-.save-button.saved {
+.save-button-unique6.saved-unique6 {
   color: var(--primary-color);
   border-color: var(--primary-color);
   background-color: rgba(95, 40, 120, 0.05);
 }
 
-.no-results {
+.no-results-unique6 {
   text-align: center;
   padding: 40px 0;
   color: var(--text-medium);
@@ -267,32 +267,32 @@
 }
 
 @media (max-width: 768px) {
-  .viewed-profile-actions {
+  .viewed-profile-actions-unique6 {
     flex-direction: column;
     align-items: stretch;
   }
 
-  .filter-dropdown {
+  .filter-dropdown-unique6 {
     width: 100%;
   }
 
-  .company-card {
+  .company-card-unique6 {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .company-logo {
+  .company-logo-unique6 {
     margin-bottom: 12px;
     margin-right: 0;
   }
 
-  .company-actions {
+  .company-actions-unique6 {
     margin-left: 0;
     margin-top: 12px;
     align-self: flex-end;
   }
 
-  .view-details {
+  .view-details-unique6 {
     flex-direction: column;
     gap: 4px;
   }

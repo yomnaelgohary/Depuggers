@@ -1,5 +1,3 @@
-"use client"
-
 import { useState, useEffect } from "react"
 // Ant Design Components
 import {
@@ -438,21 +436,21 @@ const InternshipContent = () => {
   ]
 
   return (
-    <div className="internship-content">
-      <div className="filters">
-        <button className="filter-button" onClick={toggleFilters}>
-          <span className="filter-icon">≡</span> Filters
+    <div className="internship-content qunique3">
+      <div className="filters qunique3">
+        <button className="filter-button qunique3" onClick={toggleFilters}>
+          <span className="filter-icon qunique3">≡</span> Filters
         </button>
-        <div className="search-container">
+        <div className="search-container qunique3">
           <input
             type="text"
             placeholder="Search job title"
-            className="search-input"
+            className="search-input qunique3"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
           />
           {searchText && (
-            <button className="clear-search" onClick={clearSearch}>
+            <button className="clear-search qunique3" onClick={clearSearch}>
               ×
             </button>
           )}
@@ -460,23 +458,23 @@ const InternshipContent = () => {
       </div>
 
       {showFilters && (
-        <div className="filter-modal-overlay">
-          <div className="filter-modal">
-            <div className="filter-modal-header">
+        <div className="filter-modal-overlay qunique3">
+          <div className="filter-modal qunique3">
+            <div className="filter-modal-header qunique3">
               <h2>Filters</h2>
-              <button className="close-button" onClick={toggleFilters}>
+              <button className="close-button qunique3" onClick={toggleFilters}>
                 ✕
               </button>
             </div>
 
-            <div className="filter-modal-content">
-              <div className="filter-section">
+            <div className="filter-modal-content qunique3">
+              <div className="filter-section qunique3">
                 <h3>INDUSTRY</h3>
-                <div className="filter-options">
+                <div className="filter-options qunique3">
                   {industries.map((industry, index) => (
                     <button
                       key={index}
-                      className={`filter-option ${filters.industry === industry ? "selected" : ""}`}
+                      className={`filter-option qunique3 ${filters.industry === industry ? "selected qunique3" : ""}`}
                       onClick={() => handleFilterChange("industry", industry)}
                     >
                       {industry}
@@ -485,13 +483,13 @@ const InternshipContent = () => {
                 </div>
               </div>
 
-              <div className="filter-section">
+              <div className="filter-section qunique3">
                 <h3>DURATION</h3>
-                <div className="filter-options">
+                <div className="filter-options qunique3">
                   {durations.map((duration, index) => (
                     <button
                       key={index}
-                      className={`filter-option ${filters.duration === duration ? "selected" : ""}`}
+                      className={`filter-option qunique3 ${filters.duration === duration ? "selected qunique3" : ""}`}
                       onClick={() => handleFilterChange("duration", duration)}
                     >
                       {duration}
@@ -500,13 +498,13 @@ const InternshipContent = () => {
                 </div>
               </div>
 
-              <div className="filter-section">
+              <div className="filter-section qunique3">
                 <h3>LOCATION</h3>
-                <div className="filter-options">
+                <div className="filter-options qunique3">
                   {locations.map((location, index) => (
                     <button
                       key={index}
-                      className={`filter-option ${filters.location === location ? "selected" : ""}`}
+                      className={`filter-option qunique3 ${filters.location === location ? "selected qunique3" : ""}`}
                       onClick={() => handleFilterChange("location", location)}
                     >
                       {location}
@@ -515,17 +513,17 @@ const InternshipContent = () => {
                 </div>
               </div>
 
-              <div className="filter-section">
+              <div className="filter-section qunique3">
                 <h3>PAYMENT</h3>
-                <div className="filter-options">
+                <div className="filter-options qunique3">
                   <button
-                    className={`filter-option ${filters.isPaid === true ? "selected" : ""}`}
+                    className={`filter-option qunique3 ${filters.isPaid === true ? "selected qunique3" : ""}`}
                     onClick={() => handleFilterChange("isPaid", true)}
                   >
                     Paid
                   </button>
                   <button
-                    className={`filter-option ${filters.isPaid === false ? "selected" : ""}`}
+                    className={`filter-option qunique3 ${filters.isPaid === false ? "selected qunique3" : ""}`}
                     onClick={() => handleFilterChange("isPaid", false)}
                   >
                     Unpaid
@@ -534,11 +532,11 @@ const InternshipContent = () => {
               </div>
             </div>
 
-            <div className="filter-actions">
-              <button className={`reset-button ${hasActiveFilters() ? "active" : ""}`} onClick={resetFilters}>
+            <div className="filter-actions qunique3">
+              <button className={`reset-button qunique3 ${hasActiveFilters() ? "active qunique3" : ""}`} onClick={resetFilters}>
                 Reset
               </button>
-              <button className="apply-button" onClick={toggleFilters}>
+              <button className="apply-button qunique3" onClick={toggleFilters}>
                 Show {filteredInternships.length} jobs
               </button>
             </div>
@@ -547,77 +545,77 @@ const InternshipContent = () => {
       )}
 
       {searchText && (
-        <div className="search-results">
-          <div className="results-count">
+        <div className="search-results qunique3">
+          <div className="results-count qunique3">
             Found {filteredInternships.length} {filteredInternships.length === 1 ? "job" : "jobs"} matching "
             {searchText}"
           </div>
         </div>
       )}
 
-      <div className="job-listings">
+      <div className="job-listings qunique3">
         {filteredInternships.map((internship) => (
-          <div className={`job-card ${internship.status === "completed" ? "completed-job" : ""}`} key={internship.id}>
-            {internship.status === "completed" && <div className="completed-banner">INTERNSHIP COMPLETE</div>}
+          <div className={`job-card qunique3 ${internship.status === "completed" ? "completed-job qunique3" : ""}`} key={internship.id}>
+            {internship.status === "completed" && <div className="completed-banner qunique3">INTERNSHIP COMPLETE</div>}
 
             {internship.isPaid && internship.salary && (
-              <div className="job-salary">
-                <div className="amount">{internship.salary}</div>
-                <div className="hourly-rate">Hourly Rate</div>
+              <div className="job-salary qunique3">
+                <div className="amount qunique3">{internship.salary}</div>
+                <div className="hourly-rate qunique3">Hourly Rate</div>
               </div>
             )}
 
-            <div className="job-details">
-              <div className="company-name">{internship.company}</div>
-              {internship.isLearningOpportunity && <div className="learning-opportunity">LEARNING OPPORTUNITY</div>}
+            <div className="job-details qunique3">
+              <div className="company-name qunique3">{internship.company}</div>
+              {internship.isLearningOpportunity && <div className="learning-opportunity qunique3">LEARNING OPPORTUNITY</div>}
 
-              <h3 className="job-title">
+              <h3 className="job-title qunique3">
                 {searchText ? <HighlightText text={internship.title} highlight={searchText} /> : internship.title}
               </h3>
 
-              <div className="job-requirements">
-                <div className="requirement-label">REQUIRES:</div>
-                <div className="requirement-tags">
+              <div className="job-requirements qunique3">
+                <div className="requirement-label qunique3">REQUIRES:</div>
+                <div className="requirement-tags qunique3">
                   {internship.skills.map((skill, index) => (
-                    <span className="requirement-tag" key={index}>
+                    <span className="requirement-tag qunique3" key={index}>
                       {skill}
                     </span>
                   ))}
                 </div>
               </div>
 
-              <div className="job-location">
-                <span className="location-icon">◎</span>
+              <div className="job-location qunique3">
+                <span className="location-icon qunique3">◎</span>
                 <span>{internship.location}</span>
               </div>
 
-              <div className="job-duration">
-                <span className="calendar-icon">📅</span>
+              <div className="job-duration qunique3">
+                <span className="calendar-icon qunique3">📅</span>
                 <div>
-                  <div className="date-range">
+                  <div className="date-range qunique3">
                     {internship.startDate} - {internship.endDate}
                   </div>
-                  <div className="duration">{internship.duration}</div>
+                  <div className="duration qunique3">{internship.duration}</div>
                 </div>
-                <div className="time-slot">
-                  <div className="time">{internship.timeSlot}</div>
-                  <div className="time-of-day">{internship.timeOfDay}</div>
+                <div className="time-slot qunique3">
+                  <div className="time qunique3">{internship.timeSlot}</div>
+                  <div className="time-of-day qunique3">{internship.timeOfDay}</div>
                 </div>
               </div>
 
-              <div className="job-work-hours">
-                <span className="work-hours-icon">⏱</span>
+              <div className="job-work-hours qunique3">
+                <span className="work-hours-icon qunique3">⏱</span>
                 <span>{internship.workHours}</span>
               </div>
 
-              {internship.description && <div className="job-description">{internship.description}</div>}
+              {internship.description && <div className="job-description qunique3">{internship.description}</div>}
             </div>
 
-            <button className="apply-now-button" onClick={() => handleApply()}>
+            <button className="apply-now-button qunique3" onClick={() => handleApply()}>
               Apply Now
             </button>
 
-            <div className={`job-status ${internship.isPaid ? "paid" : "unpaid"}`}>
+            <div className={`job-status qunique3 ${internship.isPaid ? "paid qunique3" : "unpaid qunique3"}`}>
               {internship.isPaid ? "PAID" : "UNPAID"}
             </div>
           </div>
@@ -640,11 +638,11 @@ const InternshipContent = () => {
         width={800}
       >
         {selectedInternship && (
-          <div className="internship-details">
+          <div className="internship-details qunique3">
             <h2>{selectedInternship.title}</h2>
             <h3>{selectedInternship.company}</h3>
 
-            <div className="details-section">
+            <div className="details-section qunique3">
               <Row gutter={16}>
                 <Col span={12}>
                   <p>
@@ -678,14 +676,14 @@ const InternshipContent = () => {
 
             <Divider />
 
-            <div className="description-section">
+            <div className="description-section qunique3">
               <h4>Job Description</h4>
               <p>{selectedInternship.description}</p>
             </div>
 
-            <div className="skills-section">
+            <div className="skills-section qunique3">
               <h4>Required Skills</h4>
-              <div className="skills-list">
+              <div className="skills-list qunique3">
                 {selectedInternship.skills.map((skill, index) => (
                   <Tag key={index} color="blue">
                     {skill}
@@ -748,7 +746,7 @@ function HighlightText({ text, highlight }) {
     <span>
       {parts.map((part, i) =>
         regex.test(part) ? (
-          <span key={i} className="highlight">
+          <span key={i} className="highlight qunique3">
             {part}
           </span>
         ) : (

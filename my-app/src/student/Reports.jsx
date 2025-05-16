@@ -407,9 +407,9 @@ const Reports = () => {
       .filter(Boolean)
 
     return (
-      <div className="expanded-content">
-        <Collapse defaultActiveKey={["responsibilities", "skills"]}>
-          <Panel header="Responsibilities" key="responsibilities">
+      <div className="unique4-expanded-content">
+        <Collapse defaultActiveKey={["responsibilities", "skills"]} className="unique4-ant-collapse">
+          <Panel header="Responsibilities" key="responsibilities" className="unique4-ant-collapse-header">
             <ul>
               {record.responsibilities.map((item, index) => (
                 <li key={index}>{item}</li>
@@ -417,16 +417,16 @@ const Reports = () => {
             </ul>
           </Panel>
 
-          <Panel header="Skills Gained" key="skills">
-            <div className="skills-tags">
+          <Panel header="Skills Gained" key="skills" className="unique4-ant-collapse-header">
+            <div className="unique4-skills-tags">
               {record.skillsGained.map((skill) => (
-                <Tag key={skill}>{skill}</Tag>
+                <Tag key={skill} className="unique4-ant-tag">{skill}</Tag>
               ))}
             </div>
           </Panel>
 
           {report && (
-            <Panel header="Report Details" key="report">
+            <Panel header="Report Details" key="report" className="unique4-ant-collapse-header">
               <p>
                 <strong>Title:</strong> {report.title}
               </p>
@@ -442,6 +442,7 @@ const Reports = () => {
                           ? "red"
                           : "blue"
                   }
+                  className="unique4-ant-tag"
                 >
                   {report.status?.toUpperCase() || "DRAFT"}
                 </Tag>
@@ -466,8 +467,8 @@ const Reports = () => {
                     size="small"
                     dataSource={relevantCourses}
                     renderItem={(course) => (
-                      <List.Item>
-                        <Tag color="blue">{course.code}</Tag> {course.name}
+                      <List.Item className="unique4-ant-list-item">
+                        <Tag color="blue" className="unique4-ant-tag">{course.code}</Tag> {course.name}
                       </List.Item>
                     )}
                   />
@@ -477,19 +478,19 @@ const Reports = () => {
           )}
 
           {evaluation && (
-            <Panel header="Evaluation Details" key="evaluation">
+            <Panel header="Evaluation Details" key="evaluation" className="unique4-ant-collapse-header">
               <p>
                 <strong>Rating:</strong> <Rate disabled defaultValue={evaluation.rating} />
               </p>
               <p>
                 <strong>Recommend:</strong>
-                <Tag color={evaluation.wouldRecommend ? "green" : "red"}>
+                <Tag color={evaluation.wouldRecommend ? "green" : "red"} className="unique4-ant-tag">
                   {evaluation.wouldRecommend ? "Yes" : "No"}
                 </Tag>
               </p>
               <p>
                 <strong>Status:</strong>
-                <Tag color={evaluation.isFinalized ? "green" : "orange"}>
+                <Tag color={evaluation.isFinalized ? "green" : "orange"} className="unique4-ant-tag">
                   {evaluation.isFinalized ? "FINALIZED" : "DRAFT"}
                 </Tag>
               </p>
@@ -504,23 +505,23 @@ const Reports = () => {
   }
 
   return (
-    <div className="reports-container">
+    <div className="unique4-reports-container">
       {/* Internships Section */}
-      <Card title="My Internships" className="section-card">
-        <div className="filters">
-          <button className="filter-button" onClick={toggleFilters}>
+      <Card title="My Internships" className="unique4-section-card">
+        <div className="unique4-filters">
+          <button className="unique4-filter-button" onClick={toggleFilters}>
             <span className="filter-icon">≡</span> Filters
           </button>
-          <div className="search-container">
+          <div className="unique4-search-container">
             <input
               type="text"
               placeholder="Search by company or title"
-              className="search-input"
+              className="unique4-search-input"
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
             />
             {searchText && (
-              <button className="clear-search" onClick={clearSearch}>
+              <button className="unique4-clear-search" onClick={clearSearch}>
                 ×
               </button>
             )}
@@ -528,33 +529,33 @@ const Reports = () => {
         </div>
 
         {showFilters && (
-          <div className="filter-modal-overlay">
-            <div className="filter-modal">
-              <div className="filter-modal-header">
+          <div className="unique4-filter-modal-overlay">
+            <div className="unique4-filter-modal">
+              <div className="unique4-filter-modal-header">
                 <h2>Filters</h2>
-                <button className="close-button" onClick={toggleFilters}>
+                <button className="unique4-close-button" onClick={toggleFilters}>
                   ✕
                 </button>
               </div>
 
-              <div className="filter-modal-content">
-                <div className="filter-section">
+              <div className="unique4-filter-modal-content">
+                <div className="unique4-filter-section">
                   <h3>STATUS</h3>
-                  <div className="filter-options">
+                  <div className="unique4-filter-options">
                     <button
-                      className={`filter-option ${filters.status === "all" ? "selected" : ""}`}
+                      className={`unique4-filter-option ${filters.status === "all" ? "unique4-selected" : ""}`}
                       onClick={() => handleFilterChange("status", "all")}
                     >
                       All
                     </button>
                     <button
-                      className={`filter-option ${filters.status === "current" ? "selected" : ""}`}
+                      className={`unique4-filter-option ${filters.status === "current" ? "unique4-selected" : ""}`}
                       onClick={() => handleFilterChange("status", "current")}
                     >
                       Current
                     </button>
                     <button
-                      className={`filter-option ${filters.status === "completed" ? "selected" : ""}`}
+                      className={`unique4-filter-option ${filters.status === "completed" ? "unique4-selected" : ""}`}
                       onClick={() => handleFilterChange("status", "completed")}
                     >
                       Completed
@@ -562,17 +563,17 @@ const Reports = () => {
                   </div>
                 </div>
 
-                <div className="filter-section">
+                <div className="unique4-filter-section">
                   <h3>DATE RANGE</h3>
                   <DatePicker.RangePicker onChange={setDateRange} style={{ width: "100%" }} />
                 </div>
               </div>
 
-              <div className="filter-actions">
-                <button className={`reset-button ${hasActiveFilters() ? "active" : ""}`} onClick={resetFilters}>
+              <div className="unique4-filter-actions">
+                <button className={`unique4-reset-button ${hasActiveFilters() ? "unique4-active" : ""}`} onClick={resetFilters}>
                   Reset
                 </button>
-                <button className="apply-button" onClick={toggleFilters}>
+                <button className="unique4-apply-button" onClick={toggleFilters}>
                   Show {filteredInternships.length} internships
                 </button>
               </div>
@@ -581,8 +582,8 @@ const Reports = () => {
         )}
 
         {searchText && (
-          <div className="search-results">
-            <div className="results-count">
+          <div className="unique4-search-results">
+            <div className="unique4-results-count">
               Found {filteredInternships.length} {filteredInternships.length === 1 ? "internship" : "internships"}{" "}
               matching "{searchText}"
             </div>
@@ -610,7 +611,7 @@ const Reports = () => {
               title: "Status",
               dataIndex: "status",
               key: "status",
-              render: (status) => <Tag color={status === "completed" ? "green" : "orange"}>{status.toUpperCase()}</Tag>,
+              render: (status) => <Tag color={status === "completed" ? "green" : "orange"} className="unique4-ant-tag">{status.toUpperCase()}</Tag>,
             },
             {
               title: "Report Status",
@@ -624,7 +625,7 @@ const Reports = () => {
                 if (report.status === "flagged") color = "orange"
                 if (report.status === "rejected") color = "red"
 
-                return <Tag color={color}>{report.status ? report.status.toUpperCase() : "PENDING"}</Tag>
+                return <Tag color={color} className="unique4-ant-tag">{report.status ? report.status.toUpperCase() : "PENDING"}</Tag>
               },
             },
             {
@@ -635,7 +636,7 @@ const Reports = () => {
                 return (
                   <Space size="middle">
                     <Button
-                      className="view-profile-button"
+                      className="unique4-view-profile-button"
                       icon={<EyeOutlined />}
                       onClick={() => {
                         setSelectedInternship(record)
@@ -645,11 +646,11 @@ const Reports = () => {
                       View Report
                     </Button>
                     {report && ["flagged", "rejected"].includes(report.status) && (
-                      <Button className="view-profile-button" onClick={() => handleAppealReport(report)}>
+                      <Button className="unique4-view-profile-button" onClick={() => handleAppealReport(report)}>
                         Appeal
                       </Button>
                     )}
-                    <Button className="view-profile-button" icon={<EyeOutlined />} onClick={() => handleExpandRow(record)}>
+                    <Button className="unique4-view-profile-button" icon={<EyeOutlined />} onClick={() => handleExpandRow(record)}>
                       View More
                     </Button>
                   </Space>
@@ -665,12 +666,13 @@ const Reports = () => {
             expandedRowKeys,
             onExpand: (expanded, record) => handleExpandRow(record),
           }}
+          className="unique4-ant-table"
         />
       </Card>
 
       {/* Reports Section */}
-      <Card title="My Reports" className="section-card">
-        <Button type="primary" icon={<PlusOutlined />} onClick={handleCreateReport} className="mb-16">
+      <Card title="My Reports" className="unique4-section-card">
+        <Button type="primary" icon={<PlusOutlined />} onClick={handleCreateReport} className="unique4-mb-16">
           New Report
         </Button>
         <Table
@@ -704,26 +706,26 @@ const Reports = () => {
                 if (status === "rejected") color = "red"
                 if (status === "appealed") color = "blue"
 
-                return <Tag color={color}>{status ? status.toUpperCase() : "PENDING"}</Tag>
+                return <Tag color={color} className="unique4-ant-tag">{status ? status.toUpperCase() : "PENDING"}</Tag>
               },
             },
             {
               title: "Finalized",
               dataIndex: "isFinalized",
               key: "isFinalized",
-              render: (isFinalized) => <Tag color={isFinalized ? "green" : "orange"}>{isFinalized ? "YES" : "NO"}</Tag>,
+              render: (isFinalized) => <Tag color={isFinalized ? "green" : "orange"} className="unique4-ant-tag">{isFinalized ? "YES" : "NO"}</Tag>,
             },
             {
               title: "Actions",
               key: "actions",
               render: (_, record) => (
                 <Space size="middle">
-                  <Button className="view-profile-button" icon={<EyeOutlined />} onClick={() => handleEditReport(record)}>
+                  <Button className="unique4-view-profile-button" icon={<EyeOutlined />} onClick={() => handleEditReport(record)}>
                     View
                   </Button>
                   {!record.isFinalized && (
                     <>
-                      <Button className="view-profile-button" icon={<EditOutlined />} onClick={() => handleEditReport(record)}>
+                      <Button className="unique4-view-profile-button" icon={<EditOutlined />} onClick={() => handleEditReport(record)}>
                         Edit
                       </Button>
                       <Popconfirm
@@ -732,17 +734,17 @@ const Reports = () => {
                         okText="Yes"
                         cancelText="No"
                       >
-                        <Button className="view-profile-button" danger icon={<DeleteOutlined />}>
+                        <Button className="unique4-view-profile-button" danger icon={<DeleteOutlined />}>
                           Delete
                         </Button>
                       </Popconfirm>
                     </>
                   )}
-                  <Button className="view-profile-button" icon={<DownloadOutlined />} onClick={() => handleDownloadReport(record.id)}>
+                  <Button className="unique4-view-profile-button" icon={<DownloadOutlined />} onClick={() => handleDownloadReport(record.id)}>
                     Download
                   </Button>
                   {!record.isFinalized && (
-                    <Button className="view-profile-button" icon={<CheckCircleOutlined />} onClick={() => handleFinalizeReport(record.id)}>
+                    <Button className="unique4-view-profile-button" icon={<CheckCircleOutlined />} onClick={() => handleFinalizeReport(record.id)}>
                       Finalize
                     </Button>
                   )}
@@ -753,12 +755,13 @@ const Reports = () => {
           ]}
           dataSource={reports}
           rowKey="id"
+          className="unique4-ant-table"
         />
       </Card>
 
       {/* Evaluations Section */}
-      <Card title="My Evaluations" className="section-card">
-        <Button type="primary" icon={<PlusOutlined />} onClick={handleCreateEvaluation} className="mb-16">
+      <Card title="My Evaluations" className="unique4-section-card">
+        <Button type="primary" icon={<PlusOutlined />} onClick={handleCreateEvaluation} className="unique4-mb-16">
           New Evaluation
         </Button>
         <Table
@@ -773,7 +776,7 @@ const Reports = () => {
               dataIndex: "wouldRecommend",
               key: "wouldRecommend",
               render: (recommend) => (
-                <Tag color={recommend ? "green" : "red"}>{recommend ? "Recommended" : "Not Recommended"}</Tag>
+                <Tag color={recommend ? "green" : "red"} className="unique4-ant-tag">{recommend ? "Recommended" : "Not Recommended"}</Tag>
               ),
             },
             {
@@ -787,7 +790,7 @@ const Reports = () => {
               dataIndex: "isFinalized",
               key: "status",
               render: (isFinalized) => (
-                <Tag color={isFinalized ? "green" : "orange"}>{isFinalized ? "Finalized" : "Draft"}</Tag>
+                <Tag color={isFinalized ? "green" : "orange"} className="unique4-ant-tag">{isFinalized ? "Finalized" : "Draft"}</Tag>
               ),
             },
             {
@@ -795,12 +798,12 @@ const Reports = () => {
               key: "actions",
               render: (_, record) => (
                 <Space size="middle">
-                  <Button className="view-profile-button" icon={<EyeOutlined />} onClick={() => handleEditEvaluation(record)}>
+                  <Button className="unique4-view-profile-button" icon={<EyeOutlined />} onClick={() => handleEditEvaluation(record)}>
                     View
                   </Button>
                   {!record.isFinalized && (
                     <>
-                      <Button className="view-profile-button" icon={<EditOutlined />} onClick={() => handleEditEvaluation(record)}>
+                      <Button className="unique4-view-profile-button" icon={<EditOutlined />} onClick={() => handleEditEvaluation(record)}>
                         Edit
                       </Button>
                       <Popconfirm
@@ -809,14 +812,14 @@ const Reports = () => {
                         okText="Yes"
                         cancelText="No"
                       >
-                        <Button className="view-profile-button" danger icon={<DeleteOutlined />}>
+                        <Button className="unique4-view-profile-button" danger icon={<DeleteOutlined />}>
                           Delete
                         </Button>
                       </Popconfirm>
                     </>
                   )}
                   <Button
-                    className="view-profile-button"
+                    className="unique4-view-profile-button"
                     icon={<DownloadOutlined />}
                     onClick={() => message.info("Download functionality would be implemented here")}
                   >
@@ -824,7 +827,7 @@ const Reports = () => {
                   </Button>
                   {!record.isFinalized && (
                     <Button
-                      className="view-profile-button"
+                      className="unique4-view-profile-button"
                       icon={<CheckCircleOutlined />}
                       onClick={() => handleFinalizeEvaluation(record.id)}
                     >
@@ -837,6 +840,7 @@ const Reports = () => {
           ]}
           dataSource={evaluations}
           rowKey="id"
+          className="unique4-ant-table"
         />
       </Card>
 
@@ -847,28 +851,29 @@ const Reports = () => {
         onCancel={() => setReportModalVisible(false)}
         onOk={handleSubmitReport}
         width={800}
+        className="unique4-ant-modal-content"
       >
-        <Form form={reportForm} layout="vertical">
+        <Form form={reportForm} layout="vertical" className="unique4-ant-form-item-label">
           <Form.Item name="title" label="Report Title" rules={[{ required: true, message: "Please enter a title" }]}>
-            <Input placeholder="Enter report title" />
+            <Input placeholder="Enter report title" className="unique4-ant-input" />
           </Form.Item>
           <Form.Item
             name="introduction"
             label="Introduction"
             rules={[{ required: true, message: "Please write an introduction" }]}
           >
-            <TextArea rows={4} placeholder="Write your introduction here..." />
+            <TextArea rows={4} placeholder="Write your introduction here..." className="unique4-ant-input" />
           </Form.Item>
           <Form.Item
             name="body"
             label="Report Body"
             rules={[{ required: true, message: "Please write the report body" }]}
           >
-            <TextArea rows={8} placeholder="Write your report here..." />
+            <TextArea rows={8} placeholder="Write your report here..." className="unique4-ant-input" />
           </Form.Item>
 
           {/* Course Selection Section */}
-          <Form.Item label="Relevant Courses">
+          <Form.Item label="Relevant Courses" className="unique4-ant-form-item-label">
             <Button type="primary" onClick={() => setCourseModalVisible(true)} icon={<PlusOutlined />}>
               Select Courses
             </Button>
@@ -879,8 +884,8 @@ const Reports = () => {
                   size="small"
                   dataSource={selectedCourses}
                   renderItem={(course) => (
-                    <List.Item>
-                      <Tag color="blue">{course.code}</Tag> {course.name}
+                    <List.Item className="unique4-ant-list-item">
+                      <Tag color="blue" className="unique4-ant-tag">{course.code}</Tag> {course.name}
                     </List.Item>
                   )}
                 />
@@ -897,12 +902,13 @@ const Reports = () => {
         onOk={saveSelectedCourses}
         onCancel={() => setCourseModalVisible(false)}
         width={600}
+        className="unique4-ant-modal-content"
       >
         <div style={{ maxHeight: 400, overflowY: "auto" }}>
           <List
             dataSource={coursesInMajor}
             renderItem={(course) => (
-              <List.Item>
+              <List.Item className="unique4-ant-list-item">
                 <Checkbox checked={course.selected} onChange={() => toggleCourseSelection(course.id)}>
                   {course.code} - {course.name}
                 </Checkbox>
@@ -919,6 +925,7 @@ const Reports = () => {
         onCancel={() => setEvaluationModalVisible(false)}
         onOk={handleSubmitEvaluation}
         width={600}
+        className="unique4-ant-modal-content"
         footer={[
           <Button key="back" onClick={() => setEvaluationModalVisible(false)}>
             Cancel
@@ -944,13 +951,13 @@ const Reports = () => {
           ),
         ]}
       >
-        <Form form={evaluationForm} layout="vertical">
+        <Form form={evaluationForm} layout="vertical" className="unique4-ant-form-item-label">
           <Form.Item
             name="wouldRecommend"
             label="Would you recommend this internship to other students?"
             rules={[{ required: true, message: "Please answer this question" }]}
           >
-            <Select>
+            <Select className="unique4-ant-select-selector">
               <Option value={true}>Yes</Option>
               <Option value={false}>No</Option>
             </Select>
@@ -963,7 +970,7 @@ const Reports = () => {
             <Rate allowHalf />
           </Form.Item>
           <Form.Item name="comments" label="Additional Comments">
-            <TextArea rows={4} placeholder="Share your thoughts about the internship..." />
+            <TextArea rows={4} placeholder="Share your thoughts about the internship..." className="unique4-ant-input" />
           </Form.Item>
         </Form>
       </Modal>
@@ -975,14 +982,15 @@ const Reports = () => {
         onCancel={() => setAppealModalVisible(false)}
         onOk={handleSubmitAppeal}
         width={600}
+        className="unique4-ant-modal-content"
       >
-        <Form form={appealForm} layout="vertical">
+        <Form form={appealForm} layout="vertical" className="unique4-ant-form-item-label">
           <Form.Item
             name="message"
             label="Appeal Message"
             rules={[{ required: true, message: "Please enter your appeal message" }]}
           >
-            <TextArea rows={4} placeholder="Explain why you are appealing this report..." />
+            <TextArea rows={4} placeholder="Explain why you are appealing this report..." className="unique4-ant-input" />
           </Form.Item>
         </Form>
       </Modal>

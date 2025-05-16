@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-// Ant Design Components
 import {
   Button,
   Card,
@@ -19,8 +18,6 @@ import {
   Tag,
   Typography,
 } from "antd"
-
-// Ant Design Icons
 import {
   BookOutlined,
   CalendarOutlined,
@@ -246,7 +243,6 @@ const ProfileContent = () => {
     }))
   }
 
-  // Update the handleSubmit function to properly save changes
   const handleSubmit = (e) => {
     e.preventDefault()
     console.log("Profile updated:", formData)
@@ -254,9 +250,7 @@ const ProfileContent = () => {
     message.success("Profile updated successfully")
   }
 
-  // Add a handleCancel function to discard changes
   const handleCancel = () => {
-    // Reset form data to original state
     setFormData({
       firstName: "John",
       lastName: "Doe",
@@ -331,10 +325,10 @@ const ProfileContent = () => {
   }
 
   return (
-    <div className="profile-content">
-      <div className="profile-header">
-        <div className="profile-title">
-          <UserOutlined className="profile-icon" />
+    <div className="profile-content-custom">
+      <div className="profile-header-custom">
+        <div className="profile-title-custom">
+          <UserOutlined className="profile-icon-custom" />
           <Title level={2}>My Profile</Title>
         </div>
         <Button
@@ -350,7 +344,7 @@ const ProfileContent = () => {
       {editMode ? (
         <Form onSubmit={handleSubmit} className="profile-form">
           {/* Basic Information Section */}
-          <Card title="Basic Information" className="form-section">
+          <Card title="Basic Information" className="profile-form-section">
             <Row gutter={16}>
               <Col span={12}>
                 <Form.Item label="First Name">
@@ -406,7 +400,7 @@ const ProfileContent = () => {
                 <BookOutlined /> Academic Information
               </span>
             }
-            className="form-section"
+            className="profile-form-section"
           >
             <Row gutter={16}>
               <Col span={8}>
@@ -478,7 +472,7 @@ const ProfileContent = () => {
                 <SolutionOutlined /> Job Interests
               </span>
             }
-            className="form-section"
+            className="profile-form-section"
           >
             <Form.Item label="Select your job interests">
               <Checkbox.Group
@@ -496,7 +490,7 @@ const ProfileContent = () => {
                 <TrophyOutlined /> Skills
               </span>
             }
-            className="form-section"
+            className="profile-form-section"
           >
             <Form.Item label="Add your skills (comma separated)">
               <Input
@@ -506,7 +500,7 @@ const ProfileContent = () => {
                   handleArrayChange("skills", skills)
                 }}
               />
-              <div className="skills-display">
+              <div className="profile-skills-container">
                 {formData.skills.map((skill, index) => (
                   <Tag key={index}>{skill}</Tag>
                 ))}
@@ -521,7 +515,7 @@ const ProfileContent = () => {
                 <SolutionOutlined /> Internships
               </span>
             }
-            className="form-section"
+            className="profile-form-section"
             extra={
               <Button type="primary" onClick={handleAddInternship} icon={<PlusOutlined />}>
                 Add Internship
@@ -532,9 +526,9 @@ const ProfileContent = () => {
               formData.internships.map((internship) => (
                 <Card
                   key={internship.id}
-                  className={`internship-card ${internship.status}`}
+                  className={`profile-card-internship ${internship.status}`}
                   title={
-                    <div className="internship-header">
+                    <div className="profile-job-header">
                       <h4>
                         {internship.position} at {internship.company}
                       </h4>
@@ -547,7 +541,7 @@ const ProfileContent = () => {
                     <Button danger icon={<DeleteOutlined />} onClick={() => handleRemoveInternship(internship.id)} />
                   }
                 >
-                  <div className="internship-edit-form">
+                  <div className="profile-internship-edit-form">
                     <Row gutter={16}>
                       <Col span={12}>
                         <Form.Item label="Company">
@@ -628,7 +622,7 @@ const ProfileContent = () => {
 
                     <Form.Item label="Responsibilities">
                       {internship.responsibilities.map((resp, idx) => (
-                        <div key={idx} className="responsibility-item">
+                        <div key={idx} className="profile-responsibility-item">
                           <Input
                             value={resp}
                             onChange={(e) => {
@@ -664,7 +658,7 @@ const ProfileContent = () => {
                 </Card>
               ))
             ) : (
-              <div className="empty-state">
+              <div className="profile-empty-state">
                 <p>No internships added yet.</p>
                 <Button type="primary" onClick={handleAddInternship}>
                   Add Your First Internship
@@ -680,7 +674,7 @@ const ProfileContent = () => {
                 <TeamOutlined /> Part-Time Jobs
               </span>
             }
-            className="form-section"
+            className="profile-form-section"
             extra={
               <Button type="primary" onClick={handleAddPartTimeJob} icon={<PlusOutlined />}>
                 Add Job
@@ -691,9 +685,9 @@ const ProfileContent = () => {
               formData.partTimeJobs.map((job) => (
                 <Card
                   key={job.id}
-                  className="job-card"
+                  className="profile-card-job"
                   title={
-                    <div className="job-header">
+                    <div className="profile-job-header">
                       <h4>
                         {job.position} at {job.company}
                       </h4>
@@ -701,7 +695,7 @@ const ProfileContent = () => {
                   }
                   extra={<Button danger icon={<DeleteOutlined />} onClick={() => handleRemovePartTimeJob(job.id)} />}
                 >
-                  <div className="job-edit-form">
+                  <div className="profile-job-edit-form">
                     <Row gutter={16}>
                       <Col span={12}>
                         <Form.Item label="Company">
@@ -730,7 +724,7 @@ const ProfileContent = () => {
 
                     <Form.Item label="Responsibilities">
                       {job.responsibilities.map((resp, idx) => (
-                        <div key={idx} className="responsibility-item">
+                        <div key={idx} className="profile-responsibility-item">
                           <Input
                             value={resp}
                             onChange={(e) => {
@@ -766,7 +760,7 @@ const ProfileContent = () => {
                 </Card>
               ))
             ) : (
-              <div className="empty-state">
+              <div className="profile-empty-state">
                 <p>No part-time jobs added yet.</p>
               </div>
             )}
@@ -779,7 +773,7 @@ const ProfileContent = () => {
                 <TrophyOutlined /> College Activities
               </span>
             }
-            className="form-section"
+            className="profile-form-section"
             extra={
               <Button type="primary" onClick={handleAddActivity} icon={<PlusOutlined />}>
                 Add Activity
@@ -790,9 +784,9 @@ const ProfileContent = () => {
               formData.activities.map((activity) => (
                 <Card
                   key={activity.id}
-                  className="activity-card"
+                  className="profile-card-activity"
                   title={
-                    <div className="activity-header">
+                    <div className="profile-activity-header">
                       <h4>
                         {activity.role} at {activity.organization}
                       </h4>
@@ -800,7 +794,7 @@ const ProfileContent = () => {
                   }
                   extra={<Button danger icon={<DeleteOutlined />} onClick={() => handleRemoveActivity(activity.id)} />}
                 >
-                  <div className="activity-edit-form">
+                  <div className="profile-activity-edit-form">
                     <Row gutter={16}>
                       <Col span={12}>
                         <Form.Item label="Organization">
@@ -838,14 +832,13 @@ const ProfileContent = () => {
                 </Card>
               ))
             ) : (
-              <div className="empty-state">
+              <div className="profile-empty-state">
                 <p>No activities added yet.</p>
               </div>
             )}
           </Card>
 
-          {/* Update the form actions at the bottom of the form */}
-          <div className="form-actions">
+          <div className="profile-form-actions">
             <Button type="primary" onClick={handleSubmit}>
               Save Changes
             </Button>
@@ -856,16 +849,16 @@ const ProfileContent = () => {
         <div className="profile-view">
           <Card
             title={
-              <span className="section-title">
-                <UserOutlined className="section-icon" /> Basic Information
+              <span className="section-title-custom">
+                <UserOutlined className="section-icon-custom" /> Basic Information
               </span>
             }
-            className="profile-section"
+            className="profile-section-custom"
           >
             <Descriptions column={{ xs: 1, sm: 2 }} bordered>
               <Descriptions.Item
                 label={
-                  <span className="description-label">
+                  <span className="description-label-custom">
                     <UserOutlined /> Name
                   </span>
                 }
@@ -874,7 +867,7 @@ const ProfileContent = () => {
               </Descriptions.Item>
               <Descriptions.Item
                 label={
-                  <span className="description-label">
+                  <span className="description-label-custom">
                     <MailOutlined /> Email
                   </span>
                 }
@@ -883,7 +876,7 @@ const ProfileContent = () => {
               </Descriptions.Item>
               <Descriptions.Item
                 label={
-                  <span className="description-label">
+                  <span className="description-label-custom">
                     <PhoneOutlined /> Phone
                   </span>
                 }
@@ -892,7 +885,7 @@ const ProfileContent = () => {
               </Descriptions.Item>
               <Descriptions.Item
                 label={
-                  <span className="description-label">
+                  <span className="description-label-custom">
                     <SolutionOutlined /> Bio
                   </span>
                 }
@@ -904,16 +897,16 @@ const ProfileContent = () => {
 
           <Card
             title={
-              <span className="section-title">
-                <BookOutlined className="section-icon" /> Academic Information
+              <span className="section-title-custom">
+                <BookOutlined className="section-icon-custom" /> Academic Information
               </span>
             }
-            className="profile-section"
+            className="profile-section-custom"
           >
             <Descriptions column={{ xs: 1, sm: 2 }} bordered>
               <Descriptions.Item
                 label={
-                  <span className="description-label">
+                  <span className="description-label-custom">
                     <BookOutlined /> Major
                   </span>
                 }
@@ -922,7 +915,7 @@ const ProfileContent = () => {
               </Descriptions.Item>
               <Descriptions.Item
                 label={
-                  <span className="description-label">
+                  <span className="description-label-custom">
                     <CalendarOutlined /> Current Semester
                   </span>
                 }
@@ -931,7 +924,7 @@ const ProfileContent = () => {
               </Descriptions.Item>
               <Descriptions.Item
                 label={
-                  <span className="description-label">
+                  <span className="description-label-custom">
                     <CalendarOutlined /> Graduation Year
                   </span>
                 }
@@ -940,7 +933,7 @@ const ProfileContent = () => {
               </Descriptions.Item>
               <Descriptions.Item
                 label={
-                  <span className="description-label">
+                  <span className="description-label-custom">
                     <TrophyOutlined /> GPA
                   </span>
                 }
@@ -950,19 +943,18 @@ const ProfileContent = () => {
             </Descriptions>
           </Card>
 
-          {/* Update the Job Interests section in view mode */}
           <Card
             title={
-              <span className="section-title">
-                <SolutionOutlined className="section-icon" /> Job Interests
+              <span className="section-title-custom">
+                <SolutionOutlined className="section-icon-custom" /> Job Interests
               </span>
             }
-            className="profile-section"
+            className="profile-section-custom"
           >
-            <div className="section-content">
-              <div className="tags-container">
+            <div className="section-content-custom">
+              <div className="profile-tags-container">
                 {formData.jobInterests.map((interest, index) => (
-                  <span key={index} className="interest-tag">
+                  <span key={index} className="profile-tag-interest">
                     {interest}
                   </span>
                 ))}
@@ -970,19 +962,18 @@ const ProfileContent = () => {
             </div>
           </Card>
 
-          {/* Update the Skills section in view mode */}
           <Card
             title={
-              <span className="section-title">
-                <TrophyOutlined className="section-icon" /> Skills
+              <span className="section-title-custom">
+                <TrophyOutlined className="section-icon-custom" /> Skills
               </span>
             }
-            className="profile-section"
+            className="profile-section-custom"
           >
-            <div className="skills-section">
-              <div className="tags-container">
+            <div className="profile-skills-section">
+              <div className="profile-tags-container">
                 {formData.skills.map((skill, index) => (
-                  <span key={index} className="skill-tag">
+                  <span key={index} className="profile-tag-skill">
                     {skill}
                   </span>
                 ))}
@@ -990,61 +981,57 @@ const ProfileContent = () => {
             </div>
           </Card>
 
-          {/* View Mode - Internships */}
-
-          {/* View Mode - Internships */}
           <Card
             title={
               <span>
                 <SolutionOutlined /> Internships
               </span>
             }
-            className="profile-section"
+            className="profile-section-custom"
           >
             {formData.internships.length > 0 ? (
               formData.internships.map((internship, index) => (
                 <Card
                   key={index}
-                  className={`internship-card ${internship.status}`}
+                  className={`profile-card-internship ${internship.status}`}
                   title={
-                    <div className="internship-header">
+                    <div className="profile-job-header">
                       <h4>
                         <SolutionOutlined /> {internship.position} at {internship.company}
                       </h4>
-                      <Tag color={internship.status === "current" ? "green" : "blue"} className="status-tag">
+                      <Tag color={internship.status === "current" ? "green" : "blue"} className="profile-tag-status">
                         {internship.status === "current" ? <ClockCircleOutlined /> : <CheckCircleOutlined />}
                         {internship.status === "current" ? "Current" : "Completed"}
                       </Tag>
                     </div>
                   }
                 >
-                  <div className="internship-view">
-                    <div className="internship-meta">
-                      <p className="meta-item">
+                  <div className="profile-internship-view">
+                    <div className="profile-internship-meta">
+                      <p className="profile-meta-item">
                         <CalendarOutlined /> {internship.duration}
                       </p>
-                      <p className="meta-item">
+                      <p className="profile-meta-item">
                         <EnvironmentOutlined /> {internship.location}
                       </p>
                       {internship.supervisorContact && (
-                        <p className="meta-item">
+                        <p className="profile-meta-item">
                           <MailOutlined /> {internship.supervisorContact}
                         </p>
                       )}
                       {internship.recommendationLetter && (
-                        <p className="meta-item">
+                        <p className="profile-meta-item">
                           <FileTextOutlined /> Recommendation letter available
                         </p>
                       )}
                     </div>
 
-                    {/* Update the Skills Gained in internships */}
                     <Divider orientation="left">
                       <TrophyOutlined /> Skills Gained
                     </Divider>
-                    <div className="skills-container">
+                    <div className="profile-skills-container">
                       {internship.skillsGained.map((skill, idx) => (
-                        <span key={idx} className="skill-gained-tag">
+                        <span key={idx} className="profile-tag-skill-gained">
                           {skill}
                         </span>
                       ))}
@@ -1056,54 +1043,44 @@ const ProfileContent = () => {
                     <List
                       dataSource={internship.responsibilities}
                       renderItem={(item) => (
-                        <List.Item className="responsibility-item">
-                          <CheckOutlined className="responsibility-icon" /> {item}
+                        <List.Item className="profile-responsibility-item">
+                          <CheckOutlined className="profile-responsibility-icon" /> {item}
                         </List.Item>
                       )}
                     />
-
-                    {internship.supervisorContact && (
-                      <>
-                        <Divider orientation="left">Supervisor Contact</Divider>
-                        <p>
-                          <MailOutlined /> {internship.supervisorContact}
-                        </p>
-                      </>
-                    )}
                   </div>
                 </Card>
               ))
             ) : (
-              <div className="empty-state">
+              <div className="profile-empty-state">
                 <p>No internships added yet.</p>
               </div>
             )}
           </Card>
 
-          {/* Update the Part-Time Jobs section in view mode */}
           <Card
             title={
-              <span className="section-title">
-                <TeamOutlined className="section-icon" /> Part-Time Jobs
+              <span className="section-title-custom">
+                <TeamOutlined className="section-icon-custom" /> Part-Time Jobs
               </span>
             }
-            className="profile-section"
+            className="profile-section-custom"
           >
             {formData.partTimeJobs.length > 0 ? (
               formData.partTimeJobs.map((job, index) => (
                 <Card
                   key={index}
-                  className="job-card"
+                  className="profile-card-job"
                   title={
-                    <div className="job-header">
+                    <div className="profile-job-header">
                       <h4>
                         <TeamOutlined /> {job.position} at {job.company}
                       </h4>
                     </div>
                   }
                 >
-                  <div className="job-view">
-                    <div className="job-meta">
+                  <div className="profile-job-view">
+                    <div className="profile-job-meta">
                       <p>
                         <CalendarOutlined /> {job.duration}
                       </p>
@@ -1113,11 +1090,11 @@ const ProfileContent = () => {
                       <FileTextOutlined /> Responsibilities
                     </Divider>
                     <List
-                      className="responsibilities-list"
+                      className="profile-responsibilities-list"
                       dataSource={job.responsibilities}
                       renderItem={(item) => (
-                        <List.Item className="responsibility-item">
-                          <CheckOutlined className="responsibility-icon" />
+                        <List.Item className="profile-responsibility-item">
+                          <CheckOutlined className="profile-responsibility-icon" />
                           <div>{item}</div>
                         </List.Item>
                       )}
@@ -1126,36 +1103,35 @@ const ProfileContent = () => {
                 </Card>
               ))
             ) : (
-              <div className="empty-state">
+              <div className="profile-empty-state">
                 <p>No part-time jobs added yet.</p>
               </div>
             )}
           </Card>
 
-          {/* Update the College Activities section in view mode */}
           <Card
             title={
-              <span className="section-title">
-                <TrophyOutlined className="section-icon" /> College Activities
+              <span className="section-title-custom">
+                <TrophyOutlined className="section-icon-custom" /> College Activities
               </span>
             }
-            className="profile-section"
+            className="profile-section-custom"
           >
             {formData.activities.length > 0 ? (
               formData.activities.map((activity, index) => (
                 <Card
                   key={index}
-                  className="activity-card"
+                  className="profile-card-activity"
                   title={
-                    <div className="activity-header">
+                    <div className="profile-activity-header">
                       <h4>
                         <TrophyOutlined /> {activity.role} at {activity.organization}
                       </h4>
                     </div>
                   }
                 >
-                  <div className="activity-view">
-                    <div className="activity-meta">
+                  <div className="profile-activity-view">
+                    <div className="profile-activity-meta">
                       <p>
                         <CalendarOutlined /> {activity.duration}
                       </p>
@@ -1164,12 +1140,12 @@ const ProfileContent = () => {
                     <Divider orientation="left">
                       <FileTextOutlined /> Description
                     </Divider>
-                    <div className="activity-description">{activity.description}</div>
+                    <div className="profile-activity-description">{activity.description}</div>
                   </div>
                 </Card>
               ))
             ) : (
-              <div className="empty-state">
+              <div className="profile-empty-state">
                 <p>No activities added yet.</p>
               </div>
             )}

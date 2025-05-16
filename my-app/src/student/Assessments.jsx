@@ -40,7 +40,7 @@ const Assessments = () => {
       category: "Programming",
       difficulty: "Beginner",
       estimatedTime: "30 min",
-      questions: 20,
+      questionCount: 20,
       popularity: 95,
       description: "Test your knowledge of JavaScript basics including variables, functions, and control flow.",
       icon: "JS",
@@ -77,7 +77,7 @@ const Assessments = () => {
       category: "Design",
       difficulty: "Intermediate",
       estimatedTime: "45 min",
-      questions: 25,
+      questionCount: 25,
       popularity: 88,
       description: "Evaluate your understanding of user interface and experience design principles.",
       icon: "UI",
@@ -119,7 +119,7 @@ const Assessments = () => {
       category: "Design",
       difficulty: "Advanced",
       estimatedTime: "60 min",
-      questions: 30,
+      questionCount: 30,
       popularity: 82,
       description: "Test your proficiency with Adobe Photoshop tools, techniques, and workflows.",
       icon: "PS",
@@ -151,7 +151,7 @@ const Assessments = () => {
       category: "Marketing",
       difficulty: "Beginner",
       estimatedTime: "40 min",
-      questions: 25,
+      questionCount: 25,
       popularity: 90,
       description: "Assess your knowledge of digital marketing concepts, channels, and strategies.",
       icon: "DM",
@@ -188,7 +188,7 @@ const Assessments = () => {
       category: "Animation",
       difficulty: "Intermediate",
       estimatedTime: "50 min",
-      questions: 20,
+      questionCount: 20,
       popularity: 75,
       description: "Test your understanding of 3D modeling concepts, tools, and techniques.",
       icon: "3D",
@@ -392,22 +392,25 @@ const Assessments = () => {
     setCompletedAssessments(updatedAssessments)
   }
 
+  // Get unique categories for filter
+  const uniqueCategories = [...new Set(availableAssessments.map((a) => a.category))]
+
   return (
-    <div className="assessments-container">
+    <div className="unique1-assessments-container">
       {selectedAssessment ? (
-        <div className="assessment-taking-container">
-          <div className="assessment-taking-header">
+        <div className="unique1-assessment-taking-container">
+          <div className="unique1-assessment-taking-header">
             <h2>{selectedAssessment.title}</h2>
-            <button className="close-assessment-button" onClick={closeAssessment}>
+            <button className="unique1-close-assessment-button" onClick={closeAssessment}>
               <CloseOutlined />
             </button>
           </div>
 
           {assessmentCompleted ? (
-            <div className="assessment-results">
-              <div className="score-display">
-                <div className="score-circle" style={{ "--score-percentage": `${score}%` }}>
-                  <span className="score-value">{score}%</span>
+            <div className="unique1-assessment-results">
+              <div className="unique1-score-display">
+                <div className="unique1-score-circle" style={{ "--score-percentage": `${score}%` }}>
+                  <span className="unique1-score-value">{score}%</span>
                 </div>
                 <h3>Assessment Complete!</h3>
                 <p>
@@ -415,14 +418,14 @@ const Assessments = () => {
                 </p>
               </div>
 
-              <div className="results-actions">
-                <button className="primary-button" onClick={closeAssessment}>
+              <div className="unique1-results-actions">
+                <button className="unique1-primary-button" onClick={closeAssessment}>
                   Back to Assessments
                 </button>
                 <button
-                  className={`secondary-button ${
+                  className={`unique1-secondary-button ${
                     completedAssessments.find((a) => a.id === selectedAssessment.id)?.sharedOnProfile
-                      ? "shared-button"
+                      ? "unique1-shared-button"
                       : ""
                   }`}
                   onClick={() => toggleShareOnProfile(selectedAssessment.id)}
@@ -440,47 +443,47 @@ const Assessments = () => {
               </div>
             </div>
           ) : (
-            <div className="question-container">
-              <div className="question-progress">
+            <div className="unique1-question-container">
+              <div className="unique1-question-progress">
                 <div
-                  className="progress-bar"
+                  className="unique1-progress-bar"
                   style={{
                     width: `${((currentQuestion + 1) / selectedAssessment.questions.length) * 100}%`,
                   }}
                 ></div>
-                <span className="progress-text">
+                <span className="unique1-progress-text">
                   Question {currentQuestion + 1} of {selectedAssessment.questions.length}
                 </span>
               </div>
 
-              <div className="question">
+              <div className="unique1-question">
                 <h3>{selectedAssessment.questions[currentQuestion].question}</h3>
-                <div className="options">
+                <div className="unique1-options">
                   {selectedAssessment.questions[currentQuestion].options.map((option, index) => (
                     <div
                       key={index}
-                      className={`option ${
-                        userAnswers[selectedAssessment.questions[currentQuestion].id] === option ? "selected" : ""
+                      className={`unique1-option ${
+                        userAnswers[selectedAssessment.questions[currentQuestion].id] === option ? "unique1-selected" : ""
                       }`}
                       onClick={() => handleAnswerSelect(selectedAssessment.questions[currentQuestion].id, option)}
                     >
-                      <span className="option-letter">{String.fromCharCode(65 + index)}</span>
-                      <span className="option-text">{option}</span>
+                      <span className="unique1-option-letter">{String.fromCharCode(65 + index)}</span>
+                      <span className="unique1-option-text">{option}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="question-navigation">
+              <div className="unique1-question-navigation">
                 <button
-                  className="nav-button"
+                  className="unique1-nav-button"
                   onClick={goToPreviousQuestion}
                   disabled={currentQuestion === 0}
                 >
                   <LeftOutlined /> Previous
                 </button>
                 <button
-                  className="nav-button primary"
+                  className="unique1-nav-button unique1-primary"
                   onClick={goToNextQuestion}
                   disabled={!userAnswers[selectedAssessment.questions[currentQuestion].id]}
                 >
@@ -493,20 +496,20 @@ const Assessments = () => {
         </div>
       ) : (
         <>
-          <div className="assessments-header">
+          <div className="unique1-assessments-header">
             <h1>Online Assessments</h1>
             <p>Take assessments to showcase your skills and improve your profile</p>
           </div>
 
-          <div className="assessments-tabs">
+          <div className="unique1-assessments-tabs">
             <button
-              className={`tab-button ${activeTab === "available" ? "active" : ""}`}
+              className={`unique1-tab-button ${activeTab === "available" ? "unique1-active" : ""}`}
               onClick={() => setActiveTab("available")}
             >
               Available Assessments
             </button>
             <button
-              className={`tab-button ${activeTab === "completed" ? "active" : ""}`}
+              className={`unique1-tab-button ${activeTab === "completed" ? "unique1-active" : ""}`}
               onClick={() => setActiveTab("completed")}
             >
               My Results
@@ -515,68 +518,174 @@ const Assessments = () => {
 
           {activeTab === "available" && (
             <>
-              <div className="assessments-actions">
-                <div className="search-container">
-                  <SearchOutlined className="search-icon" />
+              <div className="unique1-assessments-actions">
+                <div className="unique1-search-container">
+                  <SearchOutlined className="unique1-search-icon" />
                   <input
                     type="text"
                     placeholder="Search assessments..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="search-input"
+                    className="unique1-search-input"
                   />
                 </div>
 
-            
+                <div className="unique1-filter-container">
+                  <button className="unique1-filter-button" onClick={() => setFilterOpen(!filterOpen)}>
+                    <FilterOutlined /> Filters
+                  </button>
+                  {filterOpen && (
+                    <div className="unique1-filter-dropdown">
+                      <div className="unique1-filter-section">
+                        <h4>CATEGORY</h4>
+                        <div className="unique1-filter-options">
+                          <label>
+                            <input
+                              type="radio"
+                              name="category"
+                              checked={categoryFilter === "all"}
+                              onChange={() => setCategoryFilter("all")}
+                            />
+                            All Categories
+                          </label>
+                          {uniqueCategories.map((category) => (
+                            <label key={category}>
+                              <input
+                                type="radio"
+                                name="category"
+                                checked={categoryFilter === category}
+                                onChange={() => setCategoryFilter(category)}
+                              />
+                              {category}
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="unique1-filter-section">
+                        <h4>DIFFICULTY</h4>
+                        <div className="unique1-filter-options">
+                          <label>
+                            <input
+                              type="radio"
+                              name="difficulty"
+                              checked={difficultyFilter === "all"}
+                              onChange={() => setDifficultyFilter("all")}
+                            />
+                            All Levels
+                          </label>
+                          <label>
+                            <input
+                              type="radio"
+                              name="difficulty"
+                              checked={difficultyFilter === "Beginner"}
+                              onChange={() => setDifficultyFilter("Beginner")}
+                            />
+                            Beginner
+                          </label>
+                          <label>
+                            <input
+                              type="radio"
+                              name="difficulty"
+                              checked={difficultyFilter === "Intermediate"}
+                              onChange={() => setDifficultyFilter("Intermediate")}
+                            />
+                            Intermediate
+                          </label>
+                          <label>
+                            <input
+                              type="radio"
+                              name="difficulty"
+                              checked={difficultyFilter === "Advanced"}
+                              onChange={() => setDifficultyFilter("Advanced")}
+                            />
+                            Advanced
+                          </label>
+                        </div>
+                      </div>
+                      <div className="unique1-filter-section">
+                        <h4>SORT BY</h4>
+                        <div className="unique1-sort-options">
+                          <label>
+                            <input
+                              type="radio"
+                              name="sort"
+                              checked={sortBy === "popular"}
+                              onChange={() => setSortBy("popular")}
+                            />
+                            Most Popular
+                          </label>
+                          <label>
+                            <input
+                              type="radio"
+                              name="sort"
+                              checked={sortBy === "newest"}
+                              onChange={() => setSortBy("newest")}
+                            />
+                            Newest
+                          </label>
+                          <label>
+                            <input
+                              type="radio"
+                              name="sort"
+                              checked={sortBy === "difficulty"}
+                              onChange={() => setSortBy("difficulty")}
+                            />
+                            Difficulty
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
 
-              <div className="assessments-stats">
-                <div className="stat-card">
+              <div className="unique1-assessments-stats">
+                <div className="unique1-stat-card">
                   <h3>{availableAssessments.length}</h3>
                   <p>Available Assessments</p>
                 </div>
-                <div className="stat-card">
+                <div className="unique1-stat-card">
                   <h3>{completedAssessments.length}</h3>
                   <p>Completed Assessments</p>
                 </div>
-                <div className="stat-card">
+                <div className="unique1-stat-card">
                   <h3>{completedAssessments.filter((a) => a.sharedOnProfile).length}</h3>
                   <p>Shared on Profile</p>
                 </div>
               </div>
 
-              <div className="assessments-list">
+              <div className="unique1-assessments-list">
                 {sortedAssessments.length > 0 ? (
                   sortedAssessments.map((assessment) => {
                     const isCompleted = completedAssessments.some((a) => a.id === assessment.id)
                     return (
-                      <div className="assessment-card" key={assessment.id}>
-                        <div className="assessment-icon" style={{ backgroundColor: assessment.color }}>
+                      <div className="unique1-assessment-card" key={assessment.id}>
+                        <div className="unique1-assessment-icon" style={{ backgroundColor: assessment.color }}>
                           {assessment.icon}
                         </div>
-                        <div className="assessment-info">
-                          <div className="assessment-header">
+                        <div className="unique1-assessment-info">
+                          <div className="unique1-assessment-header">
                             <h3>{assessment.title}</h3>
                             {isCompleted && (
-                              <span className="completed-badge">
+                              <span className="unique1-completed-badge">
                                 <CheckCircleOutlined /> Completed
                               </span>
                             )}
                           </div>
-                          <p className="assessment-description">{assessment.description}</p>
-                          <div className="assessment-meta">
-                            <span className="assessment-category">{assessment.category}</span>
-                            <span className="assessment-difficulty">{assessment.difficulty}</span>
-                            <span className="assessment-time">
+                          <p className="unique1-assessment-description">{assessment.description}</p>
+                          <div className="unique1-assessment-meta">
+                            <span className="unique1-assessment-category">{assessment.category}</span>
+                            <span className="unique1-assessment-difficulty">{assessment.difficulty}</span>
+                            <span className="unique1-assessment-time">
                               <ClockCircleOutlined /> {assessment.estimatedTime}
                             </span>
-                            <span className="assessment-questions">
+                            <span className="unique1-assessment-questions">
                               <FileTextOutlined /> {assessment.questions.length} questions
                             </span>
                           </div>
                         </div>
-                        <div className="assessment-actions">
-                          <button className="take-assessment-button" onClick={() => startAssessment(assessment)}>
+                        <div className="unique1-assessment-actions">
+                          <button className="unique1-take-assessment-button" onClick={() => startAssessment(assessment)}>
                             {isCompleted ? "Retake Assessment" : "Start Assessment"}
                           </button>
                         </div>
@@ -584,7 +693,7 @@ const Assessments = () => {
                     )
                   })
                 ) : (
-                  <div className="no-results">
+                  <div className="unique1-no-results">
                     <p>No assessments match your search criteria.</p>
                   </div>
                 )}
@@ -593,51 +702,53 @@ const Assessments = () => {
           )}
 
           {activeTab === "completed" && (
-            <div className="completed-assessments">
+            <div className="unique1-completed-assessments">
               {completedAssessments.length > 0 ? (
                 <>
-                  <div className="completed-stats">
-                    <div className="stat-card">
+                  <div className="unique1-completed-stats">
+                    <div className="unique1-stat-card">
                       <h3>
-                        {completedAssessments.reduce((sum, assessment) => sum + assessment.score, 0) /
-                          completedAssessments.length}
+                        {Math.round(
+                          completedAssessments.reduce((sum, assessment) => sum + assessment.score, 0) /
+                            completedAssessments.length
+                        )}
                         %
                       </h3>
                       <p>Average Score</p>
                     </div>
-                    <div className="stat-card">
+                    <div className="unique1-stat-card">
                       <h3>{completedAssessments.length}</h3>
                       <p>Assessments Taken</p>
                     </div>
-                    <div className="stat-card">
+                    <div className="unique1-stat-card">
                       <h3>{completedAssessments.filter((a) => a.sharedOnProfile).length}</h3>
                       <p>Shared on Profile</p>
                     </div>
                   </div>
 
-                  <div className="results-list">
+                  <div className="unique1-results-list">
                     {completedAssessments.map((assessment) => (
-                      <div className="result-card" key={assessment.id}>
-                        <div className="result-icon" style={{ backgroundColor: assessment.color }}>
+                      <div className="unique1-result-card" key={assessment.id}>
+                        <div className="unique1-result-icon" style={{ backgroundColor: assessment.color }}>
                           {assessment.icon}
                         </div>
-                        <div className="result-info">
+                        <div className="unique1-result-info">
                           <h3>{assessment.title}</h3>
-                          <div className="result-meta">
-                            <span className="result-category">{assessment.category}</span>
-                            <span className="result-date">
+                          <div className="unique1-result-meta">
+                            <span className="unique1-result-category">{assessment.category}</span>
+                            <span className="unique1-result-date">
                               <ClockCircleOutlined /> {formatRelativeTime(assessment.completedDate)}
                             </span>
                           </div>
                         </div>
-                        <div className="result-score">
-                          <div className="score-circle" style={{ "--score-percentage": `${assessment.score}%` }}>
-                            <span className="score-value">{assessment.score}%</span>
+                        <div className="unique1-result-score">
+                          <div className="unique1-score-circle" style={{ "--score-percentage": `${assessment.score}%` }}>
+                            <span className="unique1-score-value">{assessment.score}%</span>
                           </div>
                         </div>
-                        <div className="result-actions">
+                        <div className="unique1-result-actions">
                           <button
-                            className={`share-button ${assessment.sharedOnProfile ? "shared" : ""}`}
+                            className={`unique1-share-button ${assessment.sharedOnProfile ? "unique1-shared" : ""}`}
                             onClick={() => toggleShareOnProfile(assessment.id)}
                           >
                             {assessment.sharedOnProfile ? (
@@ -651,7 +762,7 @@ const Assessments = () => {
                             )}
                           </button>
                           <button
-                            className="retake-button"
+                            className="unique1-retake-button"
                             onClick={() => startAssessment(availableAssessments.find((a) => a.id === assessment.id))}
                           >
                             Retake
@@ -662,9 +773,9 @@ const Assessments = () => {
                   </div>
                 </>
               ) : (
-                <div className="no-results">
+                <div className="unique1-no-results">
                   <p>You haven't completed any assessments yet.</p>
-                  <button className="primary-button" onClick={() => setActiveTab("available")}>
+                  <button className="unique1-primary-button" onClick={() => setActiveTab("available")}>
                     Browse Available Assessments
                   </button>
                 </div>

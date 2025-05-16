@@ -1,4 +1,4 @@
-/* Base Styles */
+/* Base Styles unique10 */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -33,13 +33,13 @@ html,
   overflow-x: hidden;
 }
 
-/* Layout */
-.student-container {
+/* Layout unique10 */
+.student-container-unique10 {
   display: flex;
   min-height: 100vh;
 }
 
-.student-sidebar {
+.student-sidebar-unique10 {
   width: 250px;
   background: #fff;
   color: var(--text-dark);
@@ -51,7 +51,7 @@ html,
   box-shadow: var(--shadow-sm);
 }
 
-.student-content {
+.student-content-unique10 {
   flex: 1;
   margin-left: 250px;
   background-color: var(--secondary-color);
@@ -60,21 +60,21 @@ html,
   flex-direction: column;
 }
 
-/* Sidebar Header */
-.sidebar-header {
+/* Sidebar Header unique10 */
+.sidebar-header-unique10 {
   padding: 20px;
   border-bottom: 1px solid #f0f0f0;
   display: flex;
   flex-direction: column;
 }
 
-.logo-container {
+.logo-container-unique10 {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.logo {
+.logo-unique10 {
   width: 40px;
   height: 40px;
   background-color: var(--primary-color);
@@ -87,15 +87,15 @@ html,
   font-size: 18px;
 }
 
-.sidebar-header h2 {
+.sidebar-header-unique10 h2 {
   margin: 0;
   font-size: 18px;
   font-weight: 600;
   color: #333;
 }
 
-/* Content Header - Updated to match SCAD */
-.content-header {
+/* Content Header - Updated to match SCAD unique10 */
+.content-header-unique10 {
   height: 70px; /* Increased height to match SCAD */
   background-color: white;
   display: flex;
@@ -106,14 +106,14 @@ html,
   box-shadow: var(--shadow-sm);
 }
 
-.nav-buttons,
-.header-actions {
+.nav-buttons-unique10,
+.header-actions-unique10 {
   display: flex;
   gap: 15px; /* Increased gap to match SCAD */
 }
 
-.nav-button,
-.action-button {
+.nav-button-unique10,
+.action-button-unique10 {
   width: 40px; /* Increased size to match SCAD */
   height: 40px; /* Increased size to match SCAD */
   border-radius: 8px; /* Changed to square with rounded corners like SCAD */
@@ -128,13 +128,13 @@ html,
   font-size: 18px; /* Larger icons */
 }
 
-.nav-button:hover,
-.action-button:hover {
+.nav-button-unique10:hover,
+.action-button-unique10:hover {
   background-color: rgba(0, 0, 0, 0.05);
   transform: translateY(-2px); /* Added subtle lift effect like SCAD */
 }
 
-.content-body {
+.content-body-unique10 {
   padding: 30px; /* Increased padding to match SCAD */
   flex: 1;
   max-width: 1200px; /* Added max-width like SCAD */
@@ -142,13 +142,13 @@ html,
   width: 100%;
 }
 
-/* Menu Styles - Updated to match the reference sidebar */
-.ant-menu {
+/* Menu Styles - Updated to match the reference sidebar unique10 */
+.ant-menu-unique10 {
   background: white !important;
   border-right: none !important;
 }
 
-.ant-menu-item {
+.ant-menu-item-unique10 {
   margin: 4px 12px !important;
   height: 48px !important;
   line-height: 48px !important;
@@ -159,19 +159,19 @@ html,
   position: relative !important;
 }
 
-.ant-menu-item:hover {
+.ant-menu-item-unique10:hover {
   background-color: #f9fafb !important;
   color: #5f2878 !important;
 }
 
-.ant-menu-item-selected {
+.ant-menu-item-selected-unique10 {
   background-color: #f5f3ff !important;
   color: #5f2878 !important;
   font-weight: 500 !important;
 }
 
-/* Add active indicator for selected menu item */
-.ant-menu-item-selected::before {
+/* Add active indicator for selected menu item unique10 */
+.ant-menu-item-selected-unique10::before {
   content: "";
   position: absolute;
   left: 0;
@@ -183,76 +183,76 @@ html,
   border-radius: 0 3px 3px 0;
 }
 
-.ant-menu-item .anticon {
+.ant-menu-item-unique10 .anticon {
   font-size: 18px;
   margin-right: 12px !important;
   color: inherit !important;
 }
 
-/* Override dark theme completely */
-.ant-menu.ant-menu-dark,
-.ant-menu-dark .ant-menu-sub,
-.ant-menu.ant-menu-dark .ant-menu-sub {
+/* Override dark theme completely unique10 */
+.ant-menu.ant-menu-dark-unique10,
+.ant-menu-dark-unique10 .ant-menu-sub-unique10,
+.ant-menu.ant-menu-dark-unique10 .ant-menu-sub-unique10 {
   background: white !important;
   color: #4b5563 !important;
 }
 
-.ant-menu.ant-menu-dark .ant-menu-item-selected,
-.ant-menu-submenu-popup.ant-menu-dark .ant-menu-item-selected {
+.ant-menu.ant-menu-dark-unique10 .ant-menu-item-selected-unique10,
+.ant-menu-submenu-popup.ant-menu-dark-unique10 .ant-menu-item-selected-unique10 {
   background-color: #f5f3ff !important;
   color: #5f2878 !important;
 }
 
-.ant-menu-dark .ant-menu-item,
-.ant-menu-dark .ant-menu-item-group-title,
-.ant-menu-dark .ant-menu-item > a,
-.ant-menu-dark .ant-menu-item > span > a {
+.ant-menu-dark-unique10 .ant-menu-item-unique10,
+.ant-menu-dark-unique10 .ant-menu-item-group-title-unique10,
+.ant-menu-dark-unique10 .ant-menu-item-unique10 > a,
+.ant-menu-dark-unique10 .ant-menu-item-unique10 > span > a {
   color: #4b5563 !important;
 }
 
-.ant-menu-dark .ant-menu-item:hover,
-.ant-menu-dark .ant-menu-item-active,
-.ant-menu-dark .ant-menu-submenu-active,
-.ant-menu-dark .ant-menu-submenu-open,
-.ant-menu-dark .ant-menu-submenu-selected,
-.ant-menu-dark .ant-menu-submenu-title:hover {
+.ant-menu-dark-unique10 .ant-menu-item-unique10:hover,
+.ant-menu-dark-unique10 .ant-menu-item-active-unique10,
+.ant-menu-dark-unique10 .ant-menu-submenu-active-unique10,
+.ant-menu-dark-unique10 .ant-menu-submenu-open-unique10,
+.ant-menu-dark-unique10 .ant-menu-submenu-selected-unique10,
+.ant-menu-dark-unique10 .ant-menu-submenu-title-unique10:hover {
   background-color: #f9fafb !important;
   color: #5f2878 !important;
 }
 
-/* Responsive Adjustments */
+/* Responsive Adjustments unique10 */
 @media (max-width: 768px) {
-  .student-sidebar {
+  .student-sidebar-unique10 {
     width: 80px;
   }
 
-  .student-content {
+  .student-content-unique10 {
     margin-left: 80px;
   }
 
-  .sidebar-header h2 {
+  .sidebar-header-unique10 h2 {
     display: none;
   }
 
-  .logo-container {
+  .logo-container-unique10 {
     justify-content: center;
   }
 
-  .ant-menu-item .ant-menu-item-icon {
+  .ant-menu-item-unique10 .ant-menu-item-icon-unique10 {
     margin-right: 0 !important;
   }
 
-  .ant-menu-item-only-child {
+  .ant-menu-item-only-child-unique10 {
     padding-left: 24px !important;
   }
 
-  .ant-menu-item-selected::before {
+  .ant-menu-item-selected-unique10::before {
     height: 16px;
   }
 }
 
-/* Animation */
-@keyframes fadeIn {
+/* Animation unique10 */
+@keyframes fadeIn-unique10 {
   from {
     opacity: 0;
     transform: translateY(10px);
@@ -263,28 +263,28 @@ html,
   }
 }
 
-/* Utility Classes */
-.mb-20 {
+/* Utility Classes unique10 */
+.mb-20-unique10 {
   margin-bottom: 20px;
 }
-.mt-20 {
+.mt-20-unique10 {
   margin-top: 20px;
 }
-.text-center {
+.text-center-unique10 {
   text-align: center;
 }
-.flex-between {
+.flex-between-unique10 {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-/* Notification System Styles - Added from SCAD */
-.notification-bell-container {
+/* Notification System Styles - Added from SCAD unique10 */
+.notification-bell-container-unique10 {
   position: relative;
 }
 
-.notification-badge {
+.notification-badge-unique10 {
   position: absolute;
   top: -5px;
   right: -5px;
@@ -299,10 +299,10 @@ html,
   justify-content: center;
   font-weight: bold;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  animation: pulse-badge 1.5s infinite;
+  animation: pulse-badge-unique10 1.5s infinite;
 }
 
-@keyframes pulse-badge {
+@keyframes pulse-badge-unique10 {
   0% {
     transform: scale(1);
   }
@@ -314,7 +314,7 @@ html,
   }
 }
 
-.notifications-panel {
+.notifications-panel-unique10 {
   position: absolute;
   top: 45px;
   right: -10px;
@@ -325,10 +325,10 @@ html,
   box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
   z-index: 1000;
   overflow: hidden;
-  animation: slideDown 0.3s ease forwards;
+  animation: slideDown-unique10 0.3s ease forwards;
 }
 
-@keyframes slideDown {
+@keyframes slideDown-unique10 {
   from {
     opacity: 0;
     transform: translateY(-10px);
@@ -339,7 +339,7 @@ html,
   }
 }
 
-.notifications-header {
+.notifications-header-unique10 {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -348,14 +348,14 @@ html,
   background-color: #f8f9fa;
 }
 
-.notifications-header h3 {
+.notifications-header-unique10 h3 {
   font-size: 16px;
   font-weight: 600;
   color: #333;
   margin: 0;
 }
 
-.clear-notifications {
+.clear-notifications-unique10 {
   background: none;
   border: none;
   color: #6c757d;
@@ -366,17 +366,17 @@ html,
   transition: background-color 0.2s ease;
 }
 
-.clear-notifications:hover {
+.clear-notifications-unique10:hover {
   background-color: #e9ecef;
   color: #495057;
 }
 
-.notifications-list {
+.notifications-list-unique10 {
   max-height: 350px;
   overflow-y: auto;
 }
 
-.notification-item {
+.notification-item-unique10 {
   display: flex;
   padding: 12px 15px;
   border-bottom: 1px solid #f0f0f0;
@@ -384,58 +384,58 @@ html,
   transition: background-color 0.2s ease;
 }
 
-.notification-item:hover {
+.notification-item-unique10:hover {
   background-color: #f8f9fa;
 }
 
-.notification-item.unread {
+.notification-item-unique10.unread-unique10 {
   background-color: #f0f7ff;
 }
 
-.notification-item.unread:hover {
+.notification-item-unique10.unread-unique10:hover {
   background-color: #e6f2ff;
 }
 
-.notification-icon {
+.notification-icon-unique10 {
   margin-right: 12px;
   display: flex;
   align-items: flex-start;
   padding-top: 2px;
 }
 
-.notification-item.success .notification-icon {
+.notification-item-unique10.success-unique10 .notification-icon-unique10 {
   color: #28a745;
 }
 
-.notification-item.error .notification-icon {
+.notification-item-unique10.error-unique10 .notification-icon-unique10 {
   color: #dc3545;
 }
 
-.notification-item.info .notification-icon {
+.notification-item-unique10.info-unique10 .notification-icon-unique10 {
   color: #17a2b8;
 }
 
-.notification-item.call .notification-icon {
+.notification-item-unique10.call-unique10 .notification-icon-unique10 {
   color: #007bff;
 }
 
-.notification-content {
+.notification-content-unique10 {
   flex: 1;
 }
 
-.notification-content p {
+.notification-content-unique10 p {
   margin: 0 0 5px 0;
   font-size: 14px;
   color: #212529;
   line-height: 1.4;
 }
 
-.notification-time {
+.notification-time-unique10 {
   font-size: 12px;
   color: #6c757d;
 }
 
-.no-notifications {
+.no-notifications-unique10 {
   padding: 20px;
   text-align: center;
   color: #6c757d;

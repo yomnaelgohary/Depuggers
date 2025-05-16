@@ -172,7 +172,7 @@ const Applications = () => {
       key: "actions",
       render: (_, record) => (
         <Button
-          className="view-profile-button"
+          className="unique-view-profile-button"
           icon={<EyeOutlined />}
           onClick={() => {
             setSelectedApplication(record)
@@ -186,22 +186,22 @@ const Applications = () => {
   ]
 
   return (
-    <div className="applications-container">
-      <Card title="My Applications" bordered={false} className="applications-card" headStyle={{ borderBottom: 0 }}>
-        <div className="filters">
-          <button className="filter-button" onClick={toggleFilters}>
+    <div className="unique-applications-container">
+      <Card title="My Applications" bordered={false} className="unique-applications-card" headStyle={{ borderBottom: 0 }}>
+        <div className="unique-filters">
+          <button className="unique-filter-button" onClick={toggleFilters}>
             <span className="filter-icon">≡</span> Filters
           </button>
-          <div className="search-container">
+          <div className="unique-search-container">
             <input
               type="text"
               placeholder="Search internship"
-              className="search-input"
+              className="unique-search-input"
               value={searchText}
               onChange={(e) => handleSearch(e.target.value)}
             />
             {searchText && (
-              <button className="clear-search" onClick={clearSearch}>
+              <button className="unique-clear-search" onClick={clearSearch}>
                 ×
               </button>
             )}
@@ -209,39 +209,39 @@ const Applications = () => {
         </div>
 
         {showFilters && (
-          <div className="filter-modal-overlay">
-            <div className="filter-modal">
-              <div className="filter-modal-header">
+          <div className="unique-filter-modal-overlay">
+            <div className="unique-filter-modal">
+              <div className="unique-filter-modal-header">
                 <h2>Filters</h2>
-                <button className="close-button" onClick={toggleFilters}>
+                <button className="unique-close-button" onClick={toggleFilters}>
                   ✕
                 </button>
               </div>
 
-              <div className="filter-modal-content">
-                <div className="filter-section">
+              <div className="unique-filter-modal-content">
+                <div className="unique-filter-section">
                   <h3>STATUS</h3>
-                  <div className="filter-options">
+                  <div className="unique-filter-options">
                     <button
-                      className={`filter-option ${filters.status === "pending" ? "selected" : ""}`}
+                      className={`unique-filter-option ${filters.status === "pending" ? "selected" : ""}`}
                       onClick={() => handleFilterChange("status", "pending")}
                     >
                       Pending
                     </button>
                     <button
-                      className={`filter-option ${filters.status === "accepted" ? "selected" : ""}`}
+                      className={`unique-filter-option ${filters.status === "accepted" ? "selected" : ""}`}
                       onClick={() => handleFilterChange("status", "accepted")}
                     >
                       Accepted
                     </button>
                     <button
-                      className={`filter-option ${filters.status === "rejected" ? "selected" : ""}`}
+                      className={`unique-filter-option ${filters.status === "rejected" ? "selected" : ""}`}
                       onClick={() => handleFilterChange("status", "rejected")}
                     >
                       Rejected
                     </button>
                     <button
-                      className={`filter-option ${filters.status === "finalized" ? "selected" : ""}`}
+                      className={`unique-filter-option ${filters.status === "finalized" ? "selected" : ""}`}
                       onClick={() => handleFilterChange("status", "finalized")}
                     >
                       Finalized
@@ -250,11 +250,11 @@ const Applications = () => {
                 </div>
               </div>
 
-              <div className="filter-actions">
-                <button className={`reset-button ${hasActiveFilters() ? "active" : ""}`} onClick={resetFilters}>
+              <div className="unique-filter-actions">
+                <button className={`unique-reset-button ${hasActiveFilters() ? "active" : ""}`} onClick={resetFilters}>
                   Reset
                 </button>
-                <button className="apply-button" onClick={toggleFilters}>
+                <button className="unique-apply-button" onClick={toggleFilters}>
                   Show {filteredApplications.length} applications
                 </button>
               </div>
@@ -263,8 +263,8 @@ const Applications = () => {
         )}
 
         {searchText && (
-          <div className="search-results">
-            <div className="results-count">
+          <div className="unique-search-results">
+            <div className="unique-results-count">
               Found {filteredApplications.length} {filteredApplications.length === 1 ? "application" : "applications"}{" "}
               matching "{searchText}"
             </div>
@@ -277,7 +277,7 @@ const Applications = () => {
           rowKey="id"
           pagination={{ pageSize: 10 }}
           scroll={{ x: true }}
-          className="applications-table"
+          className="unique-applications-table"
         />
 
         <Modal
@@ -290,10 +290,10 @@ const Applications = () => {
             </Button>
           }
           width={700}
-          className="application-modal"
+          className="unique-application-modal"
         >
           {selectedApplication && (
-            <Descriptions bordered column={1} className="application-details">
+            <Descriptions bordered column={1} className="unique-application-details">
               <Descriptions.Item label="Internship">{selectedApplication.internshipTitle}</Descriptions.Item>
               <Descriptions.Item label="Company">{selectedApplication.company}</Descriptions.Item>
               <Descriptions.Item label="Applied Date">{selectedApplication.appliedDate}</Descriptions.Item>

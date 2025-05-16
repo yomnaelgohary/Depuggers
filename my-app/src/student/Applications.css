@@ -1,22 +1,22 @@
 /* Applications Component Styles */
-.applications-container {
+.unique-applications-container {
   padding: 24px;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-.applications-card {
+.unique-applications-card {
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   border: none;
 }
 
-.applications-card .ant-card-head {
+.unique-applications-card .ant-card-head {
   border-bottom: 1px solid #f0f0f0;
   padding: 0 24px;
 }
 
-.applications-card .ant-card-head-title {
+.unique-applications-card .ant-card-head-title {
   padding: 20px 0;
   font-size: 20px;
   font-weight: 600;
@@ -24,13 +24,13 @@
 }
 
 /* Filters */
-.filters {
+.unique-filters {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
 }
 
-.filter-button {
+.unique-filter-button {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -44,19 +44,19 @@
   transition: all 0.2s ease;
 }
 
-.filter-button:hover,
-.filter-button:focus {
+.unique-filter-button:hover,
+.unique-filter-button:focus {
   background-color: #5f2878;
   color: white;
   border-color: #5f2878;
 }
 
-.search-container {
+.unique-search-container {
   position: relative;
   width: 250px;
 }
 
-.search-input {
+.unique-search-input {
   padding: 8px 16px;
   padding-left: 36px;
   padding-right: 36px;
@@ -66,7 +66,7 @@
   width: 100%;
 }
 
-.search-icon {
+.unique-search-icon {
   position: absolute;
   left: 12px;
   top: 50%;
@@ -74,7 +74,7 @@
   color: #999;
 }
 
-.clear-search {
+.unique-clear-search {
   position: absolute;
   right: 12px;
   top: 50%;
@@ -91,12 +91,12 @@
   height: 20px;
 }
 
-.clear-search:hover {
+.unique-clear-search:hover {
   color: #5f2878;
 }
 
 /* Filter Modal */
-.filter-modal-overlay {
+.unique-filter-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -110,7 +110,7 @@
   padding: 20px;
 }
 
-.filter-modal {
+.unique-filter-modal {
   background-color: white;
   border-radius: 16px;
   width: 100%;
@@ -121,7 +121,7 @@
   position: relative;
 }
 
-.filter-modal-header {
+.unique-filter-modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -134,18 +134,18 @@
   border-radius: 16px 16px 0 0;
 }
 
-.filter-modal-content {
+.unique-filter-modal-content {
   padding: 20px;
   overflow: auto;
   max-height: calc(90vh - 140px);
 }
 
-.filter-modal-header h2 {
+.unique-filter-modal-header h2 {
   font-size: 24px;
   font-weight: 600;
 }
 
-.close-button {
+.unique-close-button {
   background: none;
   border: none;
   font-size: 24px;
@@ -153,11 +153,11 @@
   cursor: pointer;
 }
 
-.filter-section {
+.unique-filter-section {
   margin-bottom: 24px;
 }
 
-.filter-section h3 {
+.unique-filter-section h3 {
   width: 100%;
   font-size: 16px;
   font-weight: 600;
@@ -165,13 +165,13 @@
   color: #333;
 }
 
-.filter-options {
+.unique-filter-options {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
 }
 
-.filter-option {
+.unique-filter-option {
   padding: 8px 16px;
   background-color: #f5f5f5;
   border: 1px solid #e0e0e0;
@@ -182,13 +182,13 @@
   transition: all 0.2s;
 }
 
-.filter-option.selected {
+.unique-filter-option.selected {
   background-color: #5f2878;
   color: white;
   border-color: #5f2878;
 }
 
-.filter-actions {
+.unique-filter-actions {
   display: flex;
   justify-content: center;
   gap: 15px;
@@ -202,7 +202,7 @@
   border-radius: 0 0 16px 16px;
 }
 
-.reset-button {
+.unique-reset-button {
   padding: 15px 30px;
   background-color: #f5f5f5;
   border: 1px solid #e0e0e0;
@@ -215,13 +215,13 @@
   font-weight: 500;
 }
 
-.reset-button.active {
+.unique-reset-button.active {
   background-color: #f0e6f5;
   border-color: #5f2878;
   color: #5f2878;
 }
 
-.apply-button {
+.unique-apply-button {
   padding: 15px 30px;
   background-color: #5f2878;
   color: white;
@@ -235,43 +235,43 @@
 }
 
 /* Search results */
-.search-results {
+.unique-search-results {
   margin-bottom: 16px;
 }
 
-.results-count {
+.unique-results-count {
   font-size: 14px;
   color: #666;
 }
 
 /* Table Styles */
-.applications-table {
+.unique-applications-table {
   border-radius: 8px;
   overflow: hidden;
 }
 
-.applications-table .ant-table {
+.unique-applications-table .ant-table {
   border-radius: 8px;
 }
 
-.applications-table .ant-table-thead > tr > th {
+.unique-applications-table .ant-table-thead > tr > th {
   background-color: #f8f9fa;
   font-weight: 600;
   color: #4a4a4a;
   padding: 16px;
 }
 
-.applications-table .ant-table-tbody > tr > td {
+.unique-applications-table .ant-table-tbody > tr > td {
   padding: 12px 16px;
   border-bottom: 1px solid #f0f0f0;
 }
 
-.applications-table .ant-table-tbody > tr:hover > td {
+.unique-applications-table .ant-table-tbody > tr:hover > td {
   background-color: #f8f9fa !important;
 }
 
 /* Status Tags */
-.status-tag {
+.unique-status-tag {
   padding: 4px 10px;
   border-radius: 16px;
   font-size: 12px;
@@ -281,87 +281,87 @@
   gap: 6px;
 }
 
-.status-pending {
+.unique-status-pending {
   background-color: #fff7e6;
   color: #fa8c16;
   border: 1px solid #ffd591;
 }
 
-.status-accepted {
+.unique-status-accepted {
   background-color: #f6ffed;
   color: #52c41a;
   border: 1px solid #b7eb8f;
 }
 
-.status-rejected {
+.unique-status-rejected {
   background-color: #fff1f0;
   color: #f5222d;
   border: 1px solid #ffa39e;
 }
 
-.status-finalized {
+.unique-status-finalized {
   background-color: #f0f0f0;
   color: #595959;
   border: 1px solid #d9d9d9;
 }
 
 /* Details Modal */
-.application-modal .ant-modal-content {
+.unique-application-modal .ant-modal-content {
   border-radius: 12px;
   overflow: hidden;
 }
 
-.application-modal .ant-modal-header {
+.unique-application-modal .ant-modal-header {
   border-bottom: 1px solid #f0f0f0;
 }
 
-.application-modal .ant-modal-title {
+.unique-application-modal .ant-modal-title {
   font-size: 18px;
   font-weight: 600;
   color: #1a1a1a;
 }
 
 /* Descriptions */
-.application-details .ant-descriptions-item-label {
+.unique-application-details .ant-descriptions-item-label {
   font-weight: 500;
   color: #595959;
   width: 160px;
 }
 
-.application-details .ant-descriptions-item-content {
+.unique-application-details .ant-descriptions-item-content {
   color: #1a1a1a;
 }
 
 /* Badges */
-.status-badge {
+.unique-status-badge {
   padding: 4px 10px;
   border-radius: 16px;
   font-size: 12px;
   font-weight: 500;
 }
 
-.badge-pending {
+.unique-badge-pending {
   background-color: #fff7e6;
   color: #fa8c16;
 }
 
-.badge-accepted {
+.unique-badge-accepted {
   background-color: #f6ffed;
   color: #52c41a;
 }
 
-.badge-rejected {
+.unique-badge-rejected {
   background-color: #fff1f0;
   color: #f5222d;
 }
 
-.badge-finalized {
+.unique-badge-finalized {
   background-color: #f0f0f0;
   color: #595959;
 }
 
 /* View Profile Button */
-.view-profile-button {
+.unique-view-profile-button {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -375,49 +375,49 @@
   transition: all 0.2s;
 }
 
-.view-profile-button:hover {
+.unique-view-profile-button:hover {
   background-color: #e6e6e6;
   color: #333;
 }
 
-.view-profile-button .anticon {
+.unique-view-profile-button .anticon {
   font-size: 14px;
 }
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
-  .applications-container {
+  .unique-applications-container {
     padding: 16px;
   }
 
-  .applications-card .ant-card-head {
+  .unique-applications-card .ant-card-head {
     padding: 0 16px;
   }
 
-  .applications-table .ant-table-thead > tr > th,
-  .applications-table .ant-table-tbody > tr > td {
+  .unique-applications-table .ant-table-thead > tr > th,
+  .unique-applications-table .ant-table-tbody > tr > td {
     padding: 12px;
   }
 
-  .application-details .ant-descriptions-item-label {
+  .unique-application-details .ant-descriptions-item-label {
     width: 120px;
   }
 
-  .filters {
+  .unique-filters {
     flex-direction: column;
     gap: 10px;
   }
 
-  .search-container {
+  .unique-search-container {
     width: 100%;
   }
 
-  .filter-actions {
+  .unique-filter-actions {
     flex-direction: column;
   }
 
-  .reset-button,
-  .apply-button {
+  .unique-reset-button,
+  .unique-apply-button {
     width: 100%;
   }
 }
@@ -434,6 +434,6 @@
   }
 }
 
-.applications-card {
+.unique-applications-card {
   animation: fadeIn 0.3s ease-out;
 }

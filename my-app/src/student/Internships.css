@@ -1,671 +1,671 @@
 /* Base styles */
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+  box-sizing: border-box qunique3;
+  margin: 0 qunique3;
+  padding: 0 qunique3;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
-    "Helvetica Neue", sans-serif;
-  background-color: #f5f7f9;
-  color: #333;
+  font-family: -apple-system qunique3, BlinkMacSystemFont qunique3, "Segoe UI" qunique3, Roboto qunique3, Oxygen qunique3, Ubuntu qunique3, Cantarell qunique3, "Open Sans" qunique3,
+    "Helvetica Neue" qunique3, sans-serif qunique3;
+  background-color: #f5f7f9 qunique3;
+  color: #333 qunique3;
 }
 
 /* Internship content container */
-.internship-content {
-  padding: 30px;
-  max-width: 1200px;
-  margin: 0 auto;
-  width: 100%;
+.internship-content qunique3 {
+  padding: 30px qunique3;
+  max-width: 1200px qunique3;
+  margin: 0 auto qunique3;
+  width: 100% qunique3;
 }
 
 /* Filters */
-.filters {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
+.filters qunique3 {
+  display: flex qunique3;
+  justify-content: space-between qunique3;
+  margin-bottom: 20px qunique3;
 }
 
-.filter-button {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  background-color: white;
-  color: #333;
-  border: 1px solid #e0e0e0;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: all 0.2s ease;
+.filter-button qunique3 {
+  display: flex qunique3;
+  align-items: center qunique3;
+  gap: 8px qunique3;
+  padding: 8px 16px qunique3;
+  background-color: white qunique3;
+  color: #333 qunique3;
+  border: 1px solid #e0e0e0 qunique3;
+  border-radius: 4px qunique3;
+  cursor: pointer qunique3;
+  font-size: 14px qunique3;
+  transition: all 0.2s ease qunique3;
 }
 
-.filter-button:hover,
-.filter-button:focus {
-  background-color: #5f2878;
-  color: white;
-  border-color: #5f2878;
+.filter-button:hover qunique3,
+.filter-button:focus qunique3 {
+  background-color: #5f2878 qunique3;
+  color: white qunique3;
+  border-color: #5f2878 qunique3;
 }
 
-.search-container {
-  position: relative;
-  width: 250px;
+.search-container qunique3 {
+  position: relative qunique3;
+  width: 250px qunique3;
 }
 
-.search-input {
-  padding: 8px 16px;
-  padding-left: 36px;
-  padding-right: 36px;
-  border: 1px solid #e0e0e0;
-  border-radius: 4px;
-  font-size: 14px;
-  width: 100%;
+.search-input qunique3 {
+  padding: 8px 16px qunique3;
+  padding-left: 36px qunique3;
+  padding-right: 36px qunique3;
+  border: 1px solid #e0e0e0 qunique3;
+  border-radius: 4px qunique3;
+  font-size: 14px qunique3;
+  width: 100% qunique3;
 }
 
-.search-icon {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #999;
+.search-icon qunique3 {
+  position: absolute qunique3;
+  left: 12px qunique3;
+  top: 50% qunique3;
+  transform: translateY(-50%) qunique3;
+  color: #999 qunique3;
 }
 
-.clear-search {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  color: #999;
-  font-size: 18px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
+.clear-search qunique3 {
+  position: absolute qunique3;
+  right: 12px qunique3;
+  top: 50% qunique3;
+  transform: translateY(-50%) qunique3;
+  background: none qunique3;
+  border: none qunique3;
+  color: #999 qunique3;
+  font-size: 18px qunique3;
+  cursor: pointer qunique3;
+  display: flex qunique3;
+  align-items: center qunique3;
+  justify-content: center qunique3;
+  width: 20px qunique3;
+  height: 20px qunique3;
 }
 
-.clear-search:hover {
-  color: #5f2878;
+.clear-search:hover qunique3 {
+  color: #5f2878 qunique3;
 }
 
 /* Filter Modal */
-.filter-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  z-index: 1000;
-  padding: 20px;
+.filter-modal-overlay qunique3 {
+  position: fixed qunique3;
+  top: 0 qunique3;
+  left: 0 qunique3;
+  right: 0 qunique3;
+  bottom: 0 qunique3;
+  background-color: rgba(0, 0, 0, 0.5) qunique3;
+  display: flex qunique3;
+  justify-content: center qunique3;
+  align-items: flex-start qunique3;
+  z-index: 1000 qunique3;
+  padding: 20px qunique3;
 }
 
-.filter-modal {
-  background-color: white;
-  border-radius: 16px;
-  width: 100%;
-  max-width: 500px;
-  max-height: 90vh;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  padding: 0;
-  position: relative;
+.filter-modal qunique3 {
+  background-color: white qunique3;
+  border-radius: 16px qunique3;
+  width: 100% qunique3;
+  max-width: 500px qunique3;
+  max-height: 90vh qunique3;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) qunique3;
+  padding: 0 qunique3;
+  position: relative qunique3;
 }
 
-.filter-modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  background-color: white;
-  border-bottom: 1px solid #e0e0e0;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  border-radius: 16px 16px 0 0;
+.filter-modal-header qunique3 {
+  display: flex qunique3;
+  justify-content: space-between qunique3;
+  align-items: center qunique3;
+  padding: 20px qunique3;
+  background-color: white qunique3;
+  border-bottom: 1px solid #e0e0e0 qunique3;
+  position: sticky qunique3;
+  top: 0 qunique3;
+  z-index: 10 qunique3;
+  border-radius: 16px 16px 0 0 qunique3;
 }
 
-.filter-modal-content {
-  padding: 20px;
-  overflow: auto;
-  max-height: calc(90vh - 140px);
+.filter-modal-content qunique3 {
+  padding: 20px qunique3;
+  overflow: auto qunique3;
+  max-height: calc(90vh - 140px) qunique3;
 }
 
-.filter-modal-header h2 {
-  font-size: 24px;
-  font-weight: 600;
+.filter-modal-header h2 qunique3 {
+  font-size: 24px qunique3;
+  font-weight: 600 qunique3;
 }
 
-.close-button {
-  background: none;
-  border: none;
-  font-size: 24px;
-  color: #666;
-  cursor: pointer;
+.close-button qunique3 {
+  background: none qunique3;
+  border: none qunique3;
+  font-size: 24px qunique3;
+  color: #666 qunique3;
+  cursor: pointer qunique3;
 }
 
-.filter-section {
-  margin-bottom: 24px;
+.filter-section qunique3 {
+  margin-bottom: 24px qunique3;
 }
 
-.filter-section h3 {
-  width: 100%;
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 12px;
-  color: #333;
+.filter-section h3 qunique3 {
+  width: 100% qunique3;
+  font-size: 16px qunique3;
+  font-weight: 600 qunique3;
+  margin-bottom: 12px qunique3;
+  color: #333 qunique3;
 }
 
-.filter-options {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+.filter-options qunique3 {
+  display: flex qunique3;
+  flex-wrap: wrap qunique3;
+  gap: 10px qunique3;
 }
 
-.filter-option {
-  padding: 8px 16px;
-  background-color: #f5f5f5;
-  border: 1px solid #e0e0e0;
-  border-radius: 20px;
-  font-size: 14px;
-  color: #333;
-  cursor: pointer;
-  transition: all 0.2s;
+.filter-option qunique3 {
+  padding: 8px 16px qunique3;
+  background-color: #f5f5f5 qunique3;
+  border: 1px solid #e0e0e0 qunique3;
+  border-radius: 20px qunique3;
+  font-size: 14px qunique3;
+  color: #333 qunique3;
+  cursor: pointer qunique3;
+  transition: all 0.2s qunique3;
 }
 
-.filter-option.selected {
-  background-color: #5f2878;
-  color: white;
-  border-color: #5f2878;
+.filter-option.selected qunique3 {
+  background-color: #5f2878 qunique3;
+  color: white qunique3;
+  border-color: #5f2878 qunique3;
 }
 
-.filter-actions {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 30px;
-  padding: 0 10px;
-  position: sticky;
-  bottom: 0;
-  background-color: white;
-  padding: 20px;
-  border-top: 1px solid #e0e0e0;
-  border-radius: 0 0 16px 16px;
+.filter-actions qunique3 {
+  display: flex qunique3;
+  justify-content: center qunique3;
+  gap: 15px qunique3;
+  margin-top: 30px qunique3;
+  padding: 0 10px qunique3;
+  position: sticky qunique3;
+  bottom: 0 qunique3;
+  background-color: white qunique3;
+  padding: 20px qunique3;
+  border-top: 1px solid #e0e0e0 qunique3;
+  border-radius: 0 0 16px 16px qunique3;
 }
 
-.reset-button {
-  padding: 15px 30px;
-  background-color: #f5f5f5;
-  border: 1px solid #e0e0e0;
-  border-radius: 30px;
-  font-size: 16px;
-  color: #666;
-  cursor: pointer;
-  flex: 1;
-  text-align: center;
-  font-weight: 500;
+.reset-button qunique3 {
+  padding: 15px 30px qunique3;
+  background-color: #f5f5f5 qunique3;
+  border: 1px solid #e0e0e0 qunique3;
+  border-radius: 30px qunique3;
+  font-size: 16px qunique3;
+  color: #666 qunique3;
+  cursor: pointer qunique3;
+  flex: 1 qunique3;
+  text-align: center qunique3;
+  font-weight: 500 qunique3;
 }
 
-.reset-button.active {
-  background-color: #f0e6f5;
-  border-color: #5f2878;
-  color: #5f2878;
+.reset-button.active qunique3 {
+  background-color: #f0e6f5 qunique3;
+  border-color: #5f2878 qunique3;
+  color: #5f2878 qunique3;
 }
 
-.apply-button {
-  padding: 15px 30px;
-  background-color: #5f2878;
-  color: white;
-  border: none;
-  border-radius: 30px;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-  flex: 1;
-  text-align: center;
+.apply-button qunique3 {
+  padding: 15px 30px qunique3;
+  background-color: #5f2878 qunique3;
+  color: white qunique3;
+  border: none qunique3;
+  border-radius: 30px qunique3;
+  font-size: 16px qunique3;
+  font-weight: 500 qunique3;
+  cursor: pointer qunique3;
+  flex: 1 qunique3;
+  text-align: center qunique3;
 }
 
 /* Search results */
-.search-results {
-  margin-bottom: 16px;
+.search-results qunique3 {
+  margin-bottom: 16px qunique3;
 }
 
-.results-count {
-  font-size: 14px;
-  color: #666;
+.results-count qunique3 {
+  font-size: 14px qunique3;
+  color: #666 qunique3;
 }
 
 /* Job listings */
-.job-listings {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
+.job-listings qunique3 {
+  display: grid qunique3;
+  grid-template-columns: 1fr qunique3;
+  gap: 20px qunique3;
 }
 
-.job-card {
-  display: flex;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  position: relative;
+.job-card qunique3 {
+  display: flex qunique3;
+  background-color: white qunique3;
+  border-radius: 8px qunique3;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) qunique3;
+  overflow: hidden qunique3;
+  position: relative qunique3;
 }
 
-.job-card.completed-job {
-  padding-top: 28px;
-  border: 1px solid rgba(95, 40, 120, 0.3);
+.job-card.completed-job qunique3 {
+  padding-top: 28px qunique3;
+  border: 1px solid rgba(95, 40, 120, 0.3) qunique3;
 }
 
-.completed-banner {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  background-color: rgba(95, 40, 120, 0.15);
-  color: #5f2878;
-  text-align: center;
-  padding: 4px 0;
-  font-size: 12px;
-  font-weight: 600;
-  z-index: 1;
-  border-bottom: 1px solid rgba(95, 40, 120, 0.3);
+.completed-banner qunique3 {
+  position: absolute qunique3;
+  top: 0 qunique3;
+  left: 0 qunique3;
+  right: 0 qunique3;
+  background-color: rgba(95, 40, 120, 0.15) qunique3;
+  color: #5f2878 qunique3;
+  text-align: center qunique3;
+  padding: 4px 0 qunique3;
+  font-size: 12px qunique3;
+  font-weight: 600 qunique3;
+  z-index: 1 qunique3;
+  border-bottom: 1px solid rgba(95, 40, 120, 0.3) qunique3;
 }
 
-.job-salary {
-  padding: 20px;
-  min-width: 120px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+.job-salary qunique3 {
+  padding: 20px qunique3;
+  min-width: 120px qunique3;
+  display: flex qunique3;
+  flex-direction: column qunique3;
+  justify-content: center qunique3;
 }
 
-.amount {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 4px;
+.amount qunique3 {
+  font-size: 20px qunique3;
+  font-weight: 600 qunique3;
+  margin-bottom: 4px qunique3;
 }
 
-.hourly-rate {
-  font-size: 14px;
-  color: #666;
+.hourly-rate qunique3 {
+  font-size: 14px qunique3;
+  color: #666 qunique3;
 }
 
-.job-details {
-  flex: 1;
-  padding: 20px;
-  border-left: 1px solid #f0f0f0;
-  border-right: 1px solid #f0f0f0;
+.job-details qunique3 {
+  flex: 1 qunique3;
+  padding: 20px qunique3;
+  border-left: 1px solid #f0f0f0 qunique3;
+  border-right: 1px solid #f0f0f0 qunique3;
 }
 
-.company-name {
-  font-size: 14px;
-  color: #5f2878;
-  font-weight: 500;
-  margin-bottom: 8px;
+.company-name qunique3 {
+  font-size: 14px qunique3;
+  color: #5f2878 qunique3;
+  font-weight: 500 qunique3;
+  margin-bottom: 8px qunique3;
 }
 
-.learning-opportunity {
-  display: inline-block;
-  font-size: 12px;
-  font-weight: 500;
-  color: #5f2878;
-  margin-bottom: 8px;
+.learning-opportunity qunique3 {
+  display: inline-block qunique3;
+  font-size: 12px qunique3;
+  font-weight: 500 qunique3;
+  color: #5f2878 qunique3;
+  margin-bottom: 8px qunique3;
 }
 
-.job-title {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 12px;
-  color: #333;
+.job-title qunique3 {
+  font-size: 18px qunique3;
+  font-weight: 600 qunique3;
+  margin-bottom: 12px qunique3;
+  color: #333 qunique3;
 }
 
-.job-requirements {
-  display: flex;
-  align-items: center;
-  margin-bottom: 12px;
-  gap: 8px;
+.job-requirements qunique3 {
+  display: flex qunique3;
+  align-items: center qunique3;
+  margin-bottom: 12px qunique3;
+  gap: 8px qunique3;
 }
 
-.requirement-label {
-  font-size: 12px;
-  color: #666;
+.requirement-label qunique3 {
+  font-size: 12px qunique3;
+  color: #666 qunique3;
 }
 
-.requirement-tags {
-  display: flex;
-  gap: 8px;
+.requirement-tags qunique3 {
+  display: flex qunique3;
+  gap: 8px qunique3;
 }
 
-.requirement-tag {
-  padding: 4px 10px;
-  background-color: #f0f0f0;
-  border-radius: 16px;
-  font-size: 12px;
-  color: #333;
+.requirement-tag qunique3 {
+  padding: 4px 10px qunique3;
+  background-color: #f0f0f0 qunique3;
+  border-radius: 16px qunique3;
+  font-size: 12px qunique3;
+  color: #333 qunique3;
 }
 
-.job-location {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-  font-size: 14px;
-  color: #666;
+.job-location qunique3 {
+  display: flex qunique3;
+  align-items: center qunique3;
+  gap: 8px qunique3;
+  margin-bottom: 12px qunique3;
+  font-size: 14px qunique3;
+  color: #666 qunique3;
 }
 
-.job-duration {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  font-size: 14px;
-  margin-bottom: 12px;
+.job-duration qunique3 {
+  display: flex qunique3;
+  align-items: flex-start qunique3;
+  gap: 12px qunique3;
+  font-size: 14px qunique3;
+  margin-bottom: 12px qunique3;
 }
 
-.date-range {
-  font-weight: 500;
-  color: #333;
+.date-range qunique3 {
+  font-weight: 500 qunique3;
+  color: #333 qunique3;
 }
 
-.duration {
-  font-size: 12px;
-  color: #666;
-  text-transform: uppercase;
-  margin-top: 4px;
+.duration qunique3 {
+  font-size: 12px qunique3;
+  color: #666 qunique3;
+  text-transform: uppercase qunique3;
+  margin-top: 4px qunique3;
 }
 
-.time-slot {
-  margin-left: auto;
-  text-align: right;
+.time-slot qunique3 {
+  margin-left: auto qunique3;
+  text-align: right qunique3;
 }
 
-.time-of-day {
-  font-size: 12px;
-  color: #666;
+.time-of-day qunique3 {
+  font-size: 12px qunique3;
+  color: #666 qunique3;
 }
 
-.job-work-hours {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-  font-size: 14px;
-  color: #666;
+.job-work-hours qunique3 {
+  display: flex qunique3;
+  align-items: center qunique3;
+  gap: 8px qunique3;
+  margin-bottom: 12px qunique3;
+  font-size: 14px qunique3;
+  color: #666 qunique3;
 }
 
-.job-description {
-  margin-top: 12px;
-  font-size: 14px;
-  color: #666;
-  line-height: 1.5;
+.job-description qunique3 {
+  margin-top: 12px qunique3;
+  font-size: 14px qunique3;
+  color: #666 qunique3;
+  line-height: 1.5 qunique3;
 }
 
-.job-applications {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 12px;
-  font-size: 14px;
-  color: #5f2878;
-  font-weight: 500;
+.job-applications qunique3 {
+  display: flex qunique3;
+  align-items: center qunique3;
+  gap: 8px qunique3;
+  margin-top: 12px qunique3;
+  font-size: 14px qunique3;
+  color: #5f2878 qunique3;
+  font-weight: 500 qunique3;
 }
 
-.applications-icon {
-  font-size: 16px;
+.applications-icon qunique3 {
+  font-size: 16px qunique3;
 }
 
-.job-status {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 16px;
-  font-size: 12px;
-  font-weight: 500;
-  min-width: 80px;
+.job-status qunique3 {
+  display: flex qunique3;
+  align-items: center qunique3;
+  justify-content: center qunique3;
+  padding: 0 16px qunique3;
+  font-size: 12px qunique3;
+  font-weight: 500 qunique3;
+  min-width: 80px qunique3;
 }
 
-.job-status.paid {
-  background-color: #e3f2fd;
-  color: #1976d2;
+.job-status.paid qunique3 {
+  background-color: #e3f2fd qunique3;
+  color: #1976d2 qunique3;
 }
 
-.job-status.unpaid {
-  background-color: #e8eaf6;
-  color: #3f51b5;
+.job-status.unpaid qunique3 {
+  background-color: #e8eaf6 qunique3;
+  color: #3f51b5 qunique3;
 }
 
 /* Apply Now button */
-.apply-now-button {
-  padding: 8px 16px;
-  background-color: white;
-  border: 1px solid #5f2878;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 13px;
-  color: #5f2878;
-  transition: all 0.2s ease;
-  text-align: center;
-  margin-right: 20px;
-  align-self: center;
+.apply-now-button qunique3 {
+  padding: 8px 16px qunique3;
+  background-color: white qunique3;
+  border: 1px solid #5f2878 qunique3;
+  border-radius: 4px qunique3;
+  cursor: pointer qunique3;
+  font-size: 13px qunique3;
+  color: #5f2878 qunique3;
+  transition: all 0.2s ease qunique3;
+  text-align: center qunique3;
+  margin-right: 20px qunique3;
+  align-self: center qunique3;
 }
 
-.apply-now-button:hover {
-  background-color: #5f2878;
-  color: white;
+.apply-now-button:hover qunique3 {
+  background-color: #5f2878 qunique3;
+  color: white qunique3;
 }
 
 /* Apply Now button at top position */
-.apply-now-button.top-position {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 5;
-  margin: 0;
-  padding: 6px 12px;
-  font-size: 12px;
-  border-radius: 4px;
+.apply-now-button.top-position qunique3 {
+  position: absolute qunique3;
+  top: 10px qunique3;
+  right: 10px qunique3;
+  z-index: 5 qunique3;
+  margin: 0 qunique3;
+  padding: 6px 12px qunique3;
+  font-size: 12px qunique3;
+  border-radius: 4px qunique3;
 }
 
 /* For completed jobs, adjust the top position */
-.completed-job .apply-now-button.top-position {
-  top: 38px;
+.completed-job .apply-now-button.top-position qunique3 {
+  top: 38px qunique3;
 }
 
 /* View Details button */
-.view-details-button {
-  padding: 6px 10px;
-  background-color: white;
-  border: 1px solid #5f2878;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 13px;
-  color: #5f2878;
-  transition: all 0.2s ease;
-  width: 75px;
-  text-align: center;
-  margin-right: 20px;
-  align-self: center;
+.view-details-button qunique3 {
+  padding: 6px 10px qunique3;
+  background-color: white qunique3;
+  border: 1px solid #5f2878 qunique3;
+  border-radius: 4px qunique3;
+  cursor: pointer qunique3;
+  font-size: 13px qunique3;
+  color: #5f2878 qunique3;
+  transition: all 0.2s ease qunique3;
+  width: 75px qunique3;
+  text-align: center qunique3;
+  margin-right: 20px qunique3;
+  align-self: center qunique3;
 }
 
-.view-details-button:hover {
-  background-color: #5f2878;
-  color: white;
+.view-details-button:hover qunique3 {
+  background-color: #5f2878 qunique3;
+  color: white qunique3;
 }
 
 /* Internship details modal */
-.internship-details {
-  padding: 0 10px;
+.internship-details qunique3 {
+  padding: 0 10px qunique3;
 }
 
-.internship-details h2 {
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: #333;
+.internship-details h2 qunique3 {
+  font-size: 24px qunique3;
+  font-weight: 600 qunique3;
+  margin-bottom: 8px qunique3;
+  color: #333 qunique3;
 }
 
-.internship-details h3 {
-  font-size: 18px;
-  font-weight: 500;
-  margin-bottom: 16px;
-  color: #5f2878;
+.internship-details h3 qunique3 {
+  font-size: 18px qunique3;
+  font-weight: 500 qunique3;
+  margin-bottom: 16px qunique3;
+  color: #5f2878 qunique3;
 }
 
-.details-section {
-  margin-bottom: 20px;
+.details-section qunique3 {
+  margin-bottom: 20px qunique3;
 }
 
-.details-section p {
-  margin-bottom: 8px;
-  font-size: 14px;
+.details-section p qunique3 {
+  margin-bottom: 8px qunique3;
+  font-size: 14px qunique3;
 }
 
-.description-section {
-  margin: 20px 0;
+.description-section qunique3 {
+  margin: 20px 0 qunique3;
 }
 
-.description-section h4 {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: #333;
+.description-section h4 qunique3 {
+  font-size: 16px qunique3;
+  font-weight: 600 qunique3;
+  margin-bottom: 8px qunique3;
+  color: #333 qunique3;
 }
 
-.description-section p {
-  font-size: 14px;
-  line-height: 1.6;
-  color: #666;
+.description-section p qunique3 {
+  font-size: 14px qunique3;
+  line-height: 1.6 qunique3;
+  color: #666 qunique3;
 }
 
-.skills-section h4 {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: #333;
+.skills-section h4 qunique3 {
+  font-size: 16px qunique3;
+  font-weight: 600 qunique3;
+  margin-bottom: 8px qunique3;
+  color: #333 qunique3;
 }
 
-.skills-list {
-  margin-top: 10px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+.skills-list qunique3 {
+  margin-top: 10px qunique3;
+  display: flex qunique3;
+  flex-wrap: wrap qunique3;
+  gap: 8px qunique3;
 }
 
 /* Highlight text styles */
-.highlight {
-  background-color: #ffe082;
-  font-weight: 500;
-  padding: 0 2px;
-  border-radius: 2px;
+.highlight qunique3 {
+  background-color: #ffe082 qunique3;
+  font-weight: 500 qunique3;
+  padding: 0 2px qunique3;
+  border-radius: 2px qunique3;
 }
 
 /* Ant Design overrides */
-.ant-btn-primary {
-  background-color: #5f2878;
-  border-color: #5f2878;
+.ant-btn-primary qunique3 {
+  background-color: #5f2878 qunique3;
+  border-color: #5f2878 qunique3;
 }
 
-.ant-btn-primary:hover,
-.ant-btn-primary:focus {
-  background-color: #4a1d5e;
-  border-color: #4a1d5e;
+.ant-btn-primary:hover qunique3,
+.ant-btn-primary:focus qunique3 {
+  background-color: #4a1d5e qunique3;
+  border-color: #4a1d5e qunique3;
 }
 
-.ant-steps-item-process .ant-steps-item-icon {
-  background-color: #5f2878;
-  border-color: #5f2878;
+.ant-steps-item-process .ant-steps-item-icon qunique3 {
+  background-color: #5f2878 qunique3;
+  border-color: #5f2878 qunique3;
 }
 
-.ant-steps-item-finish .ant-steps-item-icon {
-  border-color: #5f2878;
+.ant-steps-item-finish .ant-steps-item-icon qunique3 {
+  border-color: #5f2878 qunique3;
 }
 
-.ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
-  color: #5f2878;
+.ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon qunique3 {
+  color: #5f2878 qunique3;
 }
 
-.ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title::after {
-  background-color: #5f2878;
+.ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title::after qunique3 {
+  background-color: #5f2878 qunique3;
 }
 
 /* Custom Dragger Upload Styles */
-.ant-upload.ant-upload-drag {
-  padding: 20px;
-  background: #fafafa;
-  border-radius: 8px;
+.ant-upload.ant-upload-drag qunique3 {
+  padding: 20px qunique3;
+  background: #fafafa qunique3;
+  border-radius: 8px qunique3;
 }
 
-.ant-upload.ant-upload-drag:hover {
-  border-color: #5f2878;
+.ant-upload.ant-upload-drag:hover qunique3 {
+  border-color: #5f2878 qunique3;
 }
 
 /* Responsive styles */
 @media (max-width: 768px) {
-  .filters {
-    flex-direction: column;
-    gap: 10px;
+  .filters qunique3 {
+    flex-direction: column qunique3;
+    gap: 10px qunique3;
   }
 
-  .search-container {
-    width: 100%;
+  .search-container qunique3 {
+    width: 100% qunique3;
   }
 
-  .job-card {
-    flex-direction: column;
+  .job-card qunique3 {
+    flex-direction: column qunique3;
   }
 
-  .job-salary {
-    width: 100%;
-    padding: 15px;
-    border-bottom: 1px solid #f0f0f0;
+  .job-salary qunique3 {
+    width: 100% qunique3;
+    padding: 15px qunique3;
+    border-bottom: 1px solid #f0f0f0 qunique3;
   }
 
-  .job-details {
-    border-left: none;
-    border-right: none;
+  .job-details qunique3 {
+    border-left: none qunique3;
+    border-right: none qunique3;
   }
 
-  .job-status {
-    width: 100%;
-    padding: 10px;
-    border-top: 1px solid #f0f0f0;
+  .job-status qunique3 {
+    width: 100% qunique3;
+    padding: 10px qunique3;
+    border-top: 1px solid #f0f0f0 qunique3;
   }
 
-  .view-details-button {
-    width: 100%;
-    margin: 0;
-    border-radius: 0 0 8px 8px;
+  .view-details-button qunique3 {
+    width: 100% qunique3;
+    margin: 0 qunique3;
+    border-radius: 0 0 8px 8px qunique3;
   }
 
-  .filter-actions {
-    flex-direction: column;
+  .filter-actions qunique3 {
+    flex-direction: column qunique3;
   }
 
-  .reset-button,
-  .apply-button {
-    width: 100%;
+  .reset-button qunique3,
+  .apply-button qunique3 {
+    width: 100% qunique3;
   }
 
-  .apply-now-button {
-    width: 100%;
-    margin: 10px 0;
-    border-radius: 4px;
+  .apply-now-button qunique3 {
+    width: 100% qunique3;
+    margin: 10px 0 qunique3;
+    border-radius: 4px qunique3;
   }
 
-  .apply-now-button.top-position {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: auto;
-    margin: 0;
+  .apply-now-button.top-position qunique3 {
+    position: absolute qunique3;
+    top: 10px qunique3;
+    right: 10px qunique3;
+    width: auto qunique3;
+    margin: 0 qunique3;
   }
 
-  .completed-job .apply-now-button.top-position {
-    top: 38px;
+  .completed-job .apply-now-button.top-position qunique3 {
+    top: 38px qunique3;
   }
 }

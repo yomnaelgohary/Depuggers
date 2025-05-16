@@ -29,24 +29,24 @@ const Header = () => {
   const { toggleNotifications, unreadCount } = useNotifications()
 
   return (
-    <header className="content-header">
-      <div className="nav-buttons">
-        <button className="nav-button">
+    <header className="content-header-unique10">
+      <div className="nav-buttons-unique10">
+        <button className="nav-button-unique10">
           <LeftOutlined />
         </button>
-        <button className="nav-button">
+        <button className="nav-button-unique10">
           <RightOutlined />
         </button>
       </div>
-      <div className="header-actions">
-        <div className="notification-bell-container">
-          <button className="action-button" onClick={toggleNotifications}>
+      <div className="header-actions-unique10">
+        <div className="notification-bell-container-unique10">
+          <button className="action-button-unique10" onClick={toggleNotifications}>
             <BellOutlined />
-            {unreadCount > 0 && <span className="notification-badge">{unreadCount}</span>}
+            {unreadCount > 0 && <span className="notification-badge-unique10">{unreadCount}</span>}
           </button>
           <NotificationsPanel />
         </div>
-        <button className="action-button">
+        <button className="action-button-unique10">
           <UserAddOutlined />
         </button>
       </div>
@@ -104,11 +104,11 @@ function StudentContent() {
   ]
 
   return (
-    <div className="student-container">
-      <div className="student-sidebar">
-        <div className="sidebar-header">
-          <div className="logo-container">
-            <div className="logo">S</div>
+    <div className="student-container-unique10">
+      <div className="student-sidebar-unique10">
+        <div className="sidebar-header-unique10">
+          <div className="logo-container-unique10">
+            <div className="logo-unique10">S</div>
             <h2>Student</h2>
           </div>
         </div>
@@ -118,11 +118,12 @@ function StudentContent() {
           selectedKeys={[activeTab]}
           onClick={(e) => setActiveTab(e.key)}
           items={menuItems}
+          className="ant-menu-unique10"
         />
       </div>
-      <div className="student-content">
+      <div className="student-content-unique10">
         <Header />
-        <div className="content-body">{renderTabContent()}</div>
+        <div className="content-body-unique10">{renderTabContent()}</div>
       </div>
     </div>
   )

@@ -1,68 +1,75 @@
-.profile-header {
+/* Profile Component Styles */
+.profile-content-custom {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.profile-header-custom {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 25px;
   padding: 15px 20px;
-  border-radius: var(--border-radius);
+  border-radius: 8px;
   background-color: #fafafa;
-  border: 1px solid var(--border-color);
+  border: 1px solid #e0e0e0;
 }
 
-.profile-title {
+.profile-title-custom {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.profile-icon {
+.profile-icon-custom {
   font-size: 28px;
-  color: var(--primary-color);
+  color: #1890ff;
   background-color: rgba(24, 144, 255, 0.1);
   padding: 10px;
   border-radius: 50%;
 }
 
-.section-title {
+.section-title-custom {
   display: flex;
   align-items: center;
   gap: 10px;
   font-weight: 600;
 }
 
-.section-icon {
+.section-icon-custom {
   font-size: 20px;
-  color: var(--primary-color);
+  color: #1890ff;
 }
 
-.section-feature-icon {
+.section-feature-icon-custom {
   font-size: 36px;
-  color: var(--primary-color);
+  color: #1890ff;
   opacity: 0.8;
 }
 
-.section-icon-container {
+.section-icon-container-custom {
   display: flex;
   justify-content: center;
   margin-bottom: 15px;
 }
 
-.section-content {
+.section-content-custom {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.description-label {
+.description-label-custom {
   display: flex;
   align-items: center;
   gap: 8px;
   font-weight: 500;
 }
 
-.interest-tag,
-.skill-tag,
-.skill-gained-tag {
+.profile-tag-interest,
+.profile-tag-skill,
+.profile-tag-skill-gained {
   display: flex;
   align-items: center;
   gap: 5px;
@@ -71,82 +78,72 @@
   margin: 4px;
 }
 
-.status-tag {
+.profile-tag-status {
   display: flex;
   align-items: center;
   gap: 5px;
   font-weight: 500;
 }
 
-.meta-item {
+.profile-meta-item {
   display: flex;
   align-items: center;
   gap: 8px;
   padding: 4px 0;
 }
 
-.responsibility-item {
+.profile-responsibility-item {
   display: flex;
   align-items: flex-start;
   gap: 10px;
 }
 
-.responsibility-icon {
-  color: var(--primary-color);
+.profile-responsibility-icon {
+  color: #1890ff;
   margin-top: 4px;
 }
 
-.internship-card:hover,
-.job-card:hover,
-.activity-card:hover {
-  box-shadow: var(--shadow-md);
+.profile-card-internship:hover,
+.profile-card-job:hover,
+.profile-card-activity:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transform: translateY(-2px);
   transition: all 0.3s ease;
 }
 
-.form-section {
+.profile-form-section {
   margin-bottom: 20px;
-  background: var(--white);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow-sm);
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
 }
 
-.form-section:hover {
-  box-shadow: var(--shadow-md);
-}
-
-.form-section .ant-card-head {
-  padding: 8px 16px;
-  background-color: #fafafa;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.form-section .ant-card-body {
-  padding: 16px;
+.profile-form-section:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* Skills Display Styling */
-.skills-section {
+.profile-skills-section {
   margin: 10px 0;
 }
 
-.skills-label {
+.profile-skills-label {
   font-weight: 500;
-  color: var(--text-medium);
+  color: #595959;
   margin-right: 15px;
   display: inline-block;
 }
 
-.skills-container,
-.tags-container {
+.profile-skills-container,
+.profile-tags-container {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   margin: 8px 0;
 }
 
-.skill-tag {
+.profile-tag-skill {
   background-color: #f0f0f0;
   color: #333;
   border: none;
@@ -159,7 +156,7 @@
   transition: all 0.2s ease;
 }
 
-.interest-tag {
+.profile-tag-interest {
   background-color: #f0f0f0;
   color: #333;
   border: none;
@@ -172,7 +169,7 @@
   transition: all 0.2s ease;
 }
 
-.skill-gained-tag {
+.profile-tag-skill-gained {
   background-color: #f0f0f0;
   color: #333;
   border: none;
@@ -185,67 +182,38 @@
   transition: all 0.2s ease;
 }
 
-/* Reduce white space */
-.profile-section {
+.profile-section-custom {
   margin-bottom: 20px;
 }
 
-.ant-descriptions-item-label,
-.ant-descriptions-item-content {
-  padding: 12px 16px !important;
-}
-
-.ant-form-item {
-  margin-bottom: 12px;
-}
-
-.internship-card,
-.job-card,
-.activity-card {
-  margin-bottom: 12px;
-}
-
-.divider-with-text {
+.profile-divider-with-text {
   margin: 12px 0;
   font-size: 14px;
   font-weight: 500;
 }
 
-.ant-divider-inner-text {
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.ant-divider-horizontal {
-  margin: 12px 0;
-}
-
-.ant-list-item {
-  padding: 6px 0;
-}
-
-.form-actions {
+.profile-form-actions {
   margin-top: 16px;
   padding-top: 12px;
 }
 
-/* Part-time Jobs Styling */
-.job-card {
+/* Job Cards */
+.profile-card-job {
   margin-bottom: 16px;
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow-sm);
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   border-left: 4px solid #52c41a;
   transition: all 0.3s ease;
 }
 
-.job-header {
+.profile-job-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 12px 0;
 }
 
-.job-header h4 {
+.profile-job-header h4 {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -254,7 +222,7 @@
   font-weight: 500;
 }
 
-.job-meta {
+.profile-job-meta {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
@@ -264,52 +232,52 @@
   border-bottom: 1px solid #f0f0f0;
 }
 
-.job-meta p {
+.profile-job-meta p {
   margin: 0;
   display: flex;
   align-items: center;
   gap: 8px;
-  color: var(--text-medium);
+  color: #595959;
 }
 
-.responsibilities-list {
+.profile-responsibilities-list {
   margin-top: 12px;
 }
 
-.responsibility-item {
+.profile-responsibility-item {
   display: flex;
   align-items: flex-start;
   padding: 8px 0;
   border-bottom: 1px dashed #f0f0f0;
 }
 
-.responsibility-item:last-child {
+.profile-responsibility-item:last-child {
   border-bottom: none;
 }
 
-.responsibility-icon {
+.profile-responsibility-icon {
   color: #52c41a;
   margin-right: 10px;
   font-size: 16px;
 }
 
-/* College Activities Styling */
-.activity-card {
+/* Activity Cards */
+.profile-card-activity {
   margin-bottom: 16px;
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow-sm);
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   border-left: 4px solid #fa8c16;
   transition: all 0.3s ease;
 }
 
-.activity-header {
+.profile-activity-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 12px 0;
 }
 
-.activity-header h4 {
+.profile-activity-header h4 {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -318,7 +286,7 @@
   font-weight: 500;
 }
 
-.activity-meta {
+.profile-activity-meta {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
@@ -328,19 +296,25 @@
   border-bottom: 1px solid #f0f0f0;
 }
 
-.activity-meta p {
+.profile-activity-meta p {
   margin: 0;
   display: flex;
   align-items: center;
   gap: 8px;
-  color: var(--text-medium);
+  color: #595959;
 }
 
-.activity-description {
+.profile-activity-description {
   margin-top: 12px;
   padding: 10px;
   background-color: #fafafa;
   border-radius: 4px;
   font-style: italic;
-  color: var(--text-medium);
+  color: #595959;
+}
+
+.profile-empty-state {
+  text-align: center;
+  padding: 20px;
+  color: #8c8c8c;
 }

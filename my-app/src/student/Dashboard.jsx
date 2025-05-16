@@ -103,19 +103,19 @@ const DashboardContent = () => {
   }
 
   return (
-    <div className="dashboard-container">
+    <div className="dashboard-container unique2">
       {/* Welcome Section */}
-      <div className="welcome-section">
-        <h1 className="dashboard-title">Welcome, Student</h1>
-        <p className="dashboard-subtitle">Here's an overview of your internship journey</p>
+      <div className="welcome-section unique2">
+        <h1 className="dashboard-title unique2">Welcome, Student</h1>
+        <p className="dashboard-subtitle unique2">Here's an overview of your internship journey</p>
       </div>
 
       {/* Stats Overview */}
-      <div className="stats-overview">
+      <div className="stats-overview unique2">
         {stats.map((stat, index) => (
           <div
             key={index}
-            className="stat-card"
+            className="stat-card unique2"
             onClick={() => {
               if (stat.title === "Profile Completion") {
                 setProfileCompletionModalVisible(true)
@@ -123,9 +123,9 @@ const DashboardContent = () => {
             }}
             style={{ cursor: stat.title === "Profile Completion" ? "pointer" : "default" }}
           >
-            <div className="stat-icon">{stat.icon}</div>
-            <div className="stat-content">
-              <span className="stat-title">{stat.title}</span>
+            <div className="stat-icon unique2">{stat.icon}</div>
+            <div className="stat-content unique2">
+              <span className="stat-title unique2">{stat.title}</span>
               {stat.title === "Profile Completion" ? (
                 <div style={{ width: "100%" }}>
                   <Progress
@@ -137,7 +137,7 @@ const DashboardContent = () => {
                   <span style={{ fontSize: "12px", color: "#6c757d" }}>Complete your profile for better matches</span>
                 </div>
               ) : (
-                <span className="stat-value">{stat.value}</span>
+                <span className="stat-value unique2">{stat.value}</span>
               )}
             </div>
           </div>
@@ -145,17 +145,17 @@ const DashboardContent = () => {
       </div>
 
       {/* Main Dashboard Content */}
-      <div className="dashboard-content">
+      <div className="dashboard-content unique2">
         {/* Career Opportunities Section */}
-        <div className="dashboard-card">
-          <div className="card-header">
-            <h2 className="card-title">Career Opportunities</h2>
-            <Tabs activeKey={activeTab} onChange={setActiveTab} className="card-tabs">
+        <div className="dashboard-card unique2">
+          <div className="card-header unique2">
+            <h2 className="card-title unique2">Career Opportunities</h2>
+            <Tabs activeKey={activeTab} onChange={setActiveTab} className="card-tabs unique2">
               <TabPane tab="Suggested Companies" key="suggestions" />
               <TabPane tab="Saved Companies" key="saved" />
             </Tabs>
           </div>
-          <div className="card-body" style={{ padding: "20px" }}>
+          <div className="card-body unique2" style={{ padding: "20px" }}>
             <div style={{ marginBottom: 16, display: "flex", justifyContent: "space-between" }}>
               <Button icon={<SyncOutlined />} onClick={refreshSuggestions}>
                 Refresh Suggestions
@@ -230,19 +230,19 @@ const DashboardContent = () => {
                 },
               ]}
               pagination={{ pageSize: 5 }}
-              rowClassName={(record) => (record.viewed ? "" : "unviewed-row")}
+              rowClassName={(record) => (record.viewed ? "" : "unviewed-row unique2")}
             />
           </div>
         </div>
 
         {/* Profile Completion Card */}
-        <div className="dashboard-card profile-card">
-          <div className="card-header">
-            <h2 className="card-title">Complete Your Profile</h2>
+        <div className="dashboard-card profile-card unique2">
+          <div className="card-header unique2">
+            <h2 className="card-title unique2">Complete Your Profile</h2>
           </div>
-          <div className="card-body" style={{ padding: "20px" }}>
+          <div className="card-body unique2" style={{ padding: "20px" }}>
             <p>Improve your chances of getting matched with the right internship.</p>
-            <div className="profile-tasks">
+            <div className="profile-tasks unique2">
               <Checkbox>Add job interests</Checkbox>
               <Checkbox>Add your skills</Checkbox>
               <Checkbox>Upload your resume</Checkbox>
@@ -252,7 +252,7 @@ const DashboardContent = () => {
             </Button>
 
             <Divider />
-            <div className="video-guide-section">
+            <div className="video-guide-section unique2">
               <h3>Not sure what internships count for your major?</h3>
               <p>Watch this short guide to understand the requirements:</p>
               <Button type="primary" icon={<PlayCircleOutlined />} onClick={() => setVideoModalVisible(true)}>
@@ -271,7 +271,7 @@ const DashboardContent = () => {
         footer={null}
         width={800}
       >
-        <div className="video-container">
+        <div className="video-container unique2">
           <iframe
             width="100%"
             height="450"
@@ -282,7 +282,7 @@ const DashboardContent = () => {
             allowFullScreen
           ></iframe>
         </div>
-        <div className="video-description">
+        <div className="video-description unique2">
           <h4>Key Points:</h4>
           <ul>
             <li>Internships must be directly related to your major</li>
